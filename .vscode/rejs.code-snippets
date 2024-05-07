@@ -1,0 +1,14 @@
+{
+	"react javascript": {
+		"prefix": "jsre",
+		"body": [
+		  "import React, { memo } from 'react';",
+		  "",
+		  "const ${1:Home} = () => {",
+		  "    return <div>template</div>",
+		  "}",
+		  "export default memo(${1:Home});"
+		],
+		"description": "react javascript"
+	}
+}
