@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 
 export const TemplateWrapper = styled.div`
+  width: 100%;
   .card {
     width: 30%;
-    min-width: 600px;
     border: 1px solid #e4e7ed;
     border-radius: 4px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.12);
