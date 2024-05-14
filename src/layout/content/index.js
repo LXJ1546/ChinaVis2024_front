@@ -1,9 +1,12 @@
 import React, { memo } from 'react'
 import { ContentWrapper } from './style'
+import Template from '../../views/template/index'
 const Content = () => {
   return (
     <ContentWrapper>
-      <div>放置视图</div>
+      <div className="container">
+        <Template />
+      </div>
     </ContentWrapper>
   )
 }
