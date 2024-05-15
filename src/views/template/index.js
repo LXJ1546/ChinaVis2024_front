@@ -37,7 +37,7 @@ const Template = () => {
     grid: {
       left: '3%', // 设置左边距
       right: '4%', // 设置右边距
-      bottom: '3%', // 设置底边距
+      bottom: '4%', // 设置底边距
       top: '5%',
       containLabel: true
     },
@@ -46,7 +46,13 @@ const Template = () => {
       data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     },
     yAxis: {
-      type: 'value'
+      type: 'value',
+      axisLine: {
+        show: true
+      },
+      splitLine: {
+        show: false
+      }
     },
     series: [
       {
