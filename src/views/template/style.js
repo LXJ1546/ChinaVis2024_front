@@ -1,9 +1,10 @@
 import styled from 'styled-components'
 
 export const TemplateWrapper = styled.div`
-  padding: 4px;
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
   .title {
     height: 30px;
     display: flex;
@@ -15,7 +16,5 @@ export const TemplateWrapper = styled.div`
   }
   .view {
     height: calc(100% - 44px);
-    align-items: center;
-    justify-content: center;
   }
 `

@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const ContentWrapper = styled.div`
   width: 100%;
   flex: 1 1 0%;
+  height: 100%;
   background-color: rgba(245, 246, 251);
   .container {
     height: 100%;
@@ -15,15 +16,18 @@ export const ContentWrapper = styled.div`
       flex-direction: column;
       .card1 {
         height: 25%;
-        margin: 6px;
+        margin: 3px;
+        border-radius: 4px;
       }
       .card2 {
-        height: 24.5%;
-        margin: 0px 6px 6px 6px;
+        height: calc(25% - 3px);
+        margin: 0px 3px 3px 3px;
+        border-radius: 4px;
       }
       .card3 {
         height: 50%;
-        margin: 0px 6px 6px 6px;
+        margin: 0px 3px 3px 3px;
+        border-radius: 4px;
       }
     }
     .middle {
@@ -33,7 +37,8 @@ export const ContentWrapper = styled.div`
       flex-direction: column;
       .card4 {
         height: 50%;
-        margin: 6px 6px 6px 0px;
+        margin: 3px 3px 3px 0px;
+        border-radius: 4px;
         .ant-card-body {
           width: 100%;
           height: 100%;
@@ -43,7 +48,8 @@ export const ContentWrapper = styled.div`
       }
       .card5 {
         height: 50%;
-        margin: 0px 6px 6px 0px;
+        margin: 0px 3px 3px 0px;
+        border-radius: 4px;
         .ant-card-body {
           width: 100%;
           height: 100%;
@@ -59,11 +65,13 @@ export const ContentWrapper = styled.div`
       flex-direction: column;
       .card6 {
         height: 50%;
-        margin: 6px 6px 6px 0px;
+        margin: 3px 3px 3px 0px;
+        border-radius: 4px;
       }
       .card7 {
         height: 50%;
-        margin: 0px 6px 6px 0px;
+        margin: 0px 3px 3px 0px;
+        border-radius: 4px;
       }
     }
   }
