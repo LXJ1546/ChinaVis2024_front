@@ -2,6 +2,7 @@ import React, { memo } from 'react'
 import { ContentWrapper } from './style'
 import { Card } from 'antd'
 import Template from '../../views/template/index'
+import Ranking from '../../views/ranking'
 const Content = () => {
   return (
     <ContentWrapper>
@@ -9,7 +10,9 @@ const Content = () => {
         <div className="left">
           <Card className="card1"></Card>
           <Card className="card2"></Card>
-          <Card className="card3"></Card>
+          <Card className="card3">
+            <Ranking/>
+          </Card>
         </div>
         <div className="middle">
           <Card className="card4">

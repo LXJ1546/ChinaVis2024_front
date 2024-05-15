@@ -28,6 +28,12 @@ export const ContentWrapper = styled.div`
         height: 50%;
         margin: 0px 3px 3px 3px;
         border-radius: 4px;
+        .ant-card-body {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          padding: 0px;
+        }
       }
     }
     .middle {
