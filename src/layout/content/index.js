@@ -3,12 +3,15 @@ import { ContentWrapper } from './style'
 import { Card } from 'antd'
 import Template from '../../views/template/index'
 import Ranking from '../../views/ranking'
+import Controller from '../../views/controller'
 const Content = () => {
   return (
     <ContentWrapper>
       <div className="container">
         <div className="left">
-          <Card className="card1"></Card>
+          <Card className="card1">
+            <Controller/>
+          </Card>
           <Card className="card2"></Card>
           <Card className="card3">
             <Ranking/>

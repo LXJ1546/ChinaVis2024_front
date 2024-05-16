@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const RankingWrapper = styled.div`
+export const CotrollerWrapper = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
@@ -14,7 +14,20 @@ export const RankingWrapper = styled.div`
     font-size: 16px;
     opacity: 0.8;
   }
-  .Rankview {
+  .Controllerview {
     height: calc(100% - 44px);
+    .weightInput{
+        width:24%;
+        position: relative;
+        top: 50%;
+    }
+    .initialize{
+        height: 30px;
+        width: 95%;
+        position: relative;
+        top: 75%;
+        left: 2.5%;
+    }
   }
+
 `

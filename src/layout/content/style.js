@@ -18,6 +18,12 @@ export const ContentWrapper = styled.div`
         height: 25%;
         margin: 3px;
         border-radius: 4px;
+        .ant-card-body {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          padding: 0px;
+        }
       }
       .card2 {
         height: calc(25% - 3px);

@@ -13,7 +13,7 @@ const Ranking = () => {
   var rectY = 0
   useEffect(() => {
     if (!svgRef.current) {
-      const svg = d3.select('.view')
+      const svg = d3.select('.Rankview')
                     .append('svg')
                     .attr('width','100%')
                     .attr('height','100%');
@@ -44,7 +44,7 @@ const Ranking = () => {
     <RankingWrapper>
 
       <div className="title">排名</div>
-      <div className="view" ></div>
+      <div className="Rankview" ></div>
     </RankingWrapper>
   )
 }
