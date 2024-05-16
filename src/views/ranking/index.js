@@ -1,15 +1,12 @@
 import React, { memo } from 'react'
-// import * as echarts from 'echarts'
-// import ReactEcharts from 'echarts-for-react'
 import { RankingWrapper } from './style'
-import * as d3 from 'd3';
-import { useEffect, useRef } from 'react';
-// import { Card } from 'antd'
+import * as d3 from 'd3'
+import { useEffect, useRef } from 'react'
 const Ranking = () => {
-  const svgRef = useRef(null);
-  const array = Array.from({ length: 90 }, () => Math.random());
-  array.sort((a, b) => b - a);
-  const rectDistance = 100;
+  const svgRef = useRef(null)
+  const array = Array.from({ length: 90 }, () => Math.random())
+  array.sort((a, b) => b - a)
+  const rectDistance = 100
   var rectY = 0
   useEffect(() => {
     if (!svgRef.current) {
@@ -42,7 +39,6 @@ const Ranking = () => {
 
   return (
     <RankingWrapper>
-
       <div className="title">排名</div>
       <div className="Rankview" ></div>
     </RankingWrapper>
