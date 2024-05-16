@@ -11,7 +11,7 @@ const Content = () => {
           <Card className="card1"></Card>
           <Card className="card2"></Card>
           <Card className="card3">
-            <Ranking/>
+            <Ranking />
           </Card>
         </div>
         <div className="middle">
@@ -23,8 +23,12 @@ const Content = () => {
           </Card>
         </div>
         <div className="right">
-          <Card className="card6"></Card>
-          <Card className="card7"></Card>
+          <Card className="card6">
+            <Template />
+          </Card>
+          <Card className="card7">
+            <Template />
+          </Card>
         </div>
       </div>
     </ContentWrapper>

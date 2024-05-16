@@ -15,7 +15,6 @@ export const TemplateWrapper = styled.div`
     opacity: 0.8;
   }
   .view {
-    /* height: calc(100% - 44px); */
     flex: 1 1 0%;
   }
 `
