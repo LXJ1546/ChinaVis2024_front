@@ -30,17 +30,23 @@ export const KnowledgeWrapper = styled.div`
       left: 60%;
     }
     .titlescore {
-      height: 30%;
-      width: 60%;
+      height: calc(70% - 40px);
+      width: 100%;
       position: absolute;
-      top: calc(30% + 30px);
+      top: calc(30% + 40px);
     }
-    .titleKnowledge {
-      height: 30%;
-      width: 40%;
-      position: absolute;
-      top: calc(30% + 30px);
-      left: 60%;
-    }
+    // .titlescore {
+    //     height: 30%;
+    //     width: 60%;
+    //     position: absolute;
+    //     top: calc(30% + 30px);
+    //   }
+    // .titleKnowledge {
+    //   height: 30%;
+    //   width: 40%;
+    //   position: absolute;
+    //   top: calc(30% + 30px);
+    //   left: 60%;
+    // }
   }
 `
