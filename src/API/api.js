@@ -5,3 +5,9 @@ export function getBanners() {
     url: '/back'
   })
 }
+
+export function getClassBasicInfo() {
+  return hyRequest.get({
+    url: '/basicInfo'
+  })
+}

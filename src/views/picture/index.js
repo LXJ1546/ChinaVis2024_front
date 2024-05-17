@@ -1,15 +1,16 @@
 import React, { memo } from 'react'
 import { PictureWrapper } from './style'
-import * as d3 from 'd3'
 import { useEffect, useRef } from 'react'
+import * as d3 from 'd3'
 import * as echarts from 'echarts'
+import { getClassBasicInfo } from '../../API/api'
 const Picture = () => {
   const svgRef = useRef(null)
   const majorRef = useRef(null)
   const ageRef = useRef(null)
   const genderRef = useRef(null)
   //画像视图
-  function drawPicture() {
+  function drawPicture(classBasicInfo) {
     //画专业分布图
     const majorChart = echarts.init(majorRef.current)
     const majorOption = {
@@ -52,7 +53,7 @@ const Picture = () => {
       },
       yAxis: {
         type: 'category',
-        data: ['1', '2', '3', '4', '5'],
+        data: classBasicInfo[0][0],
         axisLabel: {
           textStyle: {
             fontSize: 10
@@ -62,7 +63,7 @@ const Picture = () => {
       },
       series: [
         {
-          data: [13, 46, 44, 16, 7],
+          data: classBasicInfo[0][1],
           type: 'bar'
         }
       ]
@@ -112,7 +113,7 @@ const Picture = () => {
       },
       yAxis: {
         type: 'category',
-        data: ['18', '19', '20', '21', '22', '23', '24'],
+        data: classBasicInfo[1][0],
         axisLabel: {
           textStyle: {
             fontSize: 10
@@ -122,7 +123,7 @@ const Picture = () => {
       },
       series: [
         {
-          data: [13, 46, 44, 16, 7, 20, 36],
+          data: classBasicInfo[1][1],
           type: 'bar'
         }
       ]
@@ -181,7 +182,7 @@ const Picture = () => {
       },
       series: [
         {
-          data: [50, 45],
+          data: classBasicInfo[2][1],
           type: 'bar'
         }
       ]
@@ -191,10 +192,11 @@ const Picture = () => {
   }
 
   // 排名视图
-  function drawRank() {
-    const array = Array.from({ length: 90 }, () => Math.random())
-    array.sort((a, b) => b - a)
+  function drawRank(classRankInfo) {
+    // const array = Array.from({ length: 90 }, () => Math.random())
+    // array.sort((a, b) => b - a)
     const rectDistance = 100 //用于扩大方块之间的差异
+    var beforeOne = 0
     var rectY = 0 //第一个方块的起始值
     // var svgtranX = d3
     //   .select('.Pictureview')
@@ -211,20 +213,22 @@ const Picture = () => {
       const ranking = svg.append('g')
       ranking
         .selectAll('rect')
-        .data(array)
+        .data(classRankInfo)
         .enter()
         .append('rect')
         .attr('width', '80px')
-        .attr('height', '1px')
+        .attr('height', '1.2px')
         .attr('fill', '#72B9F0')
         .attr('x', '10px')
         .attr('y', function (d, i) {
           if (i == 0) {
-            rectY = rectY + 3.5
+            rectY = rectY + 1.8
+            beforeOne = d[4]
             return '0px'
           } else {
-            rectY = rectY + 3.5 + rectDistance * (array[i] - array[i - 1])
-            return rectY + rectDistance * (array[i] - array[i - 1]) + 'px'
+            rectY = rectY + 1.8 + rectDistance * (beforeOne - d[4])
+            beforeOne = d[4]
+            return rectY + rectDistance * (beforeOne - d[4]) + 'px'
           }
         })
 
@@ -242,8 +246,14 @@ const Picture = () => {
   }
 
   useEffect(() => {
-    drawPicture()
-    drawRank()
+    var classBasicInfo = []
+    var classRankInfo = []
+    getClassBasicInfo().then((res) => {
+      classBasicInfo = res[0]
+      classRankInfo = res[1]
+      drawPicture(classBasicInfo)
+      drawRank(classRankInfo)
+    })
   }, [])
 
   return (
