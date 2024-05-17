@@ -248,7 +248,7 @@ const Picture = () => {
 
   return (
     <PictureWrapper>
-      <div className="title">整体画像</div>
+      <div className="title">分布特征</div>
       <div className="Pictureview">
         <div className="wholePictureview">
           <div className="major" ref={majorRef}></div>

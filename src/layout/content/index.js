@@ -4,6 +4,7 @@ import { Card } from 'antd'
 import Template from '../../views/template/index'
 import Picture from '../../views/picture'
 import Controller from '../../views/controller'
+import Knowledge from '../../views/knowledge'
 const Content = () => {
   return (
     <ContentWrapper>
@@ -15,7 +16,9 @@ const Content = () => {
           <Card className="card2">
             <Picture />
           </Card>
-          <Card className="card3"></Card>
+          <Card className="card3">
+            <Knowledge />
+          </Card>
         </div>
         <div className="middle">
           <Card className="card4">
