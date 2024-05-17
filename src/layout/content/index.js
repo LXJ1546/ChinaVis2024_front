@@ -2,7 +2,7 @@ import React, { memo } from 'react'
 import { ContentWrapper } from './style'
 import { Card } from 'antd'
 import Template from '../../views/template/index'
-import Ranking from '../../views/ranking'
+import Picture from '../../views/picture'
 import Controller from '../../views/controller'
 const Content = () => {
   return (
@@ -10,12 +10,12 @@ const Content = () => {
       <div className="container">
         <div className="left">
           <Card className="card1">
-            <Controller/>
+            <Controller />
           </Card>
-          <Card className="card2"></Card>
-          <Card className="card3">
-            <Ranking />
+          <Card className="card2">
+            <Picture />
           </Card>
+          <Card className="card3"></Card>
         </div>
         <div className="middle">
           <Card className="card4">
