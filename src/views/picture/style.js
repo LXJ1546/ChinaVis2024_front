@@ -14,7 +14,38 @@ export const PictureWrapper = styled.div`
     font-size: 16px;
     opacity: 0.8;
   }
-  .Rankview {
-    height: calc(100% - 44px);
+  .Pictureview {
+    height: 100%;
+    width: 100%;
+    .wholePictureview {
+      height: calc(100% - 30px);
+      width: 80%;
+      position: absolute;
+      top: 30px;
+      .major {
+        height: 35%;
+        width: 100%;
+        position: absolute;
+      }
+      .age {
+        height: 48%;
+        width: 100%;
+        position: absolute;
+        top: 32%;
+      }
+      .gender {
+        height: 30%;
+        width: 100%;
+        position: absolute;
+        top: 75%;
+      }
+    }
+    .Rankview {
+      height: calc(100% - 30px);
+      width: 20%;
+      position: absolute;
+      left: 80%;
+      top: 32px;
+    }
   }
 `

@@ -16,18 +16,23 @@ export const CotrollerWrapper = styled.div`
   }
   .Controllerview {
     height: calc(100% - 44px);
-    .weightInput{
-        width:24%;
-        position: relative;
-        top: 50%;
+    .selectData {
+      width: 48%;
+      position: absolute;
+      top: 25%;
+      left: 1.5%;
     }
-    .initialize{
-        height: 30px;
-        width: 95%;
-        position: relative;
-        top: 75%;
-        left: 2.5%;
+    .weightInput {
+      width: 24%;
+      position: absolute;
+      top: 12%;
+    }
+    .initialize {
+      height: 30px;
+      width: 48%;
+      position: absolute;
+      top: 25%;
+      left: 51%;
     }
   }
-
 `
