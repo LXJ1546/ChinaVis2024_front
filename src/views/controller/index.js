@@ -5,13 +5,13 @@ import * as echarts from 'echarts'
 import { CotrollerWrapper } from './style'
 // import * as d3 from 'd3';
 import { Input, Button, Select } from 'antd'
-// import { getClassBasicInfo } from '../../API/api'
+import { getClassBasicInfo } from '../../API/api'
 const Cotroller = () => {
   const distributionRef = useRef(null)
   const majorRef1 = useRef(null)
   const ageRef1 = useRef(null)
   const genderRef1 = useRef(null)
-  function drawPicture() {
+  function drawPicture(classBasicInfo) {
     //画专业分布图
     const majorChart = echarts.init(majorRef1.current)
     const majorOption = {
@@ -25,11 +25,16 @@ const Cotroller = () => {
         }
       },
       tooltip: {
-        trigger: 'item'
+        trigger: 'item',
+        position: function (pos, params, dom, rect, size) {
+          // 鼠标在左侧时 tooltip 显示到右侧，鼠标在右侧时 tooltip 显示到左侧。
+          var obj = { top: 85 }
+          obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 5
+          return obj
+        }
       },
       series: [
         {
-          name: 'Access From',
           type: 'pie',
           radius: ['70%', '110%'],
           center: ['50%', '70%'],
@@ -39,13 +44,7 @@ const Cotroller = () => {
           // adjust the start and end angle
           startAngle: 180,
           endAngle: 360,
-          data: [
-            { value: 1048, name: 'Search Engine' },
-            { value: 735, name: 'Direct' },
-            { value: 580, name: 'Email' },
-            { value: 484, name: 'Union Ads' },
-            { value: 300, name: 'Video Ads' }
-          ]
+          data: classBasicInfo[0]
         }
       ]
     }
@@ -65,11 +64,16 @@ const Cotroller = () => {
         }
       },
       tooltip: {
-        trigger: 'item'
+        trigger: 'item',
+        position: function (pos, params, dom, rect, size) {
+          // 鼠标在左侧时 tooltip 显示到右侧，鼠标在右侧时 tooltip 显示到左侧。
+          var obj = { top: 85 }
+          obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 5
+          return obj
+        }
       },
       series: [
         {
-          name: 'Access From',
           type: 'pie',
           radius: ['70%', '110%'],
           center: ['50%', '70%'],
@@ -79,13 +83,7 @@ const Cotroller = () => {
           // adjust the start and end angle
           startAngle: 180,
           endAngle: 360,
-          data: [
-            { value: 1048, name: 'Search Engine' },
-            { value: 735, name: 'Direct' },
-            { value: 580, name: 'Email' },
-            { value: 484, name: 'Union Ads' },
-            { value: 300, name: 'Video Ads' }
-          ]
+          data: classBasicInfo[1]
         }
       ]
     }
@@ -104,11 +102,16 @@ const Cotroller = () => {
         }
       },
       tooltip: {
-        trigger: 'item'
+        trigger: 'item',
+        position: function (pos, params, dom, rect, size) {
+          // 鼠标在左侧时 tooltip 显示到右侧，鼠标在右侧时 tooltip 显示到左侧。
+          var obj = { top: 85 }
+          obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 5
+          return obj
+        }
       },
       series: [
         {
-          name: 'Access From',
           type: 'pie',
           radius: ['70%', '110%'],
           center: ['50%', '70%'],
@@ -118,13 +121,7 @@ const Cotroller = () => {
           // adjust the start and end angle
           startAngle: 180,
           endAngle: 360,
-          data: [
-            { value: 1048, name: 'Search Engine' },
-            { value: 735, name: 'Direct' },
-            { value: 580, name: 'Email' },
-            { value: 484, name: 'Union Ads' },
-            { value: 300, name: 'Video Ads' }
-          ]
+          data: classBasicInfo[2]
         }
       ]
     }
@@ -133,12 +130,11 @@ const Cotroller = () => {
   }
 
   useEffect(() => {
-    // var classBasicInfo = []
-    // getClassBasicInfo().then((res) => {
-    //   classBasicInfo = res[0]
-    //   drawPicture(classBasicInfo)
-    // })
-    drawPicture()
+    var classBasicInfo = []
+    getClassBasicInfo().then((res) => {
+      classBasicInfo = res[0]
+      drawPicture(classBasicInfo)
+    })
   }, [])
 
   //数据集选择函数

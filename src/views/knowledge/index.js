@@ -1,5 +1,4 @@
 import React, { memo } from 'react'
-// import * as echarts from 'echarts'
 import { KnowledgeWrapper } from './style'
 // import { Card } from 'antd'
 import { useEffect, useRef } from 'react'
@@ -71,7 +70,7 @@ const Knowledge = () => {
     window.onresize = KnowledgeChart.resize
 
     // 根据主知识点图表的提示信息更新从属知识点图表的数据
-    KnowledgeChart.on('click', function () {
+    KnowledgeChart.on('click', function (params) {
       const subKnowledgeChart = echarts.init(subKnowledgeRef.current)
       subKnowledgeChart.clear() //清空实例重画
       var data1 = [
@@ -113,7 +112,7 @@ const Knowledge = () => {
       ]
       const subOption = {
         title: {
-          text: '题目对应知识点掌握情况',
+          text: params.name + '对应知识点掌握情况',
           textStyle: {
             fontSize: 10,
             fontWeight: 'normal'
@@ -301,6 +300,9 @@ const Knowledge = () => {
       {
         name: 'R',
         value: 0.65,
+        itemStyle: {
+          borderColor: '#cccc'
+        },
         children: [
           {
             name: 'R_e',
@@ -349,9 +351,13 @@ const Knowledge = () => {
       {
         name: 'B',
         value: 0.6,
+        itemStyle: {
+          borderColor: '#cccc'
+        },
         children: [
           {
             name: 'B_k',
+            value: 0.5,
             children: [
               {
                 name: 'Q9',
@@ -368,6 +374,9 @@ const Knowledge = () => {
       {
         name: 'C',
         value: 0.2,
+        itemStyle: {
+          borderColor: '#cccc'
+        },
         children: [
           {
             name: 'C_3',
@@ -393,7 +402,7 @@ const Knowledge = () => {
               },
               {
                 name: 'Q18',
-                value: 0.59
+                value: 0.8
               }
             ]
           }
@@ -402,40 +411,6 @@ const Knowledge = () => {
     ]
     const titlescoreChart = echarts.init(titlescoreRef.current)
     titlescoreChart.clear() //清空实例重画
-    function getLevelOption() {
-      return [
-        {
-          itemStyle: {
-            borderColor: '#777',
-            borderWidth: 0,
-            gapWidth: 1
-          },
-          upperLabel: {
-            show: false
-          }
-        },
-        {
-          itemStyle: {
-            borderColor: '#555',
-            borderWidth: 5,
-            gapWidth: 1
-          },
-          emphasis: {
-            itemStyle: {
-              borderColor: '#ddd'
-            }
-          }
-        },
-        {
-          colorSaturation: [0.35, 0.5],
-          itemStyle: {
-            borderWidth: 5,
-            gapWidth: 1,
-            borderColorSaturation: 0.6
-          }
-        }
-      ]
-    }
     const titlescoreOption = {
       //旭日图
       //   visualMap: {
@@ -496,10 +471,31 @@ const Knowledge = () => {
             show: true,
             height: 20
           },
-          itemStyle: {
-            borderColor: '#fff'
-          },
-          levels: getLevelOption()
+          // itemStyle: {
+          //   borderColor: '#fff',
+          //   gapWidth: 1
+          // },
+          //   leafDepth: 1,
+          levels: [
+            {},
+            {
+              itemStyle: {
+                // borderColor: '#555',
+                borderWidth: 5,
+                gapWidth: 1
+              },
+              colorSaturation: [0.35, 0.5]
+            },
+            {
+              itemStyle: {
+                borderWidth: 5,
+                gapWidth: 1
+              },
+              colorSaturation: [0.35, 0.5]
+            }
+          ],
+          color: ['#942e38', '#aaa', '#269f3c'], // 设置颜色
+          colorMappingBy: 'value' // 根据值来映射颜色
         }
       ]
     }

@@ -30,7 +30,7 @@ export const KnowledgeWrapper = styled.div`
       left: 60%;
     }
     .titlescore {
-      height: calc(50% - 40px);
+      height: calc(60% - 40px);
       width: 100%;
       position: absolute;
       top: calc(30% + 40px);
