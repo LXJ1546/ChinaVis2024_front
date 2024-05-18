@@ -1,5 +1,5 @@
 import { memo, useEffect } from 'react'
-import { getBanners } from './API/api'
+import { getBanners } from './api/index'
 import { ConfigProvider } from 'antd'
 import Layout from './layout'
 const App = () => {

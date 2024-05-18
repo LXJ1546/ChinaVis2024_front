@@ -3,7 +3,7 @@ import { PictureWrapper } from './style'
 import { useEffect, useRef } from 'react'
 import * as d3 from 'd3'
 import * as echarts from 'echarts'
-import { getClassBasicInfo } from '../../API/api'
+import { getClassBasicInfo } from '../../api/index'
 const Picture = () => {
   const svgRef = useRef(null)
   const majorRef = useRef(null)
