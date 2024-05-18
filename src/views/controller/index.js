@@ -1,10 +1,147 @@
 import React, { memo } from 'react'
-// import * as echarts from 'echarts'
+import { useRef, useEffect } from 'react'
+import * as echarts from 'echarts'
 // import ReactEcharts from 'echarts-for-react'
 import { CotrollerWrapper } from './style'
 // import * as d3 from 'd3';
 import { Input, Button, Select } from 'antd'
+// import { getClassBasicInfo } from '../../API/api'
 const Cotroller = () => {
+  const distributionRef = useRef(null)
+  const majorRef1 = useRef(null)
+  const ageRef1 = useRef(null)
+  const genderRef1 = useRef(null)
+  function drawPicture() {
+    //画专业分布图
+    const majorChart = echarts.init(majorRef1.current)
+    const majorOption = {
+      title: {
+        text: '专业分布',
+        left: 'center',
+        top: '60%',
+        textStyle: {
+          fontSize: 12,
+          fontWeight: 'normal'
+        }
+      },
+      tooltip: {
+        trigger: 'item'
+      },
+      series: [
+        {
+          name: 'Access From',
+          type: 'pie',
+          radius: ['70%', '110%'],
+          center: ['50%', '70%'],
+          label: {
+            show: false // 不显示标识
+          },
+          // adjust the start and end angle
+          startAngle: 180,
+          endAngle: 360,
+          data: [
+            { value: 1048, name: 'Search Engine' },
+            { value: 735, name: 'Direct' },
+            { value: 580, name: 'Email' },
+            { value: 484, name: 'Union Ads' },
+            { value: 300, name: 'Video Ads' }
+          ]
+        }
+      ]
+    }
+    majorChart.setOption(majorOption)
+    window.onresize = majorChart.resize
+
+    //年龄分布
+    const ageChart = echarts.init(ageRef1.current)
+    const ageOption = {
+      title: {
+        text: '年龄分布',
+        left: 'center',
+        top: '60%',
+        textStyle: {
+          fontSize: 12,
+          fontWeight: 'normal'
+        }
+      },
+      tooltip: {
+        trigger: 'item'
+      },
+      series: [
+        {
+          name: 'Access From',
+          type: 'pie',
+          radius: ['70%', '110%'],
+          center: ['50%', '70%'],
+          label: {
+            show: false // 不显示标识
+          },
+          // adjust the start and end angle
+          startAngle: 180,
+          endAngle: 360,
+          data: [
+            { value: 1048, name: 'Search Engine' },
+            { value: 735, name: 'Direct' },
+            { value: 580, name: 'Email' },
+            { value: 484, name: 'Union Ads' },
+            { value: 300, name: 'Video Ads' }
+          ]
+        }
+      ]
+    }
+    ageChart.setOption(ageOption)
+    window.onresize = ageChart.resize
+    //性别分布
+    const genderChart = echarts.init(genderRef1.current)
+    const genderOption = {
+      title: {
+        text: '性别分布',
+        left: 'center',
+        top: '60%',
+        textStyle: {
+          fontSize: 12,
+          fontWeight: 'normal'
+        }
+      },
+      tooltip: {
+        trigger: 'item'
+      },
+      series: [
+        {
+          name: 'Access From',
+          type: 'pie',
+          radius: ['70%', '110%'],
+          center: ['50%', '70%'],
+          label: {
+            show: false // 不显示标识
+          },
+          // adjust the start and end angle
+          startAngle: 180,
+          endAngle: 360,
+          data: [
+            { value: 1048, name: 'Search Engine' },
+            { value: 735, name: 'Direct' },
+            { value: 580, name: 'Email' },
+            { value: 484, name: 'Union Ads' },
+            { value: 300, name: 'Video Ads' }
+          ]
+        }
+      ]
+    }
+    genderChart.setOption(genderOption)
+    window.onresize = genderChart.resize
+  }
+
+  useEffect(() => {
+    // var classBasicInfo = []
+    // getClassBasicInfo().then((res) => {
+    //   classBasicInfo = res[0]
+    //   drawPicture(classBasicInfo)
+    // })
+    drawPicture()
+  }, [])
+
+  //数据集选择函数
   const handleChange = (value) => {
     console.log(`selected ${value}`)
   }
@@ -127,6 +264,11 @@ const Cotroller = () => {
         <Button type="primary" className="initialize">
           初始化系统
         </Button>
+        <div className="distribution" ref={distributionRef}>
+          <div className="major1" ref={majorRef1}></div>
+          <div className="age1" ref={ageRef1}></div>
+          <div className="gender1" ref={genderRef1}></div>
+        </div>
       </div>
     </CotrollerWrapper>
   )

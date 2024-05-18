@@ -34,5 +34,29 @@ export const CotrollerWrapper = styled.div`
       top: 25%;
       left: 51%;
     }
+    .distribution {
+      height: 120px;
+      width: 100%;
+      position: absolute;
+      top: 35%;
+      .major1 {
+        height: 100%;
+        width: 30%;
+        position: absolute;
+        left: 1%;
+      }
+      .age1 {
+        height: 100%;
+        width: 30%;
+        position: absolute;
+        left: 35%;
+      }
+      .gender1 {
+        height: 100%;
+        width: 30%;
+        position: absolute;
+        left: 69%;
+      }
+    }
   }
 `

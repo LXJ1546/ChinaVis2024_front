@@ -14,7 +14,7 @@ const Knowledge = () => {
     const KnowledgeChart = echarts.init(knowledgeRef.current)
     const KnowledgeOption = {
       title: {
-        text: '主知识点掌握情况',
+        text: '题目掌握情况',
         textStyle: {
           fontSize: 10,
           fontWeight: 'normal'
@@ -74,51 +74,111 @@ const Knowledge = () => {
     KnowledgeChart.on('click', function () {
       const subKnowledgeChart = echarts.init(subKnowledgeRef.current)
       subKnowledgeChart.clear() //清空实例重画
+      var data1 = [
+        {
+          name: 'Q1',
+          children: [
+            {
+              name: 'R',
+              value: 15
+            },
+            {
+              name: 'B',
+              children: [
+                {
+                  name: 'B_a',
+                  value: 4
+                }
+              ]
+            },
+            {
+              name: 'D',
+              value: 10,
+              children: [
+                {
+                  name: 'D_p',
+                  value: 5,
+                  itemStyle: {
+                    color: 'red'
+                  }
+                },
+                {
+                  name: 'D_y',
+                  value: 5
+                }
+              ]
+            }
+          ]
+        }
+      ]
       const subOption = {
         title: {
-          text: '从属知识点掌握情况',
+          text: '题目对应知识点掌握情况',
           textStyle: {
             fontSize: 10,
             fontWeight: 'normal'
           }
         },
-        tooltip: {
-          trigger: 'item',
-          axisPointer: {
-            type: 'shadow'
-          }
-        },
+        // visualMap: {
+        //   type: 'continuous',
+        //   min: 0,
+        //   max: 10,
+        //   inRange: {
+        //     color: ['#2F93C8', '#AEC48F', '#FFDB5C', '#F98862']
+        //   }
+        // },
         grid: {
-          left: '15%', // 距离左边框的距离
-          right: '2%', // 距离右边框的距离
-          top: '20%', // 距离上边框的距离
-          bottom: '20%' // 距离下边框的距离
+          left: '20%', // 左边距
+          top: '20%', // 上边距
+          right: '20%', // 右边距
+          bottom: '20%' // 下边距
         },
-        xAxis: {
-          type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', '8'],
-          axisLabel: {
-            textStyle: {
-              fontSize: 10
-            },
-            interval: 0
+        series: {
+          type: 'sunburst',
+          data: data1,
+          radius: [0, '80%'],
+          label: {
+            rotate: 'radial'
+            // position: 'inside' // 将标签放置在圆弧内部
           }
-        },
-        yAxis: {
-          type: 'value',
-          axisLabel: {
-            textStyle: {
-              fontSize: 10
-            }
-          }
-        },
-        series: [
-          {
-            data: [0.82, 0.5, 0.6, 0.2, 0.54, 0.32, 0.1, 0.7],
-            type: 'line',
-            smooth: true
-          }
-        ]
+        }
+        // tooltip: {
+        //   trigger: 'item',
+        //   axisPointer: {
+        //     type: 'shadow'
+        //   }
+        // },
+        // grid: {
+        //   left: '15%', // 距离左边框的距离
+        //   right: '2%', // 距离右边框的距离
+        //   top: '20%', // 距离上边框的距离
+        //   bottom: '20%' // 距离下边框的距离
+        // },
+        // xAxis: {
+        //   type: 'category',
+        //   data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', '8'],
+        //   axisLabel: {
+        //     textStyle: {
+        //       fontSize: 10
+        //     },
+        //     interval: 0
+        //   }
+        // },
+        // yAxis: {
+        //   type: 'value',
+        //   axisLabel: {
+        //     textStyle: {
+        //       fontSize: 10
+        //     }
+        //   }
+        // },
+        // series: [
+        //   {
+        //     data: [0.82, 0.5, 0.6, 0.2, 0.54, 0.32, 0.1, 0.7],
+        //     type: 'line',
+        //     smooth: true
+        //   }
+        // ]
       }
 
       subKnowledgeChart.setOption(subOption)
@@ -236,74 +296,104 @@ const Knowledge = () => {
     //   }
     //   titleKnowledgeChart.setOption(titleOption)
     // })
-    //旭日图
+    // //旭日图
     var data = [
       {
-        name: 'Grandpa',
+        name: 'R',
+        value: 0.65,
         children: [
           {
-            name: 'Uncle Leo',
-            value: 15
-          },
-          {
-            name: 'Aunt Jane',
+            name: 'R_e',
+            value: 0.8,
             children: [
               {
-                name: 'Cousin Kate',
-                value: 4
+                name: 'Q1',
+                value: 0.7
+              },
+              {
+                name: 'Q2',
+                value: 0.6
               }
             ]
           },
           {
-            name: 'Father',
-            value: 10,
+            name: 'R_a',
+            value: 0.7,
             children: [
               {
-                name: 'Me',
-                value: 5,
-                itemStyle: {
-                  color: 'red'
-                }
+                name: 'Q2',
+                value: 0.8
               },
               {
-                name: 'Brother Peter',
-                value: 1
+                name: 'Q4',
+                value: 0.45
+              }
+            ]
+          },
+          {
+            name: 'R_j',
+            value: 0.7,
+            children: [
+              {
+                name: 'Q9',
+                value: 0.9
+              },
+              {
+                name: 'Q11',
+                value: 0.3
               }
             ]
           }
         ]
       },
       {
-        name: 'Mike',
+        name: 'B',
+        value: 0.6,
         children: [
           {
-            name: 'Uncle Dan',
+            name: 'B_k',
             children: [
               {
-                name: 'Cousin Lucy',
-                value: 3
+                name: 'Q9',
+                value: 0.67
               },
               {
-                name: 'Cousin Luck',
-                value: 4
+                name: 'Q7',
+                value: 0.4
               }
             ]
           }
         ]
       },
       {
-        name: 'Nancy',
+        name: 'C',
+        value: 0.2,
         children: [
           {
-            name: 'Uncle Nike',
+            name: 'C_3',
+            value: 0.4,
             children: [
               {
-                name: 'Cousin Betty',
-                value: 1
+                name: 'Q5',
+                value: 0.6
               },
               {
-                name: 'Cousin Jenny',
-                value: 2
+                name: 'Q12',
+                value: 0.2
+              }
+            ]
+          },
+          {
+            name: 'C_5',
+            value: 0.6,
+            children: [
+              {
+                name: 'Q32',
+                value: 0.7
+              },
+              {
+                name: 'Q18',
+                value: 0.59
               }
             ]
           }
@@ -312,31 +402,107 @@ const Knowledge = () => {
     ]
     const titlescoreChart = echarts.init(titlescoreRef.current)
     titlescoreChart.clear() //清空实例重画
-    const titlescoreOption = {
-      visualMap: {
-        type: 'continuous',
-        min: 0,
-        max: 10,
-        inRange: {
-          color: ['#2F93C8', '#AEC48F', '#FFDB5C', '#F98862']
+    function getLevelOption() {
+      return [
+        {
+          itemStyle: {
+            borderColor: '#777',
+            borderWidth: 0,
+            gapWidth: 1
+          },
+          upperLabel: {
+            show: false
+          }
+        },
+        {
+          itemStyle: {
+            borderColor: '#555',
+            borderWidth: 5,
+            gapWidth: 1
+          },
+          emphasis: {
+            itemStyle: {
+              borderColor: '#ddd'
+            }
+          }
+        },
+        {
+          colorSaturation: [0.35, 0.5],
+          itemStyle: {
+            borderWidth: 5,
+            gapWidth: 1,
+            borderColorSaturation: 0.6
+          }
         }
-      },
-      grid: {
-        left: '10%', // 左边距
-        top: '10%', // 上边距
-        right: '10%', // 右边距
-        bottom: '10%' // 下边距
-      },
-      series: {
-        type: 'sunburst',
-        data: data,
-        radius: [0, '100%'],
-        label: {
-          rotate: 'radial'
-        }
-      }
+      ]
     }
-
+    const titlescoreOption = {
+      //旭日图
+      //   visualMap: {
+      //     type: 'continuous',
+      //     min: 0,
+      //     max: 10,
+      //     inRange: {
+      //       color: ['#2F93C8', '#AEC48F', '#FFDB5C', '#F98862']
+      //     }
+      //   },
+      //   grid: {
+      //     left: '10%', // 左边距
+      //     top: '10%', // 上边距
+      //     right: '10%', // 右边距
+      //     bottom: '10%' // 下边距
+      //   },
+      //   series: {
+      //     type: 'sunburst',
+      //     data: data,
+      //     radius: [0, '100%'],
+      //     label: {
+      //       rotate: 'radial'
+      //     }
+      //   }
+      //矩阵树图
+      title: {
+        text: '知识点掌握情况',
+        textStyle: {
+          fontSize: 10,
+          fontWeight: 'normal'
+        }
+      },
+      tooltip: {
+        formatter: function (info) {
+          var value = info.value
+          var treePathInfo = info.treePathInfo
+          var treePath = []
+          for (var i = 1; i < treePathInfo.length; i++) {
+            treePath.push(treePathInfo[i].name)
+          }
+          return [
+            '<div class="tooltip-title">' +
+              echarts.format.encodeHTML(treePath.join('/')) +
+              '</div>',
+            '掌握程度: ' + echarts.format.addCommas(value)
+          ].join('')
+        }
+      },
+      series: [
+        {
+          type: 'treemap',
+          data: data,
+          label: {
+            show: true,
+            formatter: '{b}'
+          },
+          upperLabel: {
+            show: true,
+            height: 20
+          },
+          itemStyle: {
+            borderColor: '#fff'
+          },
+          levels: getLevelOption()
+        }
+      ]
+    }
     titlescoreChart.setOption(titlescoreOption)
   }
 
