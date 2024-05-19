@@ -10,6 +10,11 @@ const Knowledge = () => {
   const titleKnowledgeRef = useRef(null)
   //主知识点和从属知识点的掌握情况
   function drawKnowledge() {
+    // 检查是否已有图表实例存在，并销毁它
+    const existingInstance = echarts.getInstanceByDom(knowledgeRef.current)
+    if (existingInstance) {
+      existingInstance.dispose()
+    }
     const KnowledgeChart = echarts.init(knowledgeRef.current)
     const KnowledgeOption = {
       title: {
@@ -35,18 +40,14 @@ const Knowledge = () => {
         type: 'category',
         data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', '8'],
         axisLabel: {
-          textStyle: {
-            fontSize: 10
-          },
+          fontSize: 10,
           interval: 0
         }
       },
       yAxis: {
         type: 'value',
         axisLabel: {
-          textStyle: {
-            fontSize: 10
-          }
+          fontSize: 10
         }
       },
       series: [
@@ -71,6 +72,11 @@ const Knowledge = () => {
 
     // 根据主知识点图表的提示信息更新从属知识点图表的数据
     KnowledgeChart.on('click', function (params) {
+      // 检查是否已有图表实例存在，并销毁它
+      const existingInstance = echarts.getInstanceByDom(subKnowledgeRef.current)
+      if (existingInstance) {
+        existingInstance.dispose()
+      }
       const subKnowledgeChart = echarts.init(subKnowledgeRef.current)
       subKnowledgeChart.clear() //清空实例重画
       var data1 = [
@@ -409,6 +415,11 @@ const Knowledge = () => {
         ]
       }
     ]
+    // 检查是否已有图表实例存在，并销毁它
+    const existingInstance = echarts.getInstanceByDom(titlescoreRef.current)
+    if (existingInstance) {
+      existingInstance.dispose()
+    }
     const titlescoreChart = echarts.init(titlescoreRef.current)
     titlescoreChart.clear() //清空实例重画
     const titlescoreOption = {

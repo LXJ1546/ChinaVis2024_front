@@ -5,13 +5,18 @@ import * as echarts from 'echarts'
 import { CotrollerWrapper } from './style'
 // import * as d3 from 'd3';
 import { Input, Button, Select } from 'antd'
-import { getClassBasicInfo } from '../../api'
+import { getClassBasicInfo } from '../../api/index'
 const Cotroller = () => {
   const distributionRef = useRef(null)
   const majorRef1 = useRef(null)
   const ageRef1 = useRef(null)
   const genderRef1 = useRef(null)
   function drawPicture(classBasicInfo) {
+    // 检查是否已有图表实例存在，并销毁它
+    const existingInstance = echarts.getInstanceByDom(majorRef1.current)
+    if (existingInstance) {
+      existingInstance.dispose()
+    }
     //画专业分布图
     const majorChart = echarts.init(majorRef1.current)
     const majorOption = {
@@ -50,7 +55,11 @@ const Cotroller = () => {
     }
     majorChart.setOption(majorOption)
     window.onresize = majorChart.resize
-
+    // 检查是否已有图表实例存在，并销毁它
+    const existingInstance1 = echarts.getInstanceByDom(ageRef1.current)
+    if (existingInstance1) {
+      existingInstance1.dispose()
+    }
     //年龄分布
     const ageChart = echarts.init(ageRef1.current)
     const ageOption = {
@@ -89,6 +98,11 @@ const Cotroller = () => {
     }
     ageChart.setOption(ageOption)
     window.onresize = ageChart.resize
+    // 检查是否已有图表实例存在，并销毁它
+    const existingInstance2 = echarts.getInstanceByDom(genderRef1.current)
+    if (existingInstance2) {
+      existingInstance2.dispose()
+    }
     //性别分布
     const genderChart = echarts.init(genderRef1.current)
     const genderOption = {
