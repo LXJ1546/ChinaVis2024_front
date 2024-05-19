@@ -1,13 +1,7 @@
-import { memo, useEffect } from 'react'
-import { getBanners } from './api/index'
+import { memo } from 'react'
 import { ConfigProvider } from 'antd'
 import Layout from './layout'
 const App = () => {
-  useEffect(() => {
-    getBanners().then((res) => {
-      console.log(res)
-    })
-  }, [])
   return (
     <ConfigProvider
       theme={{

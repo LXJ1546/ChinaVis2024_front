@@ -5,6 +5,7 @@ import Template from '../../views/template/index'
 // import Picture from '../../views/picture'
 import Controller from '../../views/controller'
 import Knowledge from '../../views/knowledge'
+import Scatter from '@/views/cluster'
 const Content = () => {
   return (
     <ContentWrapper>
@@ -20,11 +21,9 @@ const Content = () => {
         </div>
         <div className="middle">
           <Card className="card4">
-            <Template />
+            <Scatter />
           </Card>
-          <Card className="card5">
-            <Template />
-          </Card>
+          <Card className="card5"></Card>
         </div>
         <div className="right">
           <Card className="card6">
