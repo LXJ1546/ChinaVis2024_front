@@ -5,7 +5,7 @@ import * as echarts from 'echarts'
 import { CotrollerWrapper } from './style'
 // import * as d3 from 'd3';
 import { Input, Button, Select } from 'antd'
-import { getClassBasicInfo } from '../../API/api'
+import { getClassBasicInfo } from '../../api'
 const Cotroller = () => {
   const distributionRef = useRef(null)
   const majorRef1 = useRef(null)
