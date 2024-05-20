@@ -12,7 +12,7 @@ export function getClassBasicInfo(data) {
   // })
   return hyRequest.post({
     url: '/basicInfo',
-    data: data
+    data: { data: data }
   })
 }
 
