@@ -7,7 +7,7 @@ import { CotrollerWrapper } from './style'
 import { Input, Button, Select } from 'antd'
 import { getClassBasicInfo } from '../../api/index'
 const Cotroller = (props) => {
-  const { handleClassNum } = props
+  const { classNum, handleClassNum } = props
   const distributionRef = useRef(null)
   const majorRef1 = useRef(null)
   const ageRef1 = useRef(null)
@@ -146,11 +146,11 @@ const Cotroller = (props) => {
 
   useEffect(() => {
     var classBasicInfo = []
-    getClassBasicInfo().then((res) => {
+    getClassBasicInfo(classNum).then((res) => {
       classBasicInfo = res[0]
       drawPicture(classBasicInfo)
     })
-  }, [])
+  }, [classNum])
 
   //数据集选择函数
   const handleChange = (value) => {

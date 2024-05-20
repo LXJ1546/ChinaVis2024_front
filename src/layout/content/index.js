@@ -28,7 +28,7 @@ const Content = () => {
       <div className="container">
         <div className="left">
           <Card className="card1">
-            <Controller handleClassNum={handleClassNum} />
+            <Controller classNum={classNum} handleClassNum={handleClassNum} />
           </Card>
           <Card className="card2">{/* <Picture /> */}</Card>
           <Card className="card3">

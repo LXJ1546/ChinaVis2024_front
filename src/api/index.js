@@ -5,12 +5,18 @@ import hyRequest from '@/service'
 //     url: '/back'
 //   })
 // }
-
-export function getClassBasicInfo() {
-  return hyRequest.get({
-    url: '/basicInfo'
+//获取分布特征
+export function getClassBasicInfo(data) {
+  // return hyRequest.get({
+  //   url: '/basicInfo'
+  // })
+  return hyRequest.post({
+    url: '/basicInfo',
+    data: { data: data }
   })
 }
+
+//
 
 // 获取聚类数据
 export function getClusterData() {
