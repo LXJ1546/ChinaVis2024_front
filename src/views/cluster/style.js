@@ -5,9 +5,6 @@ export const ScatterWrapper = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  .btn {
-    margin-left: 3%;
-  }
   .title {
     height: 30px;
     display: flex;
@@ -17,7 +14,33 @@ export const ScatterWrapper = styled.div`
     font-size: 16px;
     opacity: 0.8;
   }
-  .view {
+  .content {
     flex: 1 1 0%;
+    display: flex;
+    .left {
+      width: 55%;
+      display: flex;
+      flex-direction: column;
+      .btn {
+        margin-left: 3%;
+        margin-bottom: 1px;
+      }
+      .clusterView {
+        flex: 1 1 0%;
+      }
+    }
+    .right {
+      width: 45%;
+      display: flex;
+      flex-direction: column;
+      .feature {
+        width: 100%;
+        height: 64%;
+      }
+      .correlation {
+        width: 100%;
+        height: 36%;
+      }
+    }
   }
 `

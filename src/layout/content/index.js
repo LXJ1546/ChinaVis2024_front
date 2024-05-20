@@ -3,11 +3,12 @@ import { useState } from 'react'
 import { ContentWrapper } from './style'
 import { Card } from 'antd'
 import Template from '../../views/template/index'
-// import Picture from '../../views/picture'
+import Picture from '../../views/picture'
 import Controller from '../../views/controller'
-// import Knowledge from '../../views/knowledge'
 import Scatter from '@/views/cluster'
 import Answer from '../../views/answer'
+import TitleMaster from '../../views/titleMaster'
+// import TitleMaster from '../../views/titleMster'
 import KnowledgeIcicle from '../../views/knowledgeNew'
 const Content = () => {
   const [mode, setMode] = useState(0) //模式0代表答题模式，1代表时间模式
@@ -29,14 +30,20 @@ const Content = () => {
       <div className="container">
         <div className="left">
           <Card className="card1">
-            <Controller classNum={classNum} handleClassNum={handleClassNum} />
+            <Controller handleClassNum={handleClassNum} />
           </Card>
-          <Card className="card2">{/* <Picture /> */}</Card>
+          <Card className="card2">
+            <Picture />
+          </Card>
           <Card className="card3"></Card>
           <Card className="card4">
             {/* <Knowledge classNum={classNum} /> */}
             <KnowledgeIcicle />
           </Card>
+          <Card className="card3">
+            <TitleMaster classNum={classNum} />
+          </Card>
+          <Card className="card4"></Card>
         </div>
         <div className="middle">
           <Card className="card4">

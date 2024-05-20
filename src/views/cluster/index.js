@@ -26,12 +26,12 @@ const Scatter = (props) => {
       borderColor: '#555'
     }
   }))
-  const option = {
+  const clusterOption = {
     grid: {
-      left: '3%', // 设置左边距
-      right: '3%', // 设置右边距
+      left: '1%', // 设置左边距
+      right: '2%', // 设置右边距
       bottom: '3%', // 设置底边距
-      top: '6%',
+      top: '5%',
       containLabel: true
     },
     legend: {},
@@ -42,6 +42,163 @@ const Scatter = (props) => {
       max: ymax
     },
     series: series
+  }
+  const featureOption = {
+    title: {
+      text: '特征箱线图',
+      top: '0%',
+      textStyle: {
+        fontSize: 15,
+        fontWeight: 'normal'
+      }
+    },
+    tooltip: {
+      trigger: 'item',
+      axisPointer: {
+        type: 'shadow'
+      }
+    },
+    grid: [
+      { left: '7%', top: '9%', right: '3%', bottom: '66%' },
+      { left: '7%', top: '39%', right: '3%', bottom: '36%' },
+      { left: '7%', top: '69%', right: '3%', bottom: '6%' }
+    ],
+    xAxis: [
+      {
+        gridIndex: 0,
+        type: 'category',
+        data: ['提交次数', '活跃天数', '答题数', '正确占比'],
+        axisLabel: {
+          show: false
+        }
+      },
+      {
+        gridIndex: 1,
+        type: 'category',
+        data: ['提交次数', '活跃天数', '答题数', '正确占比'],
+        axisLabel: {
+          show: false
+        }
+      },
+      {
+        gridIndex: 2,
+        type: 'category',
+        data: ['提交次数', '活跃天数', '答题数', '正确占比']
+      }
+    ],
+    yAxis: [
+      { gridIndex: 0, type: 'value' },
+      { gridIndex: 1, type: 'value' },
+      { gridIndex: 2, type: 'value' }
+    ],
+    series: [
+      {
+        type: 'boxplot',
+        data: [
+          [25, 70, 45, 10, 87, 42, 53],
+          [91, 34, 60, 89, 2, 48, 78],
+          [8, 15, 33, 67, 54, 99, 73],
+          [41, 6, 87, 22, 50, 15, 3]
+        ],
+        xAxisIndex: 0,
+        yAxisIndex: 0
+      },
+      {
+        type: 'boxplot',
+        data: [
+          [25, 70, 45, 10, 87, 42, 53],
+          [91, 34, 60, 89, 2, 48, 78],
+          [8, 15, 33, 67, 54, 99, 73],
+          [41, 6, 87, 22, 50, 15, 3]
+        ],
+        xAxisIndex: 1,
+        yAxisIndex: 1
+      },
+      {
+        type: 'boxplot',
+        data: [
+          [25, 70, 45, 10, 87, 42, 53],
+          [91, 34, 60, 89, 2, 48, 78],
+          [8, 15, 33, 67, 54, 99, 73],
+          [41, 6, 87, 22, 50, 15, 3]
+        ],
+        xAxisIndex: 2,
+        yAxisIndex: 2
+      }
+    ]
+  }
+  const correlationOption = {
+    title: {
+      text: '相关性矩阵',
+      top: '5%',
+      textStyle: {
+        fontSize: 15,
+        fontWeight: 'normal'
+      }
+    },
+    tooltip: {
+      position: 'top'
+    },
+    grid: {
+      top: '17%',
+      bottom: '16%',
+      right: '3%',
+      left: '11%'
+    },
+    xAxis: {
+      type: 'category',
+      data: ['a', 'b', 'c', 'd'],
+      splitArea: {
+        show: true
+      }
+    },
+    yAxis: {
+      type: 'category',
+      data: ['针对型', '多样型', '尝试型'],
+      splitArea: {
+        show: true
+      }
+    },
+    visualMap: {
+      show: false,
+      min: -1,
+      max: 1,
+      calculable: true,
+      orient: 'vertical',
+      right: '1%',
+      bottom: '10%',
+      itemWidth: 10,
+      itemHeight: 80
+    },
+    series: [
+      {
+        name: '特征相关性',
+        type: 'heatmap',
+        data: [
+          [0, 0, 0.8],
+          [0, 1, 0.6],
+          [0, 2, -0.2],
+          [0, 3, -0.4],
+          [1, 0, 0.9],
+          [1, 1, 0.7],
+          [1, 2, 0.1],
+          [1, 3, -0.5],
+          [2, 0, -0.6],
+          [2, 1, 0.4],
+          [2, 2, 0.3],
+          [2, 3, 0.8]
+        ],
+        label: {
+          show: true
+        },
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowColor: 'rgba(0, 0, 0, 0.5)'
+          }
+        }
+      }
+    ]
   }
   useEffect(() => {
     getClusterData().then((res) => {
@@ -102,38 +259,56 @@ const Scatter = (props) => {
   }
   return (
     <ScatterWrapper>
-      <div className="title">学习模式聚类视图</div>
-      <div className="btn">
-        <Select
-          defaultValue="答题模式"
-          style={{ width: 100 }}
-          onChange={handleChangeMode}
-          options={[
-            { value: '0', label: '答题模式' },
-            { value: '1', label: '时间模式' },
-            { value: '2', label: '演变视图' }
-          ]}
-        />
-        {visible && (
-          <Select
-            defaultValue="2023-10"
-            style={{ width: 100, marginLeft: '10px' }}
-            onChange={handleChangeMonth}
-            options={[
-              { value: '9', label: '2023-09' },
-              { value: '10', label: '2023-10' },
-              { value: '11', label: '2023-11' },
-              { value: '12', label: '2023-12' },
-              { value: '1', label: '2024-01' }
-            ]}
-          />
-        )}
-      </div>
-      <div className="view">
-        <ReactEcharts
-          option={option}
-          style={{ width: '100%', height: '100%' }}
-        />
+      <div className="title">学习模式聚类与相关性视图</div>
+      <div className="content">
+        <div className="left">
+          <div className="btn">
+            <Select
+              defaultValue="答题模式"
+              style={{ width: 100 }}
+              onChange={handleChangeMode}
+              options={[
+                { value: '0', label: '答题模式' },
+                { value: '1', label: '时间模式' },
+                { value: '2', label: '演变视图' }
+              ]}
+            />
+            {visible && (
+              <Select
+                defaultValue="2023-10"
+                style={{ width: 100, marginLeft: '10px' }}
+                onChange={handleChangeMonth}
+                options={[
+                  { value: '9', label: '2023-09' },
+                  { value: '10', label: '2023-10' },
+                  { value: '11', label: '2023-11' },
+                  { value: '12', label: '2023-12' },
+                  { value: '1', label: '2024-01' }
+                ]}
+              />
+            )}
+          </div>
+          <div className="clusterView">
+            <ReactEcharts
+              option={clusterOption}
+              style={{ width: '100%', height: '100%' }}
+            />
+          </div>
+        </div>
+        <div className="right">
+          <div className="feature">
+            <ReactEcharts
+              option={featureOption}
+              style={{ width: '100%', height: '100%' }}
+            />
+          </div>
+          <div className="correlation">
+            <ReactEcharts
+              option={correlationOption}
+              style={{ width: '100%', height: '100%' }}
+            />
+          </div>
+        </div>
       </div>
     </ScatterWrapper>
   )
