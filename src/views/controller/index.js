@@ -151,6 +151,13 @@ const Cotroller = (props) => {
       drawPicture(classBasicInfo)
     })
   }, [classNum])
+  useEffect(() => {
+    var classBasicInfo = []
+    getClassBasicInfo(classNum).then((res) => {
+      classBasicInfo = res[0]
+      drawPicture(classBasicInfo)
+    })
+  }, [])
 
   //数据集选择函数
   const handleChange = (value) => {

@@ -11,7 +11,7 @@ const Content = () => {
   function handleClassNum(classnum) {
     setClassNum(classnum)
   }
-  const [classNum, setClassNum] = useState(null) //选中的数据集（所有数据集或某个班级）
+  const [classNum, setClassNum] = useState('all') //选中的数据集（所有数据集或某个班级）
   return (
     <ContentWrapper>
       <div className="container">
