@@ -19,44 +19,20 @@ export const CotrollerWrapper = styled.div`
     .selectData {
       width: 48%;
       position: absolute;
-      top: 25%;
+      top: calc(40% + 30px);
       left: 1.5%;
     }
     .weightInput {
       width: 24%;
       position: absolute;
-      top: 12%;
+      top: calc(5% + 30px);
     }
     .initialize {
       height: 30px;
       width: 48%;
       position: absolute;
-      top: 25%;
+      top: calc(40% + 30px);
       left: 51%;
-    }
-    .distribution {
-      height: 120px;
-      width: 100%;
-      position: absolute;
-      top: 35%;
-      .major1 {
-        height: 100%;
-        width: 30%;
-        position: absolute;
-        left: 1%;
-      }
-      .age1 {
-        height: 100%;
-        width: 30%;
-        position: absolute;
-        left: 35%;
-      }
-      .gender1 {
-        height: 100%;
-        width: 30%;
-        position: absolute;
-        left: 69%;
-      }
     }
   }
 `
