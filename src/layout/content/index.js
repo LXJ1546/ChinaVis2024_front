@@ -31,7 +31,8 @@ const Content = () => {
             <Controller classNum={classNum} handleClassNum={handleClassNum} />
           </Card>
           <Card className="card2">{/* <Picture /> */}</Card>
-          <Card className="card3">
+          <Card className="card3"></Card>
+          <Card className="card4">
             <Knowledge classNum={classNum} />
           </Card>
         </div>

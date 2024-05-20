@@ -10,12 +10,12 @@ export const ContentWrapper = styled.div`
     display: flex;
     border-color: rgb(239, 239, 245);
     .left {
-      width: 20%;
+      width: 23%;
       height: 100%;
       display: flex;
       flex-direction: column;
       .card1 {
-        height: 25%;
+        height: 9%;
         margin: 3px;
         border-radius: 4px;
         .ant-card-body {
@@ -26,7 +26,7 @@ export const ContentWrapper = styled.div`
         }
       }
       .card2 {
-        height: calc(25% - 3px);
+        height: 13%;
         margin: 0px 3px 3px 3px;
         border-radius: 4px;
         .ant-card-body {
@@ -37,6 +37,17 @@ export const ContentWrapper = styled.div`
         }
       }
       .card3 {
+        height: 27.5%;
+        margin: 0px 3px 3px 3px;
+        border-radius: 4px;
+        .ant-card-body {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          padding: 0px;
+        }
+      }
+      .card4 {
         height: 50%;
         margin: 0px 3px 3px 3px;
         border-radius: 4px;
@@ -49,7 +60,7 @@ export const ContentWrapper = styled.div`
       }
     }
     .middle {
-      width: 40%;
+      width: 42%;
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -77,7 +88,7 @@ export const ContentWrapper = styled.div`
       }
     }
     .right {
-      width: 40%;
+      width: 35%;
       height: 100%;
       display: flex;
       flex-direction: column;
