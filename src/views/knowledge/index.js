@@ -3,7 +3,8 @@ import { KnowledgeWrapper } from './style'
 // import { Card } from 'antd'
 import { useEffect, useRef } from 'react'
 import * as echarts from 'echarts'
-const Knowledge = () => {
+const Knowledge = (props) => {
+  const { classNum } = props
   const knowledgeRef = useRef(null)
   const subKnowledgeRef = useRef(null)
   const titlescoreRef = useRef(null)
@@ -514,9 +515,10 @@ const Knowledge = () => {
   }
 
   useEffect(() => {
+    console.log('知识' + classNum)
     drawKnowledge()
     drawtitlescore()
-  })
+  }, [classNum])
 
   return (
     <KnowledgeWrapper>

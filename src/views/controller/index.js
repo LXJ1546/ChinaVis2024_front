@@ -6,7 +6,8 @@ import { CotrollerWrapper } from './style'
 // import * as d3 from 'd3';
 import { Input, Button, Select } from 'antd'
 import { getClassBasicInfo } from '../../api/index'
-const Cotroller = () => {
+const Cotroller = (props) => {
+  const { handleClassNum } = props
   const distributionRef = useRef(null)
   const majorRef1 = useRef(null)
   const ageRef1 = useRef(null)
@@ -153,6 +154,7 @@ const Cotroller = () => {
 
   //数据集选择函数
   const handleChange = (value) => {
+    handleClassNum(value)
     console.log(`selected ${value}`)
   }
 
@@ -182,64 +184,64 @@ const Cotroller = () => {
               options: [
                 {
                   label: <span>Class 1</span>,
-                  value: 'Class 1'
+                  value: '1'
                 },
                 {
                   label: <span>Class 2</span>,
-                  value: 'Class 2'
+                  value: '2'
                 },
                 {
                   label: <span>Class 3</span>,
-                  value: 'Class 3'
+                  value: '3'
                 },
                 {
                   label: <span>Class 4</span>,
-                  value: 'Class 4'
+                  value: '4'
                 },
                 {
                   label: <span>Class 5</span>,
-                  value: 'Class 5'
+                  value: '5'
                 },
                 {
                   label: <span>Class 6</span>,
-                  value: 'Class 6'
+                  value: '6'
                 },
                 {
                   label: <span>Class 7</span>,
-                  value: 'Class 7'
+                  value: '7'
                 },
                 {
                   label: <span>Class 8</span>,
-                  value: 'Class 8'
+                  value: '8'
                 },
                 {
                   label: <span>Class 9</span>,
-                  value: 'Class 9'
+                  value: '9'
                 },
                 {
                   label: <span>Class 10</span>,
-                  value: 'Class 10'
+                  value: '10'
                 },
                 {
                   label: <span>Class 11</span>,
-                  value: 'Class 11'
+                  value: '11'
                 },
                 {
                   label: <span>Class 12</span>,
-                  value: 'Class 12'
+                  value: '12'
                 },
                 {
                   label: <span>Class 13</span>,
-                  value: 'Class 13'
+                  value: '13'
                 },
 
                 {
                   label: <span>Class 14</span>,
-                  value: 'Class 14'
+                  value: '14'
                 },
                 {
                   label: <span>Class 15</span>,
-                  value: 'Class 15'
+                  value: '15'
                 }
               ]
             }
