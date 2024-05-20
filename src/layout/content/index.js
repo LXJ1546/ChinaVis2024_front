@@ -5,9 +5,10 @@ import { Card } from 'antd'
 import Template from '../../views/template/index'
 // import Picture from '../../views/picture'
 import Controller from '../../views/controller'
-import Knowledge from '../../views/knowledge'
+// import Knowledge from '../../views/knowledge'
 import Scatter from '@/views/cluster'
 import Answer from '../../views/answer'
+import KnowledgeIcicle from '../../views/knowledgeNew'
 const Content = () => {
   const [mode, setMode] = useState(0) //模式0代表答题模式，1代表时间模式
   const [month, setMonth] = useState(10) //模式0代表答题模式，1代表时间模式
@@ -33,7 +34,8 @@ const Content = () => {
           <Card className="card2">{/* <Picture /> */}</Card>
           <Card className="card3"></Card>
           <Card className="card4">
-            <Knowledge classNum={classNum} />
+            {/* <Knowledge classNum={classNum} /> */}
+            <KnowledgeIcicle />
           </Card>
         </div>
         <div className="middle">
