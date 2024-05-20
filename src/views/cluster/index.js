@@ -3,7 +3,9 @@ import ReactEcharts from 'echarts-for-react'
 import { ScatterWrapper } from './style'
 import { getClusterData } from '../../api'
 import { Select } from 'antd'
-const Scatter = () => {
+const Scatter = (props) => {
+  // 父组件传递的设置模式函数
+  const { changeMode, changeMonth } = props
   const [clusterData, setClusterData] = useState([])
   const colorAll = ['#37A2DA', '#e06343', '#37a354']
   const [clusterName, setClusterName] = useState(['针对型', '多样型', '尝试型'])
@@ -55,6 +57,8 @@ const Scatter = () => {
       setSymbolSize(15)
       setClusterName(['高峰型', '低峰型', '平均型'])
       setVisible(false)
+      // 改变模式
+      changeMode(1)
     } else if (value == 0) {
       setNowClusterData(clusterData[1])
       setXmax(60)
@@ -62,6 +66,9 @@ const Scatter = () => {
       setSymbolSize(7)
       setClusterName(['针对型', '多样型', '尝试型'])
       setVisible(true)
+      changeMode(0)
+      // 默认状态为10
+      changeMonth(10)
     }
   }
   const handleChangeMonth = (value) => {
@@ -69,22 +76,28 @@ const Scatter = () => {
       setNowClusterData(clusterData[0])
       setXmax(45)
       setYmax(40)
+      // 更改父组件的月份状态
+      changeMonth(9)
     } else if (value == 10) {
       setNowClusterData(clusterData[1])
       setXmax(60)
       setYmax(40)
+      changeMonth(10)
     } else if (value == 11) {
       setNowClusterData(clusterData[2])
       setXmax(60)
       setYmax(40)
+      changeMonth(11)
     } else if (value == 12) {
       setNowClusterData(clusterData[3])
       setXmax(40)
       setYmax(60)
+      changeMonth(12)
     } else if (value == 1) {
       setNowClusterData(clusterData[4])
       setXmax(20)
       setYmax(25)
+      changeMonth(1)
     }
   }
   return (
