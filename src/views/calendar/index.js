@@ -14,157 +14,122 @@ const Calendar = (props) => {
       return `Class ${d[0]},人数: <span >${d}</span>`
     })
   //绘制答题模式的每月学习日历图
-  function drawCalendar() {
+  function drawCalendar(studentID) {
     //判断是否已经存在svg
     const svg = d3
       .select('.calendarview')
       .append('svg')
       .attr('class', 'calendarsvg')
-      .attr('width', '100%')
+      //   .attr('width', '100%')
       .attr('height', '99%')
     svg.call(tip)
-    //假数据
-    // const dataArr = {
-    //   '2022-05-16': [2,3],
-    //   '2022-05-17': [1,3],
-    //   '2022-05-18': [3,2],
-    //   '2022-05-19': [6,6],
-    //   '2022-05-20': [4,3],
-    //   '2022-05-22': [2,1],
-    //   '2022-05-23': [4,9],
-    //   '2022-03-24': 3,
-    //   '2022-05-25': 2,
-    //   '2022-05-26': 5,
-    //   '2022-05-27': 4,
-    //   '2022-05-28': 6,
-    //   '2022-05-29': 2,
-    //   '2022-05-30': 1
-    // }
-    //日期，正确占比，答题数，五种语言占比，提交次数
-    const dataArr = {
-      '2023-05-8': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-      '2023-05-9': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 260],
-      '2023-05-10': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-      '2023-05-11': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-      '2023-05-12': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 100],
-      '2023-05-13': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-      '2023-05-14': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-      '2023-05-16': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-      '2023-05-17': [0.4, 11, [0.1, 0.5, 0.2, 0.1, 0.1], 24],
-      '2023-05-18': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-      '2023-05-19': [0.9, 4, [0.2, 0.3, 0.2, 0.1, 0.1], 60],
-      '2023-05-20': [0.5, 38, [0.1, 0.5, 0.2, 0.1, 0.1], 60],
-      '2023-05-26': [0.49, 3, [0.1, 0.5, 0.2, 0.1, 0.1], 60],
-      '2023-05-27': [0.69, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 90],
-      '2023-05-28': [0.69, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 90],
-      '2023-05-29': [0.69, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 90],
-      '2023-05-30': [0.69, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 90],
-      '2023-05-31': [0.9, 24, [0.1, 0.5, 0.2, 0.1, 0.1], 60]
-    }
-    // console.log(Object.values(data).map((item) => item[3])) //打印所有列表的某一列的值
-    //定义比例尺和配置信息
-    //提交次数颜色隐射
-    const commitscaleColor = d3
-      .scaleLinear()
-      .domain([0, d3.max(Object.values(dataArr).map((item) => item[3]))])
-      .range(['#ABE2FE', '#236D92'])
 
-    //正确占比颜色映射
-    const rightcolor = d3
-      .scaleOrdinal()
-      .domain(['rightrate', 'errorrate'])
-      .range(['green', 'red'])
+    function drawStudentCalendar(studentName, studentNum, dataArr) {
+      //假数据
+      //日期，正确占比，答题数，五种语言占比，提交次数
+      // console.log(Object.values(data).map((item) => item[3])) //打印所有列表的某一列的值
+      //定义比例尺和配置信息
+      //提交次数颜色隐射
+      const commitscaleColor = d3
+        .scaleLinear()
+        .domain([0, d3.max(Object.values(dataArr).map((item) => item[3]))])
+        .range(['#ABE2FE', '#236D92'])
 
-    //使用语言的颜色映射
-    const languagecolor = d3
-      .scaleOrdinal()
-      .domain(['Method_C', 'Method_g', 'Method_5', 'Method_m', 'Method_B'])
-      .range(d3.schemeCategory10)
-    //数据组装
-    function generateDataset(options = { fill: {} }) {
-      // 开始时间
-      const startDate = options.startDate
-        ? new Date(options.startDate)
-        : new Date(new Date().getFullYear() + '-' + '01' + '-' + '01')
-      // 结束时间
-      const endDate = options.endDate ? new Date(options.endDate) : new Date()
+      //正确占比颜色映射
+      const rightcolor = d3
+        .scaleOrdinal()
+        .domain(['rightrate', 'errorrate'])
+        .range(['green', 'red'])
 
-      // 相隔天数
-      const totalDays = Math.floor(
-        (endDate.getTime() - startDate.getTime()) / 86400000
-      )
+      //使用语言的颜色映射
+      const languagecolor = d3
+        .scaleOrdinal()
+        .domain(['Method_C', 'Method_g', 'Method_5', 'Method_m', 'Method_B'])
+        .range(d3.schemeCategory10)
+      //数据组装
+      function generateDataset(options = { fill: {} }) {
+        // 开始时间
+        const startDate = options.startDate
+          ? new Date(options.startDate)
+          : new Date(new Date().getFullYear() + '-' + '01' + '-' + '01')
+        // 结束时间
+        const endDate = options.endDate ? new Date(options.endDate) : new Date()
 
-      // 循环天数
-      let year, month
-      let yearIndex = -1,
-        monthIndex = -1
-      let yearGroup = []
-      let dayTem = 0
-      while (dayTem <= totalDays) {
-        const dateName = d3.timeFormat('%Y-%m-%d')(
-          new Date(startDate.getTime() + 86400000 * dayTem)
+        // 相隔天数
+        const totalDays = Math.floor(
+          (endDate.getTime() - startDate.getTime()) / 86400000
         )
-        const dateArr = dateName.split('-')
 
-        // 年
-        if (!year || dateArr[0] !== year) {
-          year = dateArr[0]
-          yearGroup.push({
-            name: dateArr[0],
-            monthGroup: []
-          })
-
-          yearIndex++
+        // 循环天数
+        let year, month
+        let yearIndex = -1,
           monthIndex = -1
-        }
-        // 月
-        if (!month || dateArr[1] !== month) {
-          month = dateArr[1]
-          yearGroup[yearIndex].monthGroup.push({
-            name: dateArr[0] + '-' + dateArr[1],
-            dayGroup: []
-          })
-          monthIndex++
-        }
-        // 获取热力数据值
-        let right = null
-        let titletotal = null
-        let language = []
-        let commitcount = null
-        if (options.fill.hasOwnProperty.call(dataArr, dateName)) {
-          right = options.fill[dateName][0]
-          titletotal = options.fill[dateName][1]
-          language = options.fill[dateName][2]
-          commitcount = options.fill[dateName][3]
-        }
-        // 天里面的特征
-        //日期，正确占比，答题数，五种语言占比，提交次数
-        yearGroup[yearIndex].monthGroup[monthIndex].dayGroup.push({
-          name: dateName,
-          dayTem: dayTem + startDate.getDay(),
-          right,
-          titletotal,
-          language,
-          commitcount
-        })
+        let yearGroup = []
+        let dayTem = 0
+        while (dayTem <= totalDays) {
+          const dateName = d3.timeFormat('%Y-%m-%d')(
+            new Date(startDate.getTime() + 86400000 * dayTem)
+          )
+          const dateArr = dateName.split('-')
 
-        dayTem++
+          // 年
+          if (!year || dateArr[0] !== year) {
+            year = dateArr[0]
+            yearGroup.push({
+              name: dateArr[0],
+              monthGroup: []
+            })
+
+            yearIndex++
+            monthIndex = -1
+          }
+          // 月
+          if (!month || dateArr[1] !== month) {
+            month = dateArr[1]
+            yearGroup[yearIndex].monthGroup.push({
+              name: dateArr[0] + '-' + dateArr[1],
+              dayGroup: []
+            })
+            monthIndex++
+          }
+          // 获取热力数据值
+          let right = null
+          let titletotal = null
+          let language = []
+          let commitcount = null
+          if (options.fill.hasOwnProperty.call(dataArr, dateName)) {
+            right = options.fill[dateName][0]
+            titletotal = options.fill[dateName][1]
+            language = options.fill[dateName][2]
+            commitcount = options.fill[dateName][3]
+          }
+          // 天里面的特征
+          //日期，正确占比，答题数，五种语言占比，提交次数
+          yearGroup[yearIndex].monthGroup[monthIndex].dayGroup.push({
+            name: dateName,
+            dayTem: dayTem + startDate.getDay(),
+            right,
+            titletotal,
+            language,
+            commitcount
+          })
+
+          dayTem++
+        }
+
+        return yearGroup
       }
 
-      return yearGroup
-    }
-
-    // startDate：日历开始时间 endDate：日历结束时间 dataArr：要展示的数据 - 之前定义好的格式
-    const dayDatas = generateDataset({
-      startDate: '2023-5-01',
-      endDate: '2023-5-31',
-      fill: dataArr
-    })
-    function drawStudentCalendar() {
+      // startDate：日历开始时间 endDate：日历结束时间 dataArr：要展示的数据 - 之前定义好的格式
+      const dayDatas = generateDataset({
+        startDate: '2023-5-01',
+        endDate: '2023-5-31',
+        fill: dataArr
+      })
       // 绘制日历块，给每个日历分组
       const yearSvg = svg
         .append('g')
-        .attr('transform', 'translate(50,70)')
+        .attr('transform', `translate(${50 + studentNum * 370},80)`)
         .selectAll()
         .data(dayDatas)
         .enter()
@@ -416,7 +381,7 @@ const Calendar = (props) => {
         .attr('class', 'label')
         .attr('x', 15)
         .attr('y', 90)
-        .attr('dy', (d, i) => i * 71 + 5)
+        .attr('dy', (d, i) => i * 71 + 40)
         .attr('fill', 'black')
         .text((d) => d)
 
@@ -434,15 +399,44 @@ const Calendar = (props) => {
         .enter()
         .append('text')
         .attr('x', (d, i) => {
-          return i * 71 * 4.25 + 190
+          return i * 71 * 4.25 + 190 + studentNum * 370
         })
         .attr('y', 50)
         .attr('fill', 'black')
         .attr('font-size', '20px')
         .attr('font-family', 'monospace')
-        .text((d) => d.name)
+        .text(studentName)
     }
-    drawStudentCalendar()
+    //对选中的每个学生都生成这个图
+    studentID.forEach(function (item, index) {
+      console.log(item, index)
+      const dataArr = {
+        '2023-05-8': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
+        '2023-05-9': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 260],
+        '2023-05-10': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
+        '2023-05-11': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
+        '2023-05-12': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 100],
+        '2023-05-13': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
+        '2023-05-14': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
+        '2023-05-16': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
+        '2023-05-17': [0.4, 11, [0.1, 0.5, 0.2, 0.1, 0.1], 24],
+        '2023-05-18': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
+        '2023-05-19': [0.9, 4, [0.2, 0.3, 0.2, 0.1, 0.1], 60],
+        '2023-05-20': [0.5, 38, [0.1, 0.5, 0.2, 0.1, 0.1], 60],
+        '2023-05-26': [0.49, 3, [0.1, 0.5, 0.2, 0.1, 0.1], 60],
+        '2023-05-27': [0.69, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 90],
+        '2023-05-28': [0.69, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 90],
+        '2023-05-29': [0.69, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 90],
+        '2023-05-30': [0.69, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 90],
+        '2023-05-31': [0.9, 24, [0.1, 0.5, 0.2, 0.1, 0.1], 60]
+      }
+      drawStudentCalendar(item, index, dataArr)
+    })
+    // 获取 SVG 的边界框
+    const bbox = svg.node().getBBox()
+
+    // 动态设置 SVG 的宽度和高度
+    svg.attr('width', bbox.width + bbox.x)
   }
 
   //绘制时间模式的对比分析图
@@ -483,7 +477,7 @@ const Calendar = (props) => {
       d3.select('svg').remove() //移除已有的svg元素
       // 选择现有的 SVG 元素，如果已经存在则移除它
       d3.select('.calendarsvg').remove()
-      drawCalendar()
+      drawCalendar(['学生1', '学生2', '学生3'])
     }
   }, [mode])
 
