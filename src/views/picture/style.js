@@ -17,35 +17,36 @@ export const PictureWrapper = styled.div`
   .Pictureview {
     height: 100%;
     width: 100%;
-    .wholePictureview {
-      height: calc(100% - 30px);
-      width: 80%;
+    .distribution {
+      height: 120px;
+      width: 100%;
       position: absolute;
-      top: 30px;
+      top: carl(0% + 30px);
       .major {
-        height: 35%;
-        width: 100%;
+        height: 100%;
+        width: 30%;
         position: absolute;
+        left: 1%;
       }
       .age {
-        height: 48%;
-        width: 100%;
+        height: 100%;
+        width: 30%;
         position: absolute;
-        top: 32%;
+        left: 35%;
       }
       .gender {
-        height: 30%;
-        width: 100%;
+        height: 100%;
+        width: 30%;
         position: absolute;
-        top: 75%;
+        left: 69%;
       }
     }
     .Rankview {
-      height: calc(100% - 30px);
-      width: 20%;
+      height: 45%;
+      width: 100%;
       position: absolute;
-      left: 80%;
-      top: 32px;
+      left: 0%;
+      top: 65%;
     }
   }
 `
