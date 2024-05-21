@@ -24,6 +24,77 @@ const Calendar = (props) => {
       .attr('height', '99%')
     svg.call(tip)
 
+    //图例
+    //图例数据
+    const legendData = [
+      { category: '正确占比', value: 'green' },
+      { category: '答题数', value: 'pink' },
+      { category: 'Method_C', value: 'orange' },
+      { category: 'Method_g', value: 'green' },
+      { category: 'Method_5', value: 'red' },
+      { category: 'Method_m', value: 'purple' },
+      { category: 'Method_B', value: 'blue' }
+    ]
+
+    const legend = svg.append('g').attr('class', 'legend')
+    // 添加图例条目
+    legend
+      .selectAll('rect')
+      .data(legendData)
+      .enter()
+      .append('rect')
+      .attr('x', (d, i) => i * 120 + 30)
+      .attr('y', 10)
+      .attr('width', 30)
+      .attr('height', 18)
+      .attr('fill', (d) => d.value)
+
+    // 添加图例文本
+    legend
+      .selectAll('text')
+      .data(legendData)
+      .enter()
+      .append('text')
+      .attr('x', (d, i) => i * 120 + 70)
+      .attr('y', 20)
+      .attr('dy', '0.35em')
+      .text((d) => d.category)
+    //添加中间线性映射的圆的提交次数的颜色
+    //   定义颜色映射的线性渐变
+
+    const gradient = d3
+      .select('.calendarsvg')
+      .append('defs')
+      .append('linearGradient')
+      .attr('id', 'gradient')
+      .attr('x1', '0%')
+      .attr('y1', '0%')
+      .attr('x2', '100%')
+      .attr('y2', '0%')
+
+    // 添加渐变色段
+    gradient.append('stop').attr('offset', '0%').attr('stop-color', '#ABE2FE')
+    gradient.append('stop').attr('offset', '100%').attr('stop-color', '#236D92')
+
+    // 创建矩形
+    d3.select('.calendarsvg')
+      .append('rect')
+      .attr('width', 150)
+      .attr('height', 18)
+      //   .attr('x', 30)
+      //   .attr('y', 40)
+      .attr('x', 875)
+      .attr('y', 10)
+      .style('fill', 'url(#gradient)')
+    //创建标签
+    // 创建矩形
+    d3.select('.calendarsvg')
+      .append('text')
+      .attr('x', 1030)
+      .attr('y', 20)
+      .attr('dy', '0.35em')
+      .text('提交次数')
+
     function drawStudentCalendar(studentName, studentNum, dataArr) {
       //假数据
       //日期，正确占比，答题数，五种语言占比，提交次数
@@ -129,7 +200,7 @@ const Calendar = (props) => {
       // 绘制日历块，给每个日历分组
       const yearSvg = svg
         .append('g')
-        .attr('transform', `translate(${50 + studentNum * 370},80)`)
+        .attr('transform', `translate(${50 + studentNum * 370},120)`)
         .selectAll()
         .data(dayDatas)
         .enter()
@@ -142,7 +213,7 @@ const Calendar = (props) => {
         .enter()
         .append('g')
         .attr('class', (d) => 'month month-' + d.name)
-      // 绘制方块,颜色映射提交次数
+      // 绘制方块,颜色映射改天是否活跃
       monthSvg
         .selectAll()
         .data((d) => d.dayGroup)
@@ -381,7 +452,7 @@ const Calendar = (props) => {
         .attr('class', 'label')
         .attr('x', 15)
         .attr('y', 90)
-        .attr('dy', (d, i) => i * 71 + 40)
+        .attr('dy', (d, i) => i * 71 + 70)
         .attr('fill', 'black')
         .text((d) => d)
 
@@ -401,7 +472,7 @@ const Calendar = (props) => {
         .attr('x', (d, i) => {
           return i * 71 * 4.25 + 190 + studentNum * 370
         })
-        .attr('y', 50)
+        .attr('y', 90)
         .attr('fill', 'black')
         .attr('font-size', '20px')
         .attr('font-family', 'monospace')
