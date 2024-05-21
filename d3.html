@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+  <head>
+    <title>群体演变视图</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+  </head>
+  <body>
+    <svg id="chart-container" width="1000" height="1000"></svg>
+
+    <script>
+      var data = [
+        { name: '群体1', population: 100, transfer: 50, x: 500, y: 300 },
+        { name: '群体2', population: 200, transfer: 80, x: 800, y: 300 },
+        { name: '群体3', population: 150, transfer: 120, x: 650, y: 200 },
+        { name: '群体4', population: 300, transfer: 200, x: 650, y: 400 }
+      ]
+
+      var maxPopulation = d3.max(data, (d) => d.population)
+      var maxTransfer = d3.max(data, (d) => d.transfer)
+
+      var radiusScale = d3
+        .scaleLinear()
+        .domain([0, maxPopulation])
+        .range([5, 30])
+
+      var strokeWidthScale = d3
+        .scaleLinear()
+        .domain([0, maxTransfer])
+        .range([1, 5])
+
+      var svg = d3.select('#chart-container')
+
+      svg
+        .selectAll('circle')
+        .data(data)
+        .enter()
+        .append('circle')
+        .attr('cx', (d) => d.x)
+        .attr('cy', (d) => d.y)
+        .attr('r', (d) => radiusScale(d.population))
+        .attr('fill', 'steelblue')
+
+      var line = d3.line().curve(d3.curveBasis)
+
+      svg
+        .selectAll('path')
+        .data(data)
+        .enter()
+        .append('path')
+        .attr('d', (d, i) => {
+          if (i < data.length - 1) {
+            var startX = d.x
+            var startY = d.y
+            var endX = data[i + 1].x
+            var endY = data[i + 1].y
+            var dx = endX - startX
+            var dy = endY - startY
+            var distance = Math.sqrt(dx * dx + dy * dy)
+            var offsetX = (dx / distance) * radiusScale(d.population)
+            var offsetY = (dy / distance) * radiusScale(d.population)
+            var controlX = (startX + endX) / 2
+            var controlY = (startY + endY) / 2 - 50
+            return line([
+              [startX + offsetX, startY + offsetY],
+              [controlX, controlY],
+              [endX - offsetX, endY - offsetY]
+            ])
+          }
+          return ''
+        })
+        .attr('stroke', 'steelblue')
+        .attr('stroke-width', (d) => strokeWidthScale(d.transfer))
+        .attr('fill', 'none')
+        .attr('marker-end', 'url(#arrowhead)')
+
+      svg
+        .append('defs')
+        .append('marker')
+        .attr('id', 'arrowhead')
+        .attr('viewBox', '0 -5 10 10')
+        .attr('refX', 8)
+        .attr('refY', 0)
+        .attr('markerWidth', 6)
+        .attr('markerHeight', 6)
+        .attr('orient', 'auto')
+        .append('path')
+        .attr('d', 'M0,-5L10,0L0,5')
+    </script>
+  </body>
+</html>
