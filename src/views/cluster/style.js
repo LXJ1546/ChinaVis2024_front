@@ -18,7 +18,7 @@ export const ScatterWrapper = styled.div`
     flex: 1 1 0%;
     display: flex;
     .left {
-      width: 55%;
+      width: 65%;
       display: flex;
       flex-direction: column;
       .btn {
@@ -30,7 +30,7 @@ export const ScatterWrapper = styled.div`
       }
     }
     .right {
-      width: 45%;
+      width: 35%;
       display: flex;
       flex-direction: column;
       .feature {

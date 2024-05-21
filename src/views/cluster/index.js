@@ -59,15 +59,16 @@ const Scatter = (props) => {
       }
     },
     grid: [
-      { left: '7%', top: '9%', right: '3%', bottom: '66%' },
-      { left: '7%', top: '39%', right: '3%', bottom: '36%' },
-      { left: '7%', top: '69%', right: '3%', bottom: '6%' }
+      { left: '8%', top: '9%', right: '3%', bottom: '70%' },
+      { left: '8%', top: '34%', right: '3%', bottom: '48%' },
+      { left: '8%', top: '56%', right: '3%', bottom: '27%' },
+      { left: '8%', top: '78%', right: '3%', bottom: '6%' }
     ],
     xAxis: [
       {
         gridIndex: 0,
         type: 'category',
-        data: ['提交次数', '活跃天数', '答题数', '正确占比'],
+        data: ['针对型', '多样型', '尝试型'],
         axisLabel: {
           show: false
         }
@@ -75,7 +76,7 @@ const Scatter = (props) => {
       {
         gridIndex: 1,
         type: 'category',
-        data: ['提交次数', '活跃天数', '答题数', '正确占比'],
+        data: ['针对型', '多样型', '尝试型'],
         axisLabel: {
           show: false
         }
@@ -83,47 +84,91 @@ const Scatter = (props) => {
       {
         gridIndex: 2,
         type: 'category',
-        data: ['提交次数', '活跃天数', '答题数', '正确占比']
+        data: ['针对型', '多样型', '尝试型'],
+        axisLabel: {
+          show: false
+        }
+      },
+      {
+        gridIndex: 3,
+        type: 'category',
+        data: ['针对型', '多样型', '尝试型']
       }
     ],
     yAxis: [
-      { gridIndex: 0, type: 'value' },
-      { gridIndex: 1, type: 'value' },
-      { gridIndex: 2, type: 'value' }
+      {
+        gridIndex: 0,
+        type: 'value',
+        axisLabel: {
+          fontSize: 9
+        }
+      },
+      {
+        gridIndex: 1,
+        type: 'value',
+        axisLabel: {
+          fontSize: 9
+        }
+      },
+      {
+        gridIndex: 2,
+        type: 'value',
+        axisLabel: {
+          fontSize: 9
+        }
+      },
+      {
+        gridIndex: 3,
+        type: 'value',
+        axisLabel: {
+          fontSize: 9
+        }
+      }
     ],
     series: [
       {
         type: 'boxplot',
+        name: '提交次数',
         data: [
           [25, 70, 45, 10, 87, 42, 53],
           [91, 34, 60, 89, 2, 48, 78],
-          [8, 15, 33, 67, 54, 99, 73],
-          [41, 6, 87, 22, 50, 15, 3]
+          [8, 15, 33, 67, 54, 99, 73]
         ],
         xAxisIndex: 0,
         yAxisIndex: 0
       },
       {
         type: 'boxplot',
+        name: '活跃天数',
         data: [
           [25, 70, 45, 10, 87, 42, 53],
           [91, 34, 60, 89, 2, 48, 78],
-          [8, 15, 33, 67, 54, 99, 73],
-          [41, 6, 87, 22, 50, 15, 3]
+          [8, 15, 33, 67, 54, 99, 73]
         ],
         xAxisIndex: 1,
         yAxisIndex: 1
       },
       {
         type: 'boxplot',
+        name: '答题数',
         data: [
           [25, 70, 45, 10, 87, 42, 53],
           [91, 34, 60, 89, 2, 48, 78],
-          [8, 15, 33, 67, 54, 99, 73],
-          [41, 6, 87, 22, 50, 15, 3]
+          [8, 15, 33, 67, 54, 99, 73]
         ],
         xAxisIndex: 2,
         yAxisIndex: 2
+      },
+      {
+        type: 'boxplot',
+        name: '正确占比',
+        data: [
+          [25, 70, 45, 10, 87, 42, 53],
+          [91, 34, 60, 89, 2, 48, 78],
+          [8, 15, 33, 67, 54, 99, 73]
+        ],
+        xAxisIndex: 3,
+        yAxisIndex: 3
       }
     ]
   }
@@ -143,11 +188,11 @@ const Scatter = (props) => {
       top: '17%',
       bottom: '16%',
       right: '3%',
-      left: '11%'
+      left: '13%'
     },
     xAxis: {
       type: 'category',
-      data: ['a', 'b', 'c', 'd'],
+      data: ['提交次数', '活跃天数', '答题数', '正确占比'],
       splitArea: {
         show: true
       }
