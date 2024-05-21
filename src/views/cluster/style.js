@@ -22,8 +22,18 @@ export const ScatterWrapper = styled.div`
       display: flex;
       flex-direction: column;
       .btn {
+        display: flex;
         margin-left: 3%;
         margin-bottom: 1px;
+        .monthbtn {
+          display: flex;
+        }
+        .to {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-left: 5px;
+        }
       }
       .clusterView {
         flex: 1 1 0%;

@@ -37,7 +37,7 @@ export const ContentWrapper = styled.div`
         }
       }
       .card3 {
-        height: 27.5%;
+        height: 28%;
         margin: 0px 3px 3px 3px;
         border-radius: 4px;
         .ant-card-body {
@@ -48,7 +48,7 @@ export const ContentWrapper = styled.div`
         }
       }
       .card4 {
-        height: 50%;
+        height: calc(50% - 4px);
         margin: 0px 3px 3px 3px;
         border-radius: 4px;
         .ant-card-body {
