@@ -33,17 +33,19 @@ const Content = () => {
             <Controller handleClassNum={handleClassNum} />
           </Card>
           <Card className="card2">
-            <Picture />
-          </Card>
-          <Card className="card3"></Card>
-          <Card className="card4">
-            {/* <Knowledge classNum={classNum} /> */}
-            <KnowledgeIcicle />
+            <Picture classNum={classNum} />
           </Card>
           <Card className="card3">
             <TitleMaster classNum={classNum} />
           </Card>
-          <Card className="card4"></Card>
+          <Card className="card4">
+            {/* <Knowledge classNum={classNum} /> */}
+            <KnowledgeIcicle />
+          </Card>
+          {/* <Card className="card3">
+            <TitleMaster classNum={classNum} />
+          </Card> */}
+          {/* <Card className="card4"></Card> */}
         </div>
         <div className="middle">
           <Card className="card4">
