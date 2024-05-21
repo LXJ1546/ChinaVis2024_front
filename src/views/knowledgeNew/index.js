@@ -7,14 +7,41 @@ import React, {
 } from 'react'
 import * as d3 from 'd3'
 import './index.css'
+import Image0 from '../../pic/0.svg' // 导入SVG图片
+import Image1 from '../../pic/1.svg' // 导入SVG图片
+import Image2 from '../../pic/2.svg' // 导入SVG图片
+import Image3 from '../../pic/3.svg' // 导入SVG图片
+import Image4 from '../../pic/4.svg' // 导入SVG图片
+import Image5 from '../../pic/5.svg' // 导入SVG图片
+
+const imageMap = {
+  0: Image0,
+  1: Image1,
+  2: Image2,
+  3: Image3,
+  4: Image4,
+  5: Image5
+}
+const title_knowledge = {
+  // Question_6RQj2gF3OeK5AmDvThUV: ['m3D1v', 'b3C9s'],
+  Question_q7OpB2zCMmW9wS8uNt3H: ['r8S3g'],
+  Question_QRm48lXxzdP7Tn1WgNOf: ['y9W5d', 'm3D1v'],
+  Question_pVKXjZn0BkSwYcsa7C31: ['y9W5d', 'm3D1v'],
+  Question_lU2wvHSZq7m43xiVroBc: ['y9W5d', 'k4W1c'],
+  Question_x2Fy7rZ3SwYl9jMQkpOD: ['y9W5d', 's8Y2f'],
+  Question_oCjnFLbIs4Uxwek9rBpu: ['g7R2j', 'm3D1v']
+}
 
 const KnowledgeIcicle = () => {
   const ref = useRef() //用于获取d3绘图使用div的宽高
   const [width, setWidth] = useState(0)
   const [height, setHeight] = useState(0)
-  //   const width = 200
-  //   const height = 400
-  const data = {
+  const [viewState, setViewState] = useState(true) //true表示全局视图，false表示只展示当前知识点
+  const [questionState, setQuestionState] = useState(false) //true表示点击了某个知识点
+  const [questionIconState, setquestionIconState] = useState(10) //只展示当前知识点
+  const [knowledgeState, setknowledgeState] = useState([]) //只展示当前知识点
+
+  const tempdata = {
     name: 'Q1',
     children: [
       {
@@ -53,7 +80,8 @@ const KnowledgeIcicle = () => {
               {
                 name: 'Question_oCjnFLbIs4Uxwek9rBpu',
                 score: 0.5062,
-                value: 3
+                value: 3,
+                icon: 5
               },
               {
                 name: 'Question_5fgqjSBwTPG7KUV3it6O',
@@ -81,7 +109,12 @@ const KnowledgeIcicle = () => {
             name: 'k4W1c_h5r6nux7',
             score: 0.4991,
             children: [
-              { name: 'Question_lU2wvHSZq7m43xiVroBc', score: 0.4991, value: 3 }
+              {
+                name: 'Question_lU2wvHSZq7m43xiVroBc',
+                score: 0.4991,
+                value: 3,
+                icon: 3
+              }
             ]
           }
         ]
@@ -123,14 +156,21 @@ const KnowledgeIcicle = () => {
               {
                 name: 'Question_QRm48lXxzdP7Tn1WgNOf',
                 score: 0.5197,
-                value: 3
+                value: 3,
+                icon: 1
               },
               {
                 name: 'Question_pVKXjZn0BkSwYcsa7C31',
                 score: 0.4284,
-                value: 3
+                value: 3,
+                icon: 2
               },
-              { name: 'Question_oCjnFLbIs4Uxwek9rBpu', score: 0.5062, value: 3 }
+              {
+                name: 'Question_oCjnFLbIs4Uxwek9rBpu',
+                score: 0.5062,
+                value: 3,
+                icon: 5
+              }
             ]
           },
           {
@@ -167,7 +207,12 @@ const KnowledgeIcicle = () => {
                 score: 0.4139,
                 value: 1
               },
-              { name: 'Question_q7OpB2zCMmW9wS8uNt3H', score: 0.3226, value: 1 }
+              {
+                name: 'Question_q7OpB2zCMmW9wS8uNt3H',
+                score: 0.3226,
+                value: 1,
+                icon: 0
+              }
             ]
           },
           {
@@ -177,7 +222,8 @@ const KnowledgeIcicle = () => {
               {
                 name: 'Question_q7OpB2zCMmW9wS8uNt3H',
                 score: 0.3226,
-                value: 1
+                value: 1,
+                icon: 0
               },
               {
                 name: 'Question_fZrP3FJ4ebUogW9V7taS',
@@ -202,7 +248,12 @@ const KnowledgeIcicle = () => {
             name: 's8Y2f_v4x8by9j',
             score: 0.4412,
             children: [
-              { name: 'Question_x2Fy7rZ3SwYl9jMQkpOD', score: 0.4412, value: 3 }
+              {
+                name: 'Question_x2Fy7rZ3SwYl9jMQkpOD',
+                score: 0.4412,
+                value: 3,
+                icon: 4
+              }
             ]
           }
         ]
@@ -251,12 +302,14 @@ const KnowledgeIcicle = () => {
               {
                 name: 'Question_QRm48lXxzdP7Tn1WgNOf',
                 score: 0.5197,
-                value: 3
+                value: 3,
+                icon: 1
               },
               {
                 name: 'Question_pVKXjZn0BkSwYcsa7C31',
                 score: 0.4284,
-                value: 3
+                value: 3,
+                icon: 2
               },
               {
                 name: 'Question_Ej5mBw9rsOUKkFycGvz2',
@@ -266,7 +319,8 @@ const KnowledgeIcicle = () => {
               {
                 name: 'Question_lU2wvHSZq7m43xiVroBc',
                 score: 0.4991,
-                value: 3
+                value: 3,
+                icon: 3
               },
               {
                 name: 'Question_Mh4CZIsrEfxkP1wXtOYV',
@@ -281,7 +335,8 @@ const KnowledgeIcicle = () => {
               {
                 name: 'Question_x2Fy7rZ3SwYl9jMQkpOD',
                 score: 0.4412,
-                value: 3
+                value: 3,
+                icon: 4
               },
               { name: 'Question_UXqN1F7G3Sbldz02vZne', score: 0.5619, value: 3 }
             ]
@@ -314,16 +369,51 @@ const KnowledgeIcicle = () => {
   useLayoutEffect(() => {
     setWidth(ref.current.offsetWidth)
     setHeight(ref.current.offsetHeight)
-    console.log('设置宽度', ref.current.offsetWidth)
+    // console.log('设置宽度', ref.current.offsetWidth)
   }, [])
 
   useEffect(() => {
     const divContainer = document.getElementById('knowledgeChart')
 
-    //
+    //已经存在先移除
     while (divContainer.hasChildNodes()) {
       divContainer.removeChild(divContainer.firstChild)
     }
+    let drawData
+
+    //所有知识点
+    if (knowledgeState.length == 0) {
+      drawData = tempdata
+    }
+    //一个知识点
+    else if (knowledgeState.length == 1) {
+      let childrenData
+      console.log('lemgth', knowledgeState.length)
+      for (let i = 0, len = tempdata.children.length; i < len; i++) {
+        if (tempdata.children[i].name == knowledgeState[0]) {
+          childrenData = tempdata.children[i]
+          break
+        }
+      }
+      drawData = { name: 'q1', children: [childrenData] }
+    } else if (knowledgeState.length == 2) {
+      console.log('lemgth', knowledgeState.length)
+
+      let childrenData0
+      let childrenData1
+
+      for (let i = 0, len = tempdata.children.length; i < len; i++) {
+        if (tempdata.children[i].name == knowledgeState[0]) {
+          childrenData0 = tempdata.children[i]
+        }
+        if (tempdata.children[i].name == knowledgeState[1]) {
+          childrenData1 = tempdata.children[i]
+        }
+      }
+      console.log('test', [childrenData0, childrenData1])
+      drawData = { name: 'q1', children: [childrenData0, childrenData1] }
+    }
+
     // Create the SVG container.
     const svg = d3
       .select('#knowledgeChart')
@@ -333,11 +423,14 @@ const KnowledgeIcicle = () => {
       .attr('viewBox', [0, 0, width, height])
       .attr('style', 'max-width: 100%; height: auto; font: 10px sans-serif')
 
-    drawChart(svg)
-  }, [width, height]) // 空数组作为第二个参数，表示仅在组件首次渲染时运行
+    drawChart(svg, drawData)
+  }, [width, height, viewState, knowledgeState]) // 空数组作为第二个参数，表示仅在组件首次渲染时运行
 
-  const drawChart = (svg) => {
-    const format = d3.format('.4f')
+  const drawChart = (svg, data) => {
+    // console.log('画图时', knowledgeState)
+    const formatTip = d3.format('.4f')
+    const format = d3.format(',d')
+    let titleH
 
     // Create a color scale (a color for each child of the root node and their descendants).
     const color = d3
@@ -359,30 +452,41 @@ const KnowledgeIcicle = () => {
     // 删除第一个元素，这里第一个是总的，实际上这里并不需要
     let temp = root.descendants()
     temp.shift()
-    console.log(temp)
+    // console.log(temp)
 
     // Add a cell for each node of the hierarchy.
     const cell = svg
       .selectAll()
       .data(temp)
       .join('g')
+      .attr('class', (d) => {
+        if (d.depth == 1) return 'mainKNowledge'
+        if (d.depth == 3) {
+          // console.log(Object.prototype.hasOwnProperty.call(d.data, 'icon'))
+          if (Object.prototype.hasOwnProperty.call(d.data, 'icon')) {
+            // console.log('icon', d.data.icon)
+            return `addIcon _${d.data.icon}`
+          }
+        }
+      })
       .attr('transform', (d) => {
         if (d.depth == 1) return `translate(${d.y0 - (d.y1 - d.y0)},${d.x0})`
         else if (d.depth == 2)
           return `translate(${d.y0 - (d.y1 - d.y0) + (d.y1 - d.y0) / 4},${d.x0})`
-        else if (d.depth == 3)
+        else if (d.depth == 3) {
+          titleH = d.y1 - d.y0
+          // console.log('titleH', titleH)
           return `translate(${d.y0 - (d.y1 - d.y0) + (d.y1 - d.y0) / 2},${d.x0})`
+        }
       })
 
     cell.append('title').text((d) => {
       let nodes = d.ancestors()
       nodes.reverse().shift() //删除祖先点
       //   console.log('数据', nodes)
-
       return `${nodes
         .map((d) => d.data.name)
-
-        .join('/')}\n${format(d.data.score)}`
+        .join('/')}\n${formatTip(d.data.score)}`
     })
 
     // Color the cell with respect to which child of root it belongs to.
@@ -409,6 +513,77 @@ const KnowledgeIcicle = () => {
       .append('tspan')
       .attr('fill-opacity', 0.7)
       .text((d) => ` ${format(d.value)}`)
+
+    // 为主知识点添加点击事件
+    // 选择具有特定 class 的 <g> 元素
+    const myGroups = d3.selectAll('g.mainKNowledge')
+
+    // 为选中的元素添加点击事件
+    myGroups.on('click', function (e) {
+      // 在这里编写点击事件的处理逻辑
+      let Knowledge = e.target.__data__.data.name
+      setViewState(() => !viewState)
+      if (viewState) {
+        setknowledgeState([Knowledge])
+      } else {
+        setknowledgeState([])
+      }
+      // console.log('点击了 <g> 元素', Knowledge)
+    })
+
+    // 所有知识点时绘制iocn
+    if (viewState) {
+      let icons
+      //不是问题模式绘制所有图标
+      if (!questionState) {
+        icons = d3.selectAll('g.addIcon')
+      } else {
+        icons = d3.selectAll(`g.addIcon.${questionIconState}`)
+        console.log('点击图标', `g.addIcon.${questionIconState}`, icons)
+      }
+      // console.log('icon', icons)
+      icons
+        .append('svg:image')
+        .attr('class', function (d) {
+          return `iconImage _${d.data.icon}`
+        })
+        .attr('xlink:href', function (d) {
+          return imageMap[d.data.icon] // 根据索引 i 更新 x 位置，并固定 y 位置
+        })
+        .attr('x', 120)
+        .attr('y', function () {
+          if (questionState) return titleH / 20
+          else return 0
+        })
+        .attr('width', 20)
+        .attr('height', 20)
+        .attr('transform', function () {
+          // 使用 transform 属性来根据数据更新图像位置
+          return 'translate(65, 0)' // 根据索引 i 更新 x 位置，并固定 y 位置
+        })
+
+      //为iconImage添加点击事件
+      const iconsImage = d3.selectAll('image.iconImage')
+      // 为选中的元素添加点击事件
+      iconsImage.on('click', function (e) {
+        // 获取被点击元素的主知识点
+        let Knowledge = title_knowledge[e.target.__data__.data.name]
+        // console.log('点击图标', e.target)
+        let clickedRect = this
+        // 获取第二个类名
+        let secondClassName = clickedRect.classList[1]
+        // 在控制台中打印第二个类名
+        console.log(secondClassName)
+        setquestionIconState(secondClassName)
+        setQuestionState(() => !questionState)
+        //不知道为什么要!
+        if (!questionState) {
+          setknowledgeState(() => Knowledge)
+        } else {
+          setknowledgeState([])
+        }
+      })
+    }
   }
 
   return (
