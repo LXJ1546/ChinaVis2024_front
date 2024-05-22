@@ -60,9 +60,9 @@ export function getTitleMasterInfo(data) {
 }
 
 //获取题目内存用时数据
-export function getTitleMemoryInfo(data) {
+export function getTitleMemoryInfo(data, titleName) {
   return hyRequest.post({
     url: '/titleTimeMemoryInfo',
-    data: { data: data }
+    data: { data: data, name: titleName }
   })
 }
