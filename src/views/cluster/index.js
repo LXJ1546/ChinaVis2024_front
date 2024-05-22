@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useState } from 'react'
 import ReactEcharts from 'echarts-for-react'
 import { ScatterWrapper } from './style'
-import { getClusterData, getCorrelationData, getTransferData } from '../../api'
+import { getClusterData, getTransferData } from '../../api'
 import { Select } from 'antd'
 const Scatter = (props) => {
   // 父组件传递的设置模式函数
@@ -16,13 +16,9 @@ const Scatter = (props) => {
   const [xmax, setXmax] = useState(60)
   const [ymax, setYmax] = useState(40)
   // 设置点的大小
-  const [symbolSize, setSymbolSize] = useState(7)
+  const [symbolSize, setSymbolSize] = useState(10)
   // 定义一个状态来控制组件的显示和隐藏
   const [visible, setVisible] = useState(true)
-  // 保存相关性矩阵数据
-  const [correlationData, setCorrelationData] = useState([])
-  // 相关性数据的下标
-  const [correlationIndex, setCorrelationIndex] = useState(1)
   // 转移状态的变换
   const [isTransfer, setIsTransfer] = useState(false)
   // 用来画状态转换的圆
@@ -48,7 +44,8 @@ const Scatter = (props) => {
     color: colorAll[cluster],
     symbolSize: symbolSize,
     itemStyle: {
-      borderColor: '#555'
+      borderColor: '#555',
+      opacity: 1
     }
   }))
   const clusterOption = {
@@ -59,7 +56,13 @@ const Scatter = (props) => {
       top: '5%',
       containLabel: true
     },
-    legend: {},
+    legend: {
+      itemWidth: 16,
+      itemHeight: 16,
+      textStyle: {
+        fontSize: 14
+      }
+    },
     xAxis: {
       max: xmax
     },
@@ -68,223 +71,7 @@ const Scatter = (props) => {
     },
     series: series
   }
-  const featureOption = {
-    title: {
-      text: '特征箱线图',
-      top: '0%',
-      textStyle: {
-        fontSize: 15,
-        fontWeight: 'normal'
-      }
-    },
-    tooltip: {
-      trigger: 'item',
-      axisPointer: {
-        type: 'shadow'
-      }
-    },
-    grid: [
-      { left: '8%', top: '9%', right: '3%', bottom: '70%' },
-      { left: '8%', top: '34%', right: '3%', bottom: '48%' },
-      { left: '8%', top: '56%', right: '3%', bottom: '27%' },
-      { left: '8%', top: '78%', right: '3%', bottom: '6%' }
-    ],
-    xAxis: [
-      {
-        gridIndex: 0,
-        type: 'category',
-        data: ['针对型', '多样型', '尝试型'],
-        axisLabel: {
-          show: false
-        }
-      },
-      {
-        gridIndex: 1,
-        type: 'category',
-        data: ['针对型', '多样型', '尝试型'],
-        axisLabel: {
-          show: false
-        }
-      },
-      {
-        gridIndex: 2,
-        type: 'category',
-        data: ['针对型', '多样型', '尝试型'],
-        axisLabel: {
-          show: false
-        }
-      },
-      {
-        gridIndex: 3,
-        type: 'category',
-        data: ['针对型', '多样型', '尝试型']
-      }
-    ],
-    yAxis: [
-      {
-        gridIndex: 0,
-        type: 'value',
-        axisLabel: {
-          fontSize: 9
-        }
-      },
-      {
-        gridIndex: 1,
-        type: 'value',
-        axisLabel: {
-          fontSize: 9
-        }
-      },
-      {
-        gridIndex: 2,
-        type: 'value',
-        axisLabel: {
-          fontSize: 9
-        }
-      },
-      {
-        gridIndex: 3,
-        type: 'value',
-        axisLabel: {
-          fontSize: 9
-        }
-      }
-    ],
-    series: [
-      {
-        type: 'boxplot',
-        name: '提交次数',
-        data: [
-          [25, 70, 45, 10, 87, 42, 53],
-          [91, 34, 60, 89, 2, 48, 78],
-          [8, 15, 33, 67, 54, 99, 73]
-        ],
-        xAxisIndex: 0,
-        yAxisIndex: 0,
-        itemStyle: {
-          color: '#FF7F50', // 设置箱子的填充颜色
-          borderColor: '#F4A460', // 设置边框颜色
-          borderWidth: 1 // 设置边框宽度
-        }
-      },
-      {
-        type: 'boxplot',
-        name: '活跃天数',
-        data: [
-          [25, 70, 45, 10, 87, 42, 53],
-          [91, 34, 60, 89, 2, 48, 78],
-          [8, 15, 33, 67, 54, 99, 73]
-        ],
-        xAxisIndex: 1,
-        yAxisIndex: 1,
-        itemStyle: {
-          color: '#98FB98', // 设置箱子的填充颜色
-          borderColor: '#F4A460', // 设置边框颜色
-          borderWidth: 1 // 设置边框宽度
-        }
-      },
-      {
-        type: 'boxplot',
-        name: '答题数',
-        data: [
-          [25, 70, 45, 10, 87, 42, 53],
-          [91, 34, 60, 89, 2, 48, 78],
-          [8, 15, 33, 67, 54, 99, 73]
-        ],
-        xAxisIndex: 2,
-        yAxisIndex: 2,
-        itemStyle: {
-          color: '#AFEEEE', // 设置箱子的填充颜色
-          borderColor: '#F4A460', // 设置边框颜色
-          borderWidth: 1 // 设置边框宽度
-        }
-      },
-      {
-        type: 'boxplot',
-        name: '正确占比',
-        data: [
-          [25, 70, 45, 10, 87, 42, 53],
-          [91, 34, 60, 89, 2, 48, 78],
-          [8, 15, 33, 67, 54, 99, 73]
-        ],
-        xAxisIndex: 3,
-        yAxisIndex: 3,
-        itemStyle: {
-          color: '#87CEFA', // 设置箱子的填充颜色
-          borderColor: '#F4A460', // 设置边框颜色
-          borderWidth: 1 // 设置边框宽度
-        }
-      }
-    ]
-  }
-  const correlationOption = {
-    title: {
-      text: '相关性矩阵',
-      top: '5%',
-      textStyle: {
-        fontSize: 15,
-        fontWeight: 'normal'
-      }
-    },
-    tooltip: {
-      position: 'top'
-    },
-    grid: {
-      top: '17%',
-      bottom: '16%',
-      right: '3%',
-      left: '13%'
-    },
-    xAxis: {
-      type: 'category',
-      data: ['提交次数', '活跃天数', '答题数', '正确占比'],
-      splitArea: {
-        show: true
-      }
-    },
-    yAxis: {
-      type: 'category',
-      data: ['针对型', '多样型', '尝试型'],
-      splitArea: {
-        show: true
-      }
-    },
-    visualMap: {
-      show: false,
-      min: -1,
-      max: 1,
-      calculable: true,
-      orient: 'vertical',
-      right: '1%',
-      bottom: '10%',
-      itemWidth: 10,
-      itemHeight: 80
-    },
-    series: [
-      {
-        name: '特征相关性',
-        type: 'heatmap',
-        data: correlationData[correlationIndex],
-        label: {
-          show: true
-        },
-        emphasis: {
-          itemStyle: {
-            shadowBlur: 10,
-            shadowColor: 'rgba(0, 0, 0, 0.5)'
-          }
-        }
-      }
-    ]
-  }
-  // 演变视图相关数据处理
-  //   let data1 = [215, 563, 513, 73]
-  //   let dataList = [
-  //     [0, 245, 204, 13],
-  //     [0, 0, 14, 2],
-  //     [44, 86, 0, 0],
-  //     [93, 14, 214, 0]
-  //   ]
+
   let allColor = ['#d3d3d3', '#37A2DA', '#e06343', '#37a354']
   let minValue = Number.MAX_VALUE
   let maxValue = Number.MIN_VALUE
@@ -445,9 +232,9 @@ const Scatter = (props) => {
       setClusterData(res)
       setNowClusterData(res[1])
     })
-    getCorrelationData().then((res) => {
-      setCorrelationData(res)
-    })
+    // getCorrelationData().then((res) => {
+    //   setCorrelationData(res)
+    // })
     getTransferData().then((res) => {
       setTransferCircleData(res[0])
       setTransferLinksData(res[1])
@@ -458,7 +245,7 @@ const Scatter = (props) => {
       setNowClusterData(clusterData[5])
       setXmax(-7)
       setYmax(-7)
-      setSymbolSize(15)
+      setSymbolSize(25)
       setClusterName(['高峰型', '低峰型', '平均型'])
       setVisible(false)
       // 改变模式
@@ -469,7 +256,7 @@ const Scatter = (props) => {
       setNowClusterData(clusterData[1])
       setXmax(60)
       setYmax(40)
-      setSymbolSize(7)
+      setSymbolSize(10)
       setClusterName(['针对型', '多样型', '尝试型'])
       setVisible(true)
       changeMode(0)
@@ -477,7 +264,7 @@ const Scatter = (props) => {
       changeMonth(10)
       // 是否显示演变视图
       setIsTransfer(false)
-      setCorrelationIndex(1)
+      //   setCorrelationIndex(1)
     } else if (value == 2) {
       // 是否显示演变视图
       setIsTransfer(true)
@@ -486,36 +273,36 @@ const Scatter = (props) => {
   const handleChangeMonth = (value) => {
     if (value == 9) {
       setNowClusterData(clusterData[0])
-      setXmax(45)
+      setXmax(60)
       setYmax(40)
       // 更改父组件的月份状态
       changeMonth(9)
       // 更改相关性数据的索引
-      setCorrelationIndex(0)
+      //   setCorrelationIndex(0)
     } else if (value == 10) {
       setNowClusterData(clusterData[1])
       setXmax(60)
       setYmax(40)
       changeMonth(10)
-      setCorrelationIndex(1)
+      //   setCorrelationIndex(1)
     } else if (value == 11) {
       setNowClusterData(clusterData[2])
       setXmax(60)
       setYmax(40)
       changeMonth(11)
-      setCorrelationIndex(2)
+      //   setCorrelationIndex(2)
     } else if (value == 12) {
       setNowClusterData(clusterData[3])
       setXmax(40)
       setYmax(60)
       changeMonth(12)
-      setCorrelationIndex(3)
+      //   setCorrelationIndex(3)
     } else if (value == 1) {
       setNowClusterData(clusterData[4])
       setXmax(20)
       setYmax(25)
       changeMonth(1)
-      setCorrelationIndex(4)
+      //   setCorrelationIndex(4)
     }
   }
   // 处理第一个演变视图中选择器的变化
@@ -543,7 +330,7 @@ const Scatter = (props) => {
   }
   return (
     <ScatterWrapper>
-      <div className="title">学习模式聚类与相关性视图</div>
+      <div className="title">学习模式聚类视图</div>
       <div className="content">
         <div className="left">
           <div className="btn">
@@ -598,20 +385,6 @@ const Scatter = (props) => {
                 style={{ width: '100%', height: '100%' }}
               />
             )}
-          </div>
-        </div>
-        <div className="right">
-          <div className="feature">
-            <ReactEcharts
-              option={featureOption}
-              style={{ width: '100%', height: '100%' }}
-            />
-          </div>
-          <div className="correlation">
-            <ReactEcharts
-              option={correlationOption}
-              style={{ width: '100%', height: '100%' }}
-            />
           </div>
         </div>
       </div>

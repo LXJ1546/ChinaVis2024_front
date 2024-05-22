@@ -18,7 +18,7 @@ export const ScatterWrapper = styled.div`
     flex: 1 1 0%;
     display: flex;
     .left {
-      width: 65%;
+      width: 100%;
       display: flex;
       flex-direction: column;
       .btn {
@@ -39,7 +39,7 @@ export const ScatterWrapper = styled.div`
         flex: 1 1 0%;
       }
     }
-    .right {
+    /* .right {
       width: 35%;
       display: flex;
       flex-direction: column;
@@ -51,6 +51,6 @@ export const ScatterWrapper = styled.div`
         width: 100%;
         height: 36%;
       }
-    }
+    } */
   }
 `
