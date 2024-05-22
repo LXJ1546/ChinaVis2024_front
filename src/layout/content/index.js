@@ -40,7 +40,7 @@ const Content = () => {
           </Card>
           <Card className="card4">
             {/* <Knowledge classNum={classNum} /> */}
-            <KnowledgeIcicle />
+            <KnowledgeIcicle classNum={classNum} />
           </Card>
           {/* <Card className="card3">
             <TitleMaster classNum={classNum} />
