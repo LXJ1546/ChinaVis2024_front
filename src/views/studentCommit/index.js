@@ -5,7 +5,7 @@ import * as d3 from 'd3'
 import * as echarts from 'echarts'
 const StudentCommit = (props) => {
   // 拿到父组件传递的模式状态
-  const { mode, month } = props
+  const { amode, month } = props
   console.log(month)
   const commitCountChartRef = useRef(null)
 
@@ -206,7 +206,6 @@ const StudentCommit = (props) => {
       .attr('width', xScale.bandwidth() / 2 - 15)
       .attr('height', xScale.bandwidth() / 2 - 15)
       .attr('fill', function (d) {
-        console.log(d[2])
         if (d[2] == 'Error') {
           return 'red'
         } else if (d[2] == 'Partially_Correct') {
@@ -249,7 +248,6 @@ const StudentCommit = (props) => {
         .attr('width', xScale.bandwidth() / 2 - 15)
         .attr('height', xScale.bandwidth() / 2 - 15)
         .attr('fill', function (d) {
-          console.log(d[2])
           if (d[2] == 'Error') {
             return 'red'
           } else if (d[2] == 'Partially_Correct') {
@@ -306,28 +304,28 @@ const StudentCommit = (props) => {
   //视图更新
   useEffect(() => {
     //更新重画
-    d3.select('svg').remove() //移除已有的svg元素
+    // d3.select('svg').remove() //移除已有的svg元素
     // 选择现有的 SVG 元素，如果已经存在则移除它
     d3.select('.studentCommitsvg').remove()
-    if (mode == 0) {
+    if (amode == 0) {
       drawCommit()
     }
-  }, [mode])
+  }, [amode])
 
   return (
     <StudentCommitWrapper>
-      {/* mode=0答题模式 ，mode=1时间模式*/}
-      {mode == 0 && <div className="title">学生提交事件</div>}
-      {mode == 1 && <div className="title">高峰分析矩阵图</div>}
+      {/* amode=0答题模式 ，amode=1时间模式*/}
+      {amode == 0 && <div className="title">学生提交事件</div>}
+      {amode == 1 && <div className="title">高峰分析矩阵图</div>}
       <div className="Studentview">
-        {/* mode=0答题模式 ，mode=1时间模式*/}
-        {mode == 0 && (
+        {/* amode=0答题模式 ，amode=1时间模式*/}
+        {amode == 0 && (
           <div className="StudentCommitview">
             <div className="commitchart" ref={commitCountChartRef}></div>
             <div className="commitsvg"></div>
           </div>
         )}
-        {mode == 1 && (
+        {amode == 1 && (
           <ReactEcharts
             option={option2}
             style={{ width: '100%', height: '100%' }}
