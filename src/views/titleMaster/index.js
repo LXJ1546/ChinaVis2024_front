@@ -3,6 +3,7 @@ import { TitleMasterWrapper } from './style'
 // import { Card } from 'antd'
 import { useEffect, useRef } from 'react'
 import * as echarts from 'echarts'
+import { getTitleMasterInfo } from '../../api'
 
 const TitleMaster = (props) => {
   const { classNum } = props
@@ -12,7 +13,7 @@ const TitleMaster = (props) => {
   const memoryDistributionRef = useRef(null)
 
   //主知识点和从属知识点的掌握情况
-  function drawKnowledge() {
+  function drawKnowledge(titleInfo) {
     // 检查是否已有图表实例存在，并销毁它
     const existingInstance = echarts.getInstanceByDom(titleMasterRef.current)
     if (existingInstance) {
@@ -46,10 +47,50 @@ const TitleMaster = (props) => {
       },
       xAxis: {
         type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', '8'],
+        data: [
+          'Q_bum',
+          'Q_62X',
+          'Q_ZTb',
+          'Q_FNg',
+          'Q_hZ5',
+          'Q_xql',
+          'Q_YWX',
+          'Q_X3w',
+          'Q_5fg',
+          'Q_oCj',
+          'Q_EhV',
+          'Q_Az7',
+          'Q_Ou3',
+          'Q_UXq',
+          'Q_x2F',
+          'Q_Mh4',
+          'Q_lU2',
+          'Q_Ej5',
+          'Q_pVK',
+          'Q_QRm',
+          'Q_Jr4',
+          'Q_7NJ',
+          'Q_n2B',
+          'Q_Nix',
+          'Q_TmK',
+          'Q_s6V',
+          'Q_tgO',
+          'Q_4nH',
+          'Q_6RQ',
+          'Q_h7p',
+          'Q_x2L',
+          'Q_3Mw',
+          'Q_3oP',
+          'Q_rvB',
+          'Q_BW0',
+          'Q_fZr',
+          'Q_q7O',
+          'Q_VgK'
+        ],
         axisLabel: {
-          fontSize: 10,
-          interval: 0
+          fontSize: 6,
+          interval: 0,
+          rotate: 30
         }
       },
       yAxis: {
@@ -58,34 +99,16 @@ const TitleMaster = (props) => {
           fontSize: 10
         }
       },
-      series: [
-        //分别对应掌握程度、得分率、正确占比
-        {
-          name: '掌握程度',
-          data: [0.82, 0.3, 0.6, 0.6, 0.33, 0.35, 0.5, 0.12],
-          type: 'line',
-          smooth: true
-        },
-        {
-          name: '得分率',
-          data: [0.82, 0.932, 0.901, 0.934, 0.129, 0.133, 0.0132, 0.4],
-          type: 'line',
-          smooth: true
-        },
-        {
-          name: '正确占比',
-          data: [0.2, 0.55, 0.3, 0.44, 0.27, 0.25, 0.6, 0.8],
-          type: 'line',
-          smooth: true
-        }
-      ],
+      series: titleInfo,
       dataZoom: [
         {
           id: 'dataZoomX',
           type: 'inside',
           zooLock: true,
           xAxisIndex: [0],
-          filterMode: 'filter'
+          filterMode: 'filter',
+          start: 0,
+          end: 20
         }
       ]
     }
@@ -331,6 +354,9 @@ const TitleMaster = (props) => {
 
   useEffect(() => {
     console.log('知识' + classNum)
+    getTitleMasterInfo(classNum).then((res) => {
+      drawKnowledge(res)
+    })
     drawKnowledge()
   }, [classNum])
 

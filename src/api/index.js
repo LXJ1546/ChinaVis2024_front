@@ -40,3 +40,11 @@ export function getTransferData(month1 = 9, month2 = 10) {
     }
   })
 }
+
+//获取题目掌握程度的数据
+export function getTitleMasterInfo(data) {
+  return hyRequest.post({
+    url: '/titleMasterInfo',
+    data: { data: data }
+  })
+}
