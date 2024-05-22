@@ -5,7 +5,7 @@ import * as d3 from 'd3'
 import d3Tip from 'd3-tip'
 const Calendar = (props) => {
   // 拿到父组件传递的模式状态
-  const { mode, month } = props
+  const { amode, month } = props
   console.log(month)
   //tooltip
   const tip = d3Tip()
@@ -543,24 +543,24 @@ const Calendar = (props) => {
 
   //视图更新
   useEffect(() => {
-    if (mode == 0) {
+    if (amode == 0) {
       //更新重画
-      d3.select('svg').remove() //移除已有的svg元素
-      // 选择现有的 SVG 元素，如果已经存在则移除它
+      // d3.select('svg').remove() //移除已有的svg元素
+      // // 选择现有的 SVG 元素，如果已经存在则移除它
       d3.select('.calendarsvg').remove()
       drawCalendar(['学生1', '学生2', '学生3'])
     }
-  }, [mode])
+  }, [amode])
 
   return (
     <CalendarWrapper>
-      {/* mode=0答题模式 ，mode=1时间模式*/}
-      {mode == 0 && <div className="title">学习日历</div>}
-      {mode == 1 && <div className="title">高峰分析矩阵图</div>}
+      {/* amode=0答题模式 ，amode=1时间模式*/}
+      {amode == 0 && <div className="title">学习日历</div>}
+      {amode == 1 && <div className="title">高峰分析矩阵图</div>}
       <div className="calendarHighview">
-        {/* mode=0答题模式 ，mode=1时间模式*/}
-        {mode == 0 && <div className="calendarview"></div>}
-        {mode == 1 && (
+        {/* amode=0答题模式 ，amode=1时间模式*/}
+        {amode == 0 && <div className="calendarview"></div>}
+        {amode == 1 && (
           <ReactEcharts
             option={option2}
             style={{ width: '100%', height: '100%' }}

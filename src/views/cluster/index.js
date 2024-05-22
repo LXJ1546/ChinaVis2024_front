@@ -270,7 +270,7 @@ const Scatter = (props) => {
       setSymbolSize(10)
       setClusterName(['针对型', '多样型', '尝试型'])
       setVisible(true)
-      //   changeMode(0)
+      changeMode(0)
       // 默认状态为10
       changeMonth(10)
       // 是否显示演变视图

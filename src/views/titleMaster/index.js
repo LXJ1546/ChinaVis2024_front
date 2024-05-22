@@ -89,8 +89,7 @@ const TitleMaster = (props) => {
           'Q_VgK'
         ],
         axisLabel: {
-          fontSize: 6,
-          interval: 0,
+          fontSize: 10,
           rotate: 30
         }
       },
@@ -107,9 +106,7 @@ const TitleMaster = (props) => {
           type: 'inside',
           zooLock: true,
           xAxisIndex: [0],
-          filterMode: 'filter',
-          start: 0,
-          end: 20
+          filterMode: 'filter'
         }
       ]
     }
