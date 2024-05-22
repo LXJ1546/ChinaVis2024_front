@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const AnswerWrapper = styled.div`
+export const CorrelationWrapper = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
@@ -14,7 +14,16 @@ export const AnswerWrapper = styled.div`
     font-size: 16px;
     opacity: 0.8;
   }
-  .view {
+  .content {
     flex: 1 1 0%;
+    display: flex;
+    .feature {
+      width: 57%;
+      height: 100%;
+    }
+    .correlation {
+      width: 43%;
+      height: 100%;
+    }
   }
 `

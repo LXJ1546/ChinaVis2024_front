@@ -10,7 +10,7 @@ export const ContentWrapper = styled.div`
     display: flex;
     border-color: rgb(239, 239, 245);
     .left {
-      width: 23%;
+      width: 25%;
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -48,7 +48,7 @@ export const ContentWrapper = styled.div`
         }
       }
       .card4 {
-        height: calc(50% - 4px);
+        flex: 1 1 0%;
         margin: 0px 3px 3px 3px;
         border-radius: 4px;
         .ant-card-body {
@@ -65,7 +65,7 @@ export const ContentWrapper = styled.div`
       display: flex;
       flex-direction: column;
       .card4 {
-        height: 50%;
+        height: 64%;
         margin: 3px 3px 3px 0px;
         border-radius: 4px;
         .ant-card-body {
@@ -76,7 +76,7 @@ export const ContentWrapper = styled.div`
         }
       }
       .card5 {
-        height: 50%;
+        flex: 1 1 0%;
         margin: 0px 3px 3px 0px;
         border-radius: 4px;
         .ant-card-body {
@@ -88,12 +88,12 @@ export const ContentWrapper = styled.div`
       }
     }
     .right {
-      width: 35%;
+      width: 33%;
       height: 100%;
       display: flex;
       flex-direction: column;
       .card6 {
-        height: 50%;
+        height: 20%;
         margin: 3px 3px 3px 0px;
         border-radius: 4px;
         .ant-card-body {
@@ -104,7 +104,18 @@ export const ContentWrapper = styled.div`
         }
       }
       .card7 {
-        height: 50%;
+        height: calc(44% - 3px);
+        margin: 0px 3px 3px 0px;
+        border-radius: 4px;
+        .ant-card-body {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          padding: 0px;
+        }
+      }
+      .card8 {
+        flex: 1 1 0%;
         margin: 0px 3px 3px 0px;
         border-radius: 4px;
         .ant-card-body {

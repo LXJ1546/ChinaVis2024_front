@@ -6,13 +6,13 @@ import Template from '../../views/template/index'
 import Picture from '../../views/picture'
 import Controller from '../../views/controller'
 import Scatter from '@/views/cluster'
-// import Answer from '../../views/answer'
+import Correlation from '../../views/correlation'
 import TitleMaster from '../../views/titleMaster'
 import KnowledgeIcicle from '../../views/knowledgeNew'
 import Calendar from '../../views/calendar'
 const Content = () => {
   const [mode, setMode] = useState(0) //模式0代表答题模式，1代表时间模式
-  const [month, setMonth] = useState(10) //模式0代表答题模式，1代表时间模式
+  const [month, setMonth] = useState(10) //9,10,11,12,1
   const [classNum, setClassNum] = useState('all') //选中的数据集（所有数据集或某个班级）
   function handleClassNum(classnum) {
     setClassNum(classnum)
@@ -55,9 +55,12 @@ const Content = () => {
         </div>
         <div className="right">
           <Card className="card6">
-            <Calendar mode={mode} month={month} />
+            <Correlation mode={mode} month={month} />
           </Card>
           <Card className="card7">
+            <Calendar mode={mode} month={month} />
+          </Card>
+          <Card className="card8">
             <Template />
           </Card>
         </div>
