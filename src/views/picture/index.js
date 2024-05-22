@@ -432,6 +432,7 @@ const Picture = (props) => {
   useEffect(() => {
     var classBasicInfo = []
     var classRankInfo = []
+
     getClassBasicInfo(classNum).then((res) => {
       classBasicInfo = res[0]
       classRankInfo = res[1]

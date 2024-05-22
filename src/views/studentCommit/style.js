@@ -21,12 +21,18 @@ export const StudentCommitWrapper = styled.div`
     .StudentCommitview {
       width: 100%;
       height: 100%;
-      overflow: auto;
       .commitchart {
         width: 99%;
         height: 30%;
         position: absolute;
         top: 13%;
+      }
+      .commitsvg {
+        overflow: auto;
+        position: absolute;
+        top: 45%;
+        width: 99%;
+        height: 55%;
       }
     }
   }

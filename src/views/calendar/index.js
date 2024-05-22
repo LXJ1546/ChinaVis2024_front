@@ -545,8 +545,8 @@ const Calendar = (props) => {
   useEffect(() => {
     if (mode == 0) {
       //更新重画
-      d3.select('svg').remove() //移除已有的svg元素
-      // 选择现有的 SVG 元素，如果已经存在则移除它
+      // d3.select('svg').remove() //移除已有的svg元素
+      // // 选择现有的 SVG 元素，如果已经存在则移除它
       d3.select('.calendarsvg').remove()
       drawCalendar(['学生1', '学生2', '学生3'])
     }

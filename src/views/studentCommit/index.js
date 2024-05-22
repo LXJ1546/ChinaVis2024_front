@@ -42,16 +42,17 @@ const StudentCommit = (props) => {
       [0.2, 0.3, 'Error', 'Method_g', 1695996482]
     ]
   }
+
   //绘制学生提交事件图
   function drawCommit() {
     // 创建SVG元素
     const svg = d3
-      .select('.StudentCommitview')
+      .select('.commitsvg')
       .append('svg')
       .attr('class', 'studentCommitsvg')
-      .attr('width', '100%')
-      .attr('height', '68%')
-      .attr('transform', 'translate(0,145)')
+      .attr('width', '98%')
+      // .attr('height', '68%')
+      .attr('transform', 'translate(10,0)')
     // const commitrectwidth = 20
     // 获取提交时间和次数的最大值和最小值
     let minTime = Infinity
@@ -111,8 +112,14 @@ const StudentCommit = (props) => {
       },
       xAxis: {
         type: 'category',
-        data: questions
+        data: questions,
+        axisLabel: {
+          fontSize: 10,
+          interval: 0,
+          rotate: 30
+        }
       },
+
       yAxis: {
         type: 'value'
       },
@@ -152,49 +159,123 @@ const StudentCommit = (props) => {
     const width = parseInt(svg.style('width')) - margin.left - margin.right
     // const height = parseInt(svg.style('height')) - margin.top - margin.bottom
 
+    let QuestionFlag = {} //记录前一个同一个问题的y值
     let xScale = d3
       .scaleBand()
       .domain(questions)
-      .range([margin.left, width - margin.right])
+      .range([margin.left, width + 15])
+
     const commitevent = svg
       .append('g')
       .attr('transform', `translate(${margin.left},0)`)
+
+    // // 创建 X 轴生成器
+    // const xAxisGenerator = d3.axisBottom(xScale)
+
+    // // 在 SVG 中添加 X 轴
+    // commitevent
+    //   .append('g')
+    //   .attr('transform', 'translate(0,50)') // 将 X 轴移动到合适的位置
+    //   .call(xAxisGenerator) // 调用 X 轴生成器来创建 X 轴
+
+    // // 添加 X 轴标题
+    // commitevent
+    //   .append('text')
+    //   .attr('x', 200) // 设置标题的位置
+    //   .attr('y', 80)
+    //   .style('text-anchor', 'middle') // 文本对齐方式，居中
+    //   .text('X 轴')
     commitevent
       .selectAll('rect')
       .data(commits)
       .enter()
       .append('rect')
       .attr('x', (d) => xScale(d.question) + xScale.bandwidth() / 4)
-      .attr('y', '10px')
-      .attr('width', xScale.bandwidth() / 4)
-      .attr('height', xScale.bandwidth() / 4)
-    // 监听ECharts的dataZoom事件
+      .attr('y', function (d) {
+        // 检查questionflag中是否已存在该key
+        if (Object.prototype.hasOwnProperty.call(QuestionFlag, d.question)) {
+          // 如果已存在，修改对应的value值
+          QuestionFlag[d.question] =
+            QuestionFlag[d.question] + xScale.bandwidth() / 2 + 2
+        } else {
+          // 如果不存在，增加新的key-value对
+          QuestionFlag[d.question] = 5
+        }
+        return QuestionFlag[d.question]
+      })
+      .attr('width', xScale.bandwidth() / 2 - 15)
+      .attr('height', xScale.bandwidth() / 2 - 15)
+
+    // 监听ECharts的dataZoom事件,提交事件同步修改缩放
     commitCountChart.on('dataZoom', function () {
       const startvalue = commitCountChart.getOption().dataZoom[0].startValue
       const endvalue = commitCountChart.getOption().dataZoom[0].endValue
       const filteredQuestions = questions.slice(startvalue, endvalue + 1)
-      console.log(startvalue, endvalue, filteredQuestions)
       const filteredCommits = commits.filter((commit) =>
         filteredQuestions.includes(commit.question)
       )
       xScale.domain(filteredQuestions)
-
+      let QuestionFlag = {} //记录前一个同一个问题的y值
       // xScale.domain(filteredQuestions)
-
-      const rects = commitevent
+      commitevent.selectAll('*').remove()
+      commitevent
         .selectAll('rect')
-        .data(filteredCommits, (d) => d.question + d[4])
-      rects
+        .data(filteredCommits)
         .enter()
         .append('rect')
-        .merge(rects)
         .attr('x', (d) => xScale(d.question) + xScale.bandwidth() / 4)
-        .attr('y', '10px')
-        .attr('width', xScale.bandwidth() / 4)
-        .attr('height', xScale.bandwidth() / 4)
+        .attr('y', function (d) {
+          // 检查questionflag中是否已存在该key
+          if (Object.prototype.hasOwnProperty.call(QuestionFlag, d.question)) {
+            // 如果已存在，修改对应的value值
+            QuestionFlag[d.question] =
+              QuestionFlag[d.question] + xScale.bandwidth() / 2 + 2
+          } else {
+            // 如果不存在，增加新的key-value对
+            QuestionFlag[d.question] = 5
+          }
+          return QuestionFlag[d.question]
+        })
+        .attr('width', xScale.bandwidth() / 2 - 15)
+        .attr('height', xScale.bandwidth() / 2 - 15)
 
-      rects.exit().remove()
+      // const rects = commitevent
+      //   .selectAll('rect')
+      //   .data(filteredCommits, (d) => d.question + d[4])
+      // rects
+      //   .enter()
+      //   .append('rect')
+      //   .merge(rects)
+      //   .attr('x', (d) => xScale(d.question) + xScale.bandwidth() / 4)
+      //   .attr('y', function (d) {
+      //     console.log(d)
+      //     // 检查questionflag中是否已存在该key
+      //     if (Object.prototype.hasOwnProperty.call(QuestionFlag, d.question)) {
+      //       // 如果已存在，修改对应的value值
+      //       QuestionFlag[d.question] =
+      //         QuestionFlag[d.question] + xScale.bandwidth() / 2 + 2
+      //     } else {
+      //       // 如果不存在，增加新的key-value对
+      //       QuestionFlag[d.question] = 10
+      //     }
+      //     console.log(d)
+      //     return QuestionFlag[d.question]
+      //   })
+      //   .attr('width', xScale.bandwidth() / 2)
+      //   .attr('height', xScale.bandwidth() / 2)
+
+      // rects.exit().remove()
+      // 获取 SVG 的边界框
+      const bbox = svg.node().getBBox()
+
+      // 动态设置 SVG 的宽度和高度
+      svg.attr('height', bbox.height + bbox.x)
     })
+    // 获取 SVG 的边界框
+    const bbox = svg.node().getBBox()
+
+    // 动态设置 SVG 的宽度和高度
+    svg.attr('height', bbox.height + bbox.x)
   }
 
   //绘制时间模式的对比分析图
@@ -249,6 +330,7 @@ const StudentCommit = (props) => {
         {mode == 0 && (
           <div className="StudentCommitview">
             <div className="commitchart" ref={commitCountChartRef}></div>
+            <div className="commitsvg"></div>
           </div>
         )}
         {mode == 1 && (
