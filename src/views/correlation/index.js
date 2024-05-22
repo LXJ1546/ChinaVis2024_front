@@ -26,21 +26,21 @@ const Correlation = (props) => {
       }
     },
     grid: [
-      { left: '3%', top: '7%', right: '53%', bottom: '60%' },
-      { left: '53%', top: '7%', right: '3%', bottom: '60%' },
-      { left: '3%', top: '57%', right: '53%', bottom: '10%' },
-      { left: '53%', top: '57%', right: '3%', bottom: '10%' }
+      { left: '10%', top: '7%', right: '49%', bottom: '56%' },
+      { left: '56%', top: '7%', right: '3%', bottom: '56%' },
+      { left: '10%', top: '57%', right: '49%', bottom: '6%' },
+      { left: '56%', top: '57%', right: '3%', bottom: '6%' }
     ],
     yAxis: [
       {
         gridIndex: 0,
         type: 'category',
         data: ['针对型', '多样型', '尝试型'],
-        axisLabel: {
-          show: false
-        },
         axisTick: {
           show: false
+        },
+        axisLabel: {
+          margin: 4
         }
       },
       {
@@ -58,11 +58,11 @@ const Correlation = (props) => {
         gridIndex: 2,
         type: 'category',
         data: ['针对型', '多样型', '尝试型'],
-        axisLabel: {
-          show: false
-        },
         axisTick: {
           show: false
+        },
+        axisLabel: {
+          margin: 4
         }
       },
       {
@@ -216,41 +216,42 @@ const Correlation = (props) => {
           borderWidth: 1 // 设置边框宽度
         }
       }
-    ],
-    graphic: [
-      {
-        type: 'text',
-        left: '19%',
-        top: '35%',
-        style: {
-          text: '提交次数'
-        }
-      },
-      {
-        type: 'text',
-        left: '69%',
-        top: '35%',
-        style: {
-          text: '活跃天数'
-        }
-      },
-      {
-        type: 'text',
-        left: '20%',
-        top: '80%',
-        style: {
-          text: '答题数'
-        }
-      },
-      {
-        type: 'text',
-        left: '69%',
-        top: '80%',
-        style: {
-          text: '正确占比'
-        }
-      }
     ]
+    // graphic: [
+    //   {
+    //     type: 'text',
+    //     left: '19%',
+    //     top: '41%',
+    //     style: {
+    //       text: '提交次数',
+    //       fill: '#333'
+    //     }
+    //   },
+    //   {
+    //     type: 'text',
+    //     left: '69%',
+    //     top: '41%',
+    //     style: {
+    //       text: '活跃天数'
+    //     }
+    //   },
+    //   {
+    //     type: 'text',
+    //     left: '20%',
+    //     top: '91%',
+    //     style: {
+    //       text: '答题数'
+    //     }
+    //   },
+    //   {
+    //     type: 'text',
+    //     left: '69%',
+    //     top: '91%',
+    //     style: {
+    //       text: '正确占比'
+    //     }
+    //   }
+    // ]
   }
   const correlationOption = {
     // title: {
