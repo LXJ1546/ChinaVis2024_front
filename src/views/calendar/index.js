@@ -200,7 +200,7 @@ const Calendar = (props) => {
       // 绘制日历块，给每个日历分组
       const yearSvg = svg
         .append('g')
-        .attr('transform', `translate(${50 + studentNum * 370},120)`)
+        .attr('transform', `translate(${50 + studentNum * 370},80)`)
         .selectAll()
         .data(dayDatas)
         .enter()
@@ -219,12 +219,12 @@ const Calendar = (props) => {
         .data((d) => d.dayGroup)
         .enter()
         .append('rect')
-        .attr('width', 70)
-        .attr('height', 70)
+        .attr('width', 65)
+        .attr('height', 65)
         //   .attr('stroke', '#cccc') // 设置边框颜色
         .attr('rx', 3)
-        .attr('x', (d) => Math.floor(d.dayTem / 7) * 71)
-        .attr('y', (d) => (d.dayTem % 7) * 71)
+        .attr('x', (d) => Math.floor(d.dayTem / 7) * 66)
+        .attr('y', (d) => (d.dayTem % 7) * 66)
         // .attr('fill', '#E8E8E8')
         .attr('fill', (d) => {
           if (!d.commitcount) {
@@ -274,8 +274,8 @@ const Calendar = (props) => {
       // 定义弧生成器
       const arcright = d3
         .arc()
-        .innerRadius(30 * 0.8) // 内半径（控制圆环宽度）
-        .outerRadius(30) // 外半径
+        .innerRadius(28 * 0.8) // 内半径（控制圆环宽度）
+        .outerRadius(28) // 外半径
 
       const rightSvg = monthSvg
         .selectAll()
@@ -285,7 +285,7 @@ const Calendar = (props) => {
         .attr(
           'transform',
           (d) =>
-            `translate(${Math.floor(d.dayTem / 7) * 71 + 35}, ${(d.dayTem % 7) * 71 + 35})`
+            `translate(${Math.floor(d.dayTem / 7) * 66 + 33}, ${(d.dayTem % 7) * 66 + 33})`
         )
 
       rightSvg.each(function (d) {
@@ -326,8 +326,8 @@ const Calendar = (props) => {
       // 定义弧生成器
       const arctitle = d3
         .arc()
-        .innerRadius(25 * 0.8) // 内半径（控制圆环宽度）
-        .outerRadius(25) // 外半径
+        .innerRadius(23 * 0.8) // 内半径（控制圆环宽度）
+        .outerRadius(23) // 外半径
 
       const titleSvg = monthSvg
         .selectAll()
@@ -337,7 +337,7 @@ const Calendar = (props) => {
         .attr(
           'transform',
           (d) =>
-            `translate(${Math.floor(d.dayTem / 7) * 71 + 35}, ${(d.dayTem % 7) * 71 + 35})`
+            `translate(${Math.floor(d.dayTem / 7) * 66 + 33}, ${(d.dayTem % 7) * 66 + 33})`
         )
 
       titleSvg.each(function (d) {
@@ -376,8 +376,8 @@ const Calendar = (props) => {
       // 定义弧生成器
       const arcMethod = d3
         .arc()
-        .innerRadius(20 * 0.7) // 内半径（控制圆环宽度）
-        .outerRadius(20) // 外半径
+        .innerRadius(18 * 0.7) // 内半径（控制圆环宽度）
+        .outerRadius(18) // 外半径
 
       const MethodSvg = monthSvg
         .selectAll()
@@ -387,7 +387,7 @@ const Calendar = (props) => {
         .attr(
           'transform',
           (d) =>
-            `translate(${Math.floor(d.dayTem / 7) * 71 + 35}, ${(d.dayTem % 7) * 71 + 35})`
+            `translate(${Math.floor(d.dayTem / 7) * 66 + 33}, ${(d.dayTem % 7) * 66 + 33})`
         )
 
       MethodSvg.each(function (d) {
@@ -428,8 +428,8 @@ const Calendar = (props) => {
         .enter()
         .append('circle')
         .attr('r', 11) // 半径
-        .attr('cx', (d) => Math.floor(d.dayTem / 7) * 71 + 35)
-        .attr('cy', (d) => (d.dayTem % 7) * 71 + 35)
+        .attr('cx', (d) => Math.floor(d.dayTem / 7) * 66 + 33)
+        .attr('cy', (d) => (d.dayTem % 7) * 66 + 33)
         .attr('fill', (d) => {
           if (!d.commitcount) {
             return '#FBFAFA'
@@ -452,7 +452,7 @@ const Calendar = (props) => {
         .attr('class', 'label')
         .attr('x', 15)
         .attr('y', 90)
-        .attr('dy', (d, i) => i * 71 + 70)
+        .attr('dy', (d, i) => i * 66 + 30)
         .attr('fill', 'black')
         .text((d) => d)
 
@@ -472,7 +472,7 @@ const Calendar = (props) => {
         .attr('x', (d, i) => {
           return i * 71 * 4.25 + 190 + studentNum * 370
         })
-        .attr('y', 90)
+        .attr('y', 60)
         .attr('fill', 'black')
         .attr('font-size', '20px')
         .attr('font-family', 'monospace')

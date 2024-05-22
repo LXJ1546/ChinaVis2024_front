@@ -4,6 +4,7 @@ import { TitleMasterWrapper } from './style'
 import { useEffect, useRef } from 'react'
 import * as echarts from 'echarts'
 import { getTitleMasterInfo } from '../../api'
+import { getTitleMemoryInfo } from '../../api'
 
 const TitleMaster = (props) => {
   const { classNum } = props
@@ -118,237 +119,216 @@ const TitleMaster = (props) => {
     // 根据主知识点图表的提示信息更新从属知识点图表的数据,用时分布的数据，内存分布的数据
     titleMasterChart.on('click', function (params) {
       //根据params的name对应该题目名称，提取该题目的数据
-      //   const titleData =
+      let memoryInfo = {}
+      let timeInfo = {}
+      getTitleMemoryInfo(classNum, params.name).then((res) => {
+        memoryInfo = res.memory
+        timeInfo = res.time
 
-      // 检查是否已有图表实例存在，并销毁它
-      const existingInstancesubKnowledge = echarts.getInstanceByDom(
-        subKnowledgeRef.current
-      )
-      if (existingInstancesubKnowledge) {
-        existingInstancesubKnowledge.dispose()
-      }
-      const existingInstancetime = echarts.getInstanceByDom(
-        timeDistributionRef.current
-      )
-      if (existingInstancetime) {
-        existingInstancetime.dispose()
-      }
-      const existingInstancememory = echarts.getInstanceByDom(
-        memoryDistributionRef.current
-      )
-      if (existingInstancememory) {
-        existingInstancememory.dispose()
-      }
+        // 检查是否已有图表实例存在，并销毁它
+        const existingInstancesubKnowledge = echarts.getInstanceByDom(
+          subKnowledgeRef.current
+        )
+        if (existingInstancesubKnowledge) {
+          existingInstancesubKnowledge.dispose()
+        }
+        const existingInstancetime = echarts.getInstanceByDom(
+          timeDistributionRef.current
+        )
+        if (existingInstancetime) {
+          existingInstancetime.dispose()
+        }
+        const existingInstancememory = echarts.getInstanceByDom(
+          memoryDistributionRef.current
+        )
+        if (existingInstancememory) {
+          existingInstancememory.dispose()
+        }
 
-      //题目对应从属知识点
-      const subKnowledgeChart = echarts.init(subKnowledgeRef.current)
-      subKnowledgeChart.clear() //清空实例重画
-      //假数据
-      var data1 = [
-        {
-          name: 'Q1',
-          children: [
-            {
-              name: 'R',
-              value: 15
-            },
-            {
-              name: 'B',
-              children: [
-                {
-                  name: 'B_a',
-                  value: 4
-                }
-              ]
-            },
-            {
-              name: 'D',
-              value: 10,
-              children: [
-                {
-                  name: 'D_p',
-                  value: 5,
-                  itemStyle: {
-                    color: 'red'
+        //题目对应从属知识点
+        const subKnowledgeChart = echarts.init(subKnowledgeRef.current)
+        subKnowledgeChart.clear() //清空实例重画
+        //假数据
+        var data1 = [
+          {
+            name: 'Q1',
+            children: [
+              {
+                name: 'R',
+                value: 15
+              },
+              {
+                name: 'B',
+                children: [
+                  {
+                    name: 'B_a',
+                    value: 4
                   }
-                },
-                {
-                  name: 'D_y',
-                  value: 5
-                }
-              ]
+                ]
+              },
+              {
+                name: 'D',
+                value: 10,
+                children: [
+                  {
+                    name: 'D_p',
+                    value: 5,
+                    itemStyle: {
+                      color: 'red'
+                    }
+                  },
+                  {
+                    name: 'D_y',
+                    value: 5
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+        const subOption = {
+          title: {
+            text: params.name + '对应知识点掌握情况',
+            left: 'center',
+            textStyle: {
+              fontSize: 10,
+              fontWeight: 'normal'
+            }
+          },
+          tooltip: {
+            trigger: 'item',
+            axisPointer: {
+              type: 'shadow'
+            }
+          },
+          visualMap: {
+            type: 'continuous',
+            min: 0,
+            max: 10,
+            inRange: {
+              color: ['#5EB8DF', '#5E98DF', '#5E84DF', '#4C7AE4']
+            },
+            show: false
+          },
+          grid: {
+            left: '30%', // 左边距
+            top: '0%', // 上边距
+            right: '5%',
+            bottom: '20%' // 下边距
+          },
+          series: {
+            type: 'sunburst',
+            data: data1,
+            radius: [0, '78%'],
+            label: {
+              rotate: 'radial'
+              // position: 'inside' // 将标签放置在圆弧内部
+            }
+          }
+        }
+
+        subKnowledgeChart.setOption(subOption)
+
+        //题目对应用时分布
+        const timeDistributionChart = echarts.init(timeDistributionRef.current)
+        timeDistributionChart.clear() //清空实例重画
+        const timeOption = {
+          title: {
+            text: params.name + '用时分布',
+            left: 'center',
+            textStyle: {
+              fontSize: 10,
+              fontWeight: 'normal'
+            }
+          },
+          tooltip: {
+            trigger: 'item',
+            axisPointer: {
+              type: 'shadow'
+            }
+          },
+          grid: {
+            left: '10%', // 左边距
+            top: '20%', // 上边距
+            right: '10%',
+            bottom: '20%' // 下边距
+          },
+          xAxis: {
+            type: 'category',
+            data: timeInfo.keys
+          },
+          yAxis: {
+            type: 'value'
+          },
+          series: [
+            {
+              data: timeInfo.value,
+              type: 'bar'
+            }
+          ],
+          dataZoom: [
+            {
+              id: 'dataZoomX',
+              type: 'inside',
+              zooLock: true,
+              xAxisIndex: [0],
+              filterMode: 'filter'
             }
           ]
         }
-      ]
-      const subOption = {
-        title: {
-          text: params.name + '对应知识点掌握情况',
-          left: 'center',
-          textStyle: {
-            fontSize: 10,
-            fontWeight: 'normal'
-          }
-        },
-        tooltip: {
-          trigger: 'item',
-          axisPointer: {
-            type: 'shadow'
-          }
-        },
-        visualMap: {
-          type: 'continuous',
-          min: 0,
-          max: 10,
-          inRange: {
-            color: ['#5EB8DF', '#5E98DF', '#5E84DF', '#4C7AE4']
+        timeDistributionChart.setOption(timeOption)
+
+        //题目对应内存分布
+        const memoryDistributionChart = echarts.init(
+          memoryDistributionRef.current
+        )
+        memoryDistributionChart.clear() //清空实例重画
+        const memoryOption = {
+          title: {
+            text: params.name + '内存分布',
+            left: 'center',
+            textStyle: {
+              fontSize: 10,
+              fontWeight: 'normal'
+            }
           },
-          show: false
-        },
-        grid: {
-          left: '30%', // 左边距
-          top: '0%', // 上边距
-          right: '5%',
-          bottom: '20%' // 下边距
-        },
-        series: {
-          type: 'sunburst',
-          data: data1,
-          radius: [0, '78%'],
-          label: {
-            rotate: 'radial'
-            // position: 'inside' // 将标签放置在圆弧内部
-          }
+          tooltip: {
+            trigger: 'item',
+            axisPointer: {
+              type: 'shadow'
+            }
+          },
+          grid: {
+            left: '10%', // 左边距
+            top: '20%', // 上边距
+            right: '10%',
+            bottom: '20%' // 下边距
+          },
+          xAxis: {
+            type: 'category',
+            data: memoryInfo.keys
+          },
+          yAxis: {
+            type: 'value'
+          },
+          series: [
+            {
+              data: memoryInfo.keys,
+              type: 'bar'
+            }
+          ],
+          dataZoom: [
+            {
+              id: 'dataZoomX',
+              type: 'inside',
+              zooLock: true,
+              xAxisIndex: [0],
+              filterMode: 'filter'
+            }
+          ]
         }
-      }
-
-      subKnowledgeChart.setOption(subOption)
-
-      //题目对应用时分布
-      const timeDistributionChart = echarts.init(timeDistributionRef.current)
-      timeDistributionChart.clear() //清空实例重画
-      const timeOption = {
-        title: {
-          text: params.name + '用时分布',
-          left: 'center',
-          textStyle: {
-            fontSize: 10,
-            fontWeight: 'normal'
-          }
-        },
-        tooltip: {
-          trigger: 'item',
-          axisPointer: {
-            type: 'shadow'
-          }
-        },
-        grid: {
-          left: '10%', // 左边距
-          top: '20%', // 上边距
-          right: '10%',
-          bottom: '20%' // 下边距
-        },
-        xAxis: {
-          type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-        },
-        yAxis: {
-          type: 'value'
-        },
-        series: [
-          {
-            data: [
-              120,
-              {
-                value: 200,
-                itemStyle: {
-                  color: '#a90000'
-                }
-              },
-              150,
-              80,
-              70,
-              110,
-              130
-            ],
-            type: 'bar'
-          }
-        ],
-        dataZoom: [
-          {
-            id: 'dataZoomX',
-            type: 'inside',
-            zooLock: true,
-            xAxisIndex: [0],
-            filterMode: 'filter'
-          }
-        ]
-      }
-      timeDistributionChart.setOption(timeOption)
-
-      //题目对应内存分布
-      const memoryDistributionChart = echarts.init(
-        memoryDistributionRef.current
-      )
-      memoryDistributionChart.clear() //清空实例重画
-      const memoryOption = {
-        title: {
-          text: params.name + '内存分布',
-          left: 'center',
-          textStyle: {
-            fontSize: 10,
-            fontWeight: 'normal'
-          }
-        },
-        tooltip: {
-          trigger: 'item',
-          axisPointer: {
-            type: 'shadow'
-          }
-        },
-        grid: {
-          left: '10%', // 左边距
-          top: '20%', // 上边距
-          right: '10%',
-          bottom: '20%' // 下边距
-        },
-        xAxis: {
-          type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-        },
-        yAxis: {
-          type: 'value'
-        },
-        series: [
-          {
-            data: [
-              120,
-              {
-                value: 200,
-                itemStyle: {
-                  color: '#a90000'
-                }
-              },
-              150,
-              80,
-              70,
-              110,
-              130
-            ],
-            type: 'bar'
-          }
-        ],
-        dataZoom: [
-          {
-            id: 'dataZoomX',
-            type: 'inside',
-            zooLock: true,
-            xAxisIndex: [0],
-            filterMode: 'filter'
-          }
-        ]
-      }
-      memoryDistributionChart.setOption(memoryOption)
+        memoryDistributionChart.setOption(memoryOption)
+      })
     })
   }
 
@@ -357,7 +337,6 @@ const TitleMaster = (props) => {
     getTitleMasterInfo(classNum).then((res) => {
       drawKnowledge(res)
     })
-    drawKnowledge()
   }, [classNum])
 
   return (

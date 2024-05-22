@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useRef } from 'react'
 import ReactEcharts from 'echarts-for-react'
 import { StudentCommitWrapper } from './style'
-// import * as d3 from 'd3'
+import * as d3 from 'd3'
 import * as echarts from 'echarts'
 const StudentCommit = (props) => {
   // 拿到父组件传递的模式状态
@@ -44,6 +44,14 @@ const StudentCommit = (props) => {
   }
   //绘制学生提交事件图
   function drawCommit() {
+    // 创建SVG元素
+    const svg = d3
+      .select('.StudentCommitview')
+      .append('svg')
+      .attr('class', 'studentCommitsvg')
+      .attr('width', '100%')
+      .attr('height', '68%')
+      .attr('transform', 'translate(0,145)')
     // const commitrectwidth = 20
     // 获取提交时间和次数的最大值和最小值
     let minTime = Infinity
@@ -64,10 +72,12 @@ const StudentCommit = (props) => {
     //   Count: value.length
     // }))
     // 生成问题名称数组和对应的提交次数数组
-    const questionsnum = Object.keys(commitdata)
-    const commitnum = questionsnum.map(
-      (question) => commitdata[question].length
+    const questions = Object.keys(commitdata)
+    const commitnum = questions.map((question) => commitdata[question].length)
+    const commits = Object.values(commitdata).flatMap((commits, index) =>
+      commits.map((commit) => ({ question: questions[index], ...commit }))
     )
+    console.log(commits)
 
     // 检查是否已有图表实例存在，并销毁它
     const existingInstance = echarts.getInstanceByDom(
@@ -81,7 +91,11 @@ const StudentCommit = (props) => {
     const commitCountOption = {
       title: {
         left: 'center',
-        text: 'Large Area Chart'
+        text: '提交事件',
+        textStyle: {
+          fontSize: 15,
+          fontWeight: 'normal'
+        }
       },
       tooltip: {
         trigger: 'axis',
@@ -97,7 +111,7 @@ const StudentCommit = (props) => {
       },
       xAxis: {
         type: 'category',
-        data: questionsnum
+        data: questions
       },
       yAxis: {
         type: 'value'
@@ -133,90 +147,54 @@ const StudentCommit = (props) => {
     commitCountChart.setOption(commitCountOption)
     window.onresize = commitCountChart.resize
 
-    // // 设置画布大小和边距
-    // const margin = { top: 30, right: 20, bottom: 20, left: 20 }
-    // // 创建SVG元素
-    // const svg = d3
-    //   .select('.StudentCommitview')
-    //   .append('svg')
-    //   .attr('class', 'studentCommitsvg')
-    //   .attr('width', '100%')
-    //   .attr('height', '99%')
+    // 设置画布大小和边距
+    const margin = { top: 30, right: 20, bottom: 20, left: 20 }
+    const width = parseInt(svg.style('width')) - margin.left - margin.right
+    // const height = parseInt(svg.style('height')) - margin.top - margin.bottom
 
-    // // 创建比例尺
-    // const numQuestions = Object.keys(commitdata).length
-    // const barWidth = (width - margin.left) / Object.keys(commitdata).length
-    // const XtotalWidth = numQuestions * barWidth
-    // const xScale = d3
-    //   .scaleBand()
-    //   .domain(Object.keys(commitdata))
-    //   .range([margin.left, XtotalWidth - margin.right])
-    //   .padding(0.1)
+    let xScale = d3
+      .scaleBand()
+      .domain(questions)
+      .range([margin.left, width - margin.right])
+    const commitevent = svg
+      .append('g')
+      .attr('transform', `translate(${margin.left},0)`)
+    commitevent
+      .selectAll('rect')
+      .data(commits)
+      .enter()
+      .append('rect')
+      .attr('x', (d) => xScale(d.question) + xScale.bandwidth() / 4)
+      .attr('y', '10px')
+      .attr('width', xScale.bandwidth() / 4)
+      .attr('height', xScale.bandwidth() / 4)
+    // 监听ECharts的dataZoom事件
+    commitCountChart.on('dataZoom', function () {
+      const startvalue = commitCountChart.getOption().dataZoom[0].startValue
+      const endvalue = commitCountChart.getOption().dataZoom[0].endValue
+      const filteredQuestions = questions.slice(startvalue, endvalue + 1)
+      console.log(startvalue, endvalue, filteredQuestions)
+      const filteredCommits = commits.filter((commit) =>
+        filteredQuestions.includes(commit.question)
+      )
+      xScale.domain(filteredQuestions)
 
-    // const yScaleCount = d3
-    //   .scaleLinear()
-    //   .domain([maxCount, 0])
-    //   .range([0, 120 - margin.bottom])
+      // xScale.domain(filteredQuestions)
 
-    // const commitCountg = svg
-    //   .append('g')
-    //   .attr('transform', `translate(${margin.left},${margin.top})`)
+      const rects = commitevent
+        .selectAll('rect')
+        .data(filteredCommits, (d) => d.question + d[4])
+      rects
+        .enter()
+        .append('rect')
+        .merge(rects)
+        .attr('x', (d) => xScale(d.question) + xScale.bandwidth() / 4)
+        .attr('y', '10px')
+        .attr('width', xScale.bandwidth() / 4)
+        .attr('height', xScale.bandwidth() / 4)
 
-    // // 创建横轴
-    // commitCountg
-    //   .append('g')
-    //   .attr('class', 'x-axis')
-    //   .attr('transform', `translate(0,${120 - margin.bottom})`)
-    //   .call(d3.axisBottom(xScale))
-    // // 创建次数纵轴
-    // commitCountg
-    //   .append('g')
-    //   .attr('class', 'y-axis')
-    //   .attr('transform', `translate(${margin.right},0)`)
-    //   .call(d3.axisLeft(yScaleCount))
-
-    // //绘制提交次数的折线面积图
-    // // 提取提交次数数据
-    // const commitCounts = Object.entries(commitdata).map(([key, value]) => ({
-    //   Question: key,
-    //   Count: value.length
-    // }))
-    // // 创建线生成器
-    // const lineGenerator = d3
-    //   .line()
-    //   .x((d) => xScale(d.Question) + barWidth / 2 - 10)
-    //   .y((d) => yScaleCount(d.Count))
-    //   .curve(d3.curveBasis) // 设置基数样条曲线插值方法
-
-    // // 绘制提交次数折线图
-    // commitCountg
-    //   .append('path')
-    //   .datum(commitCounts)
-    //   .attr('fill', 'none')
-    //   .attr('stroke', 'blue')
-    //   .attr('stroke-width', 2)
-    //   .attr('d', lineGenerator)
-
-    // //绘制面积图
-    // // 创建颜色比例尺
-    // const areaColorScale = d3
-    //   .scaleLinear()
-    //   .domain([0, d3.max(commitCounts, (d) => d.Count)])
-    //   .range(['#FFFFFF', '#3366CC']) // 渐变颜色范围
-
-    // // 创建面积生成器
-    // const areaGenerator = d3
-    //   .area()
-    //   .x((d) => xScale(d.Question) + barWidth / 2 - 10)
-    //   .y0(120 - margin.bottom)
-    //   .y1((d) => yScaleCount(d.count))
-    // // 绘制面积填充
-    // commitCountg
-    //   .append('path')
-    //   .datum(commitCounts)
-    //   .attr('fill', (d) => areaColorScale(d.Count)) // 使用渐变颜色填充面积
-    //   .attr('stroke', 'none')
-    //   .attr('d', areaGenerator)
+      rects.exit().remove()
+    })
   }
 
   //绘制时间模式的对比分析图
@@ -253,9 +231,9 @@ const StudentCommit = (props) => {
   //视图更新
   useEffect(() => {
     //更新重画
-    // d3.select('svg').remove() //移除已有的svg元素
-    // // 选择现有的 SVG 元素，如果已经存在则移除它
-    // d3.select('.studentCommitsvg').remove()
+    d3.select('svg').remove() //移除已有的svg元素
+    // 选择现有的 SVG 元素，如果已经存在则移除它
+    d3.select('.studentCommitsvg').remove()
     if (mode == 0) {
       drawCommit()
     }

@@ -25,6 +25,8 @@ export const StudentCommitWrapper = styled.div`
       .commitchart {
         width: 99%;
         height: 30%;
+        position: absolute;
+        top: 13%;
       }
     }
   }

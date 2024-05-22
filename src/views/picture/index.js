@@ -178,7 +178,7 @@ const Picture = (props) => {
 
     for (var studentType = 0; studentType < 3; studentType++) {
       var beforeOne = 0
-      var rectX = 72 //第一个方块的起始值
+      var rectX = 92 //第一个方块的起始值
       //创建班级排名视图,为该视图创建一个group
       const ranking = svg.append('g')
       ranking
@@ -205,7 +205,7 @@ const Picture = (props) => {
           if (i == 0) {
             rectX = rectX + 12
             beforeOne = d[1]
-            return '72px'
+            return '92px'
           } else {
             rectX = rectX + 12 + rectDistance * (beforeOne - d[1])
             beforeOne = d[1]
@@ -343,7 +343,7 @@ const Picture = (props) => {
     svg.selectAll('*').remove()
     for (var studentType = 0; studentType < 3; studentType++) {
       var beforeOne = 0
-      var rectX = 72 //第一个方块的起始值
+      var rectX = 92 //第一个方块的起始值
       //创建班级排名视图,为该视图创建一个group
       const ranking = svg.append('g')
       ranking
@@ -370,7 +370,7 @@ const Picture = (props) => {
           if (i == 0) {
             rectX = rectX + 12
             beforeOne = d[1]
-            return '72px'
+            return '92px'
           } else {
             rectX = rectX + 12 + rectDistance * (beforeOne - d[1])
             beforeOne = d[1]
