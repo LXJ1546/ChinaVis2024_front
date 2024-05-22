@@ -4,7 +4,7 @@ import { CorrelationWrapper } from './style'
 import { getCorrelationData } from '../../api'
 const Correlation = (props) => {
   // 拿到父组件传递的模式状态
-  const { mode, month } = props
+  const { amode, month } = props
   // 保存相关性矩阵数据
   const [correlationData, setCorrelationData] = useState([])
   // 相关性数据的下标
@@ -319,7 +319,7 @@ const Correlation = (props) => {
     })
   }, [])
   useEffect(() => {
-    if (mode == 0) {
+    if (amode == 0) {
       if (month == 9) {
         setCorrelationIndex(0)
       } else if (month == 10) {
@@ -332,7 +332,7 @@ const Correlation = (props) => {
         setCorrelationIndex(4)
       }
     }
-  }, [mode, month])
+  }, [amode, month])
   return (
     <CorrelationWrapper>
       <div className="title">特征箱线图与相关性矩阵视图</div>

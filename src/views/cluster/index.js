@@ -2,7 +2,7 @@ import React, { memo, useEffect, useState } from 'react'
 import ReactEcharts from 'echarts-for-react'
 import { ScatterWrapper } from './style'
 import { getClusterData, getTransferData } from '../../api'
-import { Select } from 'antd'
+import { Radio, Select } from 'antd'
 const Scatter = (props) => {
   // 父组件传递的设置模式函数
   const { changeMode, changeMonth } = props
@@ -53,7 +53,7 @@ const Scatter = (props) => {
       left: '1%', // 设置左边距
       right: '2%', // 设置右边距
       bottom: '3%', // 设置底边距
-      top: '5%',
+      top: '4%',
       containLabel: true
     },
     legend: {
@@ -69,6 +69,16 @@ const Scatter = (props) => {
     yAxis: {
       max: ymax
     },
+    dataZoom: [
+      {
+        type: 'inside', // 使用鼠标滚轮的缩放
+        xAxisIndex: 0
+      },
+      {
+        type: 'inside', // 使用鼠标滚轮的缩放
+        yAxisIndex: 0
+      }
+    ],
     series: series
   }
 
@@ -240,7 +250,8 @@ const Scatter = (props) => {
       setTransferLinksData(res[1])
     })
   }, [])
-  const handleChangeMode = (value) => {
+  const handleChangeMode = (e) => {
+    const value = e.target.value
     if (value == 1) {
       setNowClusterData(clusterData[5])
       setXmax(-7)
@@ -259,12 +270,11 @@ const Scatter = (props) => {
       setSymbolSize(10)
       setClusterName(['针对型', '多样型', '尝试型'])
       setVisible(true)
-      changeMode(0)
+      //   changeMode(0)
       // 默认状态为10
       changeMonth(10)
       // 是否显示演变视图
       setIsTransfer(false)
-      //   setCorrelationIndex(1)
     } else if (value == 2) {
       // 是否显示演变视图
       setIsTransfer(true)
@@ -334,7 +344,7 @@ const Scatter = (props) => {
       <div className="content">
         <div className="left">
           <div className="btn">
-            <Select
+            {/* <Select
               defaultValue="答题模式"
               style={{ width: 100 }}
               onChange={handleChangeMode}
@@ -343,7 +353,18 @@ const Scatter = (props) => {
                 { value: '1', label: '时间模式' },
                 { value: '2', label: '演变视图' }
               ]}
-            />
+            /> */}
+            <h3 className="label">视图类别</h3>
+            <Radio.Group
+              onChange={handleChangeMode}
+              defaultValue="0"
+              style={{ marginLeft: '10px' }}
+            >
+              <Radio.Button value="0">答题模式</Radio.Button>
+              <Radio.Button value="1">时间模式</Radio.Button>
+              <Radio.Button value="2">演变视图</Radio.Button>
+            </Radio.Group>
+            <h3 className="label">月份</h3>
             {visible && !isTransfer && (
               <Select
                 defaultValue="2023-10"

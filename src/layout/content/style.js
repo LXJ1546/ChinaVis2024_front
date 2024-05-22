@@ -4,7 +4,7 @@ export const ContentWrapper = styled.div`
   width: 100%;
   flex: 1 1 0%;
   height: 100%;
-  background-color: rgba(245, 246, 251);
+  background-color: rgb(211, 211, 211);
   .container {
     height: 100%;
     display: flex;

@@ -15,24 +15,39 @@ export const CotrollerWrapper = styled.div`
     opacity: 0.8;
   }
   .Controllerview {
-    height: calc(100% - 44px);
-    .selectData {
+    flex: 1 1 0%;
+    display: flex;
+    flex-direction: column;
+    padding-left: 8px;
+    padding-right: 8px;
+    /* .selectData {
       width: 48%;
       position: absolute;
       top: calc(40% + 30px);
       left: 1.5%;
-    }
-    .weightInput {
+    } */
+    /* .weight {
       width: 24%;
       position: absolute;
       top: calc(5% + 30px);
-    }
-    .initialize {
+    } */
+    /* .initialize {
       height: 30px;
       width: 48%;
       position: absolute;
       top: calc(40% + 30px);
       left: 51%;
+    } */
+    .weight {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .initialize {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 6px;
     }
   }
 `
