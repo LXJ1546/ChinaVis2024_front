@@ -205,6 +205,16 @@ const StudentCommit = (props) => {
       })
       .attr('width', xScale.bandwidth() / 2 - 15)
       .attr('height', xScale.bandwidth() / 2 - 15)
+      .attr('fill', function (d) {
+        console.log(d[2])
+        if (d[2] == 'Error') {
+          return 'red'
+        } else if (d[2] == 'Partially_Correct') {
+          return '#68D8A3'
+        } else if (d[2] == 'Absolutely_Correct') {
+          return '#27B774'
+        }
+      })
 
     // 监听ECharts的dataZoom事件,提交事件同步修改缩放
     commitCountChart.on('dataZoom', function () {
@@ -238,33 +248,17 @@ const StudentCommit = (props) => {
         })
         .attr('width', xScale.bandwidth() / 2 - 15)
         .attr('height', xScale.bandwidth() / 2 - 15)
+        .attr('fill', function (d) {
+          console.log(d[2])
+          if (d[2] == 'Error') {
+            return 'red'
+          } else if (d[2] == 'Partially_Correct') {
+            return '#68D8A3'
+          } else if (d[2] == 'Absolutely_Correct') {
+            return '#27B774'
+          }
+        })
 
-      // const rects = commitevent
-      //   .selectAll('rect')
-      //   .data(filteredCommits, (d) => d.question + d[4])
-      // rects
-      //   .enter()
-      //   .append('rect')
-      //   .merge(rects)
-      //   .attr('x', (d) => xScale(d.question) + xScale.bandwidth() / 4)
-      //   .attr('y', function (d) {
-      //     console.log(d)
-      //     // 检查questionflag中是否已存在该key
-      //     if (Object.prototype.hasOwnProperty.call(QuestionFlag, d.question)) {
-      //       // 如果已存在，修改对应的value值
-      //       QuestionFlag[d.question] =
-      //         QuestionFlag[d.question] + xScale.bandwidth() / 2 + 2
-      //     } else {
-      //       // 如果不存在，增加新的key-value对
-      //       QuestionFlag[d.question] = 10
-      //     }
-      //     console.log(d)
-      //     return QuestionFlag[d.question]
-      //   })
-      //   .attr('width', xScale.bandwidth() / 2)
-      //   .attr('height', xScale.bandwidth() / 2)
-
-      // rects.exit().remove()
       // 获取 SVG 的边界框
       const bbox = svg.node().getBBox()
 
