@@ -217,51 +217,8 @@ const Correlation = (props) => {
         }
       }
     ]
-    // graphic: [
-    //   {
-    //     type: 'text',
-    //     left: '19%',
-    //     top: '41%',
-    //     style: {
-    //       text: '提交次数',
-    //       fill: '#333'
-    //     }
-    //   },
-    //   {
-    //     type: 'text',
-    //     left: '69%',
-    //     top: '41%',
-    //     style: {
-    //       text: '活跃天数'
-    //     }
-    //   },
-    //   {
-    //     type: 'text',
-    //     left: '20%',
-    //     top: '91%',
-    //     style: {
-    //       text: '答题数'
-    //     }
-    //   },
-    //   {
-    //     type: 'text',
-    //     left: '69%',
-    //     top: '91%',
-    //     style: {
-    //       text: '正确占比'
-    //     }
-    //   }
-    // ]
   }
   const correlationOption = {
-    // title: {
-    //   text: '相关性矩阵',
-    //   top: '0%',
-    //   textStyle: {
-    //     fontSize: 14,
-    //     fontWeight: 'normal'
-    //   }
-    // },
     tooltip: {
       position: 'top'
     },

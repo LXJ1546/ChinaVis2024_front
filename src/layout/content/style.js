@@ -64,7 +64,7 @@ export const ContentWrapper = styled.div`
       height: 100%;
       display: flex;
       flex-direction: column;
-      .card4 {
+      .card5 {
         height: 64%;
         margin: 3px 3px 3px 0px;
         border-radius: 4px;
@@ -75,7 +75,7 @@ export const ContentWrapper = styled.div`
           padding: 0px;
         }
       }
-      .card5 {
+      .card6 {
         flex: 1 1 0%;
         margin: 0px 3px 3px 0px;
         border-radius: 4px;
@@ -92,7 +92,7 @@ export const ContentWrapper = styled.div`
       height: 100%;
       display: flex;
       flex-direction: column;
-      .card6 {
+      .card7 {
         height: 20%;
         margin: 3px 3px 3px 0px;
         border-radius: 4px;
@@ -103,7 +103,7 @@ export const ContentWrapper = styled.div`
           padding: 0px;
         }
       }
-      .card7 {
+      .card8 {
         height: calc(44% - 3px);
         margin: 0px 3px 3px 0px;
         border-radius: 4px;
@@ -114,7 +114,7 @@ export const ContentWrapper = styled.div`
           padding: 0px;
         }
       }
-      .card8 {
+      .card9 {
         flex: 1 1 0%;
         margin: 0px 3px 3px 0px;
         border-radius: 4px;
