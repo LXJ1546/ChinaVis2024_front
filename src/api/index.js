@@ -32,3 +32,21 @@ export function getClusterData() {
     url: '/clusterData'
   })
 }
+
+// 获取相关性数据
+export function getCorrelationData() {
+  return hyRequest.get({
+    url: '/correlationData'
+  })
+}
+
+// 获取状态转移视图的数据
+export function getTransferData(month1 = 9, month2 = 10) {
+  return hyRequest.post({
+    url: '/transferData',
+    params: {
+      pre_month: month1,
+      bk_month: month2
+    }
+  })
+}
