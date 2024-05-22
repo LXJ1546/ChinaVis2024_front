@@ -148,25 +148,26 @@ const Picture = (props) => {
   }
 
   //初始化所有学生的班级排名视图
-  function drawRank() {
-    const rectDistance = 400 //用于扩大方块之间的差异
-    const data = [
-      ['class1', '0.8', [30, 28, 40]],
-      ['class2', '0.79', [30, 28, 40]],
-      ['class3', '0.78', [30, 28, 40]],
-      ['class4', '0.75', [5, 60, 40]],
-      ['class5', '0.6', [30, 28, 40]],
-      ['class6', '0.55', [70, 28, 4]],
-      ['class7', '0.45', [30, 28, 40]],
-      ['class8', '0.42', [30, 28, 40]],
-      ['class9', '0.35', [3, 50, 30]],
-      ['class10', '0.33', [30, 28, 40]],
-      ['class11', '0.29', [30, 28, 40]],
-      ['class12', '0.25', [10, 60, 20]],
-      ['class13', '0.2', [30, 28, 40]],
-      ['class14', '0.19', [30, 28, 40]],
-      ['class15', '0.1', [30, 28, 40]]
-    ]
+  function drawRank(classRankInfo) {
+    const rectDistance = 2000 //用于扩大方块之间的差异
+    // const data = [
+    //   ['class1', '0.8', [30, 28, 40]],
+    //   ['class2', '0.79', [30, 28, 40]],
+    //   ['class3', '0.78', [30, 28, 40]],
+    //   ['class4', '0.75', [5, 60, 40]],
+    //   ['class5', '0.6', [30, 28, 40]],
+    //   ['class6', '0.55', [70, 28, 4]],
+    //   ['class7', '0.45', [30, 28, 40]],
+    //   ['class8', '0.42', [30, 28, 40]],
+    //   ['class9', '0.35', [3, 50, 30]],
+    //   ['class10', '0.33', [30, 28, 40]],
+    //   ['class11', '0.29', [30, 28, 40]],
+    //   ['class12', '0.25', [10, 60, 20]],
+    //   ['class13', '0.2', [30, 28, 40]],
+    //   ['class14', '0.19', [30, 28, 40]],
+    //   ['class15', '0.1', [30, 28, 40]]
+    // ]
+    const data = classRankInfo
 
     // 创建svg画布
     const svg = d3
@@ -310,26 +311,27 @@ const Picture = (props) => {
   }
 
   //更新所有学生的数据集的班级排名
-  function updataclassRank() {
+  function updataclassRank(classRankInfo) {
     //假数据
-    const data = [
-      ['class1', '0.8', [30, 28, 40]],
-      ['class2', '0.79', [30, 28, 40]],
-      ['class3', '0.78', [30, 28, 40]],
-      ['class4', '0.75', [5, 60, 40]],
-      ['class5', '0.6', [30, 28, 40]],
-      ['class6', '0.55', [70, 28, 4]],
-      ['class7', '0.45', [30, 28, 40]],
-      ['class8', '0.42', [30, 28, 40]],
-      ['class9', '0.35', [3, 50, 30]],
-      ['class10', '0.33', [30, 28, 40]],
-      ['class11', '0.29', [30, 28, 40]],
-      ['class12', '0.25', [10, 60, 20]],
-      ['class13', '0.2', [30, 28, 40]],
-      ['class14', '0.19', [30, 28, 40]],
-      ['class15', '0.1', [30, 28, 40]]
-    ]
-    const rectDistance = 400 //用于扩大方块之间的差异
+    // const data = [
+    //   ['class1', '0.8', [30, 28, 40]],
+    //   ['class2', '0.79', [30, 28, 40]],
+    //   ['class3', '0.78', [30, 28, 40]],
+    //   ['class4', '0.75', [5, 60, 40]],
+    //   ['class5', '0.6', [30, 28, 40]],
+    //   ['class6', '0.55', [70, 28, 4]],
+    //   ['class7', '0.45', [30, 28, 40]],
+    //   ['class8', '0.42', [30, 28, 40]],
+    //   ['class9', '0.35', [3, 50, 30]],
+    //   ['class10', '0.33', [30, 28, 40]],
+    //   ['class11', '0.29', [30, 28, 40]],
+    //   ['class12', '0.25', [10, 60, 20]],
+    //   ['class13', '0.2', [30, 28, 40]],
+    //   ['class14', '0.19', [30, 28, 40]],
+    //   ['class15', '0.1', [30, 28, 40]]
+    // ]
+    const data = classRankInfo
+    const rectDistance = 2000 //用于扩大方块之间的差异
     const svg = d3.select('.ranksvg')
     //tooltip
     const tip = d3Tip()
@@ -440,7 +442,7 @@ const Picture = (props) => {
       if (classNum != 'all') {
         updateRank(classRankInfo)
       } else {
-        updataclassRank()
+        updataclassRank(classRankInfo)
       }
     })
   }, [classNum])
@@ -448,10 +450,12 @@ const Picture = (props) => {
   //初始化视图
   useEffect(() => {
     var classBasicInfo = []
+    var classRankInfo = []
     getClassBasicInfo(classNum).then((res) => {
       classBasicInfo = res[0]
+      classRankInfo = res[1]
       drawPicture(classBasicInfo)
-      drawRank()
+      drawRank(classRankInfo)
     })
   }, [])
 
@@ -465,19 +469,6 @@ const Picture = (props) => {
           <div className="gender" ref={genderRef}></div>
         </div>
         <div className="Rankview"></div>
-        {/* tooltip */}
-        {/* <div
-          id="tooltip"
-          className="tooltip"
-          style={{ opacity: '0', background: '#cccc' }}
-        >
-          <div className="tooltip-range">
-            Name: <span id="range"></span>
-          </div>
-          <div className="tooltip-value">
-            Value: <span id="count"></span>
-          </div>
-        </div> */}
       </div>
     </PictureWrapper>
   )
