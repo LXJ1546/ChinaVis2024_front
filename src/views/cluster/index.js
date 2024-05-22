@@ -242,9 +242,6 @@ const Scatter = (props) => {
       setClusterData(res)
       setNowClusterData(res[1])
     })
-    // getCorrelationData().then((res) => {
-    //   setCorrelationData(res)
-    // })
     getTransferData().then((res) => {
       setTransferCircleData(res[0])
       setTransferLinksData(res[1])
