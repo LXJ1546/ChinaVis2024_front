@@ -10,7 +10,7 @@ export const ScatterWrapper = styled.div`
     display: flex;
     align-items: center;
     border-bottom: 1px solid #9b9ca0;
-    margin-bottom: 6px;
+    margin-bottom: 0px;
     font-size: 16px;
     opacity: 0.8;
   }
@@ -23,8 +23,15 @@ export const ScatterWrapper = styled.div`
       flex-direction: column;
       .btn {
         display: flex;
-        margin-left: 3%;
         margin-bottom: 1px;
+        width: 100%;
+        height: 60px;
+        background-color: rgb(245, 245, 245);
+        align-items: center;
+        .label {
+          opacity: 0.8;
+          margin-left: 10px;
+        }
         .monthbtn {
           display: flex;
         }
@@ -39,18 +46,5 @@ export const ScatterWrapper = styled.div`
         flex: 1 1 0%;
       }
     }
-    /* .right {
-      width: 35%;
-      display: flex;
-      flex-direction: column;
-      .feature {
-        width: 100%;
-        height: 64%;
-      }
-      .correlation {
-        width: 100%;
-        height: 36%;
-      }
-    } */
   }
 `
