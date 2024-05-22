@@ -2,7 +2,7 @@ import React, { memo } from 'react'
 import { useState } from 'react'
 import { ContentWrapper } from './style'
 import { Card } from 'antd'
-import Template from '../../views/template/index'
+// import Template from '../../views/template/index'
 import Picture from '../../views/picture'
 import Controller from '../../views/controller'
 import Scatter from '@/views/cluster'
@@ -10,6 +10,7 @@ import Correlation from '../../views/correlation'
 import TitleMaster from '../../views/titleMaster'
 import KnowledgeIcicle from '../../views/knowledgeNew'
 import Calendar from '../../views/calendar'
+import StudentCommit from '../../views/studentCommit'
 const Content = () => {
   const [mode, setMode] = useState(0) //模式0代表答题模式，1代表时间模式
   const [month, setMonth] = useState(10) //9,10,11,12,1
@@ -61,7 +62,7 @@ const Content = () => {
             <Calendar mode={mode} month={month} />
           </Card>
           <Card className="card8">
-            <Template />
+            <StudentCommit mode={mode} month={month} />
           </Card>
         </div>
       </div>
