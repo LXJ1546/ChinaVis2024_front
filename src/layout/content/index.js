@@ -10,6 +10,7 @@ import TitleMaster from '../../views/titleMaster'
 import KnowledgeIcicle from '../../views/knowledgeNew'
 import Calendar from '../../views/calendar'
 import StudentCommit from '../../views/studentCommit'
+import MonthFeature from '../../views/monthFeature/index'
 const Content = () => {
   const [amode, setAmode] = useState(0) //模式0代表答题模式，1代表时间模式
   const [month, setMonth] = useState(10) //9,10,11,12,1
@@ -51,7 +52,9 @@ const Content = () => {
           <Card className="card5">
             <Scatter changeMode={handleMode} changeMonth={handleMonth} />
           </Card>
-          <Card className="card6"></Card>
+          <Card className="card6">
+            <MonthFeature />
+          </Card>
         </div>
         <div className="right">
           <Card className="card7">

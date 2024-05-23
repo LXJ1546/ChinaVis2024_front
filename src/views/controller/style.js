@@ -10,7 +10,6 @@ export const CotrollerWrapper = styled.div`
     display: flex;
     align-items: center;
     border-bottom: 1px solid #9b9ca0;
-    margin-bottom: 6px;
     font-size: 16px;
     opacity: 0.8;
   }
@@ -18,8 +17,10 @@ export const CotrollerWrapper = styled.div`
     flex: 1 1 0%;
     display: flex;
     flex-direction: column;
+    padding-top: 6px;
     padding-left: 8px;
     padding-right: 8px;
+    background-color: rgb(245, 245, 245);
     /* .selectData {
       width: 48%;
       position: absolute;

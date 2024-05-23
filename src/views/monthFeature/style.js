@@ -14,7 +14,16 @@ export const MonthFeatureWrapper = styled.div`
     font-size: 16px;
     opacity: 0.8;
   }
-  .view {
+  .content {
     flex: 1 1 0%;
+    display: flex;
+    .view {
+      width: 55%;
+      height: 100%;
+    }
+    .table {
+      width: 45%;
+      height: 100%;
+    }
   }
 `
