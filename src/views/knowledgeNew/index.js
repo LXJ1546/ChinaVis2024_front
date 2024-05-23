@@ -6,7 +6,7 @@ import React, {
   useState
 } from 'react'
 import * as d3 from 'd3'
-import './index.css'
+import './knowledgeStyle.css'
 import Image0 from '../../pic/0.svg' // 导入SVG图片
 import Image1 from '../../pic/1.svg' // 导入SVG图片
 import Image2 from '../../pic/2.svg' // 导入SVG图片
@@ -608,7 +608,7 @@ const KnowledgeIcicle = (props) => {
           width: '100%'
         }}
       >
-        <div className="title">知识点掌握程度</div>
+        <div className="atitle">知识点掌握程度</div>
         <div
           id="knowledgeChart"
           ref={ref}
