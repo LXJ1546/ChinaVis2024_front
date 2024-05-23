@@ -61,7 +61,6 @@ const Calendar = (props) => {
       .text((d) => d.category)
     //添加中间线性映射的圆的提交次数的颜色
     //   定义颜色映射的线性渐变
-
     const gradient = d3
       .select('.calendarsvg')
       .append('defs')
