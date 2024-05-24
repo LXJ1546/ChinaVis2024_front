@@ -370,8 +370,8 @@ const KnowledgeIcicle = (props) => {
   // }
 
   useEffect(() => {
-    getClassKnowledgeInfo(classNum).then((res) => {
-      console.log('从后端获取数据', res)
+    getClassKnowledgeInfo(classNum, 'score').then((res) => {
+      // console.log('从后端获取数据', res)
       setTempDataState(res)
     })
   }, [classNum])
@@ -384,7 +384,7 @@ const KnowledgeIcicle = (props) => {
   }, [])
 
   useEffect(() => {
-    console.log('画图数据', tempdata)
+    // console.log('画图数据', tempdata)
     if (tempdata != undefined) {
       const divContainer = document.getElementById('knowledgeChart')
 
