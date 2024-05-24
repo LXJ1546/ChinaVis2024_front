@@ -41,6 +41,116 @@ const StudentCommit = (props) => {
       [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
       [0.2, 0.3, 'Error', 'Method_B', 1695996338],
       [0.2, 0.3, 'Error', 'Method_g', 1695996482]
+    ],
+    Q6: [
+      [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
+      [0.2, 0.3, 'Error', 'Method_B', 1695996338],
+      [0.2, 0.3, 'Error', 'Method_g', 1695996482]
+    ],
+    Q7: [
+      [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
+      [0.2, 0.3, 'Error', 'Method_B', 1695996338],
+      [0.2, 0.3, 'Error', 'Method_g', 1695996482]
+    ],
+    Q8: [
+      [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
+      [0.2, 0.3, 'Error', 'Method_B', 1695996338],
+      [0.2, 0.3, 'Error', 'Method_g', 1695996482]
+    ],
+    Q9: [
+      [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
+      [0.2, 0.3, 'Error', 'Method_B', 1695996338],
+      [0.2, 0.3, 'Error', 'Method_g', 1695996482]
+    ],
+    Q10: [
+      [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
+      [0.2, 0.3, 'Error', 'Method_B', 1695996338],
+      [0.2, 0.3, 'Error', 'Method_g', 1695996482]
+    ],
+    Q11: [
+      [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
+      [0.2, 0.3, 'Error', 'Method_B', 1695996338],
+      [0.2, 0.3, 'Error', 'Method_g', 1695996482]
+    ],
+    Q12: [
+      [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
+      [0.2, 0.3, 'Error', 'Method_B', 1695996338],
+      [0.2, 0.3, 'Error', 'Method_g', 1695996482]
+    ],
+    Q13: [
+      [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
+      [0.2, 0.3, 'Error', 'Method_B', 1695996338],
+      [0.2, 0.3, 'Error', 'Method_g', 1695996482]
+    ],
+    Q14: [
+      [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
+      [0.2, 0.3, 'Error', 'Method_B', 1695996338],
+      [0.2, 0.3, 'Error', 'Method_g', 1695996482]
+    ],
+    Q15: [
+      [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
+      [0.2, 0.3, 'Error', 'Method_B', 1695996338],
+      [0.2, 0.3, 'Error', 'Method_g', 1695996482]
+    ],
+    Q16: [
+      [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
+      [0.2, 0.3, 'Error', 'Method_B', 1695996338],
+      [0.2, 0.3, 'Error', 'Method_g', 1695996482]
+    ],
+    Q17: [
+      [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
+      [0.2, 0.3, 'Error', 'Method_B', 1695996338],
+      [0.2, 0.3, 'Error', 'Method_g', 1695996482]
+    ],
+    Q18: [
+      [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
+      [0.2, 0.3, 'Error', 'Method_B', 1695996338],
+      [0.2, 0.3, 'Error', 'Method_g', 1695996482]
+    ],
+    Q19: [
+      [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
+      [0.2, 0.3, 'Error', 'Method_B', 1695996338],
+      [0.2, 0.3, 'Error', 'Method_g', 1695996482]
+    ],
+    Q20: [
+      [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
+      [0.2, 0.3, 'Error', 'Method_B', 1695996338],
+      [0.2, 0.3, 'Error', 'Method_g', 1695996482]
+    ],
+    Q21: [
+      [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
+      [0.2, 0.3, 'Error', 'Method_B', 1695996338],
+      [0.2, 0.3, 'Error', 'Method_g', 1695996482]
+    ],
+    Q22: [
+      [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
+      [0.2, 0.3, 'Error', 'Method_B', 1695996338],
+      [0.2, 0.3, 'Error', 'Method_g', 1695996482]
+    ],
+    Q23: [
+      [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
+      [0.2, 0.3, 'Error', 'Method_B', 1695996338],
+      [0.2, 0.3, 'Error', 'Method_g', 1695996482]
+    ],
+    Q24: [
+      [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
+      [0.2, 0.3, 'Error', 'Method_B', 1695996338],
+      [0.2, 0.3, 'Error', 'Method_g', 1695996482]
+    ],
+    Q25: [
+      [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
+      [0.2, 0.3, 'Error', 'Method_B', 1695996338],
+      [0.2, 0.3, 'Error', 'Method_g', 1695996482]
+    ],
+    Q26: [
+      [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
+      [0.2, 0.3, 'Error', 'Method_B', 1695996338],
+      [0.2, 0.3, 'Error', 'Method_g', 1695996482]
+    ],
+    Q27: [
+      [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
+      [0.2, 0.3, 'Error', 'Method_B', 1695996338],
+      [0.2, 0.3, 'Error', 'Method_g', 1695996482]
     ]
   }
 
@@ -129,7 +239,6 @@ const StudentCommit = (props) => {
     const commits = Object.values(commitdata).flatMap((commits, index) =>
       commits.map((commit) => ({ question: questions[index], ...commit }))
     )
-    console.log(commits)
 
     // 检查是否已有图表实例存在，并销毁它
     const existingInstance = echarts.getInstanceByDom(
@@ -269,8 +378,8 @@ const StudentCommit = (props) => {
         }
         return QuestionFlag[d.question]
       })
-      .attr('width', xScale.bandwidth() / 2 - 15)
-      .attr('height', xScale.bandwidth() / 2 - 15)
+      .attr('width', xScale.bandwidth() / 2)
+      .attr('height', xScale.bandwidth() / 2)
       .attr('fill', function (d) {
         if (d[2] == 'Partially_Correct') {
           return '#68D8A3'
@@ -290,7 +399,7 @@ const StudentCommit = (props) => {
               pointer-events: none;
               font-family: Arial, sans-serif;
               font-size: 12px;
-              text-align: center;">答题状态: ${d[2]}</p><div>`)
+              text-align: center;">答题状态: ${d[2]}</p><p>提交时间: ${d[4]}</p><div>`)
         tip.show(d, this)
       })
       .on('mouseout', tip.hide)
@@ -317,10 +426,20 @@ const StudentCommit = (props) => {
           // 如果不存在，增加新的key-value对
           QuestionFlag[d.question] = 5
         }
-        return QuestionFlag[d.question] + (xScale.bandwidth() / 2 - 15) / 4
+        if (d[2] == 'Partially_Correct' || d[2] == 'Absolutely_Correct') {
+          return QuestionFlag[d.question] + xScale.bandwidth() / 2 / 4
+        } else {
+          return QuestionFlag[d.question]
+        }
       })
-      .attr('width', (xScale.bandwidth() / 2 - 15) / 4)
-      .attr('height', (xScale.bandwidth() / 2 - 15) / 2)
+      .attr('width', xScale.bandwidth() / 2 / 4)
+      .attr('height', function (d) {
+        if (d[2] == 'Partially_Correct' || d[2] == 'Absolutely_Correct') {
+          return xScale.bandwidth() / 2 / 2
+        } else {
+          return xScale.bandwidth() / 2
+        }
+      })
       .attr('fill', function (d) {
         return methodcolor(d[3])
       })
@@ -359,9 +478,13 @@ const StudentCommit = (props) => {
         return QuestionFlag[d.question]
       })
       .attr('width', function (d) {
-        return (xScale.bandwidth() / 2 - 15) * d[0]
+        if (d[2] == 'Partially_Correct' || d[2] == 'Absolutely_Correct') {
+          return (xScale.bandwidth() / 2) * d[0]
+        } else {
+          return 0
+        }
       })
-      .attr('height', (xScale.bandwidth() / 2 - 15) / 4)
+      .attr('height', xScale.bandwidth() / 2 / 4)
       .attr('fill', 'grey')
       .on('mouseover', function (e, d) {
         tip.html(`<div style="line-height: 1;
@@ -395,14 +518,16 @@ const StudentCommit = (props) => {
           // 如果不存在，增加新的key-value对
           QuestionFlag[d.question] = 5
         }
-        return (
-          QuestionFlag[d.question] + ((xScale.bandwidth() / 2 - 15) * 3) / 4
-        )
+        return QuestionFlag[d.question] + ((xScale.bandwidth() / 2) * 3) / 4
       })
       .attr('width', function (d) {
-        return (xScale.bandwidth() / 2 - 15) * d[1]
+        if (d[2] == 'Partially_Correct' || d[2] == 'Absolutely_Correct') {
+          return (xScale.bandwidth() / 2) * d[1]
+        } else {
+          return 0
+        }
       })
-      .attr('height', (xScale.bandwidth() / 2 - 15) / 4)
+      .attr('height', xScale.bandwidth() / 2 / 4)
       .attr('fill', 'grey')
       .on('mouseover', function (e, d) {
         tip.html(`<div style="line-height: 1;
@@ -449,8 +574,8 @@ const StudentCommit = (props) => {
           }
           return QuestionFlag[d.question]
         })
-        .attr('width', xScale.bandwidth() / 2 - 15)
-        .attr('height', xScale.bandwidth() / 2 - 15)
+        .attr('width', xScale.bandwidth() / 2)
+        .attr('height', xScale.bandwidth() / 2)
         .attr('fill', function (d) {
           if (d[2] == 'Partially_Correct') {
             return '#68D8A3'
@@ -470,7 +595,7 @@ const StudentCommit = (props) => {
                 pointer-events: none;
                 font-family: Arial, sans-serif;
                 font-size: 12px;
-                text-align: center;">答题状态: ${d[2]}</p><div>`)
+                text-align: center;">答题状态: ${d[2]}</p><p>提交时间: ${d[4]}</p><div>`)
           tip.show(d, this)
         })
         .on('mouseout', tip.hide)
@@ -493,28 +618,37 @@ const StudentCommit = (props) => {
             // 如果不存在，增加新的key-value对
             QuestionFlag[d.question] = 5
           }
-          return QuestionFlag[d.question] + (xScale.bandwidth() / 2 - 15) / 4
+          if (d[2] == 'Partially_Correct' || d[2] == 'Absolutely_Correct') {
+            return QuestionFlag[d.question] + xScale.bandwidth() / 2 / 4
+          } else {
+            return QuestionFlag[d.question]
+          }
         })
-        .attr('width', (xScale.bandwidth() / 2 - 15) / 4)
-        .attr('height', (xScale.bandwidth() / 2 - 15) / 2)
+        .attr('width', xScale.bandwidth() / 2 / 4)
+        .attr('height', function (d) {
+          if (d[2] == 'Partially_Correct' || d[2] == 'Absolutely_Correct') {
+            return xScale.bandwidth() / 2 / 2
+          } else {
+            return xScale.bandwidth() / 2
+          }
+        })
         .attr('fill', function (d) {
           return methodcolor(d[3])
         })
         .on('mouseover', function (e, d) {
           tip.html(`<div style="line-height: 1;
-                font-weight: bold;
-                padding: 12px;
-                background: white;
-                color: grey;
-                border-radius: 2px;
-                pointer-events: none;
-                font-family: Arial, sans-serif;
-                font-size: 12px;
-                text-align: center;">使用语言: ${d[3]}</p><div>`)
+              font-weight: bold;
+              padding: 12px;
+              background: white;
+              color: grey;
+              border-radius: 2px;
+              pointer-events: none;
+              font-family: Arial, sans-serif;
+              font-size: 12px;
+              text-align: center;">使用语言: ${d[3]}</p><div>`)
           tip.show(d, this)
         })
         .on('mouseout', tip.hide)
-
       //用时分布
       QuestionFlag = {} //重置语言的y值存储器
       timeevent.selectAll('*').remove()
@@ -537,9 +671,13 @@ const StudentCommit = (props) => {
           return QuestionFlag[d.question]
         })
         .attr('width', function (d) {
-          return (xScale.bandwidth() / 2 - 15) * d[0]
+          if (d[2] == 'Partially_Correct' || d[2] == 'Absolutely_Correct') {
+            return (xScale.bandwidth() / 2) * d[0]
+          } else {
+            return 0
+          }
         })
-        .attr('height', (xScale.bandwidth() / 2 - 15) / 4)
+        .attr('height', xScale.bandwidth() / 2 / 4)
         .attr('fill', 'grey')
         .on('mouseover', function (e, d) {
           tip.html(`<div style="line-height: 1;
@@ -574,14 +712,16 @@ const StudentCommit = (props) => {
             // 如果不存在，增加新的key-value对
             QuestionFlag[d.question] = 5
           }
-          return (
-            QuestionFlag[d.question] + ((xScale.bandwidth() / 2 - 15) * 3) / 4
-          )
+          return QuestionFlag[d.question] + ((xScale.bandwidth() / 2) * 3) / 4
         })
         .attr('width', function (d) {
-          return (xScale.bandwidth() / 2 - 15) * d[1]
+          if (d[2] == 'Partially_Correct' || d[2] == 'Absolutely_Correct') {
+            return (xScale.bandwidth() / 2) * d[1]
+          } else {
+            return 0
+          }
         })
-        .attr('height', (xScale.bandwidth() / 2 - 15) / 4)
+        .attr('height', xScale.bandwidth() / 2 / 4)
         .attr('fill', 'grey')
         .on('mouseover', function (e, d) {
           tip.html(`<div style="line-height: 1;

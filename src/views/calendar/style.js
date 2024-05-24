@@ -21,5 +21,9 @@ export const CalendarWrapper = styled.div`
       height: 100%;
       overflow: auto;
     }
+    .answerSessionview {
+      width: 100%;
+      height: 100%;
+    }
   }
 `
