@@ -23,23 +23,39 @@ export const ScatterWrapper = styled.div`
       flex-direction: column;
       .btn {
         display: flex;
+        justify-content: space-between;
         margin-bottom: 1px;
         width: 100%;
         height: 60px;
         background-color: rgb(245, 245, 245);
         align-items: center;
-        .label {
-          opacity: 0.8;
-          margin-left: 10px;
-        }
-        .monthbtn {
+        .leftbtn {
           display: flex;
-        }
-        .to {
-          display: flex;
-          justify-content: center;
           align-items: center;
-          margin-left: 5px;
+          .label {
+            opacity: 0.8;
+            margin-left: 10px;
+            font-size: 15px;
+          }
+          .monthbtn {
+            display: flex;
+          }
+          .to {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 5px;
+          }
+        }
+        .rightbtn {
+          display: flex;
+          margin-right: 10px;
+          align-items: center;
+          .label {
+            opacity: 0.8;
+            margin-left: 10px;
+            font-size: 15px;
+          }
         }
       }
       .clusterView {

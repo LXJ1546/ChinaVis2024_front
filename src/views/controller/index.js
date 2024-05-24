@@ -4,12 +4,12 @@ import React, { memo } from 'react'
 import { CotrollerWrapper } from './style'
 // import * as d3 from 'd3';
 import { Input, Button, Select } from 'antd'
+import { RetweetOutlined } from '@ant-design/icons'
 const Cotroller = (props) => {
   const { handleClassNum } = props
   //数据集选择函数
   const handleChange = (value) => {
     handleClassNum(value)
-    console.log(`selected ${value}`)
   }
 
   return (
@@ -131,7 +131,12 @@ const Cotroller = (props) => {
             ]}
           />
           <div>
-            <Button style={{ width: 80, marginRight: 8 }}>重置</Button>
+            <Button
+              style={{ width: 80, marginRight: 8 }}
+              icon={<RetweetOutlined />}
+            >
+              重置
+            </Button>
             <Button type="primary" style={{ width: 200 }}>
               初始化系统
             </Button>

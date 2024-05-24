@@ -2,7 +2,8 @@ import React, { memo, useEffect, useState } from 'react'
 import ReactEcharts from 'echarts-for-react'
 import { ScatterWrapper } from './style'
 import { getClusterData, getTransferData } from '../../api'
-import { Radio, Select } from 'antd'
+import { Radio, Select, Switch } from 'antd'
+import StatisticFeature from '../statistic/index'
 const Scatter = (props) => {
   // 父组件传递的设置模式函数
   const { changeMode, changeMonth } = props
@@ -29,6 +30,10 @@ const Scatter = (props) => {
   const [firstMonth, setFirstMonth] = useState(null)
   // 状态转移的第二月份
   const [secondMonth, setSecondMonth] = useState(null)
+  // 是否展示统计特征箱线图
+  const [showStats, setShowStats] = useState(false)
+  // 开关是否不可操作
+  const [disabledStats, setDisabledStats] = useState(true)
   const monthsChoice = [
     { value: '9', label: '2023-09' },
     { value: '10', label: '2023-10' },
@@ -59,6 +64,7 @@ const Scatter = (props) => {
     legend: {
       itemWidth: 16,
       itemHeight: 16,
+      left: '5%',
       textStyle: {
         fontSize: 14
       }
@@ -260,6 +266,8 @@ const Scatter = (props) => {
       changeMode(1)
       // 是否显示演变视图
       setIsTransfer(false)
+      // 开关不可操作
+      setDisabledStats(false)
     } else if (value == 0) {
       setNowClusterData(clusterData[1])
       setXmax(60)
@@ -272,9 +280,11 @@ const Scatter = (props) => {
       changeMonth(10)
       // 是否显示演变视图
       setIsTransfer(false)
+      setDisabledStats(true)
     } else if (value == 2) {
       // 是否显示演变视图
       setIsTransfer(true)
+      setDisabledStats(false)
     }
   }
   const handleChangeMonth = (value) => {
@@ -285,31 +295,26 @@ const Scatter = (props) => {
       // 更改父组件的月份状态
       changeMonth(9)
       // 更改相关性数据的索引
-      //   setCorrelationIndex(0)
     } else if (value == 10) {
       setNowClusterData(clusterData[1])
       setXmax(60)
       setYmax(40)
       changeMonth(10)
-      //   setCorrelationIndex(1)
     } else if (value == 11) {
       setNowClusterData(clusterData[2])
       setXmax(60)
       setYmax(40)
       changeMonth(11)
-      //   setCorrelationIndex(2)
     } else if (value == 12) {
       setNowClusterData(clusterData[3])
       setXmax(40)
       setYmax(60)
       changeMonth(12)
-      //   setCorrelationIndex(3)
     } else if (value == 1) {
       setNowClusterData(clusterData[4])
       setXmax(20)
       setYmax(25)
       changeMonth(1)
-      //   setCorrelationIndex(4)
     }
   }
   // 处理第一个演变视图中选择器的变化
@@ -335,60 +340,67 @@ const Scatter = (props) => {
     )
     return monthsChoice.slice(firstMonthIndex + 1)
   }
+  // 切换开关事件
+  const onSwitchChange = (checked) => {
+    setShowStats(checked)
+  }
   return (
     <ScatterWrapper>
       <div className="title">学习模式聚类视图</div>
       <div className="content">
         <div className="left">
+          {showStats && <StatisticFeature />}
           <div className="btn">
-            {/* <Select
-              defaultValue="答题模式"
-              style={{ width: 100 }}
-              onChange={handleChangeMode}
-              options={[
-                { value: '0', label: '答题模式' },
-                { value: '1', label: '时间模式' },
-                { value: '2', label: '演变视图' }
-              ]}
-            /> */}
-            <h3 className="label">视图类别</h3>
-            <Radio.Group
-              onChange={handleChangeMode}
-              defaultValue="0"
-              style={{ marginLeft: '10px' }}
-            >
-              <Radio.Button value="0">答题模式</Radio.Button>
-              <Radio.Button value="1">时间模式</Radio.Button>
-              <Radio.Button value="2">演变视图</Radio.Button>
-            </Radio.Group>
-            <h3 className="label">月份</h3>
-            {visible && !isTransfer && (
-              <Select
-                defaultValue="2023-10"
-                style={{ width: 100, marginLeft: '10px' }}
-                onChange={handleChangeMonth}
-                options={monthsChoice}
-              />
-            )}
-            {isTransfer && (
-              <div className="monthbtn">
+            <div className="leftbtn">
+              <h3 className="label">视图类别</h3>
+              <Radio.Group
+                onChange={handleChangeMode}
+                defaultValue="0"
+                style={{ marginLeft: '10px' }}
+              >
+                <Radio.Button value="0">答题模式</Radio.Button>
+                <Radio.Button value="1">时间模式</Radio.Button>
+                <Radio.Button value="2">演变视图</Radio.Button>
+              </Radio.Group>
+              <h3 className="label">月份</h3>
+              {visible && !isTransfer && (
                 <Select
-                  defaultValue="2023-09"
+                  defaultValue="2023-10"
                   style={{ width: 100, marginLeft: '10px' }}
+                  onChange={handleChangeMonth}
                   options={monthsChoice}
-                  onChange={handleFirstMonthChange}
-                  value={firstMonth}
                 />
-                <div className="to">to</div>
-                <Select
-                  style={{ width: 100, marginLeft: '5px' }}
-                  options={getSecondMonthOptions()}
-                  onChange={handleSecondMonthChange}
-                  value={secondMonth}
-                  disabled={!firstMonth}
-                />
-              </div>
-            )}
+              )}
+              {isTransfer && (
+                <div className="monthbtn">
+                  <Select
+                    defaultValue="2023-09"
+                    style={{ width: 100, marginLeft: '10px' }}
+                    options={monthsChoice}
+                    onChange={handleFirstMonthChange}
+                    value={firstMonth}
+                  />
+                  <div className="to">to</div>
+                  <Select
+                    style={{ width: 100, marginLeft: '5px' }}
+                    options={getSecondMonthOptions()}
+                    onChange={handleSecondMonthChange}
+                    value={secondMonth}
+                    disabled={!firstMonth}
+                  />
+                </div>
+              )}
+            </div>
+            <div className="rightbtn">
+              <h3 className="label">特征统计</h3>
+              <Switch
+                onChange={onSwitchChange}
+                value={showStats}
+                size={'small'}
+                style={{ marginLeft: '10px' }}
+                disabled={!disabledStats}
+              />
+            </div>
           </div>
           <div className="clusterView">
             {!isTransfer && (

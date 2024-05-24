@@ -8,6 +8,12 @@ const App = () => {
         token: {
           // Seed Token，影响范围大
           colorPrimary: '#316c72'
+        },
+        components: {
+          Table: {
+            cellPaddingBlockSM: 1,
+            cellPaddingInlineSM: 8
+          }
         }
       }}
     >
