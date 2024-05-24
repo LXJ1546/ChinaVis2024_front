@@ -3,10 +3,14 @@ import React, { memo, useEffect } from 'react'
 import { CalendarWrapper } from './style'
 import * as d3 from 'd3'
 import d3Tip from 'd3-tip'
+import { getCalenderInfo } from '../../api'
 const Calendar = (props) => {
   // 拿到父组件传递的模式状态
   const { amode, month } = props
+  let studentID = []
+  let studentCalandarInfo = {}
   console.log(month)
+
   //tooltip
   const tip = d3Tip()
     .attr('class', 'd3-tip')
@@ -192,11 +196,21 @@ const Calendar = (props) => {
       }
 
       // startDate：日历开始时间 endDate：日历结束时间 dataArr：要展示的数据 - 之前定义好的格式
-      const dayDatas = generateDataset({
-        startDate: '2023-5-01',
-        endDate: '2023-5-31',
-        fill: dataArr
-      })
+      let dayDatas = {}
+      if (month == 1 || month == 10 || month == 12) {
+        dayDatas = generateDataset({
+          startDate: '2023-' + month + '-01',
+          endDate: '2023-' + month + '-31',
+          fill: dataArr
+        })
+      } else {
+        dayDatas = generateDataset({
+          startDate: '2023-' + month + '-01',
+          endDate: '2023-' + month + '-30',
+          fill: dataArr
+        })
+      }
+
       // 绘制日历块，给每个日历分组
       const yearSvg = svg
         .append('g')
@@ -467,37 +481,39 @@ const Calendar = (props) => {
         .attr('class', 'student-title')
         .append('text')
         .attr('x', (d, i) => {
-          return i * 71 * 4.25 + 190 + studentNum * 370
+          return i * 71 * 4.25 + 100 + studentNum * 370
         })
         .attr('y', 60)
         .attr('fill', 'black')
-        .attr('font-size', '20px')
+        .attr('font-size', '15px')
         .attr('font-family', 'monospace')
-        .text(studentName)
+        .text('学生ID: ' + studentName)
     }
     //对选中的每个学生都生成这个图
     studentID.forEach(function (item, index) {
       console.log(item, index)
-      const dataArr = {
-        '2023-05-8': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-        '2023-05-9': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 260],
-        '2023-05-10': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-        '2023-05-11': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-        '2023-05-12': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 100],
-        '2023-05-13': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-        '2023-05-14': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-        '2023-05-16': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-        '2023-05-17': [0.4, 11, [0.1, 0.5, 0.2, 0.1, 0.1], 24],
-        '2023-05-18': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-        '2023-05-19': [0.9, 4, [0.2, 0.3, 0.2, 0.1, 0.1], 60],
-        '2023-05-20': [0.5, 38, [0.1, 0.5, 0.2, 0.1, 0.1], 60],
-        '2023-05-26': [0.49, 3, [0.1, 0.5, 0.2, 0.1, 0.1], 60],
-        '2023-05-27': [0.69, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 90],
-        '2023-05-28': [0.69, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 90],
-        '2023-05-29': [0.69, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 90],
-        '2023-05-30': [0.69, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 90],
-        '2023-05-31': [0.9, 24, [0.1, 0.5, 0.2, 0.1, 0.1], 60]
-      }
+      // const dataArr = {
+      //   '2023-05-8': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
+      //   '2023-05-9': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 260],
+      //   '2023-05-10': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
+      //   '2023-05-11': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
+      //   '2023-05-12': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 100],
+      //   '2023-05-13': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
+      //   '2023-05-14': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
+      //   '2023-05-16': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
+      //   '2023-05-17': [0.4, 11, [0.1, 0.5, 0.2, 0.1, 0.1], 24],
+      //   '2023-05-18': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
+      //   '2023-05-19': [0.9, 4, [0.2, 0.3, 0.2, 0.1, 0.1], 60],
+      //   '2023-05-20': [0.5, 38, [0.1, 0.5, 0.2, 0.1, 0.1], 60],
+      //   '2023-05-26': [0.49, 3, [0.1, 0.5, 0.2, 0.1, 0.1], 60],
+      //   '2023-05-27': [0.69, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 90],
+      //   '2023-05-28': [0.69, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 90],
+      //   '2023-05-29': [0.69, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 90],
+      //   '2023-05-30': [0.69, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 90],
+      //   '2023-05-31': [0.9, 24, [0.1, 0.5, 0.2, 0.1, 0.1], 60]
+      // }
+      const dataArr = studentCalandarInfo[item]
+      console.log(dataArr)
       drawStudentCalendar(item, index, dataArr)
     })
     // 获取 SVG 的边界框
@@ -1251,8 +1267,16 @@ const Calendar = (props) => {
       //更新重画
       // d3.select('svg').remove() //移除已有的svg元素
       // // 选择现有的 SVG 元素，如果已经存在则移除它
-      d3.select('.calendarsvg').remove()
-      drawCalendar(['学生1', '学生2', '学生3'])
+      studentID = [
+        '3531c5f9d520759ba697',
+        'uon3zzl9a1zr5zmeodmr',
+        '2d9a38c93e37bc475cb6'
+      ]
+      getCalenderInfo(studentID, month).then((res) => {
+        d3.select('.calendarsvg').remove()
+        studentCalandarInfo = res
+        drawCalendar(studentID)
+      })
     } else if (amode == 1) {
       d3.select('#answerSessionsvg').remove()
       drawAnswerSession()

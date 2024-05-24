@@ -66,3 +66,10 @@ export function getTitleMemoryInfo(data, titleName) {
     data: { data: data, name: titleName }
   })
 }
+//获取选中的多个学生的学生日历
+export function getCalenderInfo(studentID, month) {
+  return hyRequest.post({
+    url: '/learnCalendarInfo',
+    data: { data: studentID, month: month }
+  })
+}
