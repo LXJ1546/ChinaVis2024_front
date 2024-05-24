@@ -25,7 +25,7 @@ export const StudentCommitWrapper = styled.div`
         width: 99%;
         height: 30%;
         position: absolute;
-        top: 13%;
+        top: 15%;
       }
       .commitsvg {
         overflow: auto;
@@ -33,6 +33,12 @@ export const StudentCommitWrapper = styled.div`
         top: 45%;
         width: 99%;
         height: 55%;
+      }
+      .legendsvg {
+        position: absolute;
+        top: 30px;
+        width: 99%;
+        height: 8%;
       }
     }
   }

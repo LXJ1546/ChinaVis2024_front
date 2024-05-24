@@ -17,10 +17,10 @@ export function getClassBasicInfo(data) {
 }
 
 //知识点掌握程度
-export function getClassKnowledgeInfo(data) {
+export function getClassKnowledgeInfo(data, title) {
   return hyRequest.post({
     url: '/knowledgeMasterInfo',
-    data: { data: data }
+    data: { data: data, title: title }
   })
 }
 
