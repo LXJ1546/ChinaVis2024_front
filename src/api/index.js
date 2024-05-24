@@ -73,3 +73,11 @@ export function getCalenderInfo(studentID, month) {
     data: { data: studentID, month: month }
   })
 }
+
+//获取日历中选中的该学生当天的提交时间
+export function getEventInfo(studentID, date) {
+  return hyRequest.post({
+    url: '/personalSubmitInfo',
+    data: { data: studentID, date: date }
+  })
+}
