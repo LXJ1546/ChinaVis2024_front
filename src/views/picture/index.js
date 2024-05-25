@@ -150,23 +150,6 @@ const Picture = (props) => {
   //初始化所有学生的班级排名视图
   function drawRank(classRankInfo) {
     const rectDistance = 2000 //用于扩大方块之间的差异
-    // const data = [
-    //   ['class1', '0.8', [30, 28, 40]],
-    //   ['class2', '0.79', [30, 28, 40]],
-    //   ['class3', '0.78', [30, 28, 40]],
-    //   ['class4', '0.75', [5, 60, 40]],
-    //   ['class5', '0.6', [30, 28, 40]],
-    //   ['class6', '0.55', [70, 28, 4]],
-    //   ['class7', '0.45', [30, 28, 40]],
-    //   ['class8', '0.42', [30, 28, 40]],
-    //   ['class9', '0.35', [3, 50, 30]],
-    //   ['class10', '0.33', [30, 28, 40]],
-    //   ['class11', '0.29', [30, 28, 40]],
-    //   ['class12', '0.25', [10, 60, 20]],
-    //   ['class13', '0.2', [30, 28, 40]],
-    //   ['class14', '0.19', [30, 28, 40]],
-    //   ['class15', '0.1', [30, 28, 40]]
-    // ]
     const data = classRankInfo
 
     // 创建svg画布
@@ -233,7 +216,7 @@ const Picture = (props) => {
     //班级排名视图标签
     const ranklable = svg.append('g').attr('class', 'ranklable')
     ranklable.append('text').text('所有班级').attr('x', '2%').attr('y', '40%')
-    ranklable.append('text').text('排名情况').attr('x', '2%').attr('y', '70%')
+    ranklable.append('text').text('排名情况').attr('x', '2%').attr('y', '65%')
   }
 
   //更新班级内部排名视图
@@ -261,7 +244,7 @@ const Picture = (props) => {
       .enter()
       .append('rect')
       .attr('width', '2px')
-      .attr('height', '40px')
+      .attr('height', '50px')
       .attr('fill', function (d, i) {
         //前30%一种颜色，30%到70%一种颜色，70%之后的一种颜色
         const rankrate = (i + 1) / classRankInfo.length
@@ -306,30 +289,12 @@ const Picture = (props) => {
       .append('text')
       .text('Class ' + classNum)
       .attr('x', '5%')
-      .attr('y', '40%')
-    ranklable.append('text').text('排名情况').attr('x', '3.5%').attr('y', '70%')
+      .attr('y', '35%')
+    ranklable.append('text').text('排名情况').attr('x', '4%').attr('y', '60%')
   }
 
   //更新所有学生的数据集的班级排名
   function updataclassRank(classRankInfo) {
-    //假数据
-    // const data = [
-    //   ['class1', '0.8', [30, 28, 40]],
-    //   ['class2', '0.79', [30, 28, 40]],
-    //   ['class3', '0.78', [30, 28, 40]],
-    //   ['class4', '0.75', [5, 60, 40]],
-    //   ['class5', '0.6', [30, 28, 40]],
-    //   ['class6', '0.55', [70, 28, 4]],
-    //   ['class7', '0.45', [30, 28, 40]],
-    //   ['class8', '0.42', [30, 28, 40]],
-    //   ['class9', '0.35', [3, 50, 30]],
-    //   ['class10', '0.33', [30, 28, 40]],
-    //   ['class11', '0.29', [30, 28, 40]],
-    //   ['class12', '0.25', [10, 60, 20]],
-    //   ['class13', '0.2', [30, 28, 40]],
-    //   ['class14', '0.19', [30, 28, 40]],
-    //   ['class15', '0.1', [30, 28, 40]]
-    // ]
     const data = classRankInfo
     const rectDistance = 2000 //用于扩大方块之间的差异
     const svg = d3.select('.ranksvg')
@@ -356,7 +321,7 @@ const Picture = (props) => {
         .attr('width', '10px')
         .attr('height', function (d) {
           const totalStudent = d[2][0] + d[2][1] + d[2][2]
-          const rectH = (d[2][studentType] / totalStudent) * 40
+          const rectH = (d[2][studentType] / totalStudent) * 50
           return rectH + 'px'
         })
         .attr('fill', function () {
@@ -384,12 +349,12 @@ const Picture = (props) => {
           if (studentType == 0) {
             return '10px'
           } else if (studentType == 1) {
-            return 10 + (d[2][0] / totalStudent) * 40 + 'px'
+            return 10 + (d[2][0] / totalStudent) * 50 + 'px'
           } else {
             return (
               10 +
-              (d[2][0] / totalStudent) * 40 +
-              (d[2][1] / totalStudent) * 40 +
+              (d[2][0] / totalStudent) * 50 +
+              (d[2][1] / totalStudent) * 50 +
               'px'
             )
           }
@@ -413,22 +378,8 @@ const Picture = (props) => {
     //班级排名视图标签
     const ranklable = svg.append('g').attr('class', 'ranklable')
     ranklable.append('text').text('所有班级').attr('x', '2%').attr('y', '40%')
-    ranklable.append('text').text('排名情况').attr('x', '2%').attr('y', '70%')
+    ranklable.append('text').text('排名情况').attr('x', '2%').attr('y', '65%')
   }
-
-  // //给矩形写提示框
-  // d3Tip()
-  //   //类名可以自己设置；假如另有一个矩阵图，也需要添加d3-tip，则应创建2个tip，类名可分别设置为d3-tip_bar，d3-tip_matrix，方便分别控制。
-  //   .attr('class', 'rectRankTip')
-  //   .offset([-10, 0])
-  //   .html(function (d) {
-  //     //d是数据集中的一条数据，它和一个矩形条绑定在一起。
-  //     return (
-  //       "<strong>Frequency:</strong> <span style='color:red'>" +
-  //       d.frequency +
-  //       '</span>'
-  //     )
-  //   })
 
   //根据选择的班级更新视图
   useEffect(() => {
