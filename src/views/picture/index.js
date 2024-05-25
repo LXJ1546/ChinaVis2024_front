@@ -12,6 +12,7 @@ const Picture = (props) => {
   const majorRef = useRef(null)
   const ageRef = useRef(null)
   const genderRef = useRef(null)
+
   // const svgRef = useRef(null)
   // const tooltip = d3.select('#tooltip')
 

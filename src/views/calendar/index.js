@@ -1,9 +1,10 @@
-import React, { memo, useEffect } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 // import ReactEcharts from 'echarts-for-react'
 import { CalendarWrapper } from './style'
 import * as d3 from 'd3'
 import d3Tip from 'd3-tip'
 import { getCalenderInfo } from '../../api'
+import { Select } from 'antd'
 const Calendar = (props) => {
   // 拿到父组件传递的模式状态
   const {
@@ -15,8 +16,7 @@ const Calendar = (props) => {
   } = props
   let studentID = []
   let studentCalandarInfo = {}
-  console.log(month)
-
+  const [order, setOrder] = useState('workOrder') //用于调整排纵轴的排序方式
   //tooltip
   const tip = d3Tip()
     .attr('class', 'd3-tip')
@@ -504,26 +504,6 @@ const Calendar = (props) => {
     //对选中的每个学生都生成这个图
     studentID.forEach(function (item, index) {
       console.log(item, index)
-      // const dataArr = {
-      //   '2023-05-8': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-      //   '2023-05-9': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 260],
-      //   '2023-05-10': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-      //   '2023-05-11': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-      //   '2023-05-12': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 100],
-      //   '2023-05-13': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-      //   '2023-05-14': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-      //   '2023-05-16': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-      //   '2023-05-17': [0.4, 11, [0.1, 0.5, 0.2, 0.1, 0.1], 24],
-      //   '2023-05-18': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-      //   '2023-05-19': [0.9, 4, [0.2, 0.3, 0.2, 0.1, 0.1], 60],
-      //   '2023-05-20': [0.5, 38, [0.1, 0.5, 0.2, 0.1, 0.1], 60],
-      //   '2023-05-26': [0.49, 3, [0.1, 0.5, 0.2, 0.1, 0.1], 60],
-      //   '2023-05-27': [0.69, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 90],
-      //   '2023-05-28': [0.69, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 90],
-      //   '2023-05-29': [0.69, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 90],
-      //   '2023-05-30': [0.69, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 90],
-      //   '2023-05-31': [0.9, 24, [0.1, 0.5, 0.2, 0.1, 0.1], 60]
-      // }
       const dataArr = studentCalandarInfo[item]
       console.log(dataArr)
       drawStudentCalendar(item, index, dataArr)
@@ -536,7 +516,7 @@ const Calendar = (props) => {
   }
 
   //绘制时间模式的答题时间段对比分析图
-  function drawAnswerSession() {
+  function drawAnswerSession(sessionPeriods) {
     //假数据
     //每个时段,每个月对应的提交/活跃度/人数
     const answerData = {
@@ -731,16 +711,7 @@ const Calendar = (props) => {
     //创建横纵坐标比例尺
     // 数据
     const sessionMonths = [9, 10, 11, 12, 1]
-    const sessionPeriods = [
-      '凌晨-工作日',
-      '上午-工作日',
-      '下午-工作日',
-      '晚上-工作日',
-      '凌晨-休息日',
-      '上午-休息日',
-      '下午-休息日',
-      '晚上-休息日'
-    ]
+
     // 定义 x 轴比例尺
     const xScale = d3
       .scaleBand()
@@ -1291,9 +1262,37 @@ const Calendar = (props) => {
       })
     } else if (amode == 1) {
       d3.select('#answerSessionsvg').remove()
-      drawAnswerSession()
+      let sessionPeriods = [
+        '凌晨-工作日',
+        '上午-工作日',
+        '下午-工作日',
+        '晚上-工作日',
+        '凌晨-休息日',
+        '上午-休息日',
+        '下午-休息日',
+        '晚上-休息日'
+      ]
+      if (order == 'timeOrder') {
+        sessionPeriods = [
+          '凌晨-工作日',
+          '凌晨-休息日',
+          '上午-工作日',
+          '上午-休息日',
+          '下午-工作日',
+          '下午-休息日',
+          '晚上-工作日',
+          '晚上-休息日'
+        ]
+      }
+      console.log(order, sessionPeriods)
+      drawAnswerSession(sessionPeriods)
     }
-  }, [amode])
+  }, [amode, order])
+
+  //定义新函数,用于修改Order
+  function handleOrder(value) {
+    setOrder(value)
+  }
 
   return (
     <CalendarWrapper>
@@ -1304,7 +1303,31 @@ const Calendar = (props) => {
         {/* amode=0答题模式 ，amode=1时间模式*/}
         {amode == 0 && <div className="calendarview"></div>}
         {amode == 1 && (
-          <div id="answerSession" className="answerSessionview"></div>
+          <div id="answerSession" className="answerSessionview">
+            <div id="orderSelect" className="orderSelectview">
+              <Select
+                defaultValue="按照工作日/非工作日排序"
+                style={{ width: 230, position: 'absolute' }}
+                onChange={handleOrder}
+                options={[
+                  {
+                    label: <span>选择排序方式</span>,
+                    title: '选择排序方式',
+                    options: [
+                      {
+                        label: <span>按照工作日/非工作日排序</span>,
+                        value: 'workOrder'
+                      },
+                      {
+                        label: <span>按照时间段排序</span>,
+                        value: 'timeOrder'
+                      }
+                    ]
+                  }
+                ]}
+              />
+            </div>
+          </div>
         )}
       </div>
     </CalendarWrapper>
