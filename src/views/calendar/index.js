@@ -6,7 +6,13 @@ import d3Tip from 'd3-tip'
 import { getCalenderInfo } from '../../api'
 const Calendar = (props) => {
   // 拿到父组件传递的模式状态
-  const { amode, month } = props
+  const {
+    amode,
+    month,
+    handleCalendarSelectFlag,
+    handleStudentIDfromCalendar,
+    handleStudentDatefromCalendar
+  } = props
   let studentID = []
   let studentCalandarInfo = {}
   console.log(month)
@@ -449,6 +455,12 @@ const Calendar = (props) => {
             return '#FBFAFA'
           }
           return commitscaleColor(d.commitcount)
+        })
+        .on('click', function (event, d) {
+          // 在点击事件中，可以访问数据（d）和索引（i）
+          handleCalendarSelectFlag(true)
+          handleStudentIDfromCalendar(studentName)
+          handleStudentDatefromCalendar(d.name)
         })
 
       //绘制月和周

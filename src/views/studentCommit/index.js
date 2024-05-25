@@ -7,157 +7,17 @@ import d3Tip from 'd3-tip'
 import { getEventInfo } from '../../api'
 const StudentCommit = (props) => {
   // 拿到父组件传递的模式状态
-  const { amode, month } = props
+  const {
+    amode,
+    month,
+    calendarSelectFlag,
+    studentIDfromCalendar,
+    studentDatefromCalendar
+  } = props
   console.log(month)
   const commitCountChartRef = useRef(null)
-
-  //假数据
-  //所做的每道题目的每次提交的用时分布、内存分布、答题状态、使用语言、提交时间
-  let commitdata = {}
-  // const commitdata = {
-  //   Q1: [
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996174],
-  //     [0.2, 0.3, 'Error', 'Method_m', 1695996230],
-  //     [0.2, 0.3, 'Partially_Correct', 'Method_g', 1695996338],
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996482]
-  //   ],
-  //   Q2: [
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996174],
-  //     [0.2, 0.3, 'Error', 'Method_m', 1695996230],
-  //     [0.98, 0.6, 'Partially_Correct', 'Method_5', 1695996338],
-  //     [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996482]
-  //   ],
-  //   Q3: [
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996482],
-  //     [0.2, 0.3, 'Error', 'Method_m', 1695996536],
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695999282],
-  //     [0.2, 0.3, 'Error', 'Method_B', 1696036826]
-  //   ],
-  //   Q4: [
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996174],
-  //     [0.2, 0.3, 'Error', 'Method_m', 1695996230],
-  //     [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996338],
-  //     [0.2, 0.3, 'Error', 'Method_5', 1695996482]
-  //   ],
-  //   Q5: [
-  //     [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996338],
-  //     [0.2, 0.3, 'Error', 'Method_g', 1695996482]
-  //   ],
-  //   Q6: [
-  //     [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996338],
-  //     [0.2, 0.3, 'Error', 'Method_g', 1695996482]
-  //   ],
-  //   Q7: [
-  //     [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996338],
-  //     [0.2, 0.3, 'Error', 'Method_g', 1695996482]
-  //   ],
-  //   Q8: [
-  //     [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996338],
-  //     [0.2, 0.3, 'Error', 'Method_g', 1695996482]
-  //   ],
-  //   Q9: [
-  //     [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996338],
-  //     [0.2, 0.3, 'Error', 'Method_g', 1695996482]
-  //   ],
-  //   Q10: [
-  //     [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996338],
-  //     [0.2, 0.3, 'Error', 'Method_g', 1695996482]
-  //   ],
-  //   Q11: [
-  //     [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996338],
-  //     [0.2, 0.3, 'Error', 'Method_g', 1695996482]
-  //   ],
-  //   Q12: [
-  //     [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996338],
-  //     [0.2, 0.3, 'Error', 'Method_g', 1695996482]
-  //   ],
-  //   Q13: [
-  //     [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996338],
-  //     [0.2, 0.3, 'Error', 'Method_g', 1695996482]
-  //   ],
-  //   Q14: [
-  //     [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996338],
-  //     [0.2, 0.3, 'Error', 'Method_g', 1695996482]
-  //   ],
-  //   Q15: [
-  //     [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996338],
-  //     [0.2, 0.3, 'Error', 'Method_g', 1695996482]
-  //   ],
-  //   Q16: [
-  //     [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996338],
-  //     [0.2, 0.3, 'Error', 'Method_g', 1695996482]
-  //   ],
-  //   Q17: [
-  //     [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996338],
-  //     [0.2, 0.3, 'Error', 'Method_g', 1695996482]
-  //   ],
-  //   Q18: [
-  //     [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996338],
-  //     [0.2, 0.3, 'Error', 'Method_g', 1695996482]
-  //   ],
-  //   Q19: [
-  //     [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996338],
-  //     [0.2, 0.3, 'Error', 'Method_g', 1695996482]
-  //   ],
-  //   Q20: [
-  //     [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996338],
-  //     [0.2, 0.3, 'Error', 'Method_g', 1695996482]
-  //   ],
-  //   Q21: [
-  //     [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996338],
-  //     [0.2, 0.3, 'Error', 'Method_g', 1695996482]
-  //   ],
-  //   Q22: [
-  //     [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996338],
-  //     [0.2, 0.3, 'Error', 'Method_g', 1695996482]
-  //   ],
-  //   Q23: [
-  //     [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996338],
-  //     [0.2, 0.3, 'Error', 'Method_g', 1695996482]
-  //   ],
-  //   Q24: [
-  //     [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996338],
-  //     [0.2, 0.3, 'Error', 'Method_g', 1695996482]
-  //   ],
-  //   Q25: [
-  //     [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996338],
-  //     [0.2, 0.3, 'Error', 'Method_g', 1695996482]
-  //   ],
-  //   Q26: [
-  //     [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996338],
-  //     [0.2, 0.3, 'Error', 'Method_g', 1695996482]
-  //   ],
-  //   Q27: [
-  //     [0.2, 0.3, 'Absolutely_Correct', 'Method_B', 1695996174],
-  //     [0.2, 0.3, 'Error', 'Method_B', 1695996338],
-  //     [0.2, 0.3, 'Error', 'Method_g', 1695996482]
-  //   ]
-  // }
-
   //绘制学生提交事件图
-  function drawCommit() {
+  function drawCommit(commitdata) {
     // 创建SVG元素
     //tooltip
     const tip = d3Tip()
@@ -788,16 +648,24 @@ const StudentCommit = (props) => {
   useEffect(() => {
     //更新重画
     // d3.select('svg').remove() //移除已有的svg元素
-    // 选择现有的 SVG 元素，如果已经存在则移除它
-    d3.select('.studentCommitsvg').remove()
-    d3.select('.commitlegendsvg').remove()
-    if (amode == 0) {
-      getEventInfo('2d9a38c93e37bc475cb6', '2023-10-02').then((res) => {
-        commitdata = res
-        drawCommit()
-      })
+
+    if (amode == 0 && calendarSelectFlag == true) {
+      //获取学习日历的学生ID和日期
+      getEventInfo(studentIDfromCalendar, studentDatefromCalendar).then(
+        (res) => {
+          // 选择现有的 SVG 元素，如果已经存在则移除它
+          d3.select('.studentCommitsvg').remove()
+          d3.select('.commitlegendsvg').remove()
+          drawCommit(res)
+        }
+      )
     }
-  }, [amode])
+  }, [
+    amode,
+    calendarSelectFlag,
+    studentIDfromCalendar,
+    studentDatefromCalendar
+  ])
 
   return (
     <StudentCommitWrapper>
