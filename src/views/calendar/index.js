@@ -16,6 +16,7 @@ const Calendar = (props) => {
   } = props
   let studentID = []
   let studentCalandarInfo = {}
+  let maxcommitnum = 0
   const [order, setOrder] = useState('workOrder') //用于调整排纵轴的排序方式
   //tooltip
   const tip = d3Tip()
@@ -111,9 +112,13 @@ const Calendar = (props) => {
       // console.log(Object.values(data).map((item) => item[3])) //打印所有列表的某一列的值
       //定义比例尺和配置信息
       //提交次数颜色隐射
+      // const commitscaleColor = d3
+      //   .scaleLinear()
+      //   .domain([0, d3.max(Object.values(dataArr).map((item) => item[3]))])
+      //   .range(['#ABE2FE', '#236D92'])
       const commitscaleColor = d3
         .scaleLinear()
-        .domain([0, d3.max(Object.values(dataArr).map((item) => item[3]))])
+        .domain([0, maxcommitnum])
         .range(['#ABE2FE', '#236D92'])
 
       //正确占比颜色映射
@@ -1258,6 +1263,21 @@ const Calendar = (props) => {
       getCalenderInfo(studentID, month).then((res) => {
         d3.select('.calendarsvg').remove()
         studentCalandarInfo = res
+        // 遍历 JSON 对象的每个键,获取这一组学生的提交最大值
+        for (const key1 in studentCalandarInfo) {
+          if (Object.prototype.hasOwnProperty.call(studentCalandarInfo, key1)) {
+            // 获得 key1 对应的数字
+            const key2Array = studentCalandarInfo[key1]
+            for (const key2 in key2Array) {
+              if (Object.prototype.hasOwnProperty.call(key2Array, key2)) {
+                // 遍历 key2Array 数组中的每个对象
+                if (key2Array[key2][3] > maxcommitnum) {
+                  maxcommitnum = key2Array[key2][3]
+                }
+              }
+            }
+          }
+        }
         drawCalendar(studentID)
       })
     } else if (amode == 1) {
