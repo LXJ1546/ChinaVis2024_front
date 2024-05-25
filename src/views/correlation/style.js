@@ -44,6 +44,10 @@ export const CorrelationWrapper = styled.div`
             width: 130px;
           }
         }
+        .littlebtn {
+          display: flex;
+          align-items: center;
+        }
       }
     }
     .correlation {

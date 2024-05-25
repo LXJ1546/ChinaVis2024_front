@@ -25,10 +25,7 @@ export const MonthFeatureWrapper = styled.div`
         height: 30px;
         display: flex;
         align-items: center;
-        /* justify-content: space-between; */
         background-color: rgb(245, 245, 245);
-        /* padding-left: 80px;
-        padding-right: 80px; */
         .info {
           width: 25%;
           width: 100%;
@@ -47,7 +44,6 @@ export const MonthFeatureWrapper = styled.div`
           display: flex;
           align-items: center;
           justify-content: space-around;
-          /* background-color: rgb(245, 245, 245); */
           .echartbox {
             width: 23%;
             height: 85%;
