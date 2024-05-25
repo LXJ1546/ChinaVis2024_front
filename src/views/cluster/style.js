@@ -37,8 +37,13 @@ export const ScatterWrapper = styled.div`
             margin-left: 10px;
             font-size: 15px;
           }
+          .answerbtn {
+            display: flex;
+            align-items: center;
+          }
           .monthbtn {
             display: flex;
+            align-items: center;
           }
           .to {
             display: flex;

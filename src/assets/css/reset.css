@@ -58,3 +58,28 @@ button {
   outline: none;
   border: none;
 }
+
+修改滚动条的宽度和颜色::-webkit-scrollbar {
+  width: 3px;
+  /* 修改滚动条的宽度 */
+}
+
+/* 修改滚动条的轨道颜色 */
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+  /* 修改滚动条轨道的背景色 */
+}
+
+/* 修改滚动条的滑块颜色 */
+::-webkit-scrollbar-thumb {
+  background-color: #888;
+  /* 修改滚动条滑块的背景色 */
+  border-radius: 5px;
+  /* 修改滚动条滑块的圆角 */
+}
+
+/* 修改滚动条的悬停状态下的滑块颜色 */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+  /* 修改滚动条滑块的悬停状态下的背景色 */
+}

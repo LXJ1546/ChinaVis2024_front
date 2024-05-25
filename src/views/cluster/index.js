@@ -2,7 +2,11 @@ import React, { memo, useEffect, useState } from 'react'
 import ReactEcharts from 'echarts-for-react'
 import { ScatterWrapper } from './style'
 import { getClusterData, getTransferData } from '../../api'
-import { Radio, Select, Switch } from 'antd'
+import { Radio, Select, Switch, Button } from 'antd'
+import { SyncOutlined } from '@ant-design/icons'
+// const IconFont = createFromIconfontCN({
+//   scriptUrl: '//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js'
+// })
 import StatisticFeature from '../statistic/index'
 const Scatter = (props) => {
   // 父组件传递的设置模式函数
@@ -285,6 +289,7 @@ const Scatter = (props) => {
       // 是否显示演变视图
       setIsTransfer(true)
       setDisabledStats(false)
+      setShowStats(false)
     }
   }
   const handleChangeMonth = (value) => {
@@ -362,17 +367,21 @@ const Scatter = (props) => {
                 <Radio.Button value="1">时间模式</Radio.Button>
                 <Radio.Button value="2">演变视图</Radio.Button>
               </Radio.Group>
-              <h3 className="label">月份</h3>
+
               {visible && !isTransfer && (
-                <Select
-                  defaultValue="2023-10"
-                  style={{ width: 100, marginLeft: '10px' }}
-                  onChange={handleChangeMonth}
-                  options={monthsChoice}
-                />
+                <div className="answerbtn">
+                  <h3 className="label">月份</h3>
+                  <Select
+                    defaultValue="2023-10"
+                    style={{ width: 100, marginLeft: '10px' }}
+                    onChange={handleChangeMonth}
+                    options={monthsChoice}
+                  />
+                </div>
               )}
               {isTransfer && (
                 <div className="monthbtn">
+                  <h3 className="label">月份</h3>
                   <Select
                     defaultValue="2023-09"
                     style={{ width: 100, marginLeft: '10px' }}
@@ -392,6 +401,7 @@ const Scatter = (props) => {
               )}
             </div>
             <div className="rightbtn">
+              <Button icon={<SyncOutlined />}>清空</Button>
               <h3 className="label">特征统计</h3>
               <Switch
                 onChange={onSwitchChange}
