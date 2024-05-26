@@ -3,8 +3,9 @@ import React, { memo, useEffect, useState } from 'react'
 import { CalendarWrapper } from './style'
 import * as d3 from 'd3'
 import d3Tip from 'd3-tip'
-import { getCalenderInfo } from '../../api'
+import { getCalenderInfo, getAllPeriodInfo, getOnePeriodInfo } from '../../api'
 import { Select } from 'antd'
+
 const Calendar = (props) => {
   // 拿到父组件传递的模式状态
   const {
@@ -18,6 +19,9 @@ const Calendar = (props) => {
   let studentCalandarInfo = {}
   let maxcommitnum = 0
   const [order, setOrder] = useState('workOrder') //用于调整排纵轴的排序方式
+  const [selectMonth, setSelectMonth] = useState(null) //用于获取点击某个时间段的月份
+  const [selectIsWork, setSelectIsWork] = useState(0) //用于获取点击某个时间段是否为工作日
+  const [selectPeriod, setSelectPeriod] = useState(null) //用于获取点击某个时间段的具体时间段
   //tooltip
   const tip = d3Tip()
     .attr('class', 'd3-tip')
@@ -205,13 +209,18 @@ const Calendar = (props) => {
 
         return yearGroup
       }
-
       // startDate：日历开始时间 endDate：日历结束时间 dataArr：要展示的数据 - 之前定义好的格式
       let dayDatas = {}
-      if (month == 1 || month == 10 || month == 12) {
+      if (month == 10 || month == 12) {
         dayDatas = generateDataset({
           startDate: '2023-' + month + '-01',
           endDate: '2023-' + month + '-31',
+          fill: dataArr
+        })
+      } else if (month == 1) {
+        dayDatas = generateDataset({
+          startDate: '2024-' + month + '-01',
+          endDate: '2024-' + month + '-31',
           fill: dataArr
         })
       } else {
@@ -271,7 +280,7 @@ const Calendar = (props) => {
                 pointer-events: none;
                 font-family: Arial, sans-serif;
                 font-size: 12px;
-                text-align: center;">日期: ${d.name}  <p>答题数: ${d.titletotal}</p> <p>Method_C: ${d.language[0]}</p> <p>Method_g: ${d.language[1]}</p> <p>Method_5: ${d.language[2]}</p> <p>Method_m: ${d.language[3]}</p> <p>Method_B: ${d.language[4]}</p><p>提交次数: ${d.commitcount}</p><div>`)
+                text-align: center;">日期: ${d.name}  <p>答题数: ${d.titletotal}</p> <p>Method_C: ${d.language[0].toFixed(2)}</p> <p>Method_g: ${d.language[1].toFixed(2)}</p> <p>Method_5: ${d.language[2].toFixed(2)}</p> <p>Method_m: ${d.language[3].toFixed(2)}</p> <p>Method_B: ${d.language[4].toFixed(2)}</p><p>提交次数: ${d.commitcount}</p><div>`)
             tip.show(d, this)
           } else {
             tip.html(`<div style="line-height: 1;
@@ -521,67 +530,9 @@ const Calendar = (props) => {
   }
 
   //绘制时间模式的答题时间段对比分析图
-  function drawAnswerSession(sessionPeriods) {
+  function drawAnswerSession(sessionPeriods, answerData) {
     //假数据
     //每个时段,每个月对应的提交/活跃度/人数
-    const answerData = {
-      '凌晨-工作日': {
-        9: [50, 0.6, 200],
-        10: [40, 0.4, 100],
-        11: [80, 0.8, 350],
-        12: [53, 0.65, 206],
-        1: [30, 0.2, 35]
-      },
-      '上午-工作日': {
-        9: [50, 0.6, 200],
-        10: [40, 0.4, 100],
-        11: [80, 0.8, 350],
-        12: [53, 0.65, 206],
-        1: [30, 0.2, 35]
-      },
-      '下午-工作日': {
-        9: [50, 0.6, 200],
-        10: [40, 0.4, 100],
-        11: [80, 0.8, 350],
-        12: [53, 0.65, 206],
-        1: [30, 0.2, 35]
-      },
-      '晚上-工作日': {
-        9: [50, 0.6, 200],
-        10: [40, 0.4, 100],
-        11: [99, 0.8, 350],
-        ' 12': [53, 0.65, 206],
-        1: [30, 0.2, 35]
-      },
-      '凌晨-休息日': {
-        9: [50, 0.6, 200],
-        10: [40, 0.4, 100],
-        11: [80, 0.8, 350],
-        12: [53, 0.65, 206],
-        1: [30, 0.2, 35]
-      },
-      '上午-休息日': {
-        9: [50, 0.6, 200],
-        10: [40, 0.4, 100],
-        11: [80, 0.8, 350],
-        12: [53, 0.65, 206],
-        1: [30, 0.2, 35]
-      },
-      '下午-休息日': {
-        9: [50, 0.6, 200],
-        10: [40, 0.4, 100],
-        11: [80, 0.8, 350],
-        12: [53, 0.65, 206],
-        1: [30, 0.2, 35]
-      },
-      '晚上-休息日': {
-        9: [50, 0.6, 200],
-        10: [40, 0.4, 100],
-        11: [80, 0.8, 350],
-        12: [53, 0.65, 206],
-        1: [30, 0.2, 35]
-      }
-    }
 
     //计算各值得最大最小值进行比例尺映射
     // 初始化最大和最小值
@@ -613,22 +564,14 @@ const Calendar = (props) => {
       }
     }
 
-    // 打印最大最小值
-    // console.log('最大提交数:', maxSubmitCount)
-    // console.log('最小提交数:', minSubmitCount)
-    // console.log('最大活跃度:', maxActivity)
-    // console.log('最小活跃度:', minActivity)
-    // console.log('最大人数:', maxPeople)
-    // console.log('最小人数:', minPeople)
-
     //创建svg
     const svg = d3
       .select('#answerSession')
       .append('svg')
       .attr('id', 'answerSessionsvg')
-      .attr('width', '100%')
+      .attr('width', '60%')
       .attr('height', '100%')
-    const margin = { top: 30, right: 450, bottom: 30, left: 70 }
+    const margin = { top: 30, right: 100, bottom: 30, left: 70 }
     const width =
       svg.node().getBoundingClientRect().width - margin.left - margin.right
     const height =
@@ -794,7 +737,6 @@ const Calendar = (props) => {
       for (const monthkey in monthdata) {
         const monthvalue = monthdata[monthkey]
         // 绘制提交次数矩形
-        console.log(monthvalue)
         workg
           .append('rect')
           .attr('width', rectWidth)
@@ -803,6 +745,31 @@ const Calendar = (props) => {
           .attr('x', xScale(parseInt(monthkey)))
           .attr('y', yScale(key))
           .attr('fill', submitColorScale(monthvalue[0]))
+          .on('mouseover', function (e, d) {
+            tip.html(`<div style="line-height: 1;
+                  font-weight: bold;
+                  padding: 12px;
+                  background: white;
+                  color: grey;
+                  border-radius: 2px;
+                  pointer-events: none;
+                  font-family: Arial, sans-serif;
+                  font-size: 12px;
+                  text-align: center;">提交次数: ${monthvalue[0].toFixed(0)}  <p>活跃度: ${monthvalue[1].toFixed(2)}</p> <p>活跃人数: ${monthvalue[2]}</p><div>`)
+            tip.show(d, this)
+          })
+          .on('mouseout', tip.hide)
+        // .on('click', function () {
+        //   tip.hide
+        //   const keyParts = key.split('-')
+        //   setSelectMonth(monthkey)
+        //   if (keyParts[1] == '工作日') {
+        //     setSelectIsWork(1)
+        //   } else {
+        //     setSelectIsWork(0)
+        //   }
+        //   setSelectPeriod(keyParts[0])
+        // })
         //绘制活跃度圆形
         workg
           .append('circle')
@@ -810,197 +777,238 @@ const Calendar = (props) => {
           .attr('cx', xScale(parseInt(monthkey)) + rectWidth / 2)
           .attr('cy', yScale(key) + rectWidth / 2)
           .attr('fill', peopleColorScale(monthvalue[2]))
+          // .on('mouseover', function (e, d) {
+          //   tip.html(`<div style="line-height: 1;
+          //         font-weight: bold;
+          //         padding: 12px;
+          //         background: white;
+          //         color: grey;
+          //         border-radius: 2px;
+          //         pointer-events: none;
+          //         font-family: Arial, sans-serif;
+          //         font-size: 12px;
+          //         text-align: center;">活跃度: ${monthvalue[1].toFixed(2)} <p>活跃人数: ${monthvalue[2]}</p><div>`)
+          //   tip.show(d, this)
+          // })
+          // .on('mouseout', tip.hide)
+          .on('click', function () {
+            const keyParts = key.split('-')
+            setSelectMonth(monthkey)
+            if (keyParts[1] == '工作日') {
+              setSelectIsWork(1)
+            } else {
+              setSelectIsWork(0)
+            }
+            setSelectPeriod(keyParts[0])
+            tip.hide
+          })
       }
     }
 
     //绘制该月该时段下每天的学生答题模式类型,按人数排序
-    function drawAnswerCalendar() {
-      //假数据
-      const dataAnswerArr = {
-        '2023-09-8': [200, 300, 500],
-        '2023-09-9': [300, 200, 500],
-        '2023-09-10': [300, 200, 500],
-        '2023-09-11': [300, 200, 500],
-        '2023-09-12': [322, 300, 420],
-        '2023-09-13': [300, 200, 500],
-        '2023-09-14': [300, 200, 500],
-        '2023-09-16': [300, 200, 500],
-        '2023-09-17': [300, 200, 500],
-        '2023-09-18': [300, 200, 500],
-        '2023-09-19': [300, 200, 500],
-        '2023-09-20': [900, 50, 51],
-        '2023-09-26': [300, 200, 500],
-        '2023-09-27': [300, 200, 500],
-        '2023-09-28': [320, 20, 700],
-        '2023-09-29': [300, 200, 500],
-        '2023-09-30': [300, 200, 500],
-        '2023-09-31': [300, 200, 500]
-      }
-      let maxmodeNum = 0
-      let minmodeNum = Infinity
-      //数据组装
-      function generateAnswerDataset(options = { fill: {} }) {
-        // 开始时间
-        const startDate = options.startDate
-          ? new Date(options.startDate)
-          : new Date(new Date().getFullYear() + '-' + '01' + '-' + '01')
-        // 结束时间
-        const endDate = options.endDate ? new Date(options.endDate) : new Date()
+  }
+  function drawAnswerCalendar(dataAnswerArr) {
+    //假数据
+    // const dataAnswerArr = {
+    //   '2023-09-8': [200, 300, 500],
+    //   '2023-09-9': [300, 200, 500],
+    //   '2023-09-10': [300, 200, 500],
+    //   '2023-09-11': [300, 200, 500],
+    //   '2023-09-12': [322, 300, 420],
+    //   '2023-09-13': [300, 200, 500],
+    //   '2023-09-14': [300, 200, 500],
+    //   '2023-09-16': [300, 200, 500],
+    //   '2023-09-17': [300, 200, 500],
+    //   '2023-09-18': [300, 200, 500],
+    //   '2023-09-19': [300, 200, 500],
+    //   '2023-09-20': [900, 50, 51],
+    //   '2023-09-26': [300, 200, 500],
+    //   '2023-09-27': [300, 200, 500],
+    //   '2023-09-28': [320, 20, 700],
+    //   '2023-09-29': [300, 200, 500],
+    //   '2023-09-30': [300, 200, 500],
+    //   '2023-09-31': [300, 200, 500]
+    //创建svg
+    const svg = d3
+      .select('#answerDetailSession')
+      .append('svg')
+      .attr('id', 'answerDetailSessionsvg')
+      .attr('width', '100%')
+      .attr('height', '100%')
 
-        // 相隔天数
-        const totalDays = Math.floor(
-          (endDate.getTime() - startDate.getTime()) / 86400000
+    svg.call(tip)
+    let maxmodeNum = 0
+    let minmodeNum = Infinity
+    //数据组装
+    function generateAnswerDataset(options = { fill: {} }) {
+      // 开始时间
+      const startDate = options.startDate
+        ? new Date(options.startDate)
+        : new Date(new Date().getFullYear() + '-' + '01' + '-' + '01')
+      // 结束时间
+      const endDate = options.endDate ? new Date(options.endDate) : new Date()
+
+      // 相隔天数
+      const totalDays = Math.floor(
+        (endDate.getTime() - startDate.getTime()) / 86400000
+      )
+
+      // 循环天数
+      let year, month
+      let yearIndex = -1,
+        monthIndex = -1
+      let yearGroup = []
+      let dayTem = 0
+      while (dayTem <= totalDays) {
+        const dateName = d3.timeFormat('%Y-%m-%d')(
+          new Date(startDate.getTime() + 86400000 * dayTem)
         )
+        const dateAnswerArr = dateName.split('-')
 
-        // 循环天数
-        let year, month
-        let yearIndex = -1,
-          monthIndex = -1
-        let yearGroup = []
-        let dayTem = 0
-        while (dayTem <= totalDays) {
-          const dateName = d3.timeFormat('%Y-%m-%d')(
-            new Date(startDate.getTime() + 86400000 * dayTem)
-          )
-          const dateAnswerArr = dateName.split('-')
-
-          // 年
-          if (!year || dateAnswerArr[0] !== year) {
-            year = dateAnswerArr[0]
-            yearGroup.push({
-              name: dateAnswerArr[0],
-              monthGroup: []
-            })
-
-            yearIndex++
-            monthIndex = -1
-          }
-          // 月
-          if (!month || dateAnswerArr[1] !== month) {
-            month = dateAnswerArr[1]
-            yearGroup[yearIndex].monthGroup.push({
-              name: dateAnswerArr[0] + '-' + dateAnswerArr[1],
-              dayGroup: []
-            })
-            monthIndex++
-          }
-          // 获取热力数据值
-          let point = null
-          let various = null
-          let trying = null
-          if (options.fill.hasOwnProperty.call(dataAnswerArr, dateName)) {
-            // right = options.fill[dateName][0]
-            // titletotal = options.fill[dateName][1]
-            // language = options.fill[dateName][2]
-            // commitcount = options.fill[dateName][3]
-            point = options.fill[dateName][0]
-            if (point > maxmodeNum) {
-              maxmodeNum = options.fill[dateName][0]
-            }
-            if (point < minmodeNum) {
-              minmodeNum = options.fill[dateName][0]
-            }
-            various = options.fill[dateName][1]
-            if (various > maxmodeNum) {
-              maxmodeNum = options.fill[dateName][1]
-            }
-            if (various < minmodeNum) {
-              minmodeNum = options.fill[dateName][1]
-            }
-            trying = options.fill[dateName][2]
-            if (trying > maxmodeNum) {
-              maxmodeNum = options.fill[dateName][2]
-            }
-            if (trying < minmodeNum) {
-              minmodeNum = options.fill[dateName][2]
-            }
-          }
-
-          // 天里面的特征
-          //日期，正确占比，答题数，五种语言占比，提交次数
-          yearGroup[yearIndex].monthGroup[monthIndex].dayGroup.push({
-            name: dateName,
-            dayTem: dayTem + startDate.getDay(),
-            point,
-            various,
-            trying
+        // 年
+        if (!year || dateAnswerArr[0] !== year) {
+          year = dateAnswerArr[0]
+          yearGroup.push({
+            name: dateAnswerArr[0],
+            monthGroup: []
           })
 
-          dayTem++
+          yearIndex++
+          monthIndex = -1
+        }
+        // 月
+        if (!month || dateAnswerArr[1] !== month) {
+          month = dateAnswerArr[1]
+          yearGroup[yearIndex].monthGroup.push({
+            name: dateAnswerArr[0] + '-' + dateAnswerArr[1],
+            dayGroup: []
+          })
+          monthIndex++
+        }
+        // 获取热力数据值
+        let point = null
+        let various = null
+        let trying = null
+        if (options.fill.hasOwnProperty.call(dataAnswerArr, dateName)) {
+          // right = options.fill[dateName][0]
+          // titletotal = options.fill[dateName][1]
+          // language = options.fill[dateName][2]
+          // commitcount = options.fill[dateName][3]
+          point = options.fill[dateName][0]
+          if (point > maxmodeNum) {
+            maxmodeNum = options.fill[dateName][0]
+          }
+          if (point < minmodeNum) {
+            minmodeNum = options.fill[dateName][0]
+          }
+          various = options.fill[dateName][1]
+          if (various > maxmodeNum) {
+            maxmodeNum = options.fill[dateName][1]
+          }
+          if (various < minmodeNum) {
+            minmodeNum = options.fill[dateName][1]
+          }
+          trying = options.fill[dateName][2]
+          if (trying > maxmodeNum) {
+            maxmodeNum = options.fill[dateName][2]
+          }
+          if (trying < minmodeNum) {
+            minmodeNum = options.fill[dateName][2]
+          }
         }
 
-        return yearGroup
+        // 天里面的特征
+        //日期，正确占比，答题数，五种语言占比，提交次数
+        yearGroup[yearIndex].monthGroup[monthIndex].dayGroup.push({
+          name: dateName,
+          dayTem: dayTem + startDate.getDay(),
+          point,
+          various,
+          trying
+        })
+
+        dayTem++
       }
 
-      // startDate：日历开始时间 endDate：日历结束时间 dataArr：要展示的数据 - 之前定义好的格式
-      const answermonthnum = 9
-      //判断是5列日历还是6列日历以此安排画布位置
-      let monthmargin = 0
-      if (answermonthnum == 9 || answermonthnum == 12) {
-        monthmargin = 430
-      } else {
-        monthmargin = 455
-      }
-      const dayDatas = generateAnswerDataset({
-        startDate: '2023-9-01',
-        endDate: '2023-9-31',
+      return yearGroup
+    }
+
+    // startDate：日历开始时间 endDate：日历结束时间 dataArr：要展示的数据 - 之前定义好的格式
+    //判断是5列日历还是6列日历以此安排画布位置
+    let monthmargin = 0
+    // if (answermonthnum == 9 || answermonthnum == 12) {
+    //   monthmargin = 430
+    // } else {
+    //   monthmargin = 455
+    // }
+    if (selectMonth == 9 || selectMonth == 12) {
+      monthmargin = 23
+    } else {
+      monthmargin = 48
+    }
+    let dayDatas = {}
+    if (selectMonth == 9 || selectMonth == 11) {
+      dayDatas = generateAnswerDataset({
+        startDate: '2023-' + selectMonth + '-01',
+        endDate: '2023-' + selectMonth + '-30',
         fill: dataAnswerArr
       })
+    } else if (selectMonth == 1) {
+      dayDatas = generateAnswerDataset({
+        startDate: '2024-' + selectMonth + '-01',
+        endDate: '2024-' + selectMonth + '-31',
+        fill: dataAnswerArr
+      })
+    } else {
+      dayDatas = generateAnswerDataset({
+        startDate: '2023-' + selectMonth + '-01',
+        endDate: '2023-' + selectMonth + '-31',
+        fill: dataAnswerArr
+      })
+    }
+    console.log(dayDatas)
+    //绘制日历矩形块
+    // 绘制日历块，给每个日历分组
+    const answeryearSvg = svg
+      .append('g')
+      .attr('transform', `translate(${monthmargin},80)`)
+      .selectAll()
+      .data(dayDatas)
+      .enter()
+      .append('g')
+      .attr('class', (d) => 'year year-' + d.name)
 
-      //绘制日历矩形块
-      // 绘制日历块，给每个日历分组
-      const answeryearSvg = svg
-        .append('g')
-        .attr('transform', `translate(${monthmargin},80)`)
-        .selectAll()
-        .data(dayDatas)
-        .enter()
-        .append('g')
-        .attr('class', (d) => 'year year-' + d.name)
-
-      const answerymontSvg = answeryearSvg
-        .selectAll()
-        .data((d) => d.monthGroup)
-        .enter()
-        .append('g')
-        .attr('class', (d) => 'month month-' + d.name)
-      // 绘制方块,颜色映射改天是否活跃
-      answerymontSvg
-        .selectAll()
-        .data((d) => d.dayGroup)
-        .enter()
-        .append('rect')
-        .attr('width', 65)
-        .attr('height', 65)
-        //   .attr('stroke', '#cccc') // 设置边框颜色
-        .attr('rx', 3)
-        .attr('x', (d) => Math.floor(d.dayTem / 7) * 66)
-        .attr('y', (d) => (d.dayTem % 7) * 66)
-        // .attr('fill', '#E8E8E8')
-        .attr('fill', (d) => {
-          if (!d.commitcount) {
-            return '#EDECEC'
-          }
-          //   return commitscaleColor(d.commitcount)
-          else {
-            return '#EDECEC'
-          }
-        })
-        .on('mouseover', function (e, d) {
-          if (d.point != null || d.various != null || d.trying != null) {
-            tip.html(`<div style="line-height: 1;
-                font-weight: bold;
-                padding: 12px;
-                background: white;
-                color: grey;
-                border-radius: 2px;
-                pointer-events: none;
-                font-family: Arial, sans-serif;
-                font-size: 12px;
-                text-align: center;">日期: ${d.name} <div>`)
-            tip.show(d, this)
-          } else {
-            tip.html(`<div style="line-height: 1;
+    const answerymontSvg = answeryearSvg
+      .selectAll()
+      .data((d) => d.monthGroup)
+      .enter()
+      .append('g')
+      .attr('class', (d) => 'month month-' + d.name)
+    // 绘制方块,颜色映射改天是否活跃
+    answerymontSvg
+      .selectAll()
+      .data((d) => d.dayGroup)
+      .enter()
+      .append('rect')
+      .attr('width', 65)
+      .attr('height', 65)
+      //   .attr('stroke', '#cccc') // 设置边框颜色
+      .attr('rx', 3)
+      .attr('x', (d) => Math.floor(d.dayTem / 7) * 66)
+      .attr('y', (d) => (d.dayTem % 7) * 66)
+      // .attr('fill', '#E8E8E8')
+      .attr('fill', (d) => {
+        if (!d.commitcount) {
+          return '#EDECEC'
+        }
+        //   return commitscaleColor(d.commitcount)
+        else {
+          return '#EDECEC'
+        }
+      })
+      .on('mouseover', function (e, d) {
+        if (d.point != null || d.various != null || d.trying != null) {
+          tip.html(`<div style="line-height: 1;
             font-weight: bold;
             padding: 12px;
             background: white;
@@ -1009,244 +1017,256 @@ const Calendar = (props) => {
             pointer-events: none;
             font-family: Arial, sans-serif;
             font-size: 12px;
-            text-align: center;">日期: ${d.name} 无人答题<div>`)
-            tip.show(d, this)
-          }
-        })
-        .on('mouseout', tip.hide)
-      //绘制月和周
-      const answertitle = svg.append('g')
+            text-align: center;">日期: ${d.name} <div>`)
+          tip.show(d, this)
+        } else {
+          tip.html(`<div style="line-height: 1;
+        font-weight: bold;
+        padding: 12px;
+        background: white;
+        color: grey;
+        border-radius: 2px;
+        pointer-events: none;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        text-align: center;">日期: ${d.name} 无人答题<div>`)
+          tip.show(d, this)
+        }
+      })
+      .on('mouseout', tip.hide)
+    //绘制月和周
+    const answertitle = svg.append('g')
 
-      // 绘制 周
-      const weeks = ['日', '一', '二', '三', '四', '五', '六']
-      answertitle
-        .append('g')
-        .attr('class', 'week')
-        .selectAll('.label')
-        .data(weeks)
-        .enter()
-        .append('text')
-        .attr('class', 'label')
-        .attr('x', 400)
-        .attr('y', 90)
-        .attr('dy', (d, i) => i * 66 + 30)
-        .attr('fill', 'black')
-        .text((d) => d)
+    // 绘制 周
+    const weeks = ['日', '一', '二', '三', '四', '五', '六']
+    answertitle
+      .append('g')
+      .attr('class', 'week')
+      .selectAll('.label')
+      .data(weeks)
+      .enter()
+      .append('text')
+      .attr('class', 'label')
+      .attr('x', 0)
+      .attr('y', 90)
+      .attr('dy', (d, i) => i * 66 + 30)
+      .attr('fill', 'black')
+      .text((d) => d)
 
-      //根据日历图布局，绘制周文本
-      let monthAll = []
-      dayDatas.forEach((element) => {
-        monthAll = monthAll.concat(element.monthGroup)
+    //根据日历图布局，绘制周文本
+    let monthAll = []
+    dayDatas.forEach((element) => {
+      monthAll = monthAll.concat(element.monthGroup)
+    })
+    let workFlag = '休息日'
+    if (selectIsWork == 1) {
+      workFlag = '工作日'
+    }
+    answertitle
+      .append('g')
+      .attr('class', 'month-title')
+      .selectAll()
+      .data(monthAll)
+      .enter()
+      .append('text')
+      .attr('x', (d, i) => {
+        return i * 71 * 4.25 + 180
+      })
+      .attr('y', 60)
+      .attr('fill', 'black')
+      .attr('font-size', '12px')
+      .attr('font-family', 'monospace')
+      .text(selectMonth + '月-' + workFlag + '-' + selectPeriod)
+
+    //绘制学习模式的人数矩形
+    //用于找出三个模式中的第一大值,第二大值,最小值
+    function findsort(modeobj, num) {
+      // 将对象转换为数组，并按值排序
+      const items = Object.entries(modeobj).sort((a, b) => a[1] - b[1])
+
+      // 提取最小值键、第二大值键和最大值键
+      const minKey = items[0][0]
+      const secondLargestKey = items[items.length - 2][0]
+      const maxKey = items[items.length - 1][0]
+      if (num == 1) {
+        return maxKey
+      } else if (num == 2) {
+        return secondLargestKey
+      } else {
+        return minKey
+      }
+    }
+    //绘制模式矩形
+    //三种模式的颜色比例尺
+    const modecolorScale = d3
+      .scaleOrdinal()
+      .domain(['point', 'various', 'trying'])
+      .range(['#86C6F0', '#EB8277', '#86F0B0'])
+    //矩形数据比例尺
+    const modenumScale = d3
+      .scaleLinear()
+      .domain([minmodeNum, maxmodeNum])
+      .range([10, 50])
+    //数量最大的
+    const modemaxNumSvg = answerymontSvg.append('g')
+    modemaxNumSvg
+      .selectAll()
+      .data((d) => d.dayGroup)
+      .enter()
+      .append('rect')
+      .attr('width', function (d) {
+        const modeobjData = {
+          point: d.point,
+          various: d.various,
+          trying: d.trying
+        }
+        return modenumScale(d[findsort(modeobjData, 1)])
+      })
+      .attr('height', function (d) {
+        const modeobjData = {
+          point: d.point,
+          various: d.various,
+          trying: d.trying
+        }
+        return modenumScale(d[findsort(modeobjData, 1)])
+      })
+      .attr('x', function (d) {
+        const modeobjData = {
+          point: d.point,
+          various: d.various,
+          trying: d.trying
+        }
+        return (
+          Math.floor(d.dayTem / 7) * 66 +
+          (65 - modenumScale(d[findsort(modeobjData, 1)])) / 2
+        )
+      })
+      .attr('y', function (d) {
+        const modeobjData = {
+          point: d.point,
+          various: d.various,
+          trying: d.trying
+        }
+        return (
+          (d.dayTem % 7) * 66 +
+          (65 - modenumScale(d[findsort(modeobjData, 1)])) / 2
+        )
+      })
+      .attr('fill', function (d) {
+        const modeobjData = {
+          point: d.point,
+          various: d.various,
+          trying: d.trying
+        }
+        return modecolorScale(findsort(modeobjData, 1))
       })
 
-      answertitle
-        .append('g')
-        .attr('class', 'month-title')
-        .selectAll()
-        .data(monthAll)
-        .enter()
-        .append('text')
-        .attr('x', (d, i) => {
-          return i * 71 * 4.25 + 600
-        })
-        .attr('y', 60)
-        .attr('fill', 'black')
-        .attr('font-size', '12px')
-        .attr('font-family', 'monospace')
-        .text('9月-工作日-凌晨')
-
-      //绘制学习模式的人数矩形
-      //用于找出三个模式中的第一大值,第二大值,最小值
-      function findsort(modeobj, num) {
-        // 将对象转换为数组，并按值排序
-        const items = Object.entries(modeobj).sort((a, b) => a[1] - b[1])
-
-        // 提取最小值键、第二大值键和最大值键
-        const minKey = items[0][0]
-        const secondLargestKey = items[items.length - 2][0]
-        const maxKey = items[items.length - 1][0]
-        if (num == 1) {
-          return maxKey
-        } else if (num == 2) {
-          return secondLargestKey
-        } else {
-          return minKey
+    //数量第二
+    const modesecNumSvg = answerymontSvg.append('g')
+    modesecNumSvg
+      .selectAll()
+      .data((d) => d.dayGroup)
+      .enter()
+      .append('rect')
+      .attr('width', function (d) {
+        const modeobjData = {
+          point: d.point,
+          various: d.various,
+          trying: d.trying
         }
-      }
-      //绘制模式矩形
-      //三种模式的颜色比例尺
-      const modecolorScale = d3
-        .scaleOrdinal()
-        .domain(['point', 'various', 'trying'])
-        .range(['#86C6F0', '#EB8277', '#86F0B0'])
-      //矩形数据比例尺
-      const modenumScale = d3
-        .scaleLinear()
-        .domain([minmodeNum, maxmodeNum])
-        .range([10, 50])
-      //数量最大的
-      const modemaxNumSvg = answerymontSvg.append('g')
-      modemaxNumSvg
-        .selectAll()
-        .data((d) => d.dayGroup)
-        .enter()
-        .append('rect')
-        .attr('width', function (d) {
-          const modeobjData = {
-            point: d.point,
-            various: d.various,
-            trying: d.trying
-          }
-          return modenumScale(d[findsort(modeobjData, 1)])
-        })
-        .attr('height', function (d) {
-          const modeobjData = {
-            point: d.point,
-            various: d.various,
-            trying: d.trying
-          }
-          return modenumScale(d[findsort(modeobjData, 1)])
-        })
-        .attr('x', function (d) {
-          const modeobjData = {
-            point: d.point,
-            various: d.various,
-            trying: d.trying
-          }
-          return (
-            Math.floor(d.dayTem / 7) * 66 +
-            (65 - modenumScale(d[findsort(modeobjData, 1)])) / 2
-          )
-        })
-        .attr('y', function (d) {
-          const modeobjData = {
-            point: d.point,
-            various: d.various,
-            trying: d.trying
-          }
-          return (
-            (d.dayTem % 7) * 66 +
-            (65 - modenumScale(d[findsort(modeobjData, 1)])) / 2
-          )
-        })
-        .attr('fill', function (d) {
-          const modeobjData = {
-            point: d.point,
-            various: d.various,
-            trying: d.trying
-          }
-          return modecolorScale(findsort(modeobjData, 1))
-        })
-
-      //数量第二
-      const modesecNumSvg = answerymontSvg.append('g')
-      modesecNumSvg
-        .selectAll()
-        .data((d) => d.dayGroup)
-        .enter()
-        .append('rect')
-        .attr('width', function (d) {
-          const modeobjData = {
-            point: d.point,
-            various: d.various,
-            trying: d.trying
-          }
-          return modenumScale(d[findsort(modeobjData, 2)])
-        })
-        .attr('height', function (d) {
-          const modeobjData = {
-            point: d.point,
-            various: d.various,
-            trying: d.trying
-          }
-          return modenumScale(d[findsort(modeobjData, 2)])
-        })
-        .attr('x', function (d) {
-          const modeobjData = {
-            point: d.point,
-            various: d.various,
-            trying: d.trying
-          }
-          return (
-            Math.floor(d.dayTem / 7) * 66 +
-            (65 - modenumScale(d[findsort(modeobjData, 2)])) / 2
-          )
-        })
-        .attr('y', function (d) {
-          const modeobjData = {
-            point: d.point,
-            various: d.various,
-            trying: d.trying
-          }
-          return (
-            (d.dayTem % 7) * 66 +
-            (65 - modenumScale(d[findsort(modeobjData, 2)])) / 2
-          )
-        })
-        .attr('fill', function (d) {
-          const modeobjData = {
-            point: d.point,
-            various: d.various,
-            trying: d.trying
-          }
-          return modecolorScale(findsort(modeobjData, 2))
-        })
-      //数量最少
-      const modeminNumSvg = answerymontSvg.append('g')
-      modeminNumSvg
-        .selectAll()
-        .data((d) => d.dayGroup)
-        .enter()
-        .append('rect')
-        .attr('width', function (d) {
-          const modeobjData = {
-            point: d.point,
-            various: d.various,
-            trying: d.trying
-          }
-          return modenumScale(d[findsort(modeobjData, 3)])
-        })
-        .attr('height', function (d) {
-          const modeobjData = {
-            point: d.point,
-            various: d.various,
-            trying: d.trying
-          }
-          return modenumScale(d[findsort(modeobjData, 3)])
-        })
-        .attr('x', function (d) {
-          const modeobjData = {
-            point: d.point,
-            various: d.various,
-            trying: d.trying
-          }
-          return (
-            Math.floor(d.dayTem / 7) * 66 +
-            (65 - modenumScale(d[findsort(modeobjData, 3)])) / 2
-          )
-        })
-        .attr('y', function (d) {
-          const modeobjData = {
-            point: d.point,
-            various: d.various,
-            trying: d.trying
-          }
-          return (
-            (d.dayTem % 7) * 66 +
-            (65 - modenumScale(d[findsort(modeobjData, 3)])) / 2
-          )
-        })
-        .attr('fill', function (d) {
-          const modeobjData = {
-            point: d.point,
-            various: d.various,
-            trying: d.trying
-          }
-          return modecolorScale(findsort(modeobjData, 3))
-        })
-    }
-
-    drawAnswerCalendar()
+        return modenumScale(d[findsort(modeobjData, 2)])
+      })
+      .attr('height', function (d) {
+        const modeobjData = {
+          point: d.point,
+          various: d.various,
+          trying: d.trying
+        }
+        return modenumScale(d[findsort(modeobjData, 2)])
+      })
+      .attr('x', function (d) {
+        const modeobjData = {
+          point: d.point,
+          various: d.various,
+          trying: d.trying
+        }
+        return (
+          Math.floor(d.dayTem / 7) * 66 +
+          (65 - modenumScale(d[findsort(modeobjData, 2)])) / 2
+        )
+      })
+      .attr('y', function (d) {
+        const modeobjData = {
+          point: d.point,
+          various: d.various,
+          trying: d.trying
+        }
+        return (
+          (d.dayTem % 7) * 66 +
+          (65 - modenumScale(d[findsort(modeobjData, 2)])) / 2
+        )
+      })
+      .attr('fill', function (d) {
+        const modeobjData = {
+          point: d.point,
+          various: d.various,
+          trying: d.trying
+        }
+        return modecolorScale(findsort(modeobjData, 2))
+      })
+    //数量最少
+    const modeminNumSvg = answerymontSvg.append('g')
+    modeminNumSvg
+      .selectAll()
+      .data((d) => d.dayGroup)
+      .enter()
+      .append('rect')
+      .attr('width', function (d) {
+        const modeobjData = {
+          point: d.point,
+          various: d.various,
+          trying: d.trying
+        }
+        return modenumScale(d[findsort(modeobjData, 3)])
+      })
+      .attr('height', function (d) {
+        const modeobjData = {
+          point: d.point,
+          various: d.various,
+          trying: d.trying
+        }
+        return modenumScale(d[findsort(modeobjData, 3)])
+      })
+      .attr('x', function (d) {
+        const modeobjData = {
+          point: d.point,
+          various: d.various,
+          trying: d.trying
+        }
+        return (
+          Math.floor(d.dayTem / 7) * 66 +
+          (65 - modenumScale(d[findsort(modeobjData, 3)])) / 2
+        )
+      })
+      .attr('y', function (d) {
+        const modeobjData = {
+          point: d.point,
+          various: d.various,
+          trying: d.trying
+        }
+        return (
+          (d.dayTem % 7) * 66 +
+          (65 - modenumScale(d[findsort(modeobjData, 3)])) / 2
+        )
+      })
+      .attr('fill', function (d) {
+        const modeobjData = {
+          point: d.point,
+          various: d.various,
+          trying: d.trying
+        }
+        return modecolorScale(findsort(modeobjData, 3))
+      })
   }
 
   //视图更新
@@ -1281,6 +1301,7 @@ const Calendar = (props) => {
         drawCalendar(studentID)
       })
     } else if (amode == 1) {
+      d3.select('.calendarsvg').remove()
       d3.select('#answerSessionsvg').remove()
       let sessionPeriods = [
         '凌晨-工作日',
@@ -1304,10 +1325,39 @@ const Calendar = (props) => {
           '晚上-休息日'
         ]
       }
-      console.log(order, sessionPeriods)
-      drawAnswerSession(sessionPeriods)
+      getAllPeriodInfo().then((res) => {
+        const answerData = res
+        drawAnswerSession(sessionPeriods, answerData)
+      })
     }
   }, [amode, order])
+
+  //监听是否有选中的时间段
+  useEffect(() => {
+    if (amode == 1 && selectMonth != null) {
+      //如果有选中再画出该时段下的学生模式
+      d3.select('#answerDetailSessionsvg').remove()
+      let period = null
+      if (selectPeriod == '凌晨') {
+        period = 'Dawn'
+      } else if (selectPeriod == '上午') {
+        period = 'Morning'
+      } else if (selectPeriod == '下午') {
+        period = 'Afternoon'
+      } else {
+        period = 'Evening'
+      }
+      getOnePeriodInfo(
+        parseInt(selectMonth),
+        parseInt(selectIsWork),
+        period
+      ).then((res) => {
+        const answerDetailData = res
+        console.log(answerDetailData)
+        drawAnswerCalendar(answerDetailData)
+      })
+    }
+  }, [amode, selectMonth, selectIsWork, selectPeriod])
 
   //定义新函数,用于修改Order
   function handleOrder(value) {
@@ -1324,6 +1374,7 @@ const Calendar = (props) => {
         {amode == 0 && <div className="calendarview"></div>}
         {amode == 1 && (
           <div id="answerSession" className="answerSessionview">
+            <div id="answerDetailSession" className="answerDetailview"></div>
             <div id="orderSelect" className="orderSelectview">
               <Select
                 defaultValue="按照工作日/非工作日排序"

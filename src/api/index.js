@@ -81,3 +81,18 @@ export function getEventInfo(studentID, date) {
     data: { data: studentID, date: date }
   })
 }
+
+//获取所有时间段的特征
+export function getAllPeriodInfo() {
+  return hyRequest.get({
+    url: '/allPeriodInfo'
+  })
+}
+
+//获取单个时间段的特征
+export function getOnePeriodInfo(month, is_weekday, period) {
+  return hyRequest.post({
+    url: '/onePeriodInfo',
+    data: { month: month, is_weekday: is_weekday, period: period }
+  })
+}
