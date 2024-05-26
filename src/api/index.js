@@ -96,3 +96,11 @@ export function getOnePeriodInfo(month, is_weekday, period) {
     data: { month: month, is_weekday: is_weekday, period: period }
   })
 }
+
+//获取日历中选中的该学生当天的提交时间
+export function getMonthStatisticInfo(month) {
+  return hyRequest.post({
+    url: '/featureStatisticsInfo',
+    data: { data: month }
+  })
+}
