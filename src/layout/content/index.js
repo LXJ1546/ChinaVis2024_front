@@ -15,6 +15,7 @@ const Content = () => {
   const [amode, setAmode] = useState(0) //模式0代表答题模式，1代表时间模式
   const [month, setMonth] = useState(10) //9,10,11,12,1
   const [classNum, setClassNum] = useState('all') //选中的数据集（所有数据集或某个班级）
+  const [brushSelectedData, setBrushSelectedData] = useState([])
   function handleClassNum(classnum) {
     setClassNum(classnum)
   }
@@ -25,6 +26,10 @@ const Content = () => {
   // 定义新函数，用于更新月份状态
   const handleMonth = (value) => {
     setMonth(value)
+  }
+  // 定义新函数，用于更新刷选的数据
+  const handleBrushSelectedData = (value) => {
+    setBrushSelectedData(value)
   }
   return (
     <ContentWrapper>
@@ -50,7 +55,12 @@ const Content = () => {
         </div>
         <div className="middle">
           <Card className="card5">
-            <Scatter changeMode={handleMode} changeMonth={handleMonth} />
+            <Scatter
+              changeMode={handleMode}
+              changeMonth={handleMonth}
+              changeBrushSelectedData={handleBrushSelectedData}
+              brushData={brushSelectedData}
+            />
           </Card>
           <Card className="card6">
             <MonthFeature />
@@ -58,7 +68,11 @@ const Content = () => {
         </div>
         <div className="right">
           <Card className="card7">
-            <Correlation amode={amode} month={month} />
+            <Correlation
+              amode={amode}
+              month={month}
+              brushData={brushSelectedData}
+            />
           </Card>
           <Card className="card8">
             <Calendar amode={amode} month={month} />

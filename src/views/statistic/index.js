@@ -1,7 +1,8 @@
 import React, { memo } from 'react'
 import ReactEcharts from 'echarts-for-react'
 import { StatisticWrapper } from './style'
-const StatisticFeature = () => {
+const StatisticFeature = (props) => {
+  const { statsFeature } = props
   const featureOption = {
     tooltip: {
       trigger: 'item',
@@ -140,11 +141,7 @@ const StatisticFeature = () => {
       {
         type: 'boxplot',
         name: '提交次数',
-        data: [
-          [25, 70, 45, 10, 87, 42, 53],
-          [91, 34, 60, 89, 2, 48, 78],
-          [8, 15, 33, 67, 54, 99, 73]
-        ],
+        data: statsFeature['提交次数'],
         xAxisIndex: 0,
         yAxisIndex: 0,
         itemStyle: {
@@ -156,11 +153,7 @@ const StatisticFeature = () => {
       {
         type: 'boxplot',
         name: '活跃天数',
-        data: [
-          [25, 70, 45, 10, 87, 42, 53],
-          [91, 34, 60, 89, 2, 48, 78],
-          [8, 15, 33, 67, 54, 99, 73]
-        ],
+        data: statsFeature['活跃天数'],
         xAxisIndex: 1,
         yAxisIndex: 1,
         itemStyle: {
@@ -172,11 +165,7 @@ const StatisticFeature = () => {
       {
         type: 'boxplot',
         name: '答题数',
-        data: [
-          [25, 70, 45, 10, 87, 42, 53],
-          [91, 34, 60, 89, 2, 48, 78],
-          [8, 15, 33, 67, 54, 99, 73]
-        ],
+        data: statsFeature['答题数'],
         xAxisIndex: 2,
         yAxisIndex: 2,
         itemStyle: {
@@ -188,11 +177,7 @@ const StatisticFeature = () => {
       {
         type: 'boxplot',
         name: '正确占比',
-        data: [
-          [25, 70, 45, 10, 87, 42, 53],
-          [91, 34, 60, 89, 2, 48, 78],
-          [8, 15, 33, 67, 54, 99, 73]
-        ],
+        data: statsFeature['正确占比'],
         xAxisIndex: 3,
         yAxisIndex: 3,
         itemStyle: {
