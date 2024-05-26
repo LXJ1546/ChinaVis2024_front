@@ -11,6 +11,7 @@ import KnowledgeIcicle from '../../views/knowledgeNew'
 import Calendar from '../../views/calendar'
 import StudentCommit from '../../views/studentCommit'
 import MonthFeature from '../../views/monthFeature/index'
+import TimeRight3 from '../../views/timeRight3'
 import Evolution from '../../views/temporalEvolution/index'
 const Content = () => {
   const [amode, setAmode] = useState(0) //模式0代表答题模式，1代表时间模式
@@ -105,13 +106,17 @@ const Content = () => {
             />
           </Card>
           <Card className="card9">
-            <StudentCommit
-              amode={amode}
-              month={month}
-              calendarSelectFlag={calendarSelectFlag}
-              studentIDfromCalendar={studentIDfromCalendar}
-              studentDatefromCalendar={studentDatefromCalendar}
-            />
+            {amode == 0 ? (
+              <StudentCommit
+                amode={amode}
+                month={month}
+                calendarSelectFlag={calendarSelectFlag}
+                studentIDfromCalendar={studentIDfromCalendar}
+                studentDatefromCalendar={studentDatefromCalendar}
+              />
+            ) : (
+              <TimeRight3 />
+            )}
           </Card>
         </div>
       </div>
