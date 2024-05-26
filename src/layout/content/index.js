@@ -11,6 +11,7 @@ import KnowledgeIcicle from '../../views/knowledgeNew'
 import Calendar from '../../views/calendar'
 import StudentCommit from '../../views/studentCommit'
 import MonthFeature from '../../views/monthFeature/index'
+import Evolution from '../../views/temporalEvolution/index'
 const Content = () => {
   const [amode, setAmode] = useState(0) //模式0代表答题模式，1代表时间模式
   const [month, setMonth] = useState(10) //9,10,11,12,1
@@ -79,7 +80,7 @@ const Content = () => {
             />
           </Card>
           <Card className="card6">
-            <MonthFeature />
+            {amode == 0 ? <MonthFeature /> : <Evolution />}
           </Card>
         </div>
         <div className="right">
