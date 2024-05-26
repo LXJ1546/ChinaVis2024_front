@@ -29,6 +29,12 @@ export const CalendarWrapper = styled.div`
         left: 60%;
         top: 7%;
       }
+      .answerDetailview {
+        position: absolute;
+        height: 100%;
+        width: 50%;
+        left: 50%;
+      }
     }
   }
 `

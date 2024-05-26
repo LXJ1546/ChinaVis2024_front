@@ -1,7 +1,11 @@
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo, useEffect, useState, useCallback } from 'react'
 import ReactEcharts from 'echarts-for-react'
 import { ScatterWrapper } from './style'
-import { getClusterData, getTransferData } from '../../api'
+import {
+  getClusterData,
+  getTransferData,
+  getMonthStatisticInfo
+} from '../../api'
 import { Radio, Select, Switch, Button } from 'antd'
 import { SyncOutlined } from '@ant-design/icons'
 // const IconFont = createFromIconfontCN({
@@ -10,7 +14,7 @@ import { SyncOutlined } from '@ant-design/icons'
 import StatisticFeature from '../statistic/index'
 const Scatter = (props) => {
   // 父组件传递的设置模式函数
-  const { changeMode, changeMonth } = props
+  const { changeMode, changeMonth, changeBrushSelectedData, brushData } = props
   const [clusterData, setClusterData] = useState([])
   const colorAll = ['#37A2DA', '#e06343', '#37a354']
   // 切换标签
@@ -38,13 +42,33 @@ const Scatter = (props) => {
   const [showStats, setShowStats] = useState(false)
   // 开关是否不可操作
   const [disabledStats, setDisabledStats] = useState(true)
+  // 特征统计值
+  const [statsFeature, setStatsFeature] = useState([])
   const monthsChoice = [
-    { value: '9', label: '2023-09' },
-    { value: '10', label: '2023-10' },
-    { value: '11', label: '2023-11' },
-    { value: '12', label: '2023-12' },
-    { value: '1', label: '2024-01' }
+    { value: 9, label: '2023-09' },
+    { value: 10, label: '2023-10' },
+    { value: 11, label: '2023-11' },
+    { value: 12, label: '2023-12' },
+    { value: 1, label: '2024-01' }
   ]
+  // 将数据转换为适合 ECharts 的格式
+  // const formattedData = []
+  // Object.keys(nowClusterData).forEach((cluster) => {
+  //   nowClusterData[cluster].forEach((item) => {
+  //     formattedData.push({
+  //       name: clusterName[cluster], // 类别名称
+  //       value: item.coordinates, // 坐标值
+  //       student_id: item.student_id, // ID 属性
+  //       sex: item.sex,
+  //       age: item.age,
+  //       major: item.major,
+  //       submit: item.submit,
+  //       active: item.active,
+  //       correct: item.correct,
+  //       question: item.question
+  //     })
+  //   })
+  // })
   // 生成散点图系列
   const series = Object.keys(nowClusterData).map((cluster) => ({
     name: clusterName[cluster],
@@ -58,6 +82,26 @@ const Scatter = (props) => {
     }
   }))
   const clusterOption = {
+    tooltip: {
+      formatter: function (params) {
+        var data = params.data
+        // 在这里自定义数据提示框的展示内容
+        var tooltipContent = params.seriesName
+        tooltipContent += '<br>学生id：' + data.key
+        tooltipContent += '<br>性别：' + data.sex
+        // 添加其他属性的展示内容
+        return tooltipContent
+      }
+    },
+    brush: {
+      toolbox: ['rect', 'polygon', 'clear'],
+      brushType: 'polygon',
+      xAxisIndex: 'all',
+      yAxisIndex: 'all',
+      brushMode: 'single',
+      throttleType: 'debounce',
+      throttleDelay: 1000
+    },
     grid: {
       left: '1%', // 设置左边距
       right: '2%', // 设置右边距
@@ -256,6 +300,9 @@ const Scatter = (props) => {
       setTransferCircleData(res[0])
       setTransferLinksData(res[1])
     })
+    getMonthStatisticInfo(10).then((res) => {
+      setStatsFeature(res)
+    })
   }, [])
   const handleChangeMode = (e) => {
     const value = e.target.value
@@ -293,6 +340,10 @@ const Scatter = (props) => {
     }
   }
   const handleChangeMonth = (value) => {
+    // 获取特征统计值数据
+    getMonthStatisticInfo(value).then((res) => {
+      setStatsFeature(res)
+    })
     if (value == 9) {
       setNowClusterData(clusterData[0])
       setXmax(60)
@@ -349,12 +400,38 @@ const Scatter = (props) => {
   const onSwitchChange = (checked) => {
     setShowStats(checked)
   }
+  // 刷选选择事件处理逻辑
+  const onBrushSelected = useCallback(
+    (params) => {
+      // console.log(params.batch[0].selected)
+      const selectedItems = params.batch[0].selected // 获取选中的数据
+      const selectedData = []
+      // 遍历每个选中的项
+      selectedItems.forEach((item, itemIndex) => {
+        const selectedIndices = item.dataIndex
+        // 获取选中的数据点的具体数据
+        if (selectedIndices.length != 0) {
+          selectedIndices.forEach((index) => {
+            selectedData.push(nowClusterData[itemIndex][index])
+          })
+        }
+      })
+      if (selectedData.length != 0) {
+        // 比较新数据和旧数据，只有当数据真正变化时才更新状态
+        if (JSON.stringify(selectedData) !== JSON.stringify(brushData)) {
+          changeBrushSelectedData(selectedData)
+        }
+        console.log('选中:', selectedData) // 在控制台输出选中的数据，方便调试
+      }
+    },
+    [nowClusterData]
+  )
   return (
     <ScatterWrapper>
       <div className="title">学习模式聚类视图</div>
       <div className="content">
         <div className="left">
-          {showStats && <StatisticFeature />}
+          {showStats && <StatisticFeature statsFeature={statsFeature} />}
           <div className="btn">
             <div className="leftbtn">
               <h3 className="label">视图类别</h3>
@@ -417,6 +494,9 @@ const Scatter = (props) => {
               <ReactEcharts
                 option={clusterOption}
                 style={{ width: '100%', height: '100%' }}
+                onEvents={{
+                  brushSelected: onBrushSelected
+                }}
               />
             )}
             {isTransfer && (

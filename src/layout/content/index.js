@@ -12,10 +12,12 @@ import Calendar from '../../views/calendar'
 import StudentCommit from '../../views/studentCommit'
 import MonthFeature from '../../views/monthFeature/index'
 import TimeRight3 from '../../views/timeRight3'
+import Evolution from '../../views/temporalEvolution/index'
 const Content = () => {
   const [amode, setAmode] = useState(0) //模式0代表答题模式，1代表时间模式
   const [month, setMonth] = useState(10) //9,10,11,12,1
   const [classNum, setClassNum] = useState('all') //选中的数据集（所有数据集或某个班级）
+  const [brushSelectedData, setBrushSelectedData] = useState([])
   const [calendarSelectFlag, setCalendarSelectFlag] = useState(false) //判断学习日历中是否有人被选中
   const [studentIDfromCalendar, setStudentIDfromCalendar] = useState(null) //提交事件获取学习日历中选中的学生ID
   const [studentDatefromCalendar, setSudentDatefromCalendar] = useState(null) //提交事件获取学习日历中选中的日期
@@ -29,6 +31,10 @@ const Content = () => {
   // 定义新函数，用于更新月份状态
   const handleMonth = (value) => {
     setMonth(value)
+  }
+  // 定义新函数，用于更新刷选的数据
+  const handleBrushSelectedData = (value) => {
+    setBrushSelectedData(value)
   }
   //定义新函数,用于更新是否选择了学习日历中的某个学生
   const handleCalendarSelectFlag = (value) => {
@@ -67,15 +73,24 @@ const Content = () => {
         </div>
         <div className="middle">
           <Card className="card5">
-            <Scatter changeMode={handleMode} changeMonth={handleMonth} />
+            <Scatter
+              changeMode={handleMode}
+              changeMonth={handleMonth}
+              changeBrushSelectedData={handleBrushSelectedData}
+              brushData={brushSelectedData}
+            />
           </Card>
           <Card className="card6">
-            <MonthFeature />
+            {amode == 0 ? <MonthFeature /> : <Evolution />}
           </Card>
         </div>
         <div className="right">
           <Card className="card7">
-            <Correlation amode={amode} month={month} />
+            <Correlation
+              amode={amode}
+              month={month}
+              brushData={brushSelectedData}
+            />
           </Card>
           <Card className="card8">
             <Calendar

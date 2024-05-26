@@ -81,3 +81,26 @@ export function getEventInfo(studentID, date) {
     data: { data: studentID, date: date }
   })
 }
+
+//获取所有时间段的特征
+export function getAllPeriodInfo() {
+  return hyRequest.get({
+    url: '/allPeriodInfo'
+  })
+}
+
+//获取单个时间段的特征
+export function getOnePeriodInfo(month, is_weekday, period) {
+  return hyRequest.post({
+    url: '/onePeriodInfo',
+    data: { month: month, is_weekday: is_weekday, period: period }
+  })
+}
+
+//获取日历中选中的该学生当天的提交时间
+export function getMonthStatisticInfo(month) {
+  return hyRequest.post({
+    url: '/featureStatisticsInfo',
+    data: { data: month }
+  })
+}
