@@ -24,6 +24,11 @@ export const CalendarWrapper = styled.div`
     .answerSessionview {
       width: 100%;
       height: 100%;
+      .orderSelectview {
+        position: absolute;
+        left: 60%;
+        top: 7%;
+      }
     }
   }
 `

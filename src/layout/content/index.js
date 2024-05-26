@@ -16,6 +16,9 @@ const Content = () => {
   const [month, setMonth] = useState(10) //9,10,11,12,1
   const [classNum, setClassNum] = useState('all') //选中的数据集（所有数据集或某个班级）
   const [brushSelectedData, setBrushSelectedData] = useState([])
+  const [calendarSelectFlag, setCalendarSelectFlag] = useState(false) //判断学习日历中是否有人被选中
+  const [studentIDfromCalendar, setStudentIDfromCalendar] = useState(null) //提交事件获取学习日历中选中的学生ID
+  const [studentDatefromCalendar, setSudentDatefromCalendar] = useState(null) //提交事件获取学习日历中选中的日期
   function handleClassNum(classnum) {
     setClassNum(classnum)
   }
@@ -31,6 +34,19 @@ const Content = () => {
   const handleBrushSelectedData = (value) => {
     setBrushSelectedData(value)
   }
+  //定义新函数,用于更新是否选择了学习日历中的某个学生
+  const handleCalendarSelectFlag = (value) => {
+    setCalendarSelectFlag(value)
+  }
+  //定义新函数,用于更新学习日历中选中的某个学生的ID
+  const handleStudentIDfromCalendar = (value) => {
+    setStudentIDfromCalendar(value)
+  }
+  //定义新函数,用于更新学习日历中选中的日期
+  const handleStudentDatefromCalendar = (value) => {
+    setSudentDatefromCalendar(value)
+  }
+
   return (
     <ContentWrapper>
       <div className="container">
@@ -75,10 +91,22 @@ const Content = () => {
             />
           </Card>
           <Card className="card8">
-            <Calendar amode={amode} month={month} />
+            <Calendar
+              amode={amode}
+              month={month}
+              handleCalendarSelectFlag={handleCalendarSelectFlag}
+              handleStudentIDfromCalendar={handleStudentIDfromCalendar}
+              handleStudentDatefromCalendar={handleStudentDatefromCalendar}
+            />
           </Card>
           <Card className="card9">
-            <StudentCommit amode={amode} month={month} />
+            <StudentCommit
+              amode={amode}
+              month={month}
+              calendarSelectFlag={calendarSelectFlag}
+              studentIDfromCalendar={studentIDfromCalendar}
+              studentDatefromCalendar={studentDatefromCalendar}
+            />
           </Card>
         </div>
       </div>

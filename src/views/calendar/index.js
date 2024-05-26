@@ -1,16 +1,23 @@
-import React, { memo, useEffect } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 // import ReactEcharts from 'echarts-for-react'
 import { CalendarWrapper } from './style'
 import * as d3 from 'd3'
 import d3Tip from 'd3-tip'
 import { getCalenderInfo } from '../../api'
+import { Select } from 'antd'
 const Calendar = (props) => {
   // 拿到父组件传递的模式状态
-  const { amode, month } = props
+  const {
+    amode,
+    month,
+    handleCalendarSelectFlag,
+    handleStudentIDfromCalendar,
+    handleStudentDatefromCalendar
+  } = props
   let studentID = []
   let studentCalandarInfo = {}
-  console.log(month)
-
+  let maxcommitnum = 0
+  const [order, setOrder] = useState('workOrder') //用于调整排纵轴的排序方式
   //tooltip
   const tip = d3Tip()
     .attr('class', 'd3-tip')
@@ -105,9 +112,13 @@ const Calendar = (props) => {
       // console.log(Object.values(data).map((item) => item[3])) //打印所有列表的某一列的值
       //定义比例尺和配置信息
       //提交次数颜色隐射
+      // const commitscaleColor = d3
+      //   .scaleLinear()
+      //   .domain([0, d3.max(Object.values(dataArr).map((item) => item[3]))])
+      //   .range(['#ABE2FE', '#236D92'])
       const commitscaleColor = d3
         .scaleLinear()
-        .domain([0, d3.max(Object.values(dataArr).map((item) => item[3]))])
+        .domain([0, maxcommitnum])
         .range(['#ABE2FE', '#236D92'])
 
       //正确占比颜色映射
@@ -450,6 +461,12 @@ const Calendar = (props) => {
           }
           return commitscaleColor(d.commitcount)
         })
+        .on('click', function (event, d) {
+          // 在点击事件中，可以访问数据（d）和索引（i）
+          handleCalendarSelectFlag(true)
+          handleStudentIDfromCalendar(studentName)
+          handleStudentDatefromCalendar(d.name)
+        })
 
       //绘制月和周
       const title = svg.append('g')
@@ -492,26 +509,6 @@ const Calendar = (props) => {
     //对选中的每个学生都生成这个图
     studentID.forEach(function (item, index) {
       console.log(item, index)
-      // const dataArr = {
-      //   '2023-05-8': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-      //   '2023-05-9': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 260],
-      //   '2023-05-10': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-      //   '2023-05-11': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-      //   '2023-05-12': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 100],
-      //   '2023-05-13': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-      //   '2023-05-14': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-      //   '2023-05-16': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-      //   '2023-05-17': [0.4, 11, [0.1, 0.5, 0.2, 0.1, 0.1], 24],
-      //   '2023-05-18': [0.9, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 55],
-      //   '2023-05-19': [0.9, 4, [0.2, 0.3, 0.2, 0.1, 0.1], 60],
-      //   '2023-05-20': [0.5, 38, [0.1, 0.5, 0.2, 0.1, 0.1], 60],
-      //   '2023-05-26': [0.49, 3, [0.1, 0.5, 0.2, 0.1, 0.1], 60],
-      //   '2023-05-27': [0.69, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 90],
-      //   '2023-05-28': [0.69, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 90],
-      //   '2023-05-29': [0.69, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 90],
-      //   '2023-05-30': [0.69, 20, [0.1, 0.5, 0.2, 0.1, 0.1], 90],
-      //   '2023-05-31': [0.9, 24, [0.1, 0.5, 0.2, 0.1, 0.1], 60]
-      // }
       const dataArr = studentCalandarInfo[item]
       console.log(dataArr)
       drawStudentCalendar(item, index, dataArr)
@@ -524,7 +521,7 @@ const Calendar = (props) => {
   }
 
   //绘制时间模式的答题时间段对比分析图
-  function drawAnswerSession() {
+  function drawAnswerSession(sessionPeriods) {
     //假数据
     //每个时段,每个月对应的提交/活跃度/人数
     const answerData = {
@@ -719,16 +716,7 @@ const Calendar = (props) => {
     //创建横纵坐标比例尺
     // 数据
     const sessionMonths = [9, 10, 11, 12, 1]
-    const sessionPeriods = [
-      '凌晨-工作日',
-      '上午-工作日',
-      '下午-工作日',
-      '晚上-工作日',
-      '凌晨-休息日',
-      '上午-休息日',
-      '下午-休息日',
-      '晚上-休息日'
-    ]
+
     // 定义 x 轴比例尺
     const xScale = d3
       .scaleBand()
@@ -1275,13 +1263,56 @@ const Calendar = (props) => {
       getCalenderInfo(studentID, month).then((res) => {
         d3.select('.calendarsvg').remove()
         studentCalandarInfo = res
+        // 遍历 JSON 对象的每个键,获取这一组学生的提交最大值
+        for (const key1 in studentCalandarInfo) {
+          if (Object.prototype.hasOwnProperty.call(studentCalandarInfo, key1)) {
+            // 获得 key1 对应的数字
+            const key2Array = studentCalandarInfo[key1]
+            for (const key2 in key2Array) {
+              if (Object.prototype.hasOwnProperty.call(key2Array, key2)) {
+                // 遍历 key2Array 数组中的每个对象
+                if (key2Array[key2][3] > maxcommitnum) {
+                  maxcommitnum = key2Array[key2][3]
+                }
+              }
+            }
+          }
+        }
         drawCalendar(studentID)
       })
     } else if (amode == 1) {
       d3.select('#answerSessionsvg').remove()
-      drawAnswerSession()
+      let sessionPeriods = [
+        '凌晨-工作日',
+        '上午-工作日',
+        '下午-工作日',
+        '晚上-工作日',
+        '凌晨-休息日',
+        '上午-休息日',
+        '下午-休息日',
+        '晚上-休息日'
+      ]
+      if (order == 'timeOrder') {
+        sessionPeriods = [
+          '凌晨-工作日',
+          '凌晨-休息日',
+          '上午-工作日',
+          '上午-休息日',
+          '下午-工作日',
+          '下午-休息日',
+          '晚上-工作日',
+          '晚上-休息日'
+        ]
+      }
+      console.log(order, sessionPeriods)
+      drawAnswerSession(sessionPeriods)
     }
-  }, [amode])
+  }, [amode, order])
+
+  //定义新函数,用于修改Order
+  function handleOrder(value) {
+    setOrder(value)
+  }
 
   return (
     <CalendarWrapper>
@@ -1292,7 +1323,31 @@ const Calendar = (props) => {
         {/* amode=0答题模式 ，amode=1时间模式*/}
         {amode == 0 && <div className="calendarview"></div>}
         {amode == 1 && (
-          <div id="answerSession" className="answerSessionview"></div>
+          <div id="answerSession" className="answerSessionview">
+            <div id="orderSelect" className="orderSelectview">
+              <Select
+                defaultValue="按照工作日/非工作日排序"
+                style={{ width: 230, position: 'absolute' }}
+                onChange={handleOrder}
+                options={[
+                  {
+                    label: <span>选择排序方式</span>,
+                    title: '选择排序方式',
+                    options: [
+                      {
+                        label: <span>按照工作日/非工作日排序</span>,
+                        value: 'workOrder'
+                      },
+                      {
+                        label: <span>按照时间段排序</span>,
+                        value: 'timeOrder'
+                      }
+                    ]
+                  }
+                ]}
+              />
+            </div>
+          </div>
         )}
       </div>
     </CalendarWrapper>
