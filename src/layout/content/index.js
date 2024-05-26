@@ -80,7 +80,11 @@ const Content = () => {
             />
           </Card>
           <Card className="card6">
-            {amode == 0 ? <MonthFeature /> : <Evolution />}
+            {amode == 0 ? (
+              <MonthFeature brushData={brushSelectedData} />
+            ) : (
+              <Evolution />
+            )}
           </Card>
         </div>
         <div className="right">

@@ -2,9 +2,20 @@ import React, { memo, useRef, useEffect } from 'react'
 import * as d3 from 'd3'
 import ReactEcharts from 'echarts-for-react'
 import { MonthFeatureWrapper } from './style'
-const MonthFeature = () => {
+const MonthFeature = (props) => {
+  const { brushData } = props
   // 拿到svg的引用
   const svgRef = useRef(null)
+  const student = brushData.map((item) => item.key)
+  // 正确率的数据
+  const correct = brushData.map((item) => item.correct)
+  // 提交的数据
+  const submit = brushData.map((item) => item.submit)
+  // 活跃的数据
+  const active = brushData.map((item) => item.active)
+  // 答题的数据
+  const question = brushData.map((item) => item.question)
+
   const virtualData = [
     [65, 23, 77, 34],
     [25, 44, 89, 56],
@@ -26,7 +37,7 @@ const MonthFeature = () => {
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      data: student,
       axisLabel: {
         show: false
       },
@@ -44,13 +55,20 @@ const MonthFeature = () => {
       },
       axisLabel: {
         show: false
-      }
+      },
+      min: 0,
+      max: 1
+    },
+    dataZoom: {
+      type: 'inside',
+      start: 0,
+      end: 50
     },
     series: [
       {
-        data: [120, 200, 150, 80, 70, 110, 130],
+        data: correct,
         type: 'line',
-        color: '#FFE4E1',
+        color: '#FFC0CB',
         areaStyle: {}
       }
     ]
@@ -60,7 +78,7 @@ const MonthFeature = () => {
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      data: student,
       axisLabel: {
         show: false
       },
@@ -78,13 +96,20 @@ const MonthFeature = () => {
       },
       axisLabel: {
         show: false
-      }
+      },
+      min: 0,
+      max: 400
+    },
+    dataZoom: {
+      type: 'inside',
+      start: 0,
+      end: 50
     },
     series: [
       {
-        data: [120, 200, 150, 80, 70, 110, 130],
+        data: submit,
         type: 'line',
-        color: '#FFE4E1',
+        color: '#FFC0CB',
         areaStyle: {}
       }
     ]
@@ -94,7 +119,7 @@ const MonthFeature = () => {
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      data: student,
       axisLabel: {
         show: false
       },
@@ -112,13 +137,20 @@ const MonthFeature = () => {
       },
       axisLabel: {
         show: false
-      }
+      },
+      min: 0,
+      max: 30
+    },
+    dataZoom: {
+      type: 'inside',
+      start: 0,
+      end: 50
     },
     series: [
       {
-        data: [120, 200, 150, 80, 70, 110, 130],
+        data: active,
         type: 'line',
-        color: '#FFE4E1',
+        color: '#FFC0CB',
         areaStyle: {}
       }
     ]
@@ -128,7 +160,7 @@ const MonthFeature = () => {
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      data: student,
       axisLabel: {
         show: false
       },
@@ -146,13 +178,20 @@ const MonthFeature = () => {
       },
       axisLabel: {
         show: false
-      }
+      },
+      min: 0,
+      max: 38
+    },
+    dataZoom: {
+      type: 'inside',
+      start: 0,
+      end: 50
     },
     series: [
       {
-        data: [120, 200, 150, 80, 70, 110, 130],
+        data: question,
         type: 'line',
-        color: '#FFE4E1',
+        color: '#FFC0CB',
         areaStyle: {}
       }
     ]
@@ -391,6 +430,15 @@ const MonthFeature = () => {
           .attr('fill', (d) => colorScale(d)) // 使用颜色比例尺编码矩形的颜色
       })
   }, [virtualData])
+  // useEffect(() => {
+  //   if (brushData.length != 0) {
+  //     const correct1 = brushData.map((item) => item.key)
+  //     const correct2 = brushData.map((item) => item.correct)
+  //     console.log(correct2)
+  //     setCorrect1(correct1)
+  //     setCorrect2(correct2)
+  //   }
+  // }, [brushData])
   return (
     <MonthFeatureWrapper>
       <div className="title">学生月答题数据视图</div>
