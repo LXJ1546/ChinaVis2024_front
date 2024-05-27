@@ -21,6 +21,8 @@ const Content = () => {
   const [calendarSelectFlag, setCalendarSelectFlag] = useState(false) //判断学习日历中是否有人被选中
   const [studentIDfromCalendar, setStudentIDfromCalendar] = useState(null) //提交事件获取学习日历中选中的学生ID
   const [studentDatefromCalendar, setSudentDatefromCalendar] = useState(null) //提交事件获取学习日历中选中的日期
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]) // 表格选择数据的数组
+  const [calendarFlag, setCalendarFlag] = useState(false) //用于表示表格中是否确认生成日历
   function handleClassNum(classnum) {
     setClassNum(classnum)
   }
@@ -47,6 +49,14 @@ const Content = () => {
   //定义新函数,用于更新学习日历中选中的日期
   const handleStudentDatefromCalendar = (value) => {
     setSudentDatefromCalendar(value)
+  }
+  //定义新函数,用于生成学习日历的学生
+  const handleRowKeys = (value) => {
+    setSelectedRowKeys(value)
+  }
+  //定义新函数,用于确认是否生成日历图
+  const handleCalendarFlag = (value) => {
+    setCalendarFlag(value)
   }
 
   return (
@@ -94,6 +104,10 @@ const Content = () => {
               amode={amode}
               month={month}
               brushData={brushSelectedData}
+              handleRowKeys={handleRowKeys}
+              selectedRowKeys={selectedRowKeys}
+              handleCalendarFlag={handleCalendarFlag}
+              calendarFlag={calendarFlag}
             />
           </Card>
           <Card className="card8">
@@ -103,6 +117,8 @@ const Content = () => {
               handleCalendarSelectFlag={handleCalendarSelectFlag}
               handleStudentIDfromCalendar={handleStudentIDfromCalendar}
               handleStudentDatefromCalendar={handleStudentDatefromCalendar}
+              selectedRowKeys={selectedRowKeys}
+              calendarFlag={calendarFlag}
             />
           </Card>
           <Card className="card9">

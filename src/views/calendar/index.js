@@ -13,7 +13,9 @@ const Calendar = (props) => {
     month,
     handleCalendarSelectFlag,
     handleStudentIDfromCalendar,
-    handleStudentDatefromCalendar
+    handleStudentDatefromCalendar,
+    selectedRowKeys,
+    calendarFlag
   } = props
   let studentID = []
   let studentCalandarInfo = {}
@@ -1271,15 +1273,11 @@ const Calendar = (props) => {
 
   //视图更新
   useEffect(() => {
-    if (amode == 0) {
+    if (amode == 0 && selectedRowKeys != []) {
       //更新重画
       // d3.select('svg').remove() //移除已有的svg元素
       // // 选择现有的 SVG 元素，如果已经存在则移除它
-      studentID = [
-        '3531c5f9d520759ba697',
-        'uon3zzl9a1zr5zmeodmr',
-        '2d9a38c93e37bc475cb6'
-      ]
+      studentID = selectedRowKeys
       getCalenderInfo(studentID, month).then((res) => {
         d3.select('.calendarsvg').remove()
         studentCalandarInfo = res
@@ -1330,7 +1328,7 @@ const Calendar = (props) => {
         drawAnswerSession(sessionPeriods, answerData)
       })
     }
-  }, [amode, order])
+  }, [amode, order, calendarFlag])
 
   //监听是否有选中的时间段
   useEffect(() => {
