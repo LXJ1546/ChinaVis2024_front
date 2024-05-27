@@ -6,7 +6,15 @@ import { CorrelationWrapper } from './style'
 import { getCorrelationData } from '../../api'
 const Correlation = (props) => {
   // 拿到父组件传递的模式状态
-  const { amode, month, brushData } = props
+  const {
+    amode,
+    month,
+    brushData,
+    handleRowKeys,
+    selectedRowKeys,
+    handleCalendarFlag,
+    calendarFlag
+  } = props
   // 保存相关性矩阵数据
   const [correlationData, setCorrelationData] = useState([])
   // 相关性数据的下标
@@ -71,8 +79,7 @@ const Correlation = (props) => {
       }
     ]
   }
-  // 表格选择数据的数组
-  const [selectedRowKeys, setSelectedRowKeys] = useState([])
+
   // 表格勾选了多少人
   const [tableNum, setTableNum] = useState(0)
   // 表格勾选函数
@@ -80,19 +87,24 @@ const Correlation = (props) => {
     // 更新勾选人数
     setTableNum(newSelectedRowKeys.length)
     // 更新勾选数组
-    setSelectedRowKeys(newSelectedRowKeys)
+    // setSelectedRowKeys(newSelectedRowKeys)
+    handleRowKeys(newSelectedRowKeys)
   }
   // 表格取消按钮
   const handleCancel = () => {
     // 更新勾选人数
     setTableNum(0)
     // 更新勾选数组
-    setSelectedRowKeys([])
+    // setSelectedRowKeys([])
+    handleRowKeys([])
   }
   // 勾选功能以及触发事件函数
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange
+  }
+  const changeFlag = () => {
+    handleCalendarFlag(!calendarFlag)
   }
   useEffect(() => {
     getCorrelationData().then((res) => {
@@ -132,7 +144,7 @@ const Correlation = (props) => {
               >
                 取消
               </Button>
-              <Button type="primary" size="small">
+              <Button type="primary" size="small" onClick={changeFlag}>
                 确认
               </Button>
             </div>
