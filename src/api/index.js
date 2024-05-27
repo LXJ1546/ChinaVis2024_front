@@ -104,3 +104,11 @@ export function getMonthStatisticInfo(month) {
     data: { data: month }
   })
 }
+
+//时间模式下，右下象形柱图
+export function getTimeStudentInfo(feature) {
+  return hyRequest.post({
+    url: '/timeStudentInfo',
+    data: { data: feature }
+  })
+}
