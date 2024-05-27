@@ -15,23 +15,13 @@ const MonthFeature = (props) => {
   const active = brushData.map((item) => item.active)
   // 答题的数据
   const question = brushData.map((item) => item.question)
-
-  const virtualData = [
-    [65, 23, 77, 34],
-    [25, 44, 89, 56],
-    [45, 23, 67, 30],
-    [32, 30, 50, 64],
-    [32, 30, 50, 64],
-    [32, 30, 50, 64],
-    [32, 30, 50, 64],
-    [32, 30, 50, 64],
-    [32, 30, 50, 64],
-    [32, 30, 50, 64],
-    [32, 30, 50, 64],
-    [32, 30, 50, 64],
-    [32, 30, 50, 64],
-    [32, 30, 50, 64]
-  ]
+  // 矩形条的数据
+  // 提取的字段名
+  const fieldsToExtract = ['label', 'correct', 'submit', 'active', 'question']
+  // 使用 map 方法提取字段值并创建新数组
+  const extractedArrays = brushData.map((item) => {
+    return fieldsToExtract.map((field) => item[field])
+  })
   const option1 = {
     grid: { left: '0%', top: '5%', right: '0%', bottom: '0%' },
     xAxis: {
@@ -60,9 +50,7 @@ const MonthFeature = (props) => {
       max: 1
     },
     dataZoom: {
-      type: 'inside',
-      start: 0,
-      end: 50
+      type: 'inside'
     },
     series: [
       {
@@ -101,9 +89,7 @@ const MonthFeature = (props) => {
       max: 400
     },
     dataZoom: {
-      type: 'inside',
-      start: 0,
-      end: 50
+      type: 'inside'
     },
     series: [
       {
@@ -142,9 +128,7 @@ const MonthFeature = (props) => {
       max: 30
     },
     dataZoom: {
-      type: 'inside',
-      start: 0,
-      end: 50
+      type: 'inside'
     },
     series: [
       {
@@ -183,9 +167,7 @@ const MonthFeature = (props) => {
       max: 38
     },
     dataZoom: {
-      type: 'inside',
-      start: 0,
-      end: 50
+      type: 'inside'
     },
     series: [
       {
@@ -389,21 +371,34 @@ const MonthFeature = (props) => {
   }
   useEffect(() => {
     const svg = d3.select(svgRef.current)
-
     // 清空之前的绘制
     svg.selectAll('*').remove()
-
     // 创建颜色比例尺
-    const colorScale = d3
+    const colorScale1 = d3
       .scaleSequential(
         d3.interpolateRgbBasis(['#ffebcd', '#f4a460', '#d2691e'])
       )
-      .domain([0, 100]) // 假设数据范围为0到100
-
+      .domain([0, 1])
+    const colorScale2 = d3
+      .scaleSequential(
+        d3.interpolateRgbBasis(['#ffebcd', '#f4a460', '#d2691e'])
+      )
+      .domain([0, 400])
+    const colorScale3 = d3
+      .scaleSequential(
+        d3.interpolateRgbBasis(['#ffebcd', '#f4a460', '#d2691e'])
+      )
+      .domain([0, 30])
+    const colorScale4 = d3
+      .scaleSequential(
+        d3.interpolateRgbBasis(['#ffebcd', '#f4a460', '#d2691e'])
+      )
+      .domain([0, 38])
+    const colorScales = [colorScale1, colorScale2, colorScale3, colorScale4]
     // 渲染矩形
     svg
       .selectAll('g')
-      .data(virtualData)
+      .data(extractedArrays)
       .enter()
       .append('g')
       .attr('transform', (_, i) => `translate(5, ${i * 30})`) // 每个学生之间间隔30像素
@@ -415,21 +410,30 @@ const MonthFeature = (props) => {
           .attr('cx', 8) // 圆形的 x 坐标为 10
           .attr('cy', 10) // 圆形的 y 坐标为矩形的高度的一半，使其垂直居中
           .attr('r', 7) // 圆形的半径为 8 像素
-          .attr('fill', 'steelblue') // 圆形的填充颜色为钢蓝色
+          .attr('fill', function (d) {
+            // 根据字符串的值来决定填充颜色
+            if (d[0] === '针对型') {
+              return 'steelblue'
+            } else if (d[0] === '多样型') {
+              return 'red'
+            } else {
+              return 'green'
+            }
+          })
 
         // 在每个 g 元素中根据数据添加矩形
         d3.select(this)
           .selectAll('rect')
-          .data((d) => d)
+          .data((d) => d.slice(1))
           .enter()
           .append('rect')
           .attr('x', (_, i) => 22 + i * 130) // 矩形的 x 坐标，留出空间给圆形和间隔
           .attr('y', 0)
           .attr('width', 120) // 每个矩形的固定宽度为100像素
           .attr('height', 20) // 每个矩形的固定高度为20像素
-          .attr('fill', (d) => colorScale(d)) // 使用颜色比例尺编码矩形的颜色
+          .attr('fill', (d, i) => colorScales[i](d)) // 使用颜色比例尺编码矩形的颜色
       })
-  }, [virtualData])
+  }, [brushData])
   // useEffect(() => {
   //   if (brushData.length != 0) {
   //     const correct1 = brushData.map((item) => item.key)
@@ -478,7 +482,11 @@ const MonthFeature = (props) => {
               </div>
             </div>
             <div className="asvg">
-              <svg ref={svgRef} width="100%" height={virtualData.length * 30} />
+              <svg
+                ref={svgRef}
+                width="100%"
+                height={extractedArrays.length * 30}
+              />
             </div>
           </div>
         </div>
