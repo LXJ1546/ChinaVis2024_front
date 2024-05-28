@@ -503,7 +503,7 @@ const KnowledgeIcicle = (props) => {
     })
 
     // Color the cell with respect to which child of root it belongs to.
-    cell
+    let rects = cell
       .append('rect')
       .attr('width', (d) => (5 / 4) * (d.y1 - d.y0))
       .attr('height', (d) => d.x1 - d.x0)
@@ -512,10 +512,27 @@ const KnowledgeIcicle = (props) => {
         if (!d.depth) return '#ccc'
         return color(d.data.score)
       })
+      .attr('opacity', 0.9)
+
+    // 添加鼠标滑过事件监听器
+    rects.on('mouseover', function () {
+      // 在回调函数中修改样式
+      // d3.select(this).style('opacity', 1)
+      d3.select(this)
+        .style('stroke', 'RGB(22, 106, 100)')
+        .style('stroke-width', 2)
+    })
+
+    // 添加鼠标移出事件监听器
+    rects.on('mouseout', function () {
+      // 还原样式
+      // d3.select(this).style('opacity', 0.9)
+      d3.select(this).style('stroke', 'none')
+    })
 
     // Add labels and a title.
     const text = cell
-      .filter((d) => d.x1 - d.x0 > 16)
+      .filter((d) => d.x1 - d.x0 > 16 && d.depth < 3)
       .append('text')
       .attr('x', 4)
       .attr('y', 13)
@@ -525,7 +542,11 @@ const KnowledgeIcicle = (props) => {
     text
       .append('tspan')
       .attr('fill-opacity', 0.7)
-      .text((d) => ` ${format(d.value)}`)
+      .text((d) => {
+        // if (d.data.name == 'Question_FNg8X9v5zcbB1tQrxHR3')
+        //   console.log('text', d)
+        if (d.depth < 3) return ` ${format(d.value)}`
+      })
 
     // 为主知识点添加点击事件
     // 选择具有特定 class 的 <g> 元素
@@ -563,7 +584,7 @@ const KnowledgeIcicle = (props) => {
         .attr('xlink:href', function (d) {
           return imageMap[d.data.icon] // 根据索引 i 更新 x 位置，并固定 y 位置
         })
-        .attr('x', 120)
+        .attr('x', 138)
         .attr('y', function () {
           if (questionState) return titleH / 20
           else return 0
