@@ -272,7 +272,7 @@ const Calendar = (props) => {
           }
         })
         .on('mouseover', function (e, d) {
-          d3.select(this).transition().duration(200).style('opacity', 0.5) //鼠标覆盖高亮
+          d3.select(this).style('stroke', 'grey').style('stroke-width', 2)
           if (d.commitcount != null) {
             tip.html(`<div style="line-height: 1;
                 font-weight: bold;
@@ -301,7 +301,7 @@ const Calendar = (props) => {
         })
         .on('mouseout', function () {
           tip.hide()
-          d3.select(this).transition().duration(200).style('opacity', 1) //鼠标移出恢复
+          d3.select(this).style('stroke-width', 0)
         })
 
       // 定义饼图生成器
@@ -467,7 +467,13 @@ const Calendar = (props) => {
         .data((d) => d.dayGroup)
         .enter()
         .append('circle')
-        .attr('r', 11) // 半径
+        .attr('r', function (d) {
+          if (!d.commitcount) {
+            return 0
+          } else {
+            return 11
+          }
+        }) // 半径
         .attr('cx', (d) => Math.floor(d.dayTem / 7) * 66 + 33)
         .attr('cy', (d) => (d.dayTem % 7) * 66 + 33)
         .attr('fill', (d) => {
@@ -483,10 +489,12 @@ const Calendar = (props) => {
           handleStudentDatefromCalendar(d.name)
         })
         .on('mouseover', function () {
-          d3.select(this).transition().duration(200).style('opacity', 0.5) //鼠标覆盖高亮
+          // d3.select(this).transition().duration(200).style('opacity', 0.5) //鼠标覆盖高亮
+          d3.select(this).style('stroke', 'grey').style('stroke-width', 2)
         })
         .on('mouseout', function () {
-          d3.select(this).transition().duration(200).style('opacity', 1) //鼠标移除恢复
+          // d3.select(this).transition().duration(200).style('opacity', 1) //鼠标移除恢复
+          d3.select(this).style('stroke-width', 0)
         })
 
       //绘制月和周
@@ -758,7 +766,8 @@ const Calendar = (props) => {
           .attr('y', yScale(key))
           .attr('fill', submitColorScale(monthvalue[0]))
           .on('mouseover', function (e, d) {
-            d3.select(this).transition().duration(200).style('opacity', 0.5) //鼠标覆盖高亮
+            // d3.select(this).transition().duration(200).style('opacity', 0.5) //鼠标覆盖高亮
+            d3.select(this).style('stroke', 'grey').style('stroke-width', 2)
             tip.html(`<div style="line-height: 1;
                   font-weight: bold;
                   padding: 12px;
@@ -773,7 +782,7 @@ const Calendar = (props) => {
           })
           .on('mouseout', function () {
             tip.hide()
-            d3.select(this).transition().duration(200).style('opacity', 1) //鼠标移除恢复
+            d3.select(this).style('stroke-width', 0)
           })
         // .on('click', function () {
         //   tip.hide
@@ -794,7 +803,8 @@ const Calendar = (props) => {
           .attr('cy', yScale(key) + rectWidth / 2)
           .attr('fill', peopleColorScale(monthvalue[2]))
           .on('mouseover', function () {
-            d3.select(this).transition().duration(200).style('opacity', 0.7)
+            // d3.select(this).transition().duration(200).style('opacity', 0.7)
+            d3.select(this).style('stroke', 'grey').style('stroke-width', 2)
 
             // tip.html(`<div style="line-height: 1;
             //       font-weight: bold;
@@ -810,7 +820,7 @@ const Calendar = (props) => {
           })
           .on('mouseout', function () {
             // tip.hide()
-            d3.select(this).transition().duration(200).style('opacity', 1) //鼠标移除恢复
+            d3.select(this).style('stroke-width', 0)
           })
           .on('click', function () {
             const keyParts = key.split('-')
@@ -1028,7 +1038,7 @@ const Calendar = (props) => {
         }
       })
       .on('mouseover', function (e, d) {
-        d3.select(this).transition().duration(200).style('opacity', 0.5)
+        d3.select(this).style('stroke', 'grey').style('stroke-width', 2)
         if (d.point != null || d.various != null || d.trying != null) {
           tip.html(`<div style="line-height: 1;
             font-weight: bold;
@@ -1057,7 +1067,7 @@ const Calendar = (props) => {
       })
       .on('mouseout', function () {
         tip.hide()
-        d3.select(this).transition().duration(200).style('opacity', 1) //鼠标移除恢复
+        d3.select(this).style('stroke-width', 0)
       })
     //绘制月和周
     const answertitle = svg.append('g')
