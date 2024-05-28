@@ -64,8 +64,8 @@ const TimeRight3 = () => {
         // shape: 'circle',
         indicator: [
           { name: '掌握程度' },
-          { name: '活跃度' },
-          { name: '正确率' }
+          { name: '正确率' },
+          { name: '活跃度' }
         ],
         center: ['50%', '65%']
       },
@@ -75,15 +75,21 @@ const TimeRight3 = () => {
           type: 'radar',
           data: [
             {
-              value: [30, 20, 10],
+              value: [
+                0.6250595748462441, 0.7619955945820197, 15.493887530562347
+              ],
               name: 'top'
             },
             {
-              value: [50, 14, 28],
+              value: [
+                0.46962646079945264, 0.5551806867812913, 31.842490842490843
+              ],
               name: 'mid'
             },
             {
-              value: [20, 10, 28],
+              value: [
+                0.3104919230562338, 0.38418897525199913, 59.63569682151589
+              ],
               name: 'low'
             }
           ]
@@ -102,13 +108,24 @@ const TimeRight3 = () => {
     let myChart = echarts.init(timeTitleRef.current)
     let option
 
-    // There should not be negative values in rawData
     const rawData = [
-      [100, 302, 301, 334, 390, 330, 320, 100],
-      [320, 132, 101, 134, 90, 230, 210, 150],
-      [220, 182, 191, 234, 290, 330, 310, 200],
-      [150, 212, 201, 154, 190, 330, 410, 180],
-      [820, 832, 901, 934, 1290, 1330, 1320, 100]
+      [
+        291.6666666666667, 455.0, 322.0, 579.1666666666666, 3366.0, 336.0,
+        1741.4, 341.27272727272725
+      ],
+      [
+        692.3333333333334, 1035.4, 1357.0, 2321.5, 3202.0, 1272.0, 4404.6,
+        1362.7272727272727
+      ],
+      [1272.0, 1994.2, 3318.0, 1830.0, 495.8, 2698.0, 988.0, 2652.181818181818],
+      [
+        2383.3333333333335, 2876.6, 1119.0, 658.3333333333334, 244.2, 1589.0,
+        406.2, 1218.8181818181818
+      ],
+      [
+        287.3333333333333, 247.0, 124.0, 79.75, 20.8, 131.0, 32.0,
+        110.27272727272727
+      ]
     ]
     const totalData = []
     for (let i = 0; i < rawData[0].length; ++i) {
@@ -120,29 +137,18 @@ const TimeRight3 = () => {
     }
     const grid = {
       left: 50,
-      right: 10,
-      top: 8,
-      bottom: 20
+      right: 20,
+      top: 20,
+      bottom: 30
     }
-    const gridWidth = myChart.getWidth() - grid.left - grid.right
-    const gridHeight = myChart.getHeight() - grid.top - grid.bottom
-    const categoryWidth = gridWidth / rawData[0].length
-    const barWidth = categoryWidth * 0.45
-    const barPadding = (categoryWidth - barWidth) / 2
-    const series = [
-      'Direct',
-      'Mail Ad',
-      'Affiliate Ad',
-      'Video Ad',
-      'Search Engine'
-    ].map((name, sid) => {
+    const series = ['9', '10', '11', '12', '1'].map((name, sid) => {
       return {
         name,
         type: 'bar',
         stack: 'total',
         barWidth: '60%',
         label: {
-          show: true,
+          show: false,
           formatter: (params) => Math.round(params.value * 1000) / 10 + '%'
         },
         data: rawData[sid].map((d, did) =>
@@ -150,54 +156,30 @@ const TimeRight3 = () => {
         )
       }
     })
-    const color = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de']
-    const elements = []
-    for (let j = 1, jlen = rawData[0].length; j < jlen; ++j) {
-      const leftX = grid.left + categoryWidth * j - barPadding
-      const rightX = leftX + barPadding * 2
-      let leftY = grid.top + gridHeight
-      let rightY = leftY
-      for (let i = 0, len = series.length; i < len; ++i) {
-        const points = []
-        const leftBarHeight =
-          (rawData[i][j - 1] / totalData[j - 1]) * gridHeight
-        points.push([leftX, leftY])
-        points.push([leftX, leftY - leftBarHeight])
-        const rightBarHeight = (rawData[i][j] / totalData[j]) * gridHeight
-        points.push([rightX, rightY - rightBarHeight])
-        points.push([rightX, rightY])
-        points.push([leftX, leftY])
-        leftY -= leftBarHeight
-        rightY -= rightBarHeight
-        elements.push({
-          type: 'polygon',
-          shape: {
-            points
-          },
-          style: {
-            fill: color[i],
-            opacity: 0.25
-          }
-        })
-      }
-    }
     option = {
       legend: {
-        show: false,
-        selectedMode: false
+        selectedMode: false,
+        top: '-3px'
       },
       grid,
       yAxis: {
-        type: 'value'
+        type: 'value',
+        max: 1
       },
       xAxis: {
         type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'K8']
+        data: [
+          'b3C9s',
+          'g7R2j',
+          'k4W1c',
+          'm3D1v',
+          'r8S3g',
+          's8Y2f',
+          't5V9e',
+          'y9W5d'
+        ]
       },
-      series,
-      graphic: {
-        elements
-      }
+      series
     }
 
     option && myChart.setOption(option)
@@ -226,7 +208,7 @@ const TimeRight3 = () => {
           fontWeight: 'normal'
         },
         left: 'center',
-        top: '20px'
+        top: '-4px'
       },
       tooltip: {},
       xAxis: {
@@ -323,7 +305,7 @@ const TimeRight3 = () => {
           fontWeight: 'normal'
         },
         left: 'center',
-        top: '20px'
+        top: '-4px'
       },
       tooltip: {},
       xAxis: {
@@ -420,7 +402,7 @@ const TimeRight3 = () => {
           fontWeight: 'normal'
         },
         left: 'center',
-        top: '20px'
+        top: '-4px'
       },
       tooltip: {},
       xAxis: {
@@ -523,7 +505,7 @@ const TimeRight3 = () => {
           fontWeight: 'normal'
         },
         left: 'center',
-        top: '20px'
+        top: '-4px'
       },
       tooltip: {},
       xAxis: {
@@ -619,7 +601,7 @@ const TimeRight3 = () => {
           fontWeight: 'normal'
         },
         left: 'center',
-        top: '20px'
+        top: '-4px'
       },
       tooltip: {},
       xAxis: {
@@ -715,7 +697,7 @@ const TimeRight3 = () => {
           fontWeight: 'normal'
         },
         left: 'center',
-        top: '20px'
+        top: '-4px'
       },
       tooltip: {},
       xAxis: {
@@ -798,39 +780,41 @@ const TimeRight3 = () => {
       <div
         className="containerGroup"
         style={{
-          height: '99%',
+          height: '100%',
           width: '100%'
         }}
       >
         <div className="atitle">群体活跃特征</div>
-        <div style={{ height: 'calc(100% - 35px)', width: '100%' }}>
+        <div
+          style={{
+            height: 'calc(100% - 34px)',
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column'
+          }}
+        >
           <div
             style={{
-              height: '50%',
+              //   height: '50%',
               width: '100%',
               display: 'flex',
-              flexDirection: 'row'
+              flexDirection: 'row',
+              flex: 8
             }}
           >
             <div id="timeRadar" ref={radarRef} style={{ flex: 3 }}></div>
             <div ref={timeTitleRef} style={{ flex: 7 }}></div>
           </div>
-          <div
-            style={{
-              height: '50%',
-              width: '100%',
-              display: 'flex',
-              flexDirection: 'row'
-            }}
-          >
+
+          <div style={{ flex: 1 }}>
             <Button
               style={{
                 width: 60,
                 height: 30,
                 marginLeft: 6,
                 position: 'absolute',
-                right: 10,
-                top: 270,
+                left: 120,
+                top: 260,
                 zIndex: 100,
                 textAlign: 'center'
               }}
@@ -844,9 +828,8 @@ const TimeRight3 = () => {
                 width: 100,
                 position: 'absolute',
                 height: 30,
-
                 left: 10,
-                top: 270,
+                top: 260,
                 zIndex: 100
               }}
               onChange={handleChange}
@@ -871,6 +854,15 @@ const TimeRight3 = () => {
                 }
               ]}
             />
+          </div>
+          <div
+            style={{
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'row',
+              flex: 7
+            }}
+          >
             <div ref={specialRef} style={{ flex: 1 }}></div>
             <div ref={specialRef2} style={{ flex: 1 }}></div>
             <div ref={specialRef3} style={{ flex: 1 }}></div>
