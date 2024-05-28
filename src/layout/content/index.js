@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useEffect } from 'react'
 import { useState } from 'react'
 import { ContentWrapper } from './style'
 import { Card } from 'antd'
@@ -23,6 +23,8 @@ const Content = () => {
   const [studentDatefromCalendar, setSudentDatefromCalendar] = useState(null) //提交事件获取学习日历中选中的日期
   const [selectedRowKeys, setSelectedRowKeys] = useState([]) // 表格选择数据的数组
   const [calendarFlag, setCalendarFlag] = useState(false) //用于表示表格中是否确认生成日历
+  // 平行坐标系的数据
+  const [parallelList, setParallelList] = useState([[], [], []])
   function handleClassNum(classnum) {
     setClassNum(classnum)
   }
@@ -58,7 +60,30 @@ const Content = () => {
   const handleCalendarFlag = (value) => {
     setCalendarFlag(value)
   }
-
+  //定义新函数,用于更新平行坐标系
+  const handleParallelList = (value) => {
+    setParallelList(value)
+  }
+  useEffect(() => {
+    // 最开始的时候平行坐标系展示全部数据
+    let paraList = [[], [], []]
+    brushSelectedData.forEach((item) => {
+      let tmp = []
+      tmp.push(item['submit'])
+      tmp.push(item['active'])
+      tmp.push(item['question'])
+      tmp.push(item['correct'])
+      tmp.push(item['label'])
+      if (item['label'] == '针对型') {
+        paraList[0].push(tmp)
+      } else if (item['label'] == '多样型') {
+        paraList[1].push(tmp)
+      } else {
+        paraList[2].push(tmp)
+      }
+    })
+    setParallelList(paraList)
+  }, [brushSelectedData])
   return (
     <ContentWrapper>
       <div className="container">
@@ -92,7 +117,11 @@ const Content = () => {
           </Card>
           <Card className="card6">
             {amode == 0 ? (
-              <MonthFeature brushData={brushSelectedData} />
+              <MonthFeature
+                brushData={brushSelectedData}
+                month={month}
+                parallelList={parallelList}
+              />
             ) : (
               <Evolution />
             )}
@@ -108,6 +137,7 @@ const Content = () => {
               selectedRowKeys={selectedRowKeys}
               handleCalendarFlag={handleCalendarFlag}
               calendarFlag={calendarFlag}
+              changeParallelList={handleParallelList}
             />
           </Card>
           <Card className="card8">

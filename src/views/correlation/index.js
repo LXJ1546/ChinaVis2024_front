@@ -13,7 +13,8 @@ const Correlation = (props) => {
     handleRowKeys,
     selectedRowKeys,
     handleCalendarFlag,
-    calendarFlag
+    calendarFlag,
+    changeParallelList
   } = props
   // 保存相关性矩阵数据
   const [correlationData, setCorrelationData] = useState([])
@@ -103,8 +104,33 @@ const Correlation = (props) => {
     selectedRowKeys,
     onChange: onSelectChange
   }
+  // 点击确认按钮
   const changeFlag = () => {
     handleCalendarFlag(!calendarFlag)
+    // console.log(selectedRowKeys)
+    // 根据选中的表格id来匹配数据，并更新平行坐标系的展示数据
+    let paraList = [[], [], []]
+    selectedRowKeys.forEach((id) => {
+      brushData.forEach((item) => {
+        if (item['key'] == id) {
+          let tmp = []
+          tmp.push(item['submit'])
+          tmp.push(item['active'])
+          tmp.push(item['question'])
+          tmp.push(item['correct'])
+          tmp.push(item['label'])
+          if (item['label'] == '针对型') {
+            paraList[0].push(tmp)
+          } else if (item['label'] == '多样型') {
+            paraList[1].push(tmp)
+          } else {
+            paraList[2].push(tmp)
+          }
+        }
+      })
+    })
+    // 父组件传来的props
+    changeParallelList(paraList)
   }
   useEffect(() => {
     getCorrelationData().then((res) => {
@@ -160,29 +186,32 @@ const Correlation = (props) => {
                 title="学生ID"
                 dataIndex="key"
                 key="key"
-                width={140}
+                width={130}
                 ellipsis={true}
                 fixed
               />
-              {/* <Column
+              <Column
                 title="掌握度"
                 dataIndex="master"
                 key="master"
-                width={60}
-              /> */}
+                width={70}
+                ellipsis={true}
+                sorter={(a, b) => a.master - b.master}
+                defaultsortOrder={'descend'}
+              />
               <Column
                 title="模式"
                 dataIndex="label"
                 key="label"
-                width={50}
+                width={60}
                 style={{ height: 30 }}
                 render={(_, record) => (
                   <Tag color="#37a354">{record.label}</Tag>
                 )}
               />
-              <Column title="年龄" dataIndex="age" key="age" width={37} />
-              <Column title="性别" dataIndex="sex" key="sex" width={47} />
-              <Column title="专业" dataIndex="major" key="major" width={70} />
+              <Column title="年龄" dataIndex="age" key="age" width={40} />
+              <Column title="性别" dataIndex="sex" key="sex" width={50} />
+              <Column title="专业" dataIndex="major" key="major" width={50} />
             </Table>
           </div>
         </div>

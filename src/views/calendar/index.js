@@ -272,6 +272,7 @@ const Calendar = (props) => {
           }
         })
         .on('mouseover', function (e, d) {
+          d3.select(this).transition().duration(200).style('opacity', 0.5) //鼠标覆盖高亮
           if (d.commitcount != null) {
             tip.html(`<div style="line-height: 1;
                 font-weight: bold;
@@ -298,7 +299,10 @@ const Calendar = (props) => {
             tip.show(d, this)
           }
         })
-        .on('mouseout', tip.hide)
+        .on('mouseout', function () {
+          tip.hide()
+          d3.select(this).transition().duration(200).style('opacity', 1) //鼠标移出恢复
+        })
 
       // 定义饼图生成器
       const pie = d3
@@ -477,6 +481,12 @@ const Calendar = (props) => {
           handleCalendarSelectFlag(true)
           handleStudentIDfromCalendar(studentName)
           handleStudentDatefromCalendar(d.name)
+        })
+        .on('mouseover', function () {
+          d3.select(this).transition().duration(200).style('opacity', 0.5) //鼠标覆盖高亮
+        })
+        .on('mouseout', function () {
+          d3.select(this).transition().duration(200).style('opacity', 1) //鼠标移除恢复
         })
 
       //绘制月和周
@@ -748,6 +758,7 @@ const Calendar = (props) => {
           .attr('y', yScale(key))
           .attr('fill', submitColorScale(monthvalue[0]))
           .on('mouseover', function (e, d) {
+            d3.select(this).transition().duration(200).style('opacity', 0.5) //鼠标覆盖高亮
             tip.html(`<div style="line-height: 1;
                   font-weight: bold;
                   padding: 12px;
@@ -760,7 +771,10 @@ const Calendar = (props) => {
                   text-align: center;">提交次数: ${monthvalue[0].toFixed(0)}  <p>活跃度: ${monthvalue[1].toFixed(2)}</p> <p>活跃人数: ${monthvalue[2]}</p><div>`)
             tip.show(d, this)
           })
-          .on('mouseout', tip.hide)
+          .on('mouseout', function () {
+            tip.hide()
+            d3.select(this).transition().duration(200).style('opacity', 1) //鼠标移除恢复
+          })
         // .on('click', function () {
         //   tip.hide
         //   const keyParts = key.split('-')
@@ -779,20 +793,25 @@ const Calendar = (props) => {
           .attr('cx', xScale(parseInt(monthkey)) + rectWidth / 2)
           .attr('cy', yScale(key) + rectWidth / 2)
           .attr('fill', peopleColorScale(monthvalue[2]))
-          // .on('mouseover', function (e, d) {
-          //   tip.html(`<div style="line-height: 1;
-          //         font-weight: bold;
-          //         padding: 12px;
-          //         background: white;
-          //         color: grey;
-          //         border-radius: 2px;
-          //         pointer-events: none;
-          //         font-family: Arial, sans-serif;
-          //         font-size: 12px;
-          //         text-align: center;">活跃度: ${monthvalue[1].toFixed(2)} <p>活跃人数: ${monthvalue[2]}</p><div>`)
-          //   tip.show(d, this)
-          // })
-          // .on('mouseout', tip.hide)
+          .on('mouseover', function () {
+            d3.select(this).transition().duration(200).style('opacity', 0.7)
+
+            // tip.html(`<div style="line-height: 1;
+            //       font-weight: bold;
+            //       padding: 12px;
+            //       background: white;
+            //       color: grey;
+            //       border-radius: 2px;
+            //       pointer-events: none;
+            //       font-family: Arial, sans-serif;
+            //       font-size: 12px;
+            //       text-align: center;">活跃度: ${monthvalue[1].toFixed(2)} <p>活跃人数: ${monthvalue[2]}</p><div>`)
+            // tip.show(d, this)
+          })
+          .on('mouseout', function () {
+            // tip.hide()
+            d3.select(this).transition().duration(200).style('opacity', 1) //鼠标移除恢复
+          })
           .on('click', function () {
             const keyParts = key.split('-')
             setSelectMonth(monthkey)
@@ -802,7 +821,7 @@ const Calendar = (props) => {
               setSelectIsWork(0)
             }
             setSelectPeriod(keyParts[0])
-            tip.hide
+            // tip.hide()
           })
       }
     }
@@ -1009,6 +1028,7 @@ const Calendar = (props) => {
         }
       })
       .on('mouseover', function (e, d) {
+        d3.select(this).transition().duration(200).style('opacity', 0.5)
         if (d.point != null || d.various != null || d.trying != null) {
           tip.html(`<div style="line-height: 1;
             font-weight: bold;
@@ -1019,7 +1039,7 @@ const Calendar = (props) => {
             pointer-events: none;
             font-family: Arial, sans-serif;
             font-size: 12px;
-            text-align: center;">日期: ${d.name} <div>`)
+            text-align: center;">日期: ${d.name} <p> 针对型: ${d.point} 人</p><p> 多样型: ${d.various}人</p><p> 尝试型: ${d.trying}人</p><div>`)
           tip.show(d, this)
         } else {
           tip.html(`<div style="line-height: 1;
@@ -1035,7 +1055,10 @@ const Calendar = (props) => {
           tip.show(d, this)
         }
       })
-      .on('mouseout', tip.hide)
+      .on('mouseout', function () {
+        tip.hide()
+        d3.select(this).transition().duration(200).style('opacity', 1) //鼠标移除恢复
+      })
     //绘制月和周
     const answertitle = svg.append('g')
 

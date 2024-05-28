@@ -1,11 +1,24 @@
-import React, { memo, useRef, useEffect } from 'react'
+import React, { memo, useRef, useEffect, useState } from 'react'
 import * as d3 from 'd3'
 import ReactEcharts from 'echarts-for-react'
 import { MonthFeatureWrapper } from './style'
+import { getMonthQuestionSubmit } from '../../api'
 const MonthFeature = (props) => {
-  const { brushData } = props
+  const { brushData, month, parallelList } = props
   // 拿到svg的引用
   const svgRef = useRef(null)
+  // 问题列表
+  const [questionList, setQuestionList] = useState([])
+  // 问题的提交数据
+  const [submitData, setSubmitData] = useState([])
+  // 问题的正确率
+  const [correctRate, setCorrectRate] = useState([])
+  // 是否展示个人视图
+  const [isIndividual, setIsIndividual] = useState(false)
+  // 是否展示平行坐标系
+  const [isParallel, setIsParallel] = useState(false)
+  // 初始状态为包含三个空列表的数组
+  // const [parallelLists, setParallelLists] = useState([[], [], []])
   const student = brushData.map((item) => item.key)
   // 正确率的数据
   const correct = brushData.map((item) => item.correct)
@@ -17,7 +30,14 @@ const MonthFeature = (props) => {
   const question = brushData.map((item) => item.question)
   // 矩形条的数据
   // 提取的字段名
-  const fieldsToExtract = ['label', 'correct', 'submit', 'active', 'question']
+  const fieldsToExtract = [
+    'key',
+    'label',
+    'correct',
+    'submit',
+    'active',
+    'question'
+  ]
   // 使用 map 方法提取字段值并创建新数组
   const extractedArrays = brushData.map((item) => {
     return fieldsToExtract.map((field) => item[field])
@@ -201,38 +221,48 @@ const MonthFeature = (props) => {
     xAxis: [
       {
         type: 'category',
-        data: ['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7'],
+        data: questionList,
         axisPointer: {
           type: 'shadow'
+        },
+        axisLabel: {
+          formatter: function (value) {
+            // 拆分字符串，以 '_' 作为分隔符
+            const parts = value.split('_')
+            // 获取第二部分的前3个字符
+            const shortId = parts[1].substring(0, 3)
+            // 返回缩写后的ID
+            return `Q_${shortId}`
+          }
         }
       }
     ],
     yAxis: [
       {
         type: 'value',
-        min: 0,
-        max: 250,
-        interval: 50
+        splitLine: {
+          show: false
+        }
       },
       {
         type: 'value',
         min: 0,
-        max: 25,
-        interval: 5
+        max: 1
       }
     ],
+    dataZoom: {
+      type: 'inside'
+    },
     series: [
       {
         name: '提交次数',
         type: 'bar',
         tooltip: {
           valueFormatter: function (value) {
-            return value + ' ml'
+            return value + ' 次'
           }
         },
-        data: [
-          2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3
-        ]
+        data: submitData
       },
       {
         name: '正确率',
@@ -240,10 +270,12 @@ const MonthFeature = (props) => {
         yAxisIndex: 1,
         tooltip: {
           valueFormatter: function (value) {
-            return value + ' °C'
+            // 将小数转换为百分比，并保留两位小数
+            const percentage = (value * 100).toFixed(2)
+            return percentage + '%'
           }
         },
-        data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+        data: correctRate
       }
     ]
   }
@@ -317,55 +349,53 @@ const MonthFeature = (props) => {
       right: '13%',
       bottom: '6%',
       parallelAxisDefault: {
-        nameGap: 8
+        nameGap: 8,
+        areaSelectStyle: {
+          width: 0 // 默认不允许框选
+        }
       }
     },
-    tooltip: {},
+    tooltip: {
+      valueFormatter: function (value) {
+        // 将小数转换为百分比，并保留两位小数
+        const percentage = (value * 100).toFixed(2)
+        return percentage + '%'
+      }
+    },
     parallelAxis: [
-      { dim: 0, name: '提交次数' },
-      { dim: 1, name: '活跃天数' },
-      { dim: 2, name: '答题数' },
-      { dim: 3, name: '正确率' },
+      { dim: 0, name: '提交次数', min: '0', max: '600' },
+      { dim: 1, name: '活跃天数', min: '0', max: '30' },
+      { dim: 2, name: '答题数', min: '0', max: '38' },
+      { dim: 3, name: '正确率', min: '0', max: '1' },
       {
         dim: 4,
         name: '模式',
         type: 'category',
-        data: ['针对型', '多样型', '尝试型']
+        data: ['针对型', '多样型', '尝试型'],
+        areaSelectStyle: { width: 15 }
       }
     ],
     series: [
       {
         type: 'parallel',
         lineStyle: {
-          width: 2
+          width: 1
         },
-        data: [
-          [100, 8, 20, 0.4, '多样型'],
-          [80, 5, 13, 0.5, '尝试型'],
-          [30, 2, 5, 0.8, '针对型']
-        ]
+        data: parallelList[0]
       },
       {
         type: 'parallel',
         lineStyle: {
-          width: 2
+          width: 1
         },
-        data: [
-          [50, 6, 10, 0.4, '多样型'],
-          [40, 3, 8, 0.3, '尝试型'],
-          [10, 1, 3, 0.6, '针对型']
-        ]
+        data: parallelList[1]
       },
       {
         type: 'parallel',
         lineStyle: {
-          width: 2
+          width: 1
         },
-        data: [
-          [70, 8, 16, 0.1, '多样型'],
-          [65, 7, 15, 0.2, '尝试型'],
-          [60, 3, 6, 0.4, '针对型']
-        ]
+        data: parallelList[2]
       }
     ]
   }
@@ -406,15 +436,57 @@ const MonthFeature = (props) => {
       .each(function (d, i) {
         // 在每个 g 元素中添加一个圆
         d3.select(this)
+          .on('click', function (event, d) {
+            // let tmp = []
+            // tmp.push(d[3])
+            // tmp.push(d[4])
+            // tmp.push(d[5])
+            // tmp.push(d[2])
+            // tmp.push(d[1])
+            // // // 给平行坐标系添加新数据
+            // // const newData = {
+            // //   name: d[0],
+            // //   values: tmp
+            // // }
+            // // // 将第一个值移到最后一个位置
+            // // let tmp = newData.values[0]
+            // // newData.values.push(firstValue)
+            // setParallelLists((prevLists) => {
+            //   // 创建列表的副本
+            //   const newLists = [...prevLists]
+            //   let index = -1
+            //   if (d[1] === '针对型') {
+            //     index = 0
+            //   } else if (d[1] === '多样型') {
+            //     index = 1
+            //   } else {
+            //     index = 2
+            //   }
+            //   // 在指定索引的列表中添加新数据
+            //   newLists[index].push(tmp)
+            //   return newLists
+            // })
+            // console.log(parallelLists)
+            // 处理点击事件
+            getMonthQuestionSubmit(d[0], month).then((res) => {
+              // 个人图x轴标签
+              setQuestionList(res[0])
+              // 个人图数据
+              setSubmitData(res[1])
+              setCorrectRate(res[2])
+              setIsIndividual(true)
+              setIsParallel(true)
+            })
+          })
           .append('circle')
           .attr('cx', 8) // 圆形的 x 坐标为 10
           .attr('cy', 10) // 圆形的 y 坐标为矩形的高度的一半，使其垂直居中
           .attr('r', 7) // 圆形的半径为 8 像素
           .attr('fill', function (d) {
             // 根据字符串的值来决定填充颜色
-            if (d[0] === '针对型') {
+            if (d[1] === '针对型') {
               return 'steelblue'
-            } else if (d[0] === '多样型') {
+            } else if (d[1] === '多样型') {
               return 'red'
             } else {
               return 'green'
@@ -424,7 +496,7 @@ const MonthFeature = (props) => {
         // 在每个 g 元素中根据数据添加矩形
         d3.select(this)
           .selectAll('rect')
-          .data((d) => d.slice(1))
+          .data((d) => d.slice(2))
           .enter()
           .append('rect')
           .attr('x', (_, i) => 22 + i * 130) // 矩形的 x 坐标，留出空间给圆形和间隔
@@ -434,15 +506,6 @@ const MonthFeature = (props) => {
           .attr('fill', (d, i) => colorScales[i](d)) // 使用颜色比例尺编码矩形的颜色
       })
   }, [brushData])
-  // useEffect(() => {
-  //   if (brushData.length != 0) {
-  //     const correct1 = brushData.map((item) => item.key)
-  //     const correct2 = brushData.map((item) => item.correct)
-  //     console.log(correct2)
-  //     setCorrect1(correct1)
-  //     setCorrect2(correct2)
-  //   }
-  // }, [brushData])
   return (
     <MonthFeatureWrapper>
       <div className="title">学生月答题数据视图</div>
@@ -492,16 +555,20 @@ const MonthFeature = (props) => {
         </div>
         <div className="rightview">
           <div className="individual">
-            <ReactEcharts
-              option={individualOption}
-              style={{ width: '100%', height: '100%' }}
-            />
+            {isIndividual && (
+              <ReactEcharts
+                option={individualOption}
+                style={{ width: '100%', height: '100%' }}
+              />
+            )}
           </div>
           <div className="compare">
-            <ReactEcharts
-              option={parallelOption}
-              style={{ width: '100%', height: '98%' }}
-            />
+            {isParallel && (
+              <ReactEcharts
+                option={parallelOption}
+                style={{ width: '99%', height: '99%' }}
+              />
+            )}
           </div>
         </div>
       </div>

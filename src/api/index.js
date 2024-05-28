@@ -97,11 +97,19 @@ export function getOnePeriodInfo(month, is_weekday, period) {
   })
 }
 
-//获取日历中选中的该学生当天的提交时间
+//获取答题模式的月统计数据
 export function getMonthStatisticInfo(month) {
   return hyRequest.post({
     url: '/featureStatisticsInfo',
     data: { data: month }
+  })
+}
+
+//获取某个学生在某月的答题情况（每道题的提交次数）
+export function getMonthQuestionSubmit(id, month) {
+  return hyRequest.post({
+    url: '/monthQuestionSubmit',
+    params: { id: id, month: month }
   })
 }
 
