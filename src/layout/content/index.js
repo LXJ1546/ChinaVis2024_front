@@ -23,6 +23,8 @@ const Content = () => {
   const [studentDatefromCalendar, setSudentDatefromCalendar] = useState(null) //提交事件获取学习日历中选中的日期
   const [selectedRowKeys, setSelectedRowKeys] = useState([]) // 表格选择数据的数组
   const [calendarFlag, setCalendarFlag] = useState(false) //用于表示表格中是否确认生成日历
+  // 平行坐标系的数据
+  const [parallelList, setParallelList] = useState([[], [], []])
   function handleClassNum(classnum) {
     setClassNum(classnum)
   }
@@ -58,7 +60,10 @@ const Content = () => {
   const handleCalendarFlag = (value) => {
     setCalendarFlag(value)
   }
-
+  //定义新函数,用于更新平行坐标系
+  const handleParallelList = (value) => {
+    setParallelList(value)
+  }
   return (
     <ContentWrapper>
       <div className="container">
@@ -92,7 +97,11 @@ const Content = () => {
           </Card>
           <Card className="card6">
             {amode == 0 ? (
-              <MonthFeature brushData={brushSelectedData} />
+              <MonthFeature
+                brushData={brushSelectedData}
+                month={month}
+                parallelList={parallelList}
+              />
             ) : (
               <Evolution />
             )}
@@ -108,6 +117,7 @@ const Content = () => {
               selectedRowKeys={selectedRowKeys}
               handleCalendarFlag={handleCalendarFlag}
               calendarFlag={calendarFlag}
+              changeParallelList={handleParallelList}
             />
           </Card>
           <Card className="card8">
