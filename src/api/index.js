@@ -112,3 +112,11 @@ export function getMonthQuestionSubmit(id, month) {
     params: { id: id, month: month }
   })
 }
+
+//时间模式下，右下象形柱图
+export function getTimeStudentInfo(feature) {
+  return hyRequest.post({
+    url: '/timeStudentInfo',
+    data: { data: feature }
+  })
+}
