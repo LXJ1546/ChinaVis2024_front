@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useEffect } from 'react'
 import { useState } from 'react'
 import { ContentWrapper } from './style'
 import { Card } from 'antd'
@@ -64,6 +64,26 @@ const Content = () => {
   const handleParallelList = (value) => {
     setParallelList(value)
   }
+  useEffect(() => {
+    // 最开始的时候平行坐标系展示全部数据
+    let paraList = [[], [], []]
+    brushSelectedData.forEach((item) => {
+      let tmp = []
+      tmp.push(item['submit'])
+      tmp.push(item['active'])
+      tmp.push(item['question'])
+      tmp.push(item['correct'])
+      tmp.push(item['label'])
+      if (item['label'] == '针对型') {
+        paraList[0].push(tmp)
+      } else if (item['label'] == '多样型') {
+        paraList[1].push(tmp)
+      } else {
+        paraList[2].push(tmp)
+      }
+    })
+    setParallelList(paraList)
+  }, [brushSelectedData])
   return (
     <ContentWrapper>
       <div className="container">
