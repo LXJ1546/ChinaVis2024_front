@@ -64,7 +64,7 @@ const TimeRight3 = () => {
         trigger: 'item',
         show: 'true',
         formatter: (params) => {
-          console.log('tooltip', params.data)
+          //   console.log('tooltip', params.data)
           let { value, name } = params.data
           return `${name}<br />掌握程度： ${value[0].toFixed(2)}<br />正确率：  &nbsp &nbsp${value[1].toFixed(2)}<br />活跃度：&nbsp  ${value[2].toFixed(2)}`
         }
@@ -179,7 +179,7 @@ const TimeRight3 = () => {
         trigger: 'item',
         show: 'true',
         formatter: (params) => {
-          console.log('tooltip', params, typeof params.data)
+          //   console.log('tooltip', params, typeof params.data)
           return `${params.seriesName}月<br />${params.name}  ${(params.data * 100).toFixed(2)}%`
         }
       },
