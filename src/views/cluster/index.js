@@ -51,30 +51,22 @@ const Scatter = (props) => {
     { value: 12, label: '2023-12' },
     { value: 1, label: '2024-01' }
   ]
-  // 将数据转换为适合 ECharts 的格式
-  // const formattedData = []
-  // Object.keys(nowClusterData).forEach((cluster) => {
-  //   nowClusterData[cluster].forEach((item) => {
-  //     formattedData.push({
-  //       name: clusterName[cluster], // 类别名称
-  //       value: item.coordinates, // 坐标值
-  //       student_id: item.student_id, // ID 属性
-  //       sex: item.sex,
-  //       age: item.age,
-  //       major: item.major,
-  //       submit: item.submit,
-  //       active: item.active,
-  //       correct: item.correct,
-  //       question: item.question
-  //     })
-  //   })
-  // })
   // 生成散点图系列
   const series = Object.keys(nowClusterData).map((cluster) => ({
     name: clusterName[cluster],
     type: 'scatter',
     data: nowClusterData[cluster],
     color: colorAll[cluster],
+    symbol: function (value, params) {
+      const rank = params.data.rank
+      if (rank == 'top') {
+        return 'diamond'
+      } else if (rank == 'mid') {
+        return 'circle'
+      } else {
+        return 'triangle'
+      }
+    },
     symbolSize: symbolSize,
     itemStyle: {
       borderColor: '#555',
@@ -88,7 +80,13 @@ const Scatter = (props) => {
         // 在这里自定义数据提示框的展示内容
         var tooltipContent = params.seriesName
         tooltipContent += '<br>学生id：' + data.key
-        tooltipContent += '<br>性别：' + data.sex
+        if (data.rank == 'top') {
+          tooltipContent += '<br>排名：前30%'
+        } else if (data.rank == 'mid') {
+          tooltipContent += '<br>排名：30%~70%'
+        } else {
+          tooltipContent += '<br>排名：后30%'
+        }
         // 添加其他属性的展示内容
         return tooltipContent
       }
@@ -431,6 +429,20 @@ const Scatter = (props) => {
       <div className="title">学习模式聚类视图</div>
       <div className="content">
         <div className="left">
+          <div className="shapelegend">
+            <div className="legend-item">
+              <div className="diamond"></div>
+              Top
+            </div>
+            <div className="legend-item">
+              <div className="circle"></div>
+              Middle
+            </div>
+            <div className="legend-item">
+              <div className="triangle"></div>
+              Low
+            </div>
+          </div>
           {showStats && <StatisticFeature statsFeature={statsFeature} />}
           <div className="btn">
             <div className="leftbtn">
