@@ -252,6 +252,7 @@ const StudentCommit = (props) => {
         }
       })
       .on('mouseover', function (e, d) {
+        d3.select(this).transition().duration(200).style('opacity', 0.5) //鼠标覆盖高亮
         tip.html(`<div style="line-height: 1;
               font-weight: bold;
               padding: 12px;
@@ -264,7 +265,10 @@ const StudentCommit = (props) => {
               text-align: center;">答题状态: ${d[2]}</p><p>提交时间: ${d[4]}</p><div>`)
         tip.show(d, this)
       })
-      .on('mouseout', tip.hide)
+      .on('mouseout', function () {
+        tip.hide()
+        d3.select(this).transition().duration(200).style('opacity', 1) //鼠标移除恢复
+      })
     //绘制语言的矩形
     QuestionFlag = {} //重置语言的y值存储器
     //使用语言的颜色映射
@@ -306,6 +310,7 @@ const StudentCommit = (props) => {
         return methodcolor(d[3])
       })
       .on('mouseover', function (e, d) {
+        d3.select(this).transition().duration(200).style('opacity', 0.5) //鼠标覆盖高亮
         tip.html(`<div style="line-height: 1;
               font-weight: bold;
               padding: 12px;
@@ -318,7 +323,10 @@ const StudentCommit = (props) => {
               text-align: center;">使用语言: ${d[3]}</p><div>`)
         tip.show(d, this)
       })
-      .on('mouseout', tip.hide)
+      .on('mouseout', function () {
+        tip.hide()
+        d3.select(this).transition().duration(200).style('opacity', 1)
+      })
     //用时分布
     QuestionFlag = {} //重置语言的y值存储器
     timeevent
@@ -349,6 +357,7 @@ const StudentCommit = (props) => {
       .attr('height', xScale.bandwidth() / 2 / 4)
       .attr('fill', 'grey')
       .on('mouseover', function (e, d) {
+        d3.select(this).transition().duration(200).style('opacity', 0.5) //鼠标覆盖高亮
         tip.html(`<div style="line-height: 1;
               font-weight: bold;
               padding: 12px;
@@ -361,7 +370,10 @@ const StudentCommit = (props) => {
               text-align: center;">用时分布: ${d[0]}</p><div>`)
         tip.show(d, this)
       })
-      .on('mouseout', tip.hide)
+      .on('mouseout', function () {
+        tip.hide()
+        d3.select(this).transition().duration(200).style('opacity', 1) //鼠标移除恢复
+      })
     //内存分布
     QuestionFlag = {} //重置语言的y值存储器
     memoryevent
@@ -392,6 +404,7 @@ const StudentCommit = (props) => {
       .attr('height', xScale.bandwidth() / 2 / 4)
       .attr('fill', 'grey')
       .on('mouseover', function (e, d) {
+        d3.select(this).transition().duration(200).style('opacity', 0.5) //鼠标覆盖高亮
         tip.html(`<div style="line-height: 1;
               font-weight: bold;
               padding: 12px;
@@ -404,7 +417,10 @@ const StudentCommit = (props) => {
               text-align: center;">内存分布: ${d[1]}</p><div>`)
         tip.show(d, this)
       })
-      .on('mouseout', tip.hide)
+      .on('mouseout', function () {
+        tip.hide()
+        d3.select(this).transition().duration(200).style('opacity', 1) //鼠标移除恢复
+      })
 
     // 监听ECharts的dataZoom事件,提交事件同步修改缩放
     commitCountChart.on('dataZoom', function () {
@@ -448,6 +464,7 @@ const StudentCommit = (props) => {
           }
         })
         .on('mouseover', function (e, d) {
+          d3.select(this).transition().duration(200).style('opacity', 0.5) //鼠标覆盖高亮
           tip.html(`<div style="line-height: 1;
                 font-weight: bold;
                 padding: 12px;
@@ -460,7 +477,10 @@ const StudentCommit = (props) => {
                 text-align: center;">答题状态: ${d[2]}</p><p>提交时间: ${d[4]}</p><div>`)
           tip.show(d, this)
         })
-        .on('mouseout', tip.hide)
+        .on('mouseout', function () {
+          tip.hide()
+          d3.select(this).transition().duration(200).style('opacity', 1) //鼠标移除恢复
+        })
       //绘制语言的矩形
       methodevent.selectAll('*').remove()
       QuestionFlag = {} //重置语言的y值存储器
@@ -498,6 +518,7 @@ const StudentCommit = (props) => {
           return methodcolor(d[3])
         })
         .on('mouseover', function (e, d) {
+          d3.select(this).transition().duration(200).style('opacity', 0.5) //鼠标覆盖高亮
           tip.html(`<div style="line-height: 1;
               font-weight: bold;
               padding: 12px;
@@ -510,7 +531,10 @@ const StudentCommit = (props) => {
               text-align: center;">使用语言: ${d[3]}</p><div>`)
           tip.show(d, this)
         })
-        .on('mouseout', tip.hide)
+        .on('mouseout', function () {
+          tip.hide()
+          d3.select(this).transition().duration(200).style('opacity', 1) //鼠标移除恢复
+        })
       //用时分布
       QuestionFlag = {} //重置语言的y值存储器
       timeevent.selectAll('*').remove()
@@ -542,6 +566,7 @@ const StudentCommit = (props) => {
         .attr('height', xScale.bandwidth() / 2 / 4)
         .attr('fill', 'grey')
         .on('mouseover', function (e, d) {
+          d3.select(this).transition().duration(200).style('opacity', 0.5) //鼠标覆盖高亮
           tip.html(`<div style="line-height: 1;
                 font-weight: bold;
                 padding: 12px;
@@ -554,7 +579,10 @@ const StudentCommit = (props) => {
                 text-align: center;">用时分布: ${d[0]}</p><div>`)
           tip.show(d, this)
         })
-        .on('mouseout', tip.hide)
+        .on('mouseout', function () {
+          tip.hide()
+          d3.select(this).transition().duration(200).style('opacity', 1) //鼠标移除恢复
+        })
       //内存分布
       QuestionFlag = {} //重置语言的y值存储器
       memoryevent.selectAll('*').remove()
@@ -586,6 +614,7 @@ const StudentCommit = (props) => {
         .attr('height', xScale.bandwidth() / 2 / 4)
         .attr('fill', 'grey')
         .on('mouseover', function (e, d) {
+          d3.select(this).transition().duration(200).style('opacity', 0.5) //鼠标覆盖高亮
           tip.html(`<div style="line-height: 1;
                 font-weight: bold;
                 padding: 12px;
@@ -598,7 +627,10 @@ const StudentCommit = (props) => {
                 text-align: center;">内存分布: ${d[1]}</p><div>`)
           tip.show(d, this)
         })
-        .on('mouseout', tip.hide)
+        .on('mouseout', function () {
+          tip.hide()
+          d3.select(this).transition().duration(200).style('opacity', 1) //鼠标移除恢复
+        })
 
       // 获取 SVG 的边界框
       const bbox = svg.node().getBBox()
