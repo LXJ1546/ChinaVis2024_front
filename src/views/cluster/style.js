@@ -1,5 +1,8 @@
 import styled from 'styled-components'
-
+// 通过导入或者在线链接SVG
+import DiamondSvg from '../../assets/images/diamond.svg'
+import CircleSvg from '../../assets/images/circle.svg'
+import TriangleSvg from '../../assets/images/triangle.svg'
 export const ScatterWrapper = styled.div`
   width: 100%;
   height: 100%;
@@ -21,6 +24,45 @@ export const ScatterWrapper = styled.div`
       width: 100%;
       display: flex;
       flex-direction: column;
+      .shapelegend {
+        display: flex;
+        align-items: center;
+        position: absolute;
+        z-index: 10;
+        top: 11.4%;
+        right: 55%;
+        .legend-item {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 10px;
+          text-align: center;
+          .circle {
+            width: 15px;
+            height: 15px;
+            margin-right: 5px;
+            background-image: url(${CircleSvg});
+            background-size: cover; /* 使SVG图片覆盖整个容器 */
+            background-position: center; /* 将SVG图片居中显示 */
+          }
+          .triangle {
+            width: 15px;
+            height: 15px;
+            margin-right: 5px;
+            background-image: url(${TriangleSvg});
+            background-size: cover; /* 使SVG图片覆盖整个容器 */
+            background-position: center; /* 将SVG图片居中显示 */
+          }
+          .diamond {
+            width: 15px;
+            height: 15px;
+            margin-right: 5px;
+            background-image: url(${DiamondSvg});
+            background-size: cover; /* 使SVG图片覆盖整个容器 */
+            background-position: center; /* 将SVG图片居中显示 */
+          }
+        }
+      }
       .btn {
         display: flex;
         justify-content: space-between;
