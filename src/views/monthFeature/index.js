@@ -239,7 +239,10 @@ const MonthFeature = (props) => {
     ],
     yAxis: [
       {
-        type: 'value'
+        type: 'value',
+        splitLine: {
+          show: false
+        }
       },
       {
         type: 'value',
@@ -376,35 +379,26 @@ const MonthFeature = (props) => {
       {
         type: 'parallel',
         lineStyle: {
-          width: 2
+          width: 1
         },
         data: parallelList[0]
       },
       {
         type: 'parallel',
         lineStyle: {
-          width: 2
+          width: 1
         },
         data: parallelList[1]
       },
       {
         type: 'parallel',
         lineStyle: {
-          width: 2
+          width: 1
         },
         data: parallelList[2]
       }
     ]
   }
-  useEffect(() => {
-    if (
-      parallelList[0].length != 0 ||
-      parallelList[1].length != 0 ||
-      parallelList[2].length != 0
-    ) {
-      setIsParallel(true)
-    }
-  }, [parallelList])
   useEffect(() => {
     const svg = d3.select(svgRef.current)
     // 清空之前的绘制
@@ -481,6 +475,7 @@ const MonthFeature = (props) => {
               setSubmitData(res[1])
               setCorrectRate(res[2])
               setIsIndividual(true)
+              setIsParallel(true)
             })
           })
           .append('circle')
