@@ -4,7 +4,7 @@ import ReactEcharts from 'echarts-for-react'
 import { MonthFeatureWrapper } from './style'
 import { getMonthQuestionSubmit } from '../../api'
 const MonthFeature = (props) => {
-  const { brushData, month, parallelList } = props
+  const { brushData, month, parallelList, handleClickRowKeys } = props
   // 拿到svg的引用
   const svgRef = useRef(null)
   // 问题列表
@@ -437,37 +437,10 @@ const MonthFeature = (props) => {
         // 在每个 g 元素中添加一个圆
         d3.select(this)
           .on('click', function (event, d) {
-            // let tmp = []
-            // tmp.push(d[3])
-            // tmp.push(d[4])
-            // tmp.push(d[5])
-            // tmp.push(d[2])
-            // tmp.push(d[1])
-            // // // 给平行坐标系添加新数据
-            // // const newData = {
-            // //   name: d[0],
-            // //   values: tmp
-            // // }
-            // // // 将第一个值移到最后一个位置
-            // // let tmp = newData.values[0]
-            // // newData.values.push(firstValue)
-            // setParallelLists((prevLists) => {
-            //   // 创建列表的副本
-            //   const newLists = [...prevLists]
-            //   let index = -1
-            //   if (d[1] === '针对型') {
-            //     index = 0
-            //   } else if (d[1] === '多样型') {
-            //     index = 1
-            //   } else {
-            //     index = 2
-            //   }
-            //   // 在指定索引的列表中添加新数据
-            //   newLists[index].push(tmp)
-            //   return newLists
-            // })
-            // console.log(parallelLists)
             // 处理点击事件
+            // 给表格选中数据传入新的选择
+            handleClickRowKeys(d[0])
+            // 获取个人视图和平行坐标系的数据
             getMonthQuestionSubmit(d[0], month).then((res) => {
               // 个人图x轴标签
               setQuestionList(res[0])

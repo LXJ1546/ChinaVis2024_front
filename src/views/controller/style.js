@@ -12,6 +12,11 @@ export const CotrollerWrapper = styled.div`
     border-bottom: 1px solid #9b9ca0;
     font-size: 16px;
     opacity: 0.8;
+    .title-icon {
+      font-size: 20px;
+      margin-left: 4px;
+      margin-right: 4px;
+    }
   }
   .Controllerview {
     flex: 1 1 0%;

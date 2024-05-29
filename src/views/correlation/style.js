@@ -27,6 +27,7 @@ export const CorrelationWrapper = styled.div`
         height: calc(100% - 30px);
         position: absolute;
         overflow: auto;
+        white-space: nowrap;
       }
       .rightbar {
         height: 30px;

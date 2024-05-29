@@ -1,10 +1,10 @@
 import React, { memo } from 'react'
-// import * as echarts from 'echarts'
-// import ReactEcharts from 'echarts-for-react'
 import { CotrollerWrapper } from './style'
-// import * as d3 from 'd3';
 import { Input, Button, Select } from 'antd'
-import { RetweetOutlined } from '@ant-design/icons'
+import { RetweetOutlined, createFromIconfontCN } from '@ant-design/icons'
+const IconFont = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/c/font_4565164_juvpif6y83m.js'
+})
 const Cotroller = (props) => {
   const { handleClassNum } = props
   //数据集选择函数
@@ -14,7 +14,12 @@ const Cotroller = (props) => {
 
   return (
     <CotrollerWrapper>
-      <div className="title">控制面板</div>
+      <div className="title">
+        <div className="title-icon">
+          <IconFont type="icon-kongzhitai" />
+        </div>
+        控制面板
+      </div>
       <div className="Controllerview">
         {/* 初始化内存的各自占比 */}
         <div className="weight">

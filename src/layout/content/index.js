@@ -57,6 +57,10 @@ const Content = () => {
   const handleRowKeys = (value) => {
     setSelectedRowKeys(value)
   }
+  //定义新函数,用于在月答题数据视图的点击事件时更新表格的选中数据
+  const handleClickRowKeys = (value) => {
+    setSelectedRowKeys((prevDataArray) => [...prevDataArray, value])
+  }
   //定义新函数,用于确认是否生成日历图
   const handleCalendarFlag = (value) => {
     setCalendarFlag(value)
@@ -123,6 +127,7 @@ const Content = () => {
                 brushData={brushSelectedData}
                 month={month}
                 parallelList={parallelList}
+                handleClickRowKeys={handleClickRowKeys}
               />
             ) : (
               <Evolution />

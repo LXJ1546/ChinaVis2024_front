@@ -75,7 +75,6 @@ const MonthTable = () => {
     // 拿到时间模式的数据
     getClusterData().then((res) => {
       setTimeTable(res[5].flat())
-      console.log('时间', res[5])
     })
   }, [])
   return (

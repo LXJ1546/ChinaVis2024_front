@@ -132,6 +132,11 @@ const Correlation = (props) => {
     // 父组件传来的props
     changeParallelList(paraList)
   }
+  // 表格勾选人数的更新
+  useEffect(() => {
+    setTableNum(selectedRowKeys.length)
+  }, [selectedRowKeys])
+  // 拿到相关性数据
   useEffect(() => {
     getCorrelationData().then((res) => {
       setCorrelationData(res)
@@ -186,32 +191,35 @@ const Correlation = (props) => {
                 title="学生ID"
                 dataIndex="key"
                 key="key"
-                width={130}
+                width={160}
                 ellipsis={true}
-                fixed
               />
               <Column
                 title="掌握度"
                 dataIndex="master"
                 key="master"
-                width={70}
+                width={80}
                 ellipsis={true}
                 sorter={(a, b) => a.master - b.master}
                 defaultsortOrder={'descend'}
+                render={(text) => {
+                  // 使用toFixed(4)方法将数字格式化为保留三位小数
+                  return parseFloat(text).toFixed(4)
+                }}
               />
               <Column
                 title="模式"
                 dataIndex="label"
                 key="label"
-                width={60}
-                style={{ height: 30 }}
+                width={70}
                 render={(_, record) => (
                   <Tag color="#37a354">{record.label}</Tag>
                 )}
               />
-              <Column title="年龄" dataIndex="age" key="age" width={40} />
-              <Column title="性别" dataIndex="sex" key="sex" width={50} />
-              <Column title="专业" dataIndex="major" key="major" width={50} />
+              <Column title="排名等级" dataIndex="rank" key="rank" width={70} />
+              <Column title="年龄" dataIndex="age" key="age" width={50} />
+              <Column title="性别" dataIndex="sex" key="sex" width={60} />
+              <Column title="专业" dataIndex="major" key="major" width={60} />
             </Table>
           </div>
         </div>

@@ -6,12 +6,13 @@ import {
   getTransferData,
   getMonthStatisticInfo
 } from '../../api'
-import { Radio, Select, Switch, Button } from 'antd'
-import { SyncOutlined, createFromIconfontCN } from '@ant-design/icons'
+import { Radio, Select, Switch } from 'antd'
+import { createFromIconfontCN } from '@ant-design/icons'
 const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/c/font_4565164_juvpif6y83m.js'
 })
 import StatisticFeature from '../statistic/index'
+import TimeStatisticFeature from '../timeStatistic/index'
 const Scatter = (props) => {
   // 父组件传递的设置模式函数
   const { changeMode, changeMonth, changeBrushSelectedData, brushData, amode } =
@@ -45,6 +46,8 @@ const Scatter = (props) => {
   const [disabledStats, setDisabledStats] = useState(true)
   // 特征统计值
   const [statsFeature, setStatsFeature] = useState([])
+  // 时间特征统计值
+  const [timeStatsFeature, setTimeStatsFeature] = useState([])
   const monthsChoice = [
     { value: 9, label: '2023-09' },
     { value: 10, label: '2023-10' },
@@ -96,7 +99,7 @@ const Scatter = (props) => {
           }
         } else {
           // 时间模式下又有不同的tooltip展示
-          tooltipContent += '<br>时间段：'
+          tooltipContent += '<br>时间段：' + data.key
         }
         return tooltipContent
       }
@@ -325,8 +328,10 @@ const Scatter = (props) => {
       changeMode(1)
       // 是否显示演变视图
       setIsTransfer(false)
-      // 开关不可操作
-      setDisabledStats(false)
+      // 获取时间特征统计值数据
+      getMonthStatisticInfo(2).then((res) => {
+        setTimeStatsFeature(res)
+      })
     } else if (value == 0) {
       setNowClusterData(clusterData[1])
       setXmax(60)
@@ -343,7 +348,9 @@ const Scatter = (props) => {
     } else if (value == 2) {
       // 是否显示演变视图
       setIsTransfer(true)
+      // 统计值开关不可操作
       setDisabledStats(false)
+      // 是否展示箱线图
       setShowStats(false)
     }
   }
@@ -460,7 +467,12 @@ const Scatter = (props) => {
               </div>
             </div>
           )}
-          {showStats && <StatisticFeature statsFeature={statsFeature} />}
+          {showStats && amode == 0 && (
+            <StatisticFeature statsFeature={statsFeature} />
+          )}
+          {showStats && amode == 1 && (
+            <TimeStatisticFeature statsFeature={timeStatsFeature} />
+          )}
           <div className="btn">
             <div className="leftbtn">
               <h3 className="label">视图类别</h3>
@@ -507,7 +519,6 @@ const Scatter = (props) => {
               )}
             </div>
             <div className="rightbtn">
-              <Button icon={<SyncOutlined />}>清空</Button>
               <h3 className="label">特征统计</h3>
               <Switch
                 onChange={onSwitchChange}
