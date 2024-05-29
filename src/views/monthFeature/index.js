@@ -107,7 +107,7 @@ const MonthFeature = (props) => {
         show: false
       },
       min: 0,
-      max: 400
+      max: 350
     },
     dataZoom: {
       type: 'inside'

@@ -11,12 +11,48 @@ const TimeStatisticFeature = (props) => {
         type: 'shadow'
       }
     },
+    legend: {
+      itemWidth: 20,
+      itemHeight: 11,
+      data: [
+        {
+          name: '平均提交率',
+          itemStyle: {
+            color: '#FF7F50'
+          }
+        },
+        {
+          name: '活跃度',
+          itemStyle: {
+            color: '#98FB98'
+          }
+        },
+        {
+          name: '答题多样性',
+          itemStyle: {
+            color: '#AFEEEE'
+          }
+        },
+        {
+          name: '正确占比',
+          itemStyle: {
+            color: '#87CEFA'
+          }
+        },
+        {
+          name: '答题人数',
+          itemStyle: {
+            color: '#FF69B4'
+          }
+        }
+      ]
+    },
     grid: [
-      { left: '11%', top: '10%', right: '48%', bottom: '53%' },
-      { left: '56%', top: '10%', right: '3%', bottom: '53%' },
-      { left: '11%', top: '60%', right: '48%', bottom: '3%' },
-      { left: '56%', top: '60%', right: '3%', bottom: '3%' }
-      // { left: '56%', top: '60%', right: '3%', bottom: '3%' }
+      { left: '11%', top: '13%', right: '48%', bottom: '65%' },
+      { left: '56%', top: '13%', right: '3%', bottom: '65%' },
+      { left: '11%', top: '43%', right: '48%', bottom: '35%' },
+      { left: '56%', top: '43%', right: '3%', bottom: '35%' },
+      { left: '11%', top: '73%', right: '48%', bottom: '3%' }
     ],
     yAxis: [
       {
@@ -62,15 +98,15 @@ const TimeStatisticFeature = (props) => {
         axisTick: {
           show: false
         }
+      },
+      {
+        gridIndex: 4,
+        type: 'category',
+        data: ['高峰型', '低峰型', '平均型'],
+        axisTick: {
+          show: false
+        }
       }
-      // {
-      //   gridIndex: 4,
-      //   type: 'category',
-      //   data: ['高峰型', '低峰型', '平均型'],
-      //   axisTick: {
-      //     show: false
-      //   }
-      // }
     ],
     xAxis: [
       {
@@ -144,25 +180,25 @@ const TimeStatisticFeature = (props) => {
         axisTick: {
           show: true
         }
+      },
+      {
+        gridIndex: 4,
+        type: 'value',
+        position: 'top',
+        axisLabel: {
+          fontSize: 9,
+          margin: 3
+        },
+        axisLine: {
+          show: true
+        },
+        splitLine: {
+          show: false
+        },
+        axisTick: {
+          show: true
+        }
       }
-      // {
-      //   gridIndex: 4,
-      //   type: 'value',
-      //   position: 'top',
-      //   axisLabel: {
-      //     fontSize: 9,
-      //     margin: 3
-      //   },
-      //   axisLine: {
-      //     show: true
-      //   },
-      //   splitLine: {
-      //     show: false
-      //   },
-      //   axisTick: {
-      //     show: true
-      //   }
-      // }
     ],
     series: [
       {
@@ -209,6 +245,18 @@ const TimeStatisticFeature = (props) => {
         yAxisIndex: 3,
         itemStyle: {
           color: '#87CEFA', // 设置箱子的填充颜色
+          borderColor: '#F4A460', // 设置边框颜色
+          borderWidth: 1 // 设置边框宽度
+        }
+      },
+      {
+        type: 'boxplot',
+        name: '答题人数',
+        data: statsFeature['答题人数'],
+        xAxisIndex: 4,
+        yAxisIndex: 4,
+        itemStyle: {
+          color: '#FF69B4', // 设置箱子的填充颜色
           borderColor: '#F4A460', // 设置边框颜色
           borderWidth: 1 // 设置边框宽度
         }
