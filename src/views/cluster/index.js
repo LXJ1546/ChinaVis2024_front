@@ -7,14 +7,15 @@ import {
   getMonthStatisticInfo
 } from '../../api'
 import { Radio, Select, Switch, Button } from 'antd'
-import { SyncOutlined } from '@ant-design/icons'
-// const IconFont = createFromIconfontCN({
-//   scriptUrl: '//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js'
-// })
+import { SyncOutlined, createFromIconfontCN } from '@ant-design/icons'
+const IconFont = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/c/font_4565164_juvpif6y83m.js'
+})
 import StatisticFeature from '../statistic/index'
 const Scatter = (props) => {
   // 父组件传递的设置模式函数
-  const { changeMode, changeMonth, changeBrushSelectedData, brushData } = props
+  const { changeMode, changeMonth, changeBrushSelectedData, brushData, amode } =
+    props
   const [clusterData, setClusterData] = useState([])
   const colorAll = ['#37A2DA', '#e06343', '#37a354']
   // 切换标签
@@ -58,13 +59,17 @@ const Scatter = (props) => {
     data: nowClusterData[cluster],
     color: colorAll[cluster],
     symbol: function (value, params) {
+      // 根据rank来选择不同形状来展示
       const rank = params.data.rank
       if (rank == 'top') {
         return 'diamond'
       } else if (rank == 'mid') {
         return 'circle'
-      } else {
+      } else if (rank == 'low') {
         return 'triangle'
+      } else {
+        // 时间模式
+        return 'circle'
       }
     },
     symbolSize: symbolSize,
@@ -79,15 +84,20 @@ const Scatter = (props) => {
         var data = params.data
         // 在这里自定义数据提示框的展示内容
         var tooltipContent = params.seriesName
-        tooltipContent += '<br>学生id：' + data.key
-        if (data.rank == 'top') {
-          tooltipContent += '<br>排名：前30%'
-        } else if (data.rank == 'mid') {
-          tooltipContent += '<br>排名：30%~70%'
+        // 不同的模式对应不同的tooltip
+        if (amode == 0) {
+          tooltipContent += '<br>学生id：' + data.key
+          if (data.rank == 'top') {
+            tooltipContent += '<br>排名：前30%'
+          } else if (data.rank == 'mid') {
+            tooltipContent += '<br>排名：30%~70%'
+          } else {
+            tooltipContent += '<br>排名：后30%'
+          }
         } else {
-          tooltipContent += '<br>排名：后30%'
+          // 时间模式下又有不同的tooltip展示
+          tooltipContent += '<br>时间段：'
         }
-        // 添加其他属性的展示内容
         return tooltipContent
       }
     },
@@ -426,23 +436,30 @@ const Scatter = (props) => {
   )
   return (
     <ScatterWrapper>
-      <div className="title">学习模式聚类视图</div>
+      <div className="title">
+        <div className="title-icon">
+          <IconFont type="icon-scatter" />
+        </div>
+        学习模式聚类视图
+      </div>
       <div className="content">
         <div className="left">
-          <div className="shapelegend">
-            <div className="legend-item">
-              <div className="diamond"></div>
-              Top
+          {amode == 0 && (
+            <div className="shapelegend">
+              <div className="legend-item">
+                <div className="diamond"></div>
+                Top
+              </div>
+              <div className="legend-item">
+                <div className="circle"></div>
+                Middle
+              </div>
+              <div className="legend-item">
+                <div className="triangle"></div>
+                Low
+              </div>
             </div>
-            <div className="legend-item">
-              <div className="circle"></div>
-              Middle
-            </div>
-            <div className="legend-item">
-              <div className="triangle"></div>
-              Low
-            </div>
-          </div>
+          )}
           {showStats && <StatisticFeature statsFeature={statsFeature} />}
           <div className="btn">
             <div className="leftbtn">

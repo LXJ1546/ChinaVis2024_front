@@ -16,6 +16,11 @@ export const ScatterWrapper = styled.div`
     margin-bottom: 0px;
     font-size: 16px;
     opacity: 0.8;
+    .title-icon {
+      font-size: 20px;
+      margin-left: 4px;
+      margin-right: 4px;
+    }
   }
   .content {
     flex: 1 1 0%;

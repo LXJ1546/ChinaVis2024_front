@@ -13,6 +13,7 @@ import StudentCommit from '../../views/studentCommit'
 import MonthFeature from '../../views/monthFeature/index'
 import TimeRight3 from '../../views/timeRight3'
 import Evolution from '../../views/temporalEvolution/index'
+import MonthTable from '../../views/monthTable/index'
 const Content = () => {
   const [amode, setAmode] = useState(0) //模式0代表答题模式，1代表时间模式
   const [month, setMonth] = useState(10) //9,10,11,12,1
@@ -113,6 +114,7 @@ const Content = () => {
               changeMonth={handleMonth}
               changeBrushSelectedData={handleBrushSelectedData}
               brushData={brushSelectedData}
+              amode={amode}
             />
           </Card>
           <Card className="card6">
@@ -129,16 +131,20 @@ const Content = () => {
         </div>
         <div className="right">
           <Card className="card7">
-            <Correlation
-              amode={amode}
-              month={month}
-              brushData={brushSelectedData}
-              handleRowKeys={handleRowKeys}
-              selectedRowKeys={selectedRowKeys}
-              handleCalendarFlag={handleCalendarFlag}
-              calendarFlag={calendarFlag}
-              changeParallelList={handleParallelList}
-            />
+            {amode == 0 ? (
+              <Correlation
+                amode={amode}
+                month={month}
+                brushData={brushSelectedData}
+                handleRowKeys={handleRowKeys}
+                selectedRowKeys={selectedRowKeys}
+                handleCalendarFlag={handleCalendarFlag}
+                calendarFlag={calendarFlag}
+                changeParallelList={handleParallelList}
+              />
+            ) : (
+              <MonthTable />
+            )}
           </Card>
           <Card className="card8">
             <Calendar
