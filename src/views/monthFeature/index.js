@@ -3,6 +3,7 @@ import * as d3 from 'd3'
 import ReactEcharts from 'echarts-for-react'
 import { MonthFeatureWrapper } from './style'
 import { getMonthQuestionSubmit } from '../../api'
+import d3Tip from 'd3-tip'
 const MonthFeature = (props) => {
   const { brushData, month, parallelList, handleClickRowKeys } = props
   // 拿到svg的引用
@@ -399,6 +400,12 @@ const MonthFeature = (props) => {
       }
     ]
   }
+  //tooltip
+  const tip = d3Tip()
+    .attr('class', 'd3-tip')
+    .html(function (d) {
+      return `Class ${d[0]},人数: <span >${d}</span>`
+    })
   useEffect(() => {
     const svg = d3.select(svgRef.current)
     // 清空之前的绘制
@@ -465,6 +472,24 @@ const MonthFeature = (props) => {
               return 'green'
             }
           })
+          .on('mouseover', function (e, d) {
+            d3.select(this).style('stroke', 'grey').style('stroke-width', 2)
+            tip.html(`<div style="line-height: 1;
+                  font-weight: bold;
+                  padding: 12px;
+                  background: white;
+                  color: grey;
+                  border-radius: 2px;
+                  pointer-events: none;
+                  font-family: Arial, sans-serif;
+                  font-size: 12px;
+                  text-align: center;">学生ID: ${d[0]}</p><p>答题模式: ${d[1]}</p><div>`)
+            tip.show(d, this)
+          })
+          .on('mouseout', function () {
+            tip.hide()
+            d3.select(this).style('stroke-width', 0)
+          })
 
         // 在每个 g 元素中根据数据添加矩形
         d3.select(this)
@@ -477,6 +502,26 @@ const MonthFeature = (props) => {
           .attr('width', 120) // 每个矩形的固定宽度为100像素
           .attr('height', 20) // 每个矩形的固定高度为20像素
           .attr('fill', (d, i) => colorScales[i](d)) // 使用颜色比例尺编码矩形的颜色
+          .on('mouseover', function (e, d) {
+            d3.select(this).style('stroke', 'grey').style('stroke-width', 2)
+            tip.html(`<div style="line-height: 1;
+                  font-weight: bold;
+                  padding: 12px;
+                  background: white;
+                  color: grey;
+                  border-radius: 2px;
+                  pointer-events: none;
+                  font-family: Arial, sans-serif;
+                  font-size: 12px;
+                  text-align: center;"><p> ${d}</p><div>`)
+            tip.show(d, this)
+          })
+          .on('mouseout', function () {
+            tip.hide()
+            d3.select(this).style('stroke-width', 0)
+          })
+
+        svg.call(tip)
       })
   }, [brushData])
   return (
