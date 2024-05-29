@@ -43,7 +43,7 @@ const MonthTable = () => {
     visualMap: {
       show: false,
       min: -1,
-      max: 0,
+      max: 1,
       calculable: true,
       orient: 'vertical',
       right: '1%',
