@@ -14,18 +14,10 @@ export const EvolutionWrapper = styled.div`
     font-size: 16px;
     opacity: 0.8;
   }
-  .content {
+  .Evolutioncontent {
     flex: 1 1 0%;
     display: flex;
     width: 100%;
     height: 100%;
-    .leftview {
-      width: 55%;
-      height: 100%;
-    }
-    .rightview {
-      width: 45%;
-      height: 100%;
-    }
   }
 `

@@ -296,9 +296,9 @@ const TitleMaster = (props) => {
             }
           },
           grid: {
-            left: '10%', // 左边距
+            left: '15%', // 左边距
             top: '20%', // 上边距
-            right: '10%',
+            right: '5%',
             bottom: '20%' // 下边距
           },
           xAxis: {
