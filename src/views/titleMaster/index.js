@@ -1,10 +1,13 @@
 import React, { memo } from 'react'
 import { TitleMasterWrapper } from './style'
-// import { Card } from 'antd'
 import { useEffect, useRef } from 'react'
 import * as echarts from 'echarts'
 import { getTitleMasterInfo } from '../../api'
 import { getTitleMemoryInfo } from '../../api'
+import { createFromIconfontCN } from '@ant-design/icons'
+const IconFont = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/c/font_4565164_juvpif6y83m.js'
+})
 
 const TitleMaster = (props) => {
   const { classNum } = props
@@ -338,7 +341,12 @@ const TitleMaster = (props) => {
 
   return (
     <TitleMasterWrapper>
-      <div className="title">题目掌握程度</div>
+      <div className="title">
+        <div className="title-icon">
+          <IconFont type="icon-zhangwoshuai" />
+        </div>
+        题目掌握程度
+      </div>
       <div className="Titleview">
         <div className="titleMaster" ref={titleMasterRef}></div>
         <div className="subKnowledge" ref={subKnowledgeRef}></div>

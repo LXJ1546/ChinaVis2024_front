@@ -4,6 +4,10 @@ import { useEffect, useRef } from 'react'
 import * as d3 from 'd3'
 import * as echarts from 'echarts'
 import { getClassBasicInfo } from '../../api/index'
+import { createFromIconfontCN } from '@ant-design/icons'
+const IconFont = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/c/font_4565164_juvpif6y83m.js'
+})
 import d3Tip from 'd3-tip'
 
 const Picture = (props) => {
@@ -413,7 +417,12 @@ const Picture = (props) => {
 
   return (
     <PictureWrapper>
-      <div className="title">分布特征</div>
+      <div className="title">
+        <div className="title-icon">
+          <IconFont type="icon-fenbu" />
+        </div>
+        分布特征
+      </div>
       <div className="Pictureview">
         <div className="distribution" ref={distributionRef}>
           <div className="major" ref={majorRef}></div>

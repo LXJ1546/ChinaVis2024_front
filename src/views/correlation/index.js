@@ -4,6 +4,11 @@ const { Column } = Table
 import ReactEcharts from 'echarts-for-react'
 import { CorrelationWrapper } from './style'
 import { getCorrelationData } from '../../api'
+import { createFromIconfontCN } from '@ant-design/icons'
+const IconFont = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/c/font_4565164_juvpif6y83m.js'
+})
+
 const Correlation = (props) => {
   // 拿到父组件传递的模式状态
   const {
@@ -159,7 +164,12 @@ const Correlation = (props) => {
   }, [amode, month])
   return (
     <CorrelationWrapper>
-      <div className="title">表格与相关性矩阵视图</div>
+      <div className="title">
+        <div className="title-icon">
+          <IconFont type="icon-biaoge" />
+        </div>
+        表格与相关性矩阵视图
+      </div>
       <div className="content">
         <div className="table">
           <div className="rightbar">

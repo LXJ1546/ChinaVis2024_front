@@ -14,6 +14,10 @@ import Image3 from '../../pic/3.svg' // 导入SVG图片
 import Image4 from '../../pic/4.svg' // 导入SVG图片
 import Image5 from '../../pic/5.svg' // 导入SVG图片
 import { getClassKnowledgeInfo } from '../../api/index'
+import { createFromIconfontCN } from '@ant-design/icons'
+const IconFont = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/c/font_4565164_juvpif6y83m.js'
+})
 
 const imageMap = {
   0: Image0,
@@ -629,7 +633,12 @@ const KnowledgeIcicle = (props) => {
           width: '100%'
         }}
       >
-        <div className="atitle">知识点掌握程度</div>
+        <div className="atitle">
+          <div className="title-icon">
+            <IconFont type="icon-zhishidian" />
+          </div>
+          知识点掌握程度
+        </div>
         <div
           id="knowledgeChart"
           ref={ref}
