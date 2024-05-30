@@ -31,7 +31,7 @@ const TimeRight3 = () => {
   }
   useEffect(() => {
     drawRadar()
-    drawTimeTitle()
+    drawTimeTitle2()
     getTimeStudentInfo('提交次数').then((res) => {
       setDrawP3Data(res)
       setMaxP3Data(Math.max(...res[0]['高峰型']))
@@ -109,14 +109,12 @@ const TimeRight3 = () => {
     myChart.setOption(option)
   }
 
-  const drawTimeTitle = () => {
+  const drawTimeTitle2 = () => {
     const Instance = echarts.getInstanceByDom(timeTitleRef.current)
     if (Instance) {
       Instance.dispose()
     }
     let myChart = echarts.init(timeTitleRef.current)
-    let option
-
     const rawData = [
       [
         291.6666666666667, 455.0, 322.0, 579.1666666666666, 3366.0, 336.0,
@@ -136,71 +134,216 @@ const TimeRight3 = () => {
         110.27272727272727
       ]
     ]
-    const totalData = []
-    for (let i = 0; i < rawData[0].length; ++i) {
-      let sum = 0
-      for (let j = 0; j < rawData.length; ++j) {
-        sum += rawData[j][i]
-      }
-      totalData.push(sum)
-    }
-    const grid = {
-      left: 50,
-      right: 20,
-      top: 20,
-      bottom: 30
-    }
-    const series = ['9', '10', '11', '12', '1'].map((name, sid) => {
-      return {
-        name,
-        type: 'bar',
-        stack: 'total',
-        barWidth: '60%',
-        label: {
-          show: false,
-          formatter: (params) => Math.round(params.value * 1000) / 10 + '%'
-        },
-        data: rawData[sid].map((d, did) =>
-          totalData[did] <= 0 ? 0 : d / totalData[did]
-        )
-      }
-    })
+
+    // const rawDataT = rawData[0].map((_, colIndex) =>
+    //   rawData.map((row) => row[colIndex])
+    // )
+    const knowledges = [
+      'b3C9s',
+      'g7R2j',
+      'k4W1c',
+      'm3D1v',
+      'r8S3g',
+      's8Y2f',
+      't5V9e',
+      'y9W5d'
+    ]
+    let option
     option = {
-      legend: {
-        selectedMode: false,
-        top: '-3px'
-      },
-      grid,
-      yAxis: {
-        type: 'value',
-        max: 1
-      },
       tooltip: {
-        trigger: 'item',
-        show: 'true',
-        formatter: (params) => {
-          //   console.log('tooltip', params, typeof params.data)
-          return `${params.seriesName}月<br />${params.name}  ${(params.data * 100).toFixed(2)}%`
+        trigger: 'axis',
+        axisPointer: {
+          // Use axis to trigger tooltip
+          type: 'shadow' // 'shadow' as default; can also be 'line' or 'shadow'
         }
+      },
+      legend: {},
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        top: '12%',
+        containLabel: true
+      },
+      yAxis: {
+        type: 'value'
       },
       xAxis: {
         type: 'category',
-        data: [
-          'b3C9s',
-          'g7R2j',
-          'k4W1c',
-          'm3D1v',
-          'r8S3g',
-          's8Y2f',
-          't5V9e',
-          'y9W5d'
-        ]
+        data: knowledges
       },
-      series
+      series: [
+        {
+          name: '9月',
+          type: 'bar',
+          stack: 'total',
+          label: {
+            show: false
+          },
+          emphasis: {
+            focus: 'series'
+          },
+          data: rawData[0].map((num) => Math.round(num))
+        },
+        {
+          name: '10月',
+          type: 'bar',
+          stack: 'total',
+          label: {
+            show: false
+          },
+          emphasis: {
+            focus: 'series'
+          },
+          data: rawData[1].map((num) => Math.round(num))
+        },
+        {
+          name: '11月',
+          type: 'bar',
+          stack: 'total',
+          label: {
+            show: false
+          },
+          emphasis: {
+            focus: 'series'
+          },
+          data: rawData[2].map((num) => Math.round(num))
+        },
+        {
+          name: '12月',
+          type: 'bar',
+          stack: 'total',
+          label: {
+            show: false
+          },
+          emphasis: {
+            focus: 'series'
+          },
+          data: rawData[3].map((num) => Math.round(num))
+        },
+        {
+          name: '1月',
+          type: 'bar',
+          stack: 'total',
+          label: {
+            show: false
+          },
+          emphasis: {
+            focus: 'series'
+          },
+          data: rawData[4].map((num) => Math.round(num))
+        }
+      ]
     }
 
     option && myChart.setOption(option)
   }
+
+  //   const drawTimeTitle = () => {
+  //     const Instance = echarts.getInstanceByDom(timeTitleRef.current)
+  //     if (Instance) {
+  //       Instance.dispose()
+  //     }
+  //     let myChart = echarts.init(timeTitleRef.current)
+  //     let option
+
+  //     const knowledges = [
+  //       'b3C9s',
+  //       'g7R2j',
+  //       'k4W1c',
+  //       'm3D1v',
+  //       'r8S3g',
+  //       's8Y2f',
+  //       't5V9e',
+  //       'y9W5d'
+  //     ]
+
+  //     const rawData = [
+  //       [
+  //         291.6666666666667, 455.0, 322.0, 579.1666666666666, 3366.0, 336.0,
+  //         1741.4, 341.27272727272725
+  //       ],
+  //       [
+  //         692.3333333333334, 1035.4, 1357.0, 2321.5, 3202.0, 1272.0, 4404.6,
+  //         1362.7272727272727
+  //       ],
+  //       [1272.0, 1994.2, 3318.0, 1830.0, 495.8, 2698.0, 988.0, 2652.181818181818],
+  //       [
+  //         2383.3333333333335, 2876.6, 1119.0, 658.3333333333334, 244.2, 1589.0,
+  //         406.2, 1218.8181818181818
+  //       ],
+  //       [
+  //         287.3333333333333, 247.0, 124.0, 79.75, 20.8, 131.0, 32.0,
+  //         110.27272727272727
+  //       ]
+  //     ]
+  //     const totalData = []
+  //     for (let i = 0; i < rawData[0].length; ++i) {
+  //       let sum = 0
+  //       for (let j = 0; j < rawData.length; ++j) {
+  //         sum += rawData[j][i]
+  //       }
+  //       totalData.push(sum)
+  //     }
+  //     const grid = {
+  //       left: 50,
+  //       right: 20,
+  //       top: 20,
+  //       bottom: 30
+  //     }
+  //     const series = ['9', '10', '11', '12', '1'].map((name, sid) => {
+  //       return {
+  //         name,
+  //         type: 'bar',
+  //         stack: 'total',
+  //         barWidth: '60%',
+  //         label: {
+  //           show: false,
+  //           formatter: (params) => Math.round(params.value * 1000) / 10 + '%'
+  //         },
+  //         data: rawData[sid].map((d, did) =>
+  //           totalData[did] <= 0 ? 0 : d / totalData[did]
+  //         )
+  //       }
+  //     })
+  //     option = {
+  //       legend: {
+  //         selectedMode: false,
+  //         top: '-3px'
+  //       },
+  //       grid,
+  //       yAxis: {
+  //         type: 'value',
+  //         max: 1
+  //       },
+  //       tooltip: {
+  //         trigger: 'item',
+  //         show: 'true',
+  //         formatter: (params) => {
+  //           //   console.log(
+  //           //     'tooltip',
+  //           //     params,
+  //           //     params.seriesIndex,
+  //           //     params.name,
+  //           //     knowledges.indexOf(params.name),
+  //           //     Math.round(
+  //           //       rawData[params.seriesIndex][knowledges.indexOf(params.name)]
+  //           //     )
+  //           //   )
+  //           return `${params.seriesName}月 ${params.name}<br />占比  ${(params.data * 100).toFixed(2)}%<br />作答次数 ${Math.round(
+  //             rawData[params.seriesIndex][knowledges.indexOf(params.name)]
+  //           )}`
+  //         }
+  //       },
+  //       xAxis: {
+  //         type: 'category',
+  //         data: knowledges
+  //       },
+  //       series
+  //     }
+
+  //     option && myChart.setOption(option)
+  //   }
 
   const drawSpecialPicMode1 = () => {
     drawSpecialPic1(drawP3Data[0]['高峰型'], maxP3Data)
@@ -303,7 +446,7 @@ const TimeRight3 = () => {
 
     option && myChart.setOption(option)
   }
-
+ 
   const drawSpecialPic2 = (drawData, maxData) => {
     const specialInstance = echarts.getInstanceByDom(specialRef2.current)
     if (specialInstance) {
