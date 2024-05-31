@@ -19,5 +19,19 @@ export const EvolutionWrapper = styled.div`
     display: flex;
     width: 100%;
     height: 100%;
+    .radioLine {
+      position: absolute;
+      top: 40px;
+      left: 700px;
+    }
+    .radioRight {
+      position: absolute;
+      top: 40px;
+      left: 800px;
+    }
+    .selectWork {
+      position: absolute;
+      left: 930px;
+    }
   }
 `
