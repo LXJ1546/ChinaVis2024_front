@@ -3,6 +3,11 @@ import * as d3 from 'd3'
 import ReactEcharts from 'echarts-for-react'
 import { MonthFeatureWrapper } from './style'
 import { getMonthQuestionSubmit } from '../../api'
+import { createFromIconfontCN } from '@ant-design/icons'
+const IconFont = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/c/font_4565164_juvpif6y83m.js'
+})
+
 import d3Tip from 'd3-tip'
 const MonthFeature = (props) => {
   const { brushData, month, parallelList, handleClickRowKeys } = props
@@ -107,7 +112,7 @@ const MonthFeature = (props) => {
         show: false
       },
       min: 0,
-      max: 400
+      max: 350
     },
     dataZoom: {
       type: 'inside'
@@ -526,7 +531,12 @@ const MonthFeature = (props) => {
   }, [brushData])
   return (
     <MonthFeatureWrapper>
-      <div className="title">学生月答题数据视图</div>
+      <div className="title">
+        <div className="title-icon">
+          <IconFont type="icon-yuefen" />
+        </div>
+        学生月答题数据视图
+      </div>
       <div className="content">
         <div className="leftview">
           <div className="leftbar">

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const StatisticWrapper = styled.div`
   width: 38%;
-  height: 22%;
+  height: 25%;
   position: absolute;
   z-index: 10;
   top: 12%;

@@ -17,11 +17,11 @@ const MonthTable = () => {
       top: '2%',
       bottom: '12%',
       right: '3%',
-      left: '13%'
+      left: '11%'
     },
     xAxis: {
       type: 'category',
-      data: ['提交次数', '活跃天数', '答题数', '正确占比'],
+      data: ['提交次数', '活跃天数', '答题数'],
       splitArea: {
         show: true
       },
@@ -31,13 +31,13 @@ const MonthTable = () => {
     },
     yAxis: {
       type: 'category',
-      data: ['针对型', '多样型', '尝试型'],
+      data: ['凌晨', '上午', '下午', '晚上'],
       splitArea: {
         show: true
       },
       axisLabel: {
         fontSize: 11,
-        margin: 2
+        margin: 4
       }
     },
     visualMap: {
@@ -55,7 +55,7 @@ const MonthTable = () => {
       {
         name: '特征相关性',
         type: 'heatmap',
-        data: correlationData[0],
+        data: correlationData[5],
         label: {
           show: true
         },

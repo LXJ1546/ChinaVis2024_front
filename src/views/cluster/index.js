@@ -48,6 +48,8 @@ const Scatter = (props) => {
   const [statsFeature, setStatsFeature] = useState([])
   // 时间特征统计值
   const [timeStatsFeature, setTimeStatsFeature] = useState([])
+  // 切换到时间模式时就不需要刷选功能
+  const [brushEnabled, setBrushEnabled] = useState(true)
   const monthsChoice = [
     { value: 9, label: '2023-09' },
     { value: 10, label: '2023-10' },
@@ -104,15 +106,17 @@ const Scatter = (props) => {
         return tooltipContent
       }
     },
-    brush: {
-      toolbox: ['rect', 'polygon', 'clear'],
-      brushType: 'polygon',
-      xAxisIndex: 'all',
-      yAxisIndex: 'all',
-      brushMode: 'single',
-      throttleType: 'debounce',
-      throttleDelay: 1000
-    },
+    brush: brushEnabled
+      ? {
+          toolbox: ['rect', 'polygon', 'clear'],
+          brushType: 'polygon',
+          xAxisIndex: 'all',
+          yAxisIndex: 'all',
+          brushMode: 'single',
+          throttleType: 'debounce',
+          throttleDelay: 1000
+        }
+      : null,
     grid: {
       left: '1%', // 设置左边距
       right: '2%', // 设置右边距
@@ -328,6 +332,8 @@ const Scatter = (props) => {
       changeMode(1)
       // 是否显示演变视图
       setIsTransfer(false)
+      // 设置为无法刷选
+      setBrushEnabled(false)
       // 获取时间特征统计值数据
       getMonthStatisticInfo(2).then((res) => {
         setTimeStatsFeature(res)
@@ -345,6 +351,8 @@ const Scatter = (props) => {
       // 是否显示演变视图
       setIsTransfer(false)
       setDisabledStats(true)
+      // 设置为可刷选
+      setBrushEnabled(true)
     } else if (value == 2) {
       // 是否显示演变视图
       setIsTransfer(true)

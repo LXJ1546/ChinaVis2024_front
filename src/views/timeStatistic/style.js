@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
 export const TimeStatisticWrapper = styled.div`
-  width: 38%;
-  height: 22%;
+  width: 42%;
+  height: 34%;
   position: absolute;
   z-index: 10;
   top: 12%;

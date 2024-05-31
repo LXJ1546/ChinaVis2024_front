@@ -11,11 +11,41 @@ const StatisticFeature = (props) => {
         type: 'shadow'
       }
     },
+    legend: {
+      itemWidth: 20,
+      itemHeight: 11,
+      data: [
+        {
+          name: '提交次数',
+          itemStyle: {
+            color: '#FF7F50'
+          }
+        },
+        {
+          name: '活跃天数',
+          itemStyle: {
+            color: '#98FB98'
+          }
+        },
+        {
+          name: '答题数',
+          itemStyle: {
+            color: '#AFEEEE'
+          }
+        },
+        {
+          name: '正确占比',
+          itemStyle: {
+            color: '#87CEFA'
+          }
+        }
+      ]
+    },
     grid: [
-      { left: '11%', top: '10%', right: '48%', bottom: '53%' },
-      { left: '56%', top: '10%', right: '3%', bottom: '53%' },
-      { left: '11%', top: '60%', right: '48%', bottom: '3%' },
-      { left: '56%', top: '60%', right: '3%', bottom: '3%' }
+      { left: '11%', top: '17%', right: '48%', bottom: '50%' },
+      { left: '56%', top: '17%', right: '3%', bottom: '50%' },
+      { left: '11%', top: '64%', right: '48%', bottom: '3%' },
+      { left: '56%', top: '64%', right: '3%', bottom: '3%' }
     ],
     yAxis: [
       {

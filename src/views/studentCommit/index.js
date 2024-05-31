@@ -5,6 +5,11 @@ import * as d3 from 'd3'
 import * as echarts from 'echarts'
 import d3Tip from 'd3-tip'
 import { getEventInfo } from '../../api'
+import { createFromIconfontCN } from '@ant-design/icons'
+const IconFont = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/c/font_4565164_29wjxd2qn5k.js'
+})
+
 const StudentCommit = (props) => {
   // 拿到父组件传递的模式状态
   const {
@@ -702,7 +707,14 @@ const StudentCommit = (props) => {
   return (
     <StudentCommitWrapper>
       {/* amode=0答题模式 ，amode=1时间模式*/}
-      {amode == 0 && <div className="title">学生提交事件</div>}
+      {amode == 0 && (
+        <div className="title">
+          <div className="title-icon">
+            <IconFont type="icon-a-tijiaoshangchuantiqu" />
+          </div>
+          学生提交事件
+        </div>
+      )}
       {amode == 1 && <div className="title">高峰分析矩阵图</div>}
       <div className="Studentview">
         {/* amode=0答题模式 ，amode=1时间模式*/}

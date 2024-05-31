@@ -13,6 +13,11 @@ export const PictureWrapper = styled.div`
     margin-bottom: 6px;
     font-size: 16px;
     opacity: 0.8;
+    .title-icon {
+      font-size: 18px;
+      margin-left: 4px;
+      margin-right: 4px;
+    }
   }
   .Pictureview {
     height: 100%;
