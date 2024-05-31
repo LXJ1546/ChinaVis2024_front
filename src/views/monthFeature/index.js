@@ -387,6 +387,7 @@ const MonthFeature = (props) => {
         lineStyle: {
           width: 1
         },
+        smooth: true,
         data: parallelList[0]
       },
       {
@@ -394,6 +395,7 @@ const MonthFeature = (props) => {
         lineStyle: {
           width: 1
         },
+        smooth: true,
         data: parallelList[1]
       },
       {
@@ -401,6 +403,7 @@ const MonthFeature = (props) => {
         lineStyle: {
           width: 1
         },
+        smooth: true,
         data: parallelList[2]
       }
     ]

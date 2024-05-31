@@ -11,7 +11,7 @@ const MonthTable = () => {
   const [timeTable, setTimeTable] = useState([])
   const correlationOption = {
     tooltip: {
-      position: 'top'
+      position: 'left'
     },
     grid: {
       top: '2%',
@@ -99,7 +99,17 @@ const MonthTable = () => {
                 width={70}
                 style={{ height: 30 }}
                 render={(_, record) => (
-                  <Tag color="#37a354">{record.label}</Tag>
+                  <Tag
+                    color={
+                      record.label === '高峰型'
+                        ? '#37A2DA'
+                        : record.label === '低峰型'
+                          ? '#e06343'
+                          : '#37a354'
+                    }
+                  >
+                    {record.label}
+                  </Tag>
                 )}
               />
               <Column

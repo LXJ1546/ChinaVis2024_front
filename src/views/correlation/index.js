@@ -27,7 +27,7 @@ const Correlation = (props) => {
   const [correlationIndex, setCorrelationIndex] = useState(1)
   const correlationOption = {
     tooltip: {
-      position: 'top'
+      position: 'left'
     },
     grid: {
       top: '2%',
@@ -223,7 +223,17 @@ const Correlation = (props) => {
                 key="label"
                 width={70}
                 render={(_, record) => (
-                  <Tag color="#37a354">{record.label}</Tag>
+                  <Tag
+                    color={
+                      record.label === '针对型'
+                        ? '#37A2DA'
+                        : record.label === '多样型'
+                          ? '#e06343'
+                          : '#37a354'
+                    }
+                  >
+                    {record.label}
+                  </Tag>
                 )}
               />
               <Column title="排名等级" dataIndex="rank" key="rank" width={70} />

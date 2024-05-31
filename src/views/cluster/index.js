@@ -37,9 +37,11 @@ const Scatter = (props) => {
   // 用来画状态转换的连接
   const [transferLinksData, setTransferLinksData] = useState([])
   // 状态转移的第一月份
-  const [firstMonth, setFirstMonth] = useState(null)
+  const [firstMonth, setFirstMonth] = useState('2023-09')
   // 状态转移的第二月份
-  const [secondMonth, setSecondMonth] = useState(null)
+  const [secondMonth, setSecondMonth] = useState('2023-10')
+  // 是否可以选择第二个月份
+  const [canChoose, setCanChoose] = useState(false)
   // 是否展示统计特征箱线图
   const [showStats, setShowStats] = useState(false)
   // 开关是否不可操作
@@ -50,6 +52,10 @@ const Scatter = (props) => {
   const [timeStatsFeature, setTimeStatsFeature] = useState([])
   // 切换到时间模式时就不需要刷选功能
   const [brushEnabled, setBrushEnabled] = useState(true)
+  // 展示高中低不同的形状
+  const [showShape, setShowShape] = useState(false)
+  // 开关是否不可操作
+  const [disabledShape, setDisabledShape] = useState(true)
   const monthsChoice = [
     { value: 9, label: '2023-09' },
     { value: 10, label: '2023-10' },
@@ -63,20 +69,22 @@ const Scatter = (props) => {
     type: 'scatter',
     data: nowClusterData[cluster],
     color: colorAll[cluster],
-    symbol: function (value, params) {
-      // 根据rank来选择不同形状来展示
-      const rank = params.data.rank
-      if (rank == 'top') {
-        return 'diamond'
-      } else if (rank == 'mid') {
-        return 'circle'
-      } else if (rank == 'low') {
-        return 'triangle'
-      } else {
-        // 时间模式
-        return 'circle'
-      }
-    },
+    symbol: showShape
+      ? function (value, params) {
+          // 根据rank来选择不同形状来展示
+          const rank = params.data.rank
+          if (rank == 'top') {
+            return 'diamond'
+          } else if (rank == 'mid') {
+            return 'circle'
+          } else if (rank == 'low') {
+            return 'triangle'
+          } else {
+            // 时间模式
+            return 'circle'
+          }
+        }
+      : null,
     symbolSize: symbolSize,
     itemStyle: {
       borderColor: '#555',
@@ -219,6 +227,7 @@ const Scatter = (props) => {
     tooltip: {},
     animationDurationUpdate: 1500,
     animationEasingUpdate: 'quinticInOut',
+
     visualMap: [
       {
         type: 'continuous',
@@ -237,8 +246,13 @@ const Scatter = (props) => {
         type: 'graph',
         layout: 'none',
         symbolSize: 50,
+        draggable: true,
         label: {
-          show: true
+          show: true,
+          formatter: '{b}'
+        },
+        tooltip: {
+          valueFormatter: (value) => value + '人'
         },
         edgeLabel: {
           fontSize: 15
@@ -250,7 +264,9 @@ const Scatter = (props) => {
             y: 300,
             value: transferCircleData[0],
             itemStyle: {
-              color: allColor[0]
+              color: allColor[0],
+              borderColor: '#A9A9A9',
+              borderWidth: 3
             },
             label: {
               fontSize: mapFontSize(transferCircleData[0]),
@@ -263,7 +279,9 @@ const Scatter = (props) => {
             y: 290,
             value: transferCircleData[1],
             itemStyle: {
-              color: allColor[1]
+              color: allColor[1],
+              borderColor: '#A9A9A9',
+              borderWidth: 3
             },
             label: {
               fontSize: mapFontSize(transferCircleData[1]),
@@ -276,7 +294,9 @@ const Scatter = (props) => {
             y: 200,
             value: transferCircleData[2],
             itemStyle: {
-              color: allColor[2]
+              color: allColor[2],
+              borderColor: '#A9A9A9',
+              borderWidth: 3
             },
             label: {
               fontSize: mapFontSize(transferCircleData[2]),
@@ -289,7 +309,9 @@ const Scatter = (props) => {
             y: 380,
             value: transferCircleData[3],
             itemStyle: {
-              color: allColor[3]
+              color: allColor[3],
+              borderColor: '#A9A9A9',
+              borderWidth: 3
             },
             label: {
               fontSize: mapFontSize(transferCircleData[3]),
@@ -334,6 +356,8 @@ const Scatter = (props) => {
       setIsTransfer(false)
       // 设置为无法刷选
       setBrushEnabled(false)
+      // 等级编码开关不可操作
+      setDisabledShape(false)
       // 获取时间特征统计值数据
       getMonthStatisticInfo(2).then((res) => {
         setTimeStatsFeature(res)
@@ -351,6 +375,7 @@ const Scatter = (props) => {
       // 是否显示演变视图
       setIsTransfer(false)
       setDisabledStats(true)
+      setDisabledShape(true)
       // 设置为可刷选
       setBrushEnabled(true)
     } else if (value == 2) {
@@ -358,6 +383,8 @@ const Scatter = (props) => {
       setIsTransfer(true)
       // 统计值开关不可操作
       setDisabledStats(false)
+      // 等级编码开关不可操作
+      setDisabledShape(false)
       // 是否展示箱线图
       setShowStats(false)
     }
@@ -400,10 +427,12 @@ const Scatter = (props) => {
   const handleFirstMonthChange = (value) => {
     setFirstMonth(value)
     setSecondMonth(null) // 重置第二个选择器
+    setCanChoose(true)
   }
   // 处理第一个演变视图中选择器的变化
   const handleSecondMonthChange = (value) => {
     setSecondMonth(value)
+    setCanChoose(false)
     getTransferData(firstMonth, value).then((res) => {
       setTransferCircleData(res[0])
       setTransferLinksData(res[1])
@@ -420,7 +449,11 @@ const Scatter = (props) => {
     return monthsChoice.slice(firstMonthIndex + 1)
   }
   // 切换开关事件
-  const onSwitchChange = (checked) => {
+  const onSwitchChange1 = (checked) => {
+    setShowShape(checked)
+  }
+  // 切换开关事件
+  const onSwitchChange2 = (checked) => {
     setShowStats(checked)
   }
   // 刷选选择事件处理逻辑
@@ -459,7 +492,7 @@ const Scatter = (props) => {
       </div>
       <div className="content">
         <div className="left">
-          {amode == 0 && (
+          {amode == 0 && !isTransfer && showShape && (
             <div className="shapelegend">
               <div className="legend-item">
                 <div className="diamond"></div>
@@ -517,19 +550,28 @@ const Scatter = (props) => {
                   />
                   <div className="to">to</div>
                   <Select
+                    defaultValue="2023-10"
                     style={{ width: 100, marginLeft: '5px' }}
                     options={getSecondMonthOptions()}
                     onChange={handleSecondMonthChange}
                     value={secondMonth}
-                    disabled={!firstMonth}
+                    disabled={!canChoose}
                   />
                 </div>
               )}
             </div>
             <div className="rightbtn">
+              <h3 className="label">等级编码</h3>
+              <Switch
+                onChange={onSwitchChange1}
+                value={showShape}
+                size={'small'}
+                style={{ marginLeft: '10px' }}
+                disabled={!disabledShape}
+              />
               <h3 className="label">特征统计</h3>
               <Switch
-                onChange={onSwitchChange}
+                onChange={onSwitchChange2}
                 value={showStats}
                 size={'small'}
                 style={{ marginLeft: '10px' }}
@@ -542,9 +584,13 @@ const Scatter = (props) => {
               <ReactEcharts
                 option={clusterOption}
                 style={{ width: '100%', height: '100%' }}
-                onEvents={{
-                  brushSelected: onBrushSelected
-                }}
+                onEvents={
+                  amode == 0 && !isTransfer
+                    ? {
+                        brushSelected: onBrushSelected
+                      }
+                    : null
+                }
               />
             )}
             {isTransfer && (

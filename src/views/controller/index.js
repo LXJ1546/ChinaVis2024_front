@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useState } from 'react'
 import { CotrollerWrapper } from './style'
 import { Input, Button, Select } from 'antd'
 import { RetweetOutlined, createFromIconfontCN } from '@ant-design/icons'
@@ -7,11 +7,29 @@ const IconFont = createFromIconfontCN({
 })
 const Cotroller = (props) => {
   const { handleClassNum } = props
+  // 定义输入框状态
+  const [scoreRate, setScoreRate] = useState('')
+  const [correctRate, setCorrectRate] = useState('')
+  const [timeUse, setTimeUse] = useState('')
+  const [memoryUse, setMemoryUse] = useState('')
+  // 定义选择框状态
+  const [classNum, setClassNum] = useState('all')
   //数据集选择函数
   const handleChange = (value) => {
     handleClassNum(value)
+    // 改变classNum
+    setClassNum(value)
   }
-
+  // 重置按钮相关操作
+  const handleReset = () => {
+    // 全部重置所有状态
+    setScoreRate('')
+    setCorrectRate('')
+    setTimeUse('')
+    setMemoryUse('')
+    setClassNum('all')
+    handleChange('all')
+  }
   return (
     <CotrollerWrapper>
       <div className="title">
@@ -28,24 +46,32 @@ const Cotroller = (props) => {
             className="weightInput"
             addonBefore="得分率"
             style={{ width: 145 }}
+            value={scoreRate}
+            onChange={(e) => setScoreRate(e.target.value)}
           />
           <Input
             placeholder="权重"
             className="weightInput"
             addonBefore="正确比"
             style={{ width: 145 }}
+            value={correctRate}
+            onChange={(e) => setCorrectRate(e.target.value)}
           />
           <Input
             placeholder="权重"
             className="weightInput"
             addonBefore="用时"
             style={{ width: 130 }}
+            value={timeUse}
+            onChange={(e) => setTimeUse(e.target.value)}
           />
           <Input
             placeholder="权重"
             className="weightInput"
             addonBefore="内存"
             style={{ width: 130 }}
+            value={memoryUse}
+            onChange={(e) => setMemoryUse(e.target.value)}
           />
         </div>
         {/* 数据集选择 */}
@@ -55,6 +81,7 @@ const Cotroller = (props) => {
             defaultValue="所有学生"
             style={{ width: 200 }}
             onChange={handleChange}
+            value={classNum}
             options={[
               {
                 label: <span>全部</span>,
@@ -139,6 +166,7 @@ const Cotroller = (props) => {
             <Button
               style={{ width: 80, marginRight: 8 }}
               icon={<RetweetOutlined />}
+              onClick={handleReset}
             >
               重置
             </Button>
