@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useRef, useState } from 'react'
 import * as echarts from 'echarts'
 import { Button, Select } from 'antd'
-import { getTimeStudentInfo } from '../../api/index'
+import { getTimeStudentInfo, getTimeRadarInfo } from '../../api/index'
 
 const TimeRight3 = () => {
   const radarRef = useRef(null)
@@ -30,11 +30,13 @@ const TimeRight3 = () => {
     })
   }
   useEffect(() => {
-    drawRadar()
     drawTimeTitle2()
     getTimeStudentInfo('提交次数').then((res) => {
       setDrawP3Data(res)
       setMaxP3Data(Math.max(...res[0]['高峰型']))
+    })
+    getTimeRadarInfo().then((res) => {
+      drawRadar(res)
     })
   }, [])
 
@@ -45,7 +47,7 @@ const TimeRight3 = () => {
     }
   }, [drawP3Data, specialPicMode])
 
-  const drawRadar = () => {
+  const drawRadar = (res) => {
     const radarInstance = echarts.getInstanceByDom(radarRef.current)
     if (radarInstance) {
       radarInstance.dispose()
@@ -84,21 +86,15 @@ const TimeRight3 = () => {
           type: 'radar',
           data: [
             {
-              value: [
-                0.6250595748462441, 0.7619955945820197, 15.493887530562347
-              ],
+              value: res['top'],
               name: 'top'
             },
             {
-              value: [
-                0.46962646079945264, 0.5551806867812913, 31.842490842490843
-              ],
+              value: res['mid'],
               name: 'mid'
             },
             {
-              value: [
-                0.3104919230562338, 0.38418897525199913, 59.63569682151589
-              ],
+              value: res['low'],
               name: 'low'
             }
           ]

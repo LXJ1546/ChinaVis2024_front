@@ -120,3 +120,10 @@ export function getTimeStudentInfo(feature) {
     data: { data: feature }
   })
 }
+
+//时间模式下，右下雷达图图
+export function getTimeRadarInfo() {
+  return hyRequest.post({
+    url: '/timeRadarInfo'
+  })
+}
