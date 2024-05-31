@@ -4,6 +4,10 @@ import { useEffect, useRef } from 'react'
 import * as d3 from 'd3'
 import * as echarts from 'echarts'
 import { getClassBasicInfo } from '../../api/index'
+import { createFromIconfontCN } from '@ant-design/icons'
+const IconFont = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/c/font_4565164_juvpif6y83m.js'
+})
 import d3Tip from 'd3-tip'
 
 const Picture = (props) => {
@@ -282,7 +286,12 @@ const Picture = (props) => {
         text-align: center;">学生ID: ${d[0]}  <p>专业:${d[1]}</p> <p>年龄:${d[2]}</p><p>性别:${d[3]}</p><p>掌握程度:${d[4]}</p><div>`)
         tip.show(d, this)
       })
-      .on('mouseout', tip.hide)
+      .on('mouseout', function () {
+        tip.hide()
+      })
+      .on('click', function (e, d) {
+        console.log(d[0])
+      })
 
     //班级排名视图标签
     const ranklable = svg.append('g').attr('class', 'ranklable')
@@ -373,7 +382,9 @@ const Picture = (props) => {
           text-align: center;">班级：${d[0]}<p> 排名分布: ${d[2]}</p><div>`)
           tip.show(d, this)
         })
-        .on('mouseout', tip.hide)
+        .on('mouseout', function () {
+          tip.hide()
+        })
     }
 
     //班级排名视图标签
@@ -413,7 +424,12 @@ const Picture = (props) => {
 
   return (
     <PictureWrapper>
-      <div className="title">分布特征</div>
+      <div className="title">
+        <div className="title-icon">
+          <IconFont type="icon-fenbu" />
+        </div>
+        分布特征
+      </div>
       <div className="Pictureview">
         <div className="distribution" ref={distributionRef}>
           <div className="major" ref={majorRef}></div>

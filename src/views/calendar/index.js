@@ -5,6 +5,10 @@ import * as d3 from 'd3'
 import d3Tip from 'd3-tip'
 import { getCalenderInfo, getAllPeriodInfo, getOnePeriodInfo } from '../../api'
 import { Select } from 'antd'
+import { createFromIconfontCN } from '@ant-design/icons'
+const IconFont = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/c/font_4565164_juvpif6y83m.js'
+})
 
 const Calendar = (props) => {
   // 拿到父组件传递的模式状态
@@ -1398,7 +1402,14 @@ const Calendar = (props) => {
   return (
     <CalendarWrapper>
       {/* amode=0答题模式 ，amode=1时间模式*/}
-      {amode == 0 && <div className="title">学习日历</div>}
+      {amode == 0 && (
+        <div className="title">
+          <div className="title-icon">
+            <IconFont type="icon-rili" />
+          </div>
+          学习日历
+        </div>
+      )}
       {amode == 1 && <div className="title">答题时段分析图</div>}
       <div className="calendarHighview">
         {/* amode=0答题模式 ，amode=1时间模式*/}

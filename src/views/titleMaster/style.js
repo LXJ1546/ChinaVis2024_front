@@ -13,6 +13,11 @@ export const TitleMasterWrapper = styled.div`
     margin-bottom: 6px;
     font-size: 16px;
     opacity: 0.8;
+    .title-icon {
+      font-size: 20px;
+      margin-left: 4px;
+      margin-right: 4px;
+    }
   }
   .Titleview {
     flex: 1 1 0%;
