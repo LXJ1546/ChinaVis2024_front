@@ -133,3 +133,10 @@ export function getNewMasterDegree(score, correct, time, memory) {
     }
   })
 }
+
+//时间模式下，右下雷达图图
+export function getTimeRadarInfo() {
+  return hyRequest.post({
+    url: '/timeRadarInfo'
+  })
+}
