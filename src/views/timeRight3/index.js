@@ -181,7 +181,7 @@ const TimeRight3 = () => {
             show: false
           },
           emphasis: {
-            focus: 'series'
+            focus: 'none'
           },
           data: rawData[0].map((num) => Math.round(num))
         },
@@ -193,7 +193,7 @@ const TimeRight3 = () => {
             show: false
           },
           emphasis: {
-            focus: 'series'
+            focus: 'none'
           },
           data: rawData[1].map((num) => Math.round(num))
         },
@@ -205,7 +205,7 @@ const TimeRight3 = () => {
             show: false
           },
           emphasis: {
-            focus: 'series'
+            focus: 'none'
           },
           data: rawData[2].map((num) => Math.round(num))
         },
@@ -217,7 +217,7 @@ const TimeRight3 = () => {
             show: false
           },
           emphasis: {
-            focus: 'series'
+            focus: 'none'
           },
           data: rawData[3].map((num) => Math.round(num))
         },
@@ -229,7 +229,7 @@ const TimeRight3 = () => {
             show: false
           },
           emphasis: {
-            focus: 'series'
+            focus: 'none'
           },
           data: rawData[4].map((num) => Math.round(num))
         }
@@ -446,7 +446,7 @@ const TimeRight3 = () => {
 
     option && myChart.setOption(option)
   }
- 
+
   const drawSpecialPic2 = (drawData, maxData) => {
     const specialInstance = echarts.getInstanceByDom(specialRef2.current)
     if (specialInstance) {
