@@ -15,8 +15,14 @@ import StatisticFeature from '../statistic/index'
 import TimeStatisticFeature from '../timeStatistic/index'
 const Scatter = (props) => {
   // 父组件传递的设置模式函数
-  const { changeMode, changeMonth, changeBrushSelectedData, brushData, amode } =
-    props
+  const {
+    changeMode,
+    changeMonth,
+    changeBrushSelectedData,
+    brushData,
+    amode,
+    isChangeWeight
+  } = props
   const [clusterData, setClusterData] = useState([])
   const colorAll = ['#37A2DA', '#e06343', '#37a354']
   // 切换标签
@@ -328,11 +334,14 @@ const Scatter = (props) => {
       }
     ]
   }
+  // 点击初始化系统时重新拿数据
   useEffect(() => {
     getClusterData().then((res) => {
       setClusterData(res)
       setNowClusterData(res[1])
     })
+  }, [isChangeWeight])
+  useEffect(() => {
     getTransferData().then((res) => {
       setTransferCircleData(res[0])
       setTransferLinksData(res[1])
@@ -358,6 +367,7 @@ const Scatter = (props) => {
       setBrushEnabled(false)
       // 等级编码开关不可操作
       setDisabledShape(false)
+      setDisabledStats(true)
       // 获取时间特征统计值数据
       getMonthStatisticInfo(2).then((res) => {
         setTimeStatsFeature(res)
@@ -477,7 +487,6 @@ const Scatter = (props) => {
         if (JSON.stringify(selectedData) !== JSON.stringify(brushData)) {
           changeBrushSelectedData(selectedData)
         }
-        console.log('选中:', selectedData) // 在控制台输出选中的数据，方便调试
       }
     },
     [nowClusterData]

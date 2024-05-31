@@ -13,6 +13,11 @@ export const EvolutionWrapper = styled.div`
     margin-bottom: 6px;
     font-size: 16px;
     opacity: 0.8;
+    .title-icon {
+      font-size: 23px;
+      margin-left: 4px;
+      margin-right: 4px;
+    }
   }
   .Evolutioncontent {
     flex: 1 1 0%;
@@ -22,16 +27,16 @@ export const EvolutionWrapper = styled.div`
     .radioLine {
       position: absolute;
       top: 40px;
-      left: 700px;
+      left: 690px;
     }
     .radioRight {
       position: absolute;
       top: 40px;
-      left: 800px;
+      left: 793px;
     }
     .selectWork {
       position: absolute;
-      left: 930px;
+      left: 920px;
     }
   }
 `

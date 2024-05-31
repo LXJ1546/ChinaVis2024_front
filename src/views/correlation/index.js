@@ -19,7 +19,8 @@ const Correlation = (props) => {
     selectedRowKeys,
     handleCalendarFlag,
     calendarFlag,
-    changeParallelList
+    changeParallelList,
+    isChangeWeight
   } = props
   // 保存相关性矩阵数据
   const [correlationData, setCorrelationData] = useState([])
@@ -146,7 +147,8 @@ const Correlation = (props) => {
     getCorrelationData().then((res) => {
       setCorrelationData(res)
     })
-  }, [])
+    // 初始化系统时更新数据
+  }, [isChangeWeight])
   useEffect(() => {
     if (amode == 0) {
       if (month == 9) {

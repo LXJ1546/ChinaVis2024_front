@@ -3,6 +3,11 @@ import { EvolutionWrapper } from './style'
 import * as d3 from 'd3'
 import { Switch, Select } from 'antd'
 import d3Tip from 'd3-tip'
+import { createFromIconfontCN } from '@ant-design/icons'
+const IconFont = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/c/font_4565164_pp0ly9c3kg.js'
+})
+
 const Evolution = () => {
   const [showFlag, setShowFlag] = useState('all') //用于监听选择查看哪些演变
   const [backgroundFlag, setBackgroundFlag] = useState(true) //用于监听是否开启背景颜色
@@ -693,7 +698,12 @@ const Evolution = () => {
 
   return (
     <EvolutionWrapper>
-      <div className="title">时间模式演化</div>
+      <div className="title">
+        <div className="title-icon">
+          <IconFont type="icon-yanhuafenxi" />
+        </div>
+        时间模式演化
+      </div>
       <div className="Evolutioncontent">
         <div className="radioLine">
           <Switch

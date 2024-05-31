@@ -38,7 +38,7 @@ const title_knowledge = {
 }
 
 const KnowledgeIcicle = (props) => {
-  const { classNum } = props
+  const { classNum, isChangeWeight } = props
 
   const ref = useRef() //用于获取d3绘图使用div的宽高
   const [width, setWidth] = useState(0)
@@ -378,7 +378,7 @@ const KnowledgeIcicle = (props) => {
       // console.log('从后端获取数据', res)
       setTempDataState(res)
     })
-  }, [classNum])
+  }, [classNum, isChangeWeight])
 
   //获取元素宽高
   useLayoutEffect(() => {
