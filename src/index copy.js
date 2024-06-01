@@ -3,7 +3,6 @@ import * as echarts from 'echarts'
 import { Button, Select } from 'antd'
 import { getTimeStudentInfo, getTimeRadarInfo } from '../../api/index'
 import { createFromIconfontCN } from '@ant-design/icons'
-import { ActiveWrapper } from './style'
 const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/c/font_4565164_pp0ly9c3kg.js'
 })
@@ -66,7 +65,6 @@ const TimeRight3 = (props) => {
       legend: {
         orient: 'horizontal',
         x: 'left',
-        left: '4%',
         width: '10px',
         data: ['top', 'mid', 'low']
       },
@@ -405,9 +403,9 @@ const TimeRight3 = (props) => {
         }
       },
       grid: {
-        top: '0%',
+        top: 'bottom',
         height: 200,
-        left: '12%',
+        left: 25,
         right: 20
       },
       series: [
@@ -502,7 +500,7 @@ const TimeRight3 = (props) => {
         }
       },
       grid: {
-        top: '0%',
+        top: 'bottom',
         height: 200,
         left: 25,
         right: 20
@@ -599,7 +597,7 @@ const TimeRight3 = (props) => {
         }
       },
       grid: {
-        top: '0%',
+        top: 'bottom',
         height: 200,
         left: 25,
         right: 20
@@ -701,7 +699,7 @@ const TimeRight3 = (props) => {
         }
       },
       grid: {
-        top: '0%',
+        top: 'bottom',
         height: 200,
         left: 25,
         right: 15
@@ -798,7 +796,7 @@ const TimeRight3 = (props) => {
         }
       },
       grid: {
-        top: '0%',
+        top: 'bottom',
         height: 200,
         left: 25,
         right: 20
@@ -894,7 +892,7 @@ const TimeRight3 = (props) => {
         }
       },
       grid: {
-        top: '0%',
+        top: 'bottom',
         height: 200,
         left: 25,
         right: 20
@@ -943,64 +941,8 @@ const TimeRight3 = (props) => {
   }
 
   return (
-    <ActiveWrapper>
-      <div className="containerGroup">
-        <div className="atitle">
-          <div className="title-icon">
-            <IconFont type="icon-huoyuedu" />
-          </div>
-          群体活跃特征
-        </div>
-        <div className="active-content">
-          <div className="active-top">
-            <div id="timeRadar" ref={radarRef} className="active-radar"></div>
-            <div ref={timeTitleRef} className="active-title"></div>
-          </div>
-          <div className="active-bottom">
-            <div className="active-btn">
-              <Button
-                onClick={handleClick}
-                size={'small'}
-                style={{ marginLeft: 8 }}
-              >
-                切换
-              </Button>
-              <Select
-                defaultValue="提交次数"
-                style={{ width: 100, marginLeft: 8 }}
-                onChange={handleChange}
-                options={[
-                  {
-                    label: <span>特征</span>,
-                    title: '特征',
-                    options: [
-                      {
-                        label: <span>提交次数</span>,
-                        value: '提交次数'
-                      },
-                      {
-                        label: <span>活跃天数</span>,
-                        value: '活跃天数'
-                      },
-                      {
-                        label: <span>题目数</span>,
-                        value: '题目数'
-                      }
-                    ]
-                  }
-                ]}
-                size={'small'}
-              />
-            </div>
-            <div className="active-children">
-              <div ref={specialRef} className="special1"></div>
-              <div ref={specialRef2} className="special2"></div>
-              <div ref={specialRef3} className="special3"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* <div
+    <>
+      <div
         className="containerGroup"
         style={{
           height: '100%',
@@ -1102,8 +1044,8 @@ const TimeRight3 = (props) => {
             <div ref={specialRef3} style={{ flex: 1 }}></div>
           </div>
         </div>
-      </div> */}
-    </ActiveWrapper>
+      </div>
+    </>
   )
 }
 

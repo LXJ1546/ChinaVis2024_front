@@ -5,7 +5,7 @@ import { Switch, Select } from 'antd'
 import d3Tip from 'd3-tip'
 import { createFromIconfontCN } from '@ant-design/icons'
 const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/c/font_4565164_pp0ly9c3kg.js'
+  scriptUrl: '//at.alicdn.com/t/c/font_4565164_kissytydd3q.js'
 })
 
 const Evolution = () => {
