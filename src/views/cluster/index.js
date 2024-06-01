@@ -30,12 +30,12 @@ const Scatter = (props) => {
   // 当前使用的聚类数据
   const [nowClusterData, setNowClusterData] = useState([])
   // 设置坐标轴大小
-  const [xmax, setXmax] = useState(60)
-  const [ymax, setYmax] = useState(40)
+  const [xmax, setXmax] = useState(-7)
+  const [ymax, setYmax] = useState(-7)
   // 设置点的大小
-  const [symbolSize, setSymbolSize] = useState(10)
+  const [symbolSize, setSymbolSize] = useState(25)
   // 定义一个状态来控制组件的显示和隐藏
-  const [visible, setVisible] = useState(true)
+  const [visible, setVisible] = useState(false)
   // 转移状态的变换
   const [isTransfer, setIsTransfer] = useState(false)
   // 用来画状态转换的圆
@@ -57,11 +57,11 @@ const Scatter = (props) => {
   // 时间特征统计值
   const [timeStatsFeature, setTimeStatsFeature] = useState([])
   // 切换到时间模式时就不需要刷选功能
-  const [brushEnabled, setBrushEnabled] = useState(true)
+  const [brushEnabled, setBrushEnabled] = useState(false)
   // 展示高中低不同的形状
   const [showShape, setShowShape] = useState(false)
   // 开关是否不可操作
-  const [disabledShape, setDisabledShape] = useState(true)
+  const [disabledShape, setDisabledShape] = useState(false)
   const monthsChoice = [
     { value: 9, label: '2023-09' },
     { value: 10, label: '2023-10' },
@@ -338,7 +338,7 @@ const Scatter = (props) => {
   useEffect(() => {
     getClusterData().then((res) => {
       setClusterData(res)
-      setNowClusterData(res[1])
+      setNowClusterData(res[5])
     })
   }, [isChangeWeight])
   useEffect(() => {
@@ -346,8 +346,8 @@ const Scatter = (props) => {
       setTransferCircleData(res[0])
       setTransferLinksData(res[1])
     })
-    getMonthStatisticInfo(10).then((res) => {
-      setStatsFeature(res)
+    getMonthStatisticInfo(2).then((res) => {
+      setTimeStatsFeature(res)
     })
   }, [])
   const handleChangeMode = (e) => {
@@ -358,6 +358,7 @@ const Scatter = (props) => {
       setYmax(-7)
       setSymbolSize(25)
       setClusterName(['高峰型', '低峰型', '平均型'])
+      // 月份是否可见
       setVisible(false)
       // 改变模式
       changeMode(1)
@@ -367,11 +368,8 @@ const Scatter = (props) => {
       setBrushEnabled(false)
       // 等级编码开关不可操作
       setDisabledShape(false)
+      // 特征统计开关可以操作
       setDisabledStats(true)
-      // 获取时间特征统计值数据
-      getMonthStatisticInfo(2).then((res) => {
-        setTimeStatsFeature(res)
-      })
     } else if (value == 0) {
       setNowClusterData(clusterData[1])
       setXmax(60)
@@ -385,9 +383,14 @@ const Scatter = (props) => {
       // 是否显示演变视图
       setIsTransfer(false)
       setDisabledStats(true)
+      // 等级编码开关可操作
       setDisabledShape(true)
       // 设置为可刷选
       setBrushEnabled(true)
+      // 获取时间特征统计值数据
+      getMonthStatisticInfo(10).then((res) => {
+        setStatsFeature(res)
+      })
     } else if (value == 2) {
       // 是否显示演变视图
       setIsTransfer(true)
@@ -528,11 +531,11 @@ const Scatter = (props) => {
               <h3 className="label">视图类别</h3>
               <Radio.Group
                 onChange={handleChangeMode}
-                defaultValue="0"
+                defaultValue="1"
                 style={{ marginLeft: '10px' }}
               >
-                <Radio.Button value="0">答题模式</Radio.Button>
                 <Radio.Button value="1">时间模式</Radio.Button>
+                <Radio.Button value="0">答题模式</Radio.Button>
                 <Radio.Button value="2">演变视图</Radio.Button>
               </Radio.Group>
 
