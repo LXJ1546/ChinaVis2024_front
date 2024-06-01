@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { TitleMasterWrapper } from './style'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import * as echarts from 'echarts'
 import { getTitleMasterInfo } from '../../api'
 import { getTitleMemoryInfo } from '../../api'
@@ -15,6 +15,7 @@ const TitleMaster = (props) => {
   const subKnowledgeRef = useRef(null)
   const timeDistributionRef = useRef(null)
   const memoryDistributionRef = useRef(null)
+  const [clickFlag, setClickFlag] = useState(0) //用于设置点击事件将题目折线图缩小
 
   //主知识点和从属知识点的掌握情况
   function drawKnowledge(titleInfo) {
@@ -118,6 +119,7 @@ const TitleMaster = (props) => {
 
     // 根据主知识点图表的提示信息更新从属知识点图表的数据,用时分布的数据，内存分布的数据
     titleMasterChart.on('click', function (params) {
+      setClickFlag(1) //将折线图缩小
       //根据params的name对应该题目名称，提取该题目的数据
       let memoryInfo = {}
       let timeInfo = {}
@@ -338,7 +340,7 @@ const TitleMaster = (props) => {
       drawKnowledge(res)
     })
     // 初始化系统时更新组件
-  }, [classNum, isChangeWeight])
+  }, [classNum, isChangeWeight, clickFlag])
 
   return (
     <TitleMasterWrapper>
@@ -349,10 +351,20 @@ const TitleMaster = (props) => {
         题目掌握程度
       </div>
       <div className="Titleview">
-        <div className="titleMaster" ref={titleMasterRef}></div>
-        <div className="subKnowledge" ref={subKnowledgeRef}></div>
-        <div className="timeDistribution" ref={timeDistributionRef}></div>
-        <div className="memoryDistribution" ref={memoryDistributionRef}></div>
+        {clickFlag == 0 && (
+          <div className="titleMasterall" ref={titleMasterRef}></div>
+        )}
+        {clickFlag == 1 && (
+          <div>
+            <div className="titleMaster" ref={titleMasterRef}></div>
+            <div className="subKnowledge" ref={subKnowledgeRef}></div>
+            <div className="timeDistribution" ref={timeDistributionRef}></div>
+            <div
+              className="memoryDistribution"
+              ref={memoryDistributionRef}
+            ></div>
+          </div>
+        )}
       </div>
     </TitleMasterWrapper>
   )

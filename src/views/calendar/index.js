@@ -25,9 +25,9 @@ const Calendar = (props) => {
   let studentCalandarInfo = {}
   let maxcommitnum = 0
   const [order, setOrder] = useState('workOrder') //用于调整排纵轴的排序方式
-  const [selectMonth, setSelectMonth] = useState(null) //用于获取点击某个时间段的月份
-  const [selectIsWork, setSelectIsWork] = useState(0) //用于获取点击某个时间段是否为工作日
-  const [selectPeriod, setSelectPeriod] = useState(null) //用于获取点击某个时间段的具体时间段
+  const [selectMonth, setSelectMonth] = useState('9') //用于获取点击某个时间段的月份
+  const [selectIsWork, setSelectIsWork] = useState(1) //用于获取点击某个时间段是否为工作日
+  const [selectPeriod, setSelectPeriod] = useState('凌晨') //用于获取点击某个时间段的具体时间段
   //tooltip
   const tip = d3Tip()
     .attr('class', 'd3-tip')
@@ -64,10 +64,10 @@ const Calendar = (props) => {
       .data(legendData)
       .enter()
       .append('rect')
-      .attr('x', (d, i) => i * 120 + 30)
+      .attr('x', (d, i) => i * 90 + 15)
       .attr('y', 10)
-      .attr('width', 30)
-      .attr('height', 18)
+      .attr('width', 20)
+      .attr('height', 15)
       .attr('fill', (d) => d.value)
 
     // 添加图例文本
@@ -76,10 +76,11 @@ const Calendar = (props) => {
       .data(legendData)
       .enter()
       .append('text')
-      .attr('x', (d, i) => i * 120 + 70)
-      .attr('y', 20)
+      .attr('x', (d, i) => i * 90 + 40)
+      .attr('y', 18)
       .attr('dy', '0.35em')
       .text((d) => d.category)
+      .attr('font-size', 12)
     //添加中间线性映射的圆的提交次数的颜色
     //   定义颜色映射的线性渐变
     const gradient = d3
@@ -99,21 +100,22 @@ const Calendar = (props) => {
     // 创建矩形
     d3.select('.calendarsvg')
       .append('rect')
-      .attr('width', 150)
+      .attr('width', 100)
       .attr('height', 18)
       //   .attr('x', 30)
       //   .attr('y', 40)
-      .attr('x', 875)
-      .attr('y', 10)
+      .attr('x', 640)
+      .attr('y', 8)
       .style('fill', 'url(#gradient)')
     //创建标签
     // 创建矩形
     d3.select('.calendarsvg')
       .append('text')
-      .attr('x', 1030)
-      .attr('y', 20)
+      .attr('x', 750)
+      .attr('y', 18)
       .attr('dy', '0.35em')
       .text('提交次数')
+      .attr('font-size', 12)
 
     //画日历
     function drawStudentCalendar(studentName, studentNum, dataArr) {
@@ -806,24 +808,24 @@ const Calendar = (props) => {
           .attr('cx', xScale(parseInt(monthkey)) + rectWidth / 2)
           .attr('cy', yScale(key) + rectWidth / 2)
           .attr('fill', peopleColorScale(monthvalue[2]))
-          .on('mouseover', function () {
+          .on('mouseover', function (d) {
             // d3.select(this).transition().duration(200).style('opacity', 0.7)
             d3.select(this).style('stroke', 'grey').style('stroke-width', 2)
 
-            // tip.html(`<div style="line-height: 1;
-            //       font-weight: bold;
-            //       padding: 12px;
-            //       background: white;
-            //       color: grey;
-            //       border-radius: 2px;
-            //       pointer-events: none;
-            //       font-family: Arial, sans-serif;
-            //       font-size: 12px;
-            //       text-align: center;">活跃度: ${monthvalue[1].toFixed(2)} <p>活跃人数: ${monthvalue[2]}</p><div>`)
-            // tip.show(d, this)
+            tip.html(`<div style="line-height: 1;
+                  font-weight: bold;
+                  padding: 12px;
+                  background: white;
+                  color: grey;
+                  border-radius: 2px;
+                  pointer-events: none;
+                  font-family: Arial, sans-serif;
+                  font-size: 12px;
+                  text-align: center;">活跃度: ${monthvalue[1].toFixed(2)} <p>活跃人数: ${monthvalue[2]}</p><div>`)
+            tip.show(d, this)
           })
           .on('mouseout', function () {
-            // tip.hide()
+            tip.hide()
             d3.select(this).style('stroke-width', 0)
           })
           .on('click', function () {
@@ -835,7 +837,7 @@ const Calendar = (props) => {
               setSelectIsWork(0)
             }
             setSelectPeriod(keyParts[0])
-            // tip.hide()
+            tip.hide()
           })
       }
     }
@@ -863,6 +865,7 @@ const Calendar = (props) => {
     //   '2023-09-29': [300, 200, 500],
     //   '2023-09-30': [300, 200, 500],
     //   '2023-09-31': [300, 200, 500]
+    // }
     //创建svg
     const svg = d3
       .select('#answerDetailSession')
@@ -925,10 +928,6 @@ const Calendar = (props) => {
         let various = null
         let trying = null
         if (options.fill.hasOwnProperty.call(dataAnswerArr, dateName)) {
-          // right = options.fill[dateName][0]
-          // titletotal = options.fill[dateName][1]
-          // language = options.fill[dateName][2]
-          // commitcount = options.fill[dateName][3]
           point = options.fill[dateName][0]
           if (point > maxmodeNum) {
             maxmodeNum = options.fill[dateName][0]
@@ -1135,6 +1134,7 @@ const Calendar = (props) => {
         return minKey
       }
     }
+
     //绘制模式矩形
     //三种模式的颜色比例尺
     const modecolorScale = d3
@@ -1147,7 +1147,9 @@ const Calendar = (props) => {
       .domain([minmodeNum, maxmodeNum])
       .range([10, 50])
     //数量最大的
-    const modemaxNumSvg = answerymontSvg.append('g')
+    const modemaxNumSvg = answerymontSvg
+      .append('g')
+      .attr('class', 'modemaxNumSvg')
     modemaxNumSvg
       .selectAll()
       .data((d) => d.dayGroup)
@@ -1198,6 +1200,38 @@ const Calendar = (props) => {
           trying: d.trying
         }
         return modecolorScale(findsort(modeobjData, 1))
+      })
+      .on('mouseover', function (e, d) {
+        d3.select(this).style('stroke', 'grey').style('stroke-width', 2)
+        if (d.point != null || d.various != null || d.trying != null) {
+          tip.html(`<div style="line-height: 1;
+            font-weight: bold;
+            padding: 12px;
+            background: white;
+            color: grey;
+            border-radius: 2px;
+            pointer-events: none;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            text-align: center;">日期: ${d.name} <p> 针对型: ${d.point} 人</p><p> 多样型: ${d.various}人</p><p> 尝试型: ${d.trying}人</p><div>`)
+          tip.show(d, this)
+        } else {
+          tip.html(`<div style="line-height: 1;
+        font-weight: bold;
+        padding: 12px;
+        background: white;
+        color: grey;
+        border-radius: 2px;
+        pointer-events: none;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        text-align: center;">日期: ${d.name} 无人答题<div>`)
+          tip.show(d, this)
+        }
+      })
+      .on('mouseout', function () {
+        tip.hide()
+        d3.select(this).style('stroke-width', 0)
       })
 
     //数量第二
@@ -1253,6 +1287,38 @@ const Calendar = (props) => {
         }
         return modecolorScale(findsort(modeobjData, 2))
       })
+      .on('mouseover', function (e, d) {
+        d3.select(this).style('stroke', 'grey').style('stroke-width', 2)
+        if (d.point != null || d.various != null || d.trying != null) {
+          tip.html(`<div style="line-height: 1;
+            font-weight: bold;
+            padding: 12px;
+            background: white;
+            color: grey;
+            border-radius: 2px;
+            pointer-events: none;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            text-align: center;">日期: ${d.name} <p> 针对型: ${d.point} 人</p><p> 多样型: ${d.various}人</p><p> 尝试型: ${d.trying}人</p><div>`)
+          tip.show(d, this)
+        } else {
+          tip.html(`<div style="line-height: 1;
+        font-weight: bold;
+        padding: 12px;
+        background: white;
+        color: grey;
+        border-radius: 2px;
+        pointer-events: none;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        text-align: center;">日期: ${d.name} 无人答题<div>`)
+          tip.show(d, this)
+        }
+      })
+      .on('mouseout', function () {
+        tip.hide()
+        d3.select(this).style('stroke-width', 0)
+      })
     //数量最少
     const modeminNumSvg = answerymontSvg.append('g')
     modeminNumSvg
@@ -1305,6 +1371,38 @@ const Calendar = (props) => {
           trying: d.trying
         }
         return modecolorScale(findsort(modeobjData, 3))
+      })
+      .on('mouseover', function (e, d) {
+        d3.select(this).style('stroke', 'grey').style('stroke-width', 2)
+        if (d.point != null || d.various != null || d.trying != null) {
+          tip.html(`<div style="line-height: 1;
+            font-weight: bold;
+            padding: 12px;
+            background: white;
+            color: grey;
+            border-radius: 2px;
+            pointer-events: none;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            text-align: center;">日期: ${d.name} <p> 针对型: ${d.point} 人</p><p> 多样型: ${d.various}人</p><p> 尝试型: ${d.trying}人</p><div>`)
+          tip.show(d, this)
+        } else {
+          tip.html(`<div style="line-height: 1;
+        font-weight: bold;
+        padding: 12px;
+        background: white;
+        color: grey;
+        border-radius: 2px;
+        pointer-events: none;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        text-align: center;">日期: ${d.name} 无人答题<div>`)
+          tip.show(d, this)
+        }
+      })
+      .on('mouseout', function () {
+        tip.hide()
+        d3.select(this).style('stroke-width', 0)
       })
   }
 
