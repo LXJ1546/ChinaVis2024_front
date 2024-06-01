@@ -863,6 +863,7 @@ const Calendar = (props) => {
     //   '2023-09-29': [300, 200, 500],
     //   '2023-09-30': [300, 200, 500],
     //   '2023-09-31': [300, 200, 500]
+    // }
     //创建svg
     const svg = d3
       .select('#answerDetailSession')
@@ -1135,6 +1136,7 @@ const Calendar = (props) => {
         return minKey
       }
     }
+
     //绘制模式矩形
     //三种模式的颜色比例尺
     const modecolorScale = d3
@@ -1147,7 +1149,9 @@ const Calendar = (props) => {
       .domain([minmodeNum, maxmodeNum])
       .range([10, 50])
     //数量最大的
-    const modemaxNumSvg = answerymontSvg.append('g')
+    const modemaxNumSvg = answerymontSvg
+      .append('g')
+      .attr('class', 'modemaxNumSvg')
     modemaxNumSvg
       .selectAll()
       .data((d) => d.dayGroup)

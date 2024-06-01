@@ -6,7 +6,7 @@ import d3Tip from 'd3-tip'
 const Evolution = () => {
   const [showFlag, setShowFlag] = useState('all') //用于监听选择查看哪些演变
   const [backgroundFlag, setBackgroundFlag] = useState(true) //用于监听是否开启背景颜色
-  const [lineFlag, setLineFlag] = useState(true) //用于监听是否开启表格线
+  const [lineFlag, setLineFlag] = useState(false) //用于监听是否开启表格线
   const timeData = [
     '9月-凌晨',
     '9月-上午',
@@ -544,6 +544,14 @@ const Evolution = () => {
       .attr('y2', padding * 2)
       .attr('stroke', 'black')
       .attr('stroke-width', 1)
+    tableLine
+      .append('line')
+      .attr('x1', padding)
+      .attr('y1', padding * 2 + yScale.bandwidth() * 3)
+      .attr('x2', width - (padding * 3) / 2)
+      .attr('y2', padding * 2 + yScale.bandwidth() * 3)
+      .attr('stroke', 'grey')
+      .attr('stroke-width', 1)
 
     //表头竖线
     tableLine
@@ -629,14 +637,6 @@ const Evolution = () => {
         .attr('y2', padding * 2 + yScale.bandwidth() * 2)
         .attr('stroke', 'grey')
         .attr('stroke-width', 1)
-      tableLine
-        .append('line')
-        .attr('x1', padding)
-        .attr('y1', padding * 2 + yScale.bandwidth() * 3)
-        .attr('x2', width - (padding * 3) / 2)
-        .attr('y2', padding * 2 + yScale.bandwidth() * 3)
-        .attr('stroke', 'grey')
-        .attr('stroke-width', 1)
 
       //表格内竖线
 
@@ -700,7 +700,6 @@ const Evolution = () => {
             checkedChildren="开启表格线"
             unCheckedChildren="关闭表格线"
             onChange={handleLine}
-            defaultChecked
           />
         </div>
         <div className="radioRight">
