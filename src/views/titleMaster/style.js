@@ -21,6 +21,12 @@ export const TitleMasterWrapper = styled.div`
   }
   .Titleview {
     flex: 1 1 0%;
+    .titleMasterall {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 40px;
+    }
     .titleMaster {
       height: 50%;
       width: 70%;
