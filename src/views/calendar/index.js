@@ -1173,6 +1173,10 @@ const Calendar = (props) => {
         return modenumScale(d[findsort(modeobjData, 1)])
       })
       .attr('x', function (d) {
+        // 如果point, various或trying为null, 返回null不画rect
+        if (d.point === null || d.various === null || d.trying === null) {
+          return null
+        }
         const modeobjData = {
           point: d.point,
           various: d.various,
@@ -1184,6 +1188,10 @@ const Calendar = (props) => {
         )
       })
       .attr('y', function (d) {
+        // 如果point, various或trying为null, 返回null不画rect
+        if (d.point === null || d.various === null || d.trying === null) {
+          return null
+        }
         const modeobjData = {
           point: d.point,
           various: d.various,
@@ -1259,6 +1267,10 @@ const Calendar = (props) => {
         return modenumScale(d[findsort(modeobjData, 2)])
       })
       .attr('x', function (d) {
+        // 如果point, various或trying为null, 返回null不画rect
+        if (d.point === null || d.various === null || d.trying === null) {
+          return null
+        }
         const modeobjData = {
           point: d.point,
           various: d.various,
@@ -1270,6 +1282,10 @@ const Calendar = (props) => {
         )
       })
       .attr('y', function (d) {
+        // 如果point, various或trying为null, 返回null不画rect
+        if (d.point === null || d.various === null || d.trying === null) {
+          return null
+        }
         const modeobjData = {
           point: d.point,
           various: d.various,
@@ -1344,6 +1360,10 @@ const Calendar = (props) => {
         return modenumScale(d[findsort(modeobjData, 3)])
       })
       .attr('x', function (d) {
+        // 如果point, various或trying为null, 返回null不画rect
+        if (d.point === null || d.various === null || d.trying === null) {
+          return null
+        }
         const modeobjData = {
           point: d.point,
           various: d.various,
@@ -1355,6 +1375,10 @@ const Calendar = (props) => {
         )
       })
       .attr('y', function (d) {
+        // 如果point, various或trying为null, 返回null不画rect
+        if (d.point === null || d.various === null || d.trying === null) {
+          return null
+        }
         const modeobjData = {
           point: d.point,
           various: d.various,
