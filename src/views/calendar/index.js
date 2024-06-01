@@ -1233,7 +1233,7 @@ const Calendar = (props) => {
         tip.hide()
         d3.select(this).style('stroke-width', 0)
       })
-
+    console.log(dayDatas)
     //数量第二
     const modesecNumSvg = answerymontSvg.append('g')
     modesecNumSvg
