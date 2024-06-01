@@ -15,7 +15,7 @@ import TimeRight3 from '../../views/timeRight3'
 import Evolution from '../../views/temporalEvolution/index'
 import MonthTable from '../../views/monthTable/index'
 const Content = () => {
-  const [amode, setAmode] = useState(0) //模式0代表答题模式，1代表时间模式
+  const [amode, setAmode] = useState(1) //模式0代表答题模式，1代表时间模式
   const [month, setMonth] = useState(10) //9,10,11,12,1
   const [classNum, setClassNum] = useState('all') //选中的数据集（所有数据集或某个班级）
   const [brushSelectedData, setBrushSelectedData] = useState([])
@@ -156,8 +156,8 @@ const Content = () => {
                 month={month}
                 brushData={brushSelectedData}
                 handleRowKeys={handleRowKeys}
-                selectedRowKeys={selectedRowKeys}
                 handleCalendarFlag={handleCalendarFlag}
+                selectedRowKeys={selectedRowKeys}
                 calendarFlag={calendarFlag}
                 changeParallelList={handleParallelList}
                 isChangeWeight={isChangeWeight}

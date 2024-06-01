@@ -90,12 +90,12 @@ const Correlation = (props) => {
   // 表格勾选了多少人
   const [tableNum, setTableNum] = useState(0)
   // 表格勾选函数
-  const onSelectChange = (newSelectedRowKeys) => {
+  const onSelectChange = (newSelectedKeys) => {
     // 更新勾选人数
-    setTableNum(newSelectedRowKeys.length)
+    setTableNum(newSelectedKeys.length)
     // 更新勾选数组
     // setSelectedRowKeys(newSelectedRowKeys)
-    handleRowKeys(newSelectedRowKeys)
+    handleRowKeys(newSelectedKeys)
   }
   // 表格取消按钮
   const handleCancel = () => {

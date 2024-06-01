@@ -1492,8 +1492,8 @@ const Calendar = (props) => {
         drawCalendar(studentID)
       })
     } else if (amode == 1) {
-      d3.select('.calendarsvg').remove()
-      d3.select('#answerSessionsvg').remove()
+      // d3.select('.calendarsvg').remove()
+      // d3.select('#answerSessionsvg').remove()
       let sessionPeriods = [
         '凌晨-工作日',
         '上午-工作日',
@@ -1517,6 +1517,8 @@ const Calendar = (props) => {
         ]
       }
       getAllPeriodInfo().then((res) => {
+        d3.select('#answerSessionsvg').remove()
+        d3.select('.calendarsvg').remove()
         const answerData = res
         drawAnswerSession(sessionPeriods, answerData)
       })
@@ -1527,7 +1529,7 @@ const Calendar = (props) => {
   useEffect(() => {
     if (amode == 1 && selectMonth != null) {
       //如果有选中再画出该时段下的学生模式
-      d3.select('#answerDetailSessionsvg').remove()
+      // d3.select('#answerDetailSessionsvg').remove()
       let period = null
       if (selectPeriod == '凌晨') {
         period = 'Dawn'
@@ -1543,6 +1545,7 @@ const Calendar = (props) => {
         parseInt(selectIsWork),
         period
       ).then((res) => {
+        d3.select('#answerDetailSessionsvg').remove()
         const answerDetailData = res
         console.log(answerDetailData)
         drawAnswerCalendar(answerDetailData)
