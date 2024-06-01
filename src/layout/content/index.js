@@ -175,6 +175,7 @@ const Content = () => {
               handleStudentDatefromCalendar={handleStudentDatefromCalendar}
               selectedRowKeys={selectedRowKeys}
               calendarFlag={calendarFlag}
+              brushSelectedData={brushSelectedData}
             />
           </Card>
           <Card className="card9">
