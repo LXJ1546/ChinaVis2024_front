@@ -84,6 +84,9 @@ const TimeRight3 = (props) => {
           { name: '正确率' },
           { name: '活跃度' }
         ],
+        axisName: {
+          color: '#888'
+        },
         center: ['50%', '65%']
       },
       series: [
