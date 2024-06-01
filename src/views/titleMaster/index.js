@@ -10,7 +10,7 @@ const IconFont = createFromIconfontCN({
 })
 
 const TitleMaster = (props) => {
-  const { classNum } = props
+  const { classNum, isChangeWeight } = props
   const titleMasterRef = useRef(null)
   const subKnowledgeRef = useRef(null)
   const timeDistributionRef = useRef(null)
@@ -337,7 +337,8 @@ const TitleMaster = (props) => {
     getTitleMasterInfo(classNum).then((res) => {
       drawKnowledge(res)
     })
-  }, [classNum])
+    // 初始化系统时更新组件
+  }, [classNum, isChangeWeight])
 
   return (
     <TitleMasterWrapper>

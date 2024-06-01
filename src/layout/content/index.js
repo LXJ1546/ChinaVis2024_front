@@ -26,6 +26,8 @@ const Content = () => {
   const [calendarFlag, setCalendarFlag] = useState(false) //用于表示表格中是否确认生成日历
   // 平行坐标系的数据
   const [parallelList, setParallelList] = useState([[], [], []])
+  // 是否改变权重
+  const [isChangeWeight, setIsChangeWeight] = useState(0)
   function handleClassNum(classnum) {
     setClassNum(classnum)
   }
@@ -69,6 +71,10 @@ const Content = () => {
   const handleParallelList = (value) => {
     setParallelList(value)
   }
+  //定义新函数,用于更新权重改变
+  const handleWeight = (value) => {
+    setIsChangeWeight(value)
+  }
   useEffect(() => {
     // 最开始的时候平行坐标系展示全部数据
     let paraList = [[], [], []]
@@ -94,17 +100,24 @@ const Content = () => {
       <div className="container">
         <div className="left">
           <Card className="card1">
-            <Controller handleClassNum={handleClassNum} />
+            <Controller
+              handleClassNum={handleClassNum}
+              handleWeight={handleWeight}
+              isChangeWeight={isChangeWeight}
+            />
           </Card>
           <Card className="card2">
-            <Picture classNum={classNum} />
+            <Picture classNum={classNum} isChangeWeight={isChangeWeight} />
           </Card>
           <Card className="card3">
-            <TitleMaster classNum={classNum} />
+            <TitleMaster classNum={classNum} isChangeWeight={isChangeWeight} />
           </Card>
           <Card className="card4">
             {/* <Knowledge classNum={classNum} /> */}
-            <KnowledgeIcicle classNum={classNum} />
+            <KnowledgeIcicle
+              classNum={classNum}
+              isChangeWeight={isChangeWeight}
+            />
           </Card>
           {/* <Card className="card3">
             <TitleMaster classNum={classNum} />
@@ -119,6 +132,7 @@ const Content = () => {
               changeBrushSelectedData={handleBrushSelectedData}
               brushData={brushSelectedData}
               amode={amode}
+              isChangeWeight={isChangeWeight}
             />
           </Card>
           <Card className="card6">
@@ -146,6 +160,7 @@ const Content = () => {
                 handleCalendarFlag={handleCalendarFlag}
                 calendarFlag={calendarFlag}
                 changeParallelList={handleParallelList}
+                isChangeWeight={isChangeWeight}
               />
             ) : (
               <MonthTable />
@@ -172,7 +187,7 @@ const Content = () => {
                 studentDatefromCalendar={studentDatefromCalendar}
               />
             ) : (
-              <TimeRight3 />
+              <TimeRight3 isChangeWeight={isChangeWeight} />
             )}
           </Card>
         </div>

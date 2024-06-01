@@ -7,7 +7,7 @@ import { getCalenderInfo, getAllPeriodInfo, getOnePeriodInfo } from '../../api'
 import { Select } from 'antd'
 import { createFromIconfontCN } from '@ant-design/icons'
 const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/c/font_4565164_juvpif6y83m.js'
+  scriptUrl: '//at.alicdn.com/t/c/font_4565164_pp0ly9c3kg.js'
 })
 
 const Calendar = (props) => {
@@ -1414,7 +1414,14 @@ const Calendar = (props) => {
           学习日历
         </div>
       )}
-      {amode == 1 && <div className="title">答题时段分析图</div>}
+      {amode == 1 && (
+        <div className="title">
+          <div className="title-icon">
+            <IconFont type="icon-shiduan" />
+          </div>
+          答题时段分析图
+        </div>
+      )}
       <div className="calendarHighview">
         {/* amode=0答题模式 ，amode=1时间模式*/}
         {amode == 0 && <div className="calendarview"></div>}

@@ -121,6 +121,19 @@ export function getTimeStudentInfo(feature) {
   })
 }
 
+//改变掌握程度的权重，并重新初始化系统
+export function getNewMasterDegree(score, correct, time, memory) {
+  return hyRequest.post({
+    url: '/setWeightInfo',
+    data: {
+      score: score,
+      correct: correct,
+      time: time,
+      memory: memory
+    }
+  })
+}
+
 //时间模式下，右下雷达图图
 export function getTimeRadarInfo() {
   return hyRequest.post({

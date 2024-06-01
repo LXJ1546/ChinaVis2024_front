@@ -4,6 +4,11 @@ const { Column } = Table
 import ReactEcharts from 'echarts-for-react'
 import { MonthTableWrapper } from './style'
 import { getCorrelationData, getClusterData } from '../../api'
+import { createFromIconfontCN } from '@ant-design/icons'
+const IconFont = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/c/font_4565164_juvpif6y83m.js'
+})
+
 const MonthTable = () => {
   // 保存相关性矩阵数据
   const [correlationData, setCorrelationData] = useState([])
@@ -79,7 +84,12 @@ const MonthTable = () => {
   }, [])
   return (
     <MonthTableWrapper>
-      <div className="title">表格与相关性矩阵</div>
+      <div className="title">
+        <div className="title-icon">
+          <IconFont type="icon-biaoge" />
+        </div>
+        表格与相关性矩阵
+      </div>
       <div className="content">
         <div className="table">
           <div className="atable">

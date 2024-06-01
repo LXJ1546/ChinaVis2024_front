@@ -11,7 +11,7 @@ const IconFont = createFromIconfontCN({
 import d3Tip from 'd3-tip'
 
 const Picture = (props) => {
-  const { classNum } = props
+  const { classNum, isChangeWeight } = props
   const distributionRef = useRef(null)
   const majorRef = useRef(null)
   const ageRef = useRef(null)
@@ -408,7 +408,7 @@ const Picture = (props) => {
         updataclassRank(classRankInfo)
       }
     })
-  }, [classNum])
+  }, [classNum, isChangeWeight])
 
   //初始化视图
   useEffect(() => {

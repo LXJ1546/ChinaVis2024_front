@@ -2,8 +2,13 @@ import React, { memo, useEffect, useRef, useState } from 'react'
 import * as echarts from 'echarts'
 import { Button, Select } from 'antd'
 import { getTimeStudentInfo, getTimeRadarInfo } from '../../api/index'
+import { createFromIconfontCN } from '@ant-design/icons'
+const IconFont = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/c/font_4565164_pp0ly9c3kg.js'
+})
 
-const TimeRight3 = () => {
+const TimeRight3 = (props) => {
+  const { isChangeWeight } = props
   const radarRef = useRef(null)
   const specialRef = useRef(null)
   const specialRef2 = useRef(null)
@@ -35,10 +40,11 @@ const TimeRight3 = () => {
       setDrawP3Data(res)
       setMaxP3Data(Math.max(...res[0]['高峰型']))
     })
+    // 初始化系统时更新数据
     getTimeRadarInfo().then((res) => {
       drawRadar(res)
     })
-  }, [])
+  }, [isChangeWeight])
 
   useEffect(() => {
     if (drawP3Data != null) {
@@ -940,7 +946,18 @@ const TimeRight3 = () => {
           width: '100%'
         }}
       >
-        <div className="atitle">群体活跃特征</div>
+        <div className="atitle">
+          <div
+            style={{
+              fontSize: '23px',
+              marginLeft: '4px',
+              marginRight: '4px'
+            }}
+          >
+            <IconFont type="icon-huoyuedu" />
+          </div>
+          群体活跃特征
+        </div>
         <div
           style={{
             height: 'calc(100% - 34px)',

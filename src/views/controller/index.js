@@ -1,12 +1,13 @@
 import React, { memo, useState } from 'react'
 import { CotrollerWrapper } from './style'
 import { Input, Button, Select } from 'antd'
+import { getNewMasterDegree } from '../../api/index'
 import { RetweetOutlined, createFromIconfontCN } from '@ant-design/icons'
 const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/c/font_4565164_juvpif6y83m.js'
 })
 const Cotroller = (props) => {
-  const { handleClassNum } = props
+  const { handleClassNum, handleWeight, isChangeWeight } = props
   // 定义输入框状态
   const [scoreRate, setScoreRate] = useState('')
   const [correctRate, setCorrectRate] = useState('')
@@ -14,6 +15,8 @@ const Cotroller = (props) => {
   const [memoryUse, setMemoryUse] = useState('')
   // 定义选择框状态
   const [classNum, setClassNum] = useState('all')
+  // 按钮加载状态
+  const [loadings, setLoadings] = useState(false)
   //数据集选择函数
   const handleChange = (value) => {
     handleClassNum(value)
@@ -30,6 +33,30 @@ const Cotroller = (props) => {
     setClassNum('all')
     handleChange('all')
   }
+  // 初始化系统
+  const handleInitialize = () => {
+    setLoadings(true)
+    // 发送请求
+    getNewMasterDegree(
+      Number(scoreRate),
+      Number(correctRate),
+      Number(timeUse),
+      Number(memoryUse)
+    ).then((res) => {
+      console.log(res)
+      // 加载状态完毕
+      setLoadings(false)
+      // 通知其他组件进行更新
+      handleWeight(isChangeWeight + 1)
+    })
+  }
+  // useEffect(() => {
+  //   getNewMasterDegree(0.25, 0.25, 0.25, 0.25).then((res) => {
+  //     console.log(res)
+  //     // 通知其他组件进行更新
+  //     handleWeight((precount) => precount + 1)
+  //   })
+  // }, [])
   return (
     <CotrollerWrapper>
       <div className="title">
@@ -170,7 +197,12 @@ const Cotroller = (props) => {
             >
               重置
             </Button>
-            <Button type="primary" style={{ width: 200 }}>
+            <Button
+              type="primary"
+              style={{ width: 200 }}
+              onClick={handleInitialize}
+              loading={loadings}
+            >
               初始化系统
             </Button>
           </div>
