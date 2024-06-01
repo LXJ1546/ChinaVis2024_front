@@ -119,7 +119,12 @@ const StudentCommit = (props) => {
     const commitCountOption = {
       title: {
         left: 'left',
-        text: '提交次数统计',
+        text:
+          '    学生: ' +
+          studentIDfromCalendar +
+          ' 在 ' +
+          studentDatefromCalendar +
+          ' 的提交次数统计',
         textStyle: {
           fontSize: 12,
           fontWeight: 'normal'

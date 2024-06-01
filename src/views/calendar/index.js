@@ -20,11 +20,13 @@ const Calendar = (props) => {
     handleStudentIDfromCalendar,
     handleStudentDatefromCalendar,
     selectedRowKeys,
-    calendarFlag
+    calendarFlag,
+    brushSelectedData
   } = props
   let studentID = []
   let studentCalandarInfo = {}
   let maxcommitnum = 0
+  let newList = [] //存储刷取的学生的ID和类型
   const [order, setOrder] = useState('workOrder') //用于调整排纵轴的排序方式
   const [selectMonth, setSelectMonth] = useState('9') //用于获取点击某个时间段的月份
   const [selectIsWork, setSelectIsWork] = useState(1) //用于获取点击某个时间段是否为工作日
@@ -290,7 +292,7 @@ const Calendar = (props) => {
                 pointer-events: none;
                 font-family: Arial, sans-serif;
                 font-size: 12px;
-                text-align: center;">日期: ${d.name}  <p>答题数: ${d.titletotal}</p> <p>Method_C: ${d.language[0].toFixed(2)}</p> <p>Method_g: ${d.language[1].toFixed(2)}</p> <p>Method_5: ${d.language[2].toFixed(2)}</p> <p>Method_m: ${d.language[3].toFixed(2)}</p> <p>Method_B: ${d.language[4].toFixed(2)}</p><p>提交次数: ${d.commitcount}</p><div>`)
+                text-align: center;">日期: ${d.name}  <p>答题数: ${d.titletotal}</p> <p>Method_C: ${d.language[0].toFixed(2)}</p> <p>Method_g: ${d.language[1].toFixed(2)}</p> <p>Method_5: ${d.language[2].toFixed(2)}</p> <p>Method_m: ${d.language[3].toFixed(2)}</p> <p>Method_B: ${d.language[4].toFixed(2)}</p><p>提交平均次数: ${d.commitcount.toFixed(2)}</p><div>`)
             tip.show(d, this)
           } else {
             tip.html(`<div style="line-height: 1;
@@ -494,13 +496,24 @@ const Calendar = (props) => {
           handleCalendarSelectFlag(true)
           handleStudentIDfromCalendar(studentName)
           handleStudentDatefromCalendar(d.name)
+          tip.hide()
         })
-        .on('mouseover', function () {
-          // d3.select(this).transition().duration(200).style('opacity', 0.5) //鼠标覆盖高亮
+        .on('mouseover', function (e, d) {
+          tip.html(`<div style="line-height: 1;
+          font-weight: bold;
+          padding: 12px;
+          background: white;
+          color: grey;
+          border-radius: 2px;
+          pointer-events: none;
+          font-family: Arial, sans-serif;
+          font-size: 12px;
+          text-align: center;">日期: ${d.name} <p>提交平均次数: ${d.commitcount.toFixed(2)}</p><div>`)
+          tip.show(d, this)
           d3.select(this).style('stroke', 'grey').style('stroke-width', 2)
         })
         .on('mouseout', function () {
-          // d3.select(this).transition().duration(200).style('opacity', 1) //鼠标移除恢复
+          tip.hide()
           d3.select(this).style('stroke-width', 0)
         })
 
@@ -534,13 +547,21 @@ const Calendar = (props) => {
         .attr('class', 'student-title')
         .append('text')
         .attr('x', (d, i) => {
-          return i * 71 * 4.25 + 100 + studentNum * 370
+          return i * 71 * 4.25 + 80 + studentNum * 370
         })
         .attr('y', 60)
-        .attr('fill', 'black')
+        .attr('fill', function () {
+          if (newList[1][studentNum] == '针对型') {
+            return '#37A2DA'
+          } else if (newList[1][studentNum] == '多样型') {
+            return '#e06343'
+          } else {
+            return '#37a354'
+          }
+        })
         .attr('font-size', '15px')
-        .attr('font-family', 'monospace')
-        .text('学生ID: ' + studentName)
+        .attr('font-family', 'serif')
+        .text('学生ID: ' + studentName + '(' + newList[2][studentNum] + ')')
     }
     //对选中的每个学生都生成这个图
     studentID.forEach(function (item, index) {
@@ -1438,6 +1459,18 @@ const Calendar = (props) => {
       // d3.select('svg').remove() //移除已有的svg元素
       // // 选择现有的 SVG 元素，如果已经存在则移除它
       studentID = selectedRowKeys
+      let modeList = []
+      let rankList = []
+      selectedRowKeys.forEach((id) => {
+        brushSelectedData.forEach((item) => {
+          if (item['key'] == id) {
+            modeList.push(item['label'])
+            rankList.push(item['rank'])
+          }
+        })
+      })
+      newList = [selectedRowKeys, modeList, rankList]
+
       getCalenderInfo(studentID, month).then((res) => {
         d3.select('.calendarsvg').remove()
         studentCalandarInfo = res
