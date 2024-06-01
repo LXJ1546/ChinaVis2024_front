@@ -156,8 +156,8 @@ const Content = () => {
                 month={month}
                 brushData={brushSelectedData}
                 handleRowKeys={handleRowKeys}
-                selectedRowKeys={selectedRowKeys}
                 handleCalendarFlag={handleCalendarFlag}
+                selectedRowKeys={selectedRowKeys}
                 calendarFlag={calendarFlag}
                 changeParallelList={handleParallelList}
                 isChangeWeight={isChangeWeight}
