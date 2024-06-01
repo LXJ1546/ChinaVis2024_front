@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 import React, { memo, useEffect, useState } from 'react'
 // import ReactEcharts from 'echarts-for-react'
 import { CalendarWrapper } from './style'
