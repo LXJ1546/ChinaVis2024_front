@@ -140,3 +140,10 @@ export function getTimeRadarInfo() {
     url: '/timeRadarInfo'
   })
 }
+
+//获取时间模式演变
+export function getEvolutionInfo() {
+  return hyRequest.post({
+    url: '/timeEvolutionInfo'
+  })
+}
