@@ -30,6 +30,7 @@ const Content = () => {
   const [parallelList, setParallelList] = useState([[], [], []])
   // 是否改变权重
   const [isChangeWeight, setIsChangeWeight] = useState(0)
+  // 改变班级
   function handleClassNum(classnum) {
     setClassNum(classnum)
   }
@@ -149,6 +150,8 @@ const Content = () => {
               brushData={brushSelectedData}
               amode={amode}
               isChangeWeight={isChangeWeight}
+              classNum={classNum}
+              month={month}
             />
           </Card>
           <Card className="card6">

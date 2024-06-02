@@ -103,6 +103,9 @@ export const ScatterWrapper = styled.div`
           display: flex;
           margin-right: 10px;
           align-items: center;
+          .aslider {
+            width: 80px;
+          }
           .label {
             opacity: 0.8;
             margin-left: 10px;
