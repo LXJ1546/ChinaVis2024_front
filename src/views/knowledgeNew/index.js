@@ -53,6 +53,7 @@ const KnowledgeIcicle = (props) => {
   const [questionIconState, setquestionIconState] = useState(10) //只展示当前知识点
   const [knowledgeState, setknowledgeState] = useState([]) //只展示当前知识点
   const [tempdata, setTempDataState] = useState(undefined)
+  const [valueInfo, setValueInfo] = useState(undefined) //保存知识点掌握程度和题目正确率的最大最小值
 
   // const tempdata = {
   //   name: 'Q1',
@@ -381,7 +382,8 @@ const KnowledgeIcicle = (props) => {
   useEffect(() => {
     getClassKnowledgeInfo(classNum, 'score').then((res) => {
       // console.log('从后端获取数据', res)
-      setTempDataState(res)
+      setTempDataState(res.info)
+      setValueInfo(res.valueInfo)
     })
   }, [classNum, isChangeWeight])
 
@@ -457,11 +459,31 @@ const KnowledgeIcicle = (props) => {
     // Create a color scale (a color for each child of the root node and their descendants).
     const color = d3
       .scaleLinear()
-      .domain([0, 0.6]) // 输入数据范围
-      .range(['white', 'red']) // 输出颜色范围
+      .domain([valueInfo.knowledge_min, valueInfo.knowledge_max]) // 输入数据范围
+      .range(['RGB(252, 146, 151)', 'red']) // 输出颜色范围
+
+    //用于题目的颜色映射
+    const color1 = d3
+      .scaleLinear()
+      .domain([valueInfo.title_min, valueInfo.title_max]) // 输入数据范围
+      .range(['RGB(252, 146, 151)', 'red']) // 输出颜色范围
+
+    const rectType = svg.append('g')
+    rectType
+      .append('text')
+      .text('主知识点')
+      .attr('transform', `translate(80, 10)`)
+    rectType
+      .append('text')
+      .text('子知识点')
+      .attr('transform', `translate(280, 10)`)
+    rectType.append('text').text('题目').attr('transform', `translate(480, 10)`)
 
     // Create a partition layout.
-    const partition = d3.partition().size([height, width]).padding(1)
+    const partition = d3
+      .partition()
+      .size([height - 10, width])
+      .padding(1)
 
     // Apply the partition layout.
     const root = partition(
@@ -492,13 +514,14 @@ const KnowledgeIcicle = (props) => {
         }
       })
       .attr('transform', (d) => {
-        if (d.depth == 1) return `translate(${d.y0 - (d.y1 - d.y0)},${d.x0})`
+        if (d.depth == 1)
+          return `translate(${d.y0 - (d.y1 - d.y0)},${d.x0 + 15})`
         else if (d.depth == 2)
-          return `translate(${d.y0 - (d.y1 - d.y0) + (d.y1 - d.y0) / 4},${d.x0})`
+          return `translate(${d.y0 - (d.y1 - d.y0) + (d.y1 - d.y0) / 4},${d.x0 + 15})`
         else if (d.depth == 3) {
           titleH = d.y1 - d.y0
           // console.log('titleH', titleH)
-          return `translate(${d.y0 - (d.y1 - d.y0) + (d.y1 - d.y0) / 2},${d.x0})`
+          return `translate(${d.y0 - (d.y1 - d.y0) + (d.y1 - d.y0) / 2},${d.x0 + 15})`
         }
       })
 
@@ -519,9 +542,10 @@ const KnowledgeIcicle = (props) => {
       .attr('fill-opacity', 0.6)
       .attr('fill', (d) => {
         if (!d.depth) return '#ccc'
-        return color(d.data.score)
+        else if (d.depth == 3) return color1(d.data.score)
+        else return color(d.data.score)
       })
-      .attr('opacity', 0.9)
+      .attr('opacity', 1)
 
     // 选择要设置动画的矩形元素
     rects
