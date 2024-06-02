@@ -91,6 +91,7 @@ const TimeRight3 = (props) => {
         },
         center: ['50%', '65%']
       },
+      color: ['#F3D475', '#F3B28A', '#F1928E'],
       series: [
         {
           name: 'Budget vs spending',
@@ -117,6 +118,7 @@ const TimeRight3 = (props) => {
   }
 
   const drawTimeTitle2 = () => {
+    const opacity = 0.7
     const Instance = echarts.getInstanceByDom(timeTitleRef.current)
     if (Instance) {
       Instance.dispose()
@@ -179,6 +181,8 @@ const TimeRight3 = (props) => {
         type: 'category',
         data: knowledges
       },
+      color: ['#f6bd60', '#ff7d00', '#bc4749', '#7f5539', '#669bbc'],
+
       series: [
         {
           name: '9月',
@@ -189,6 +193,9 @@ const TimeRight3 = (props) => {
           },
           emphasis: {
             focus: 'none'
+          },
+          itemStyle: {
+            opacity: opacity
           },
           data: rawData[0].map((num) => Math.round(num))
         },
@@ -202,6 +209,9 @@ const TimeRight3 = (props) => {
           emphasis: {
             focus: 'none'
           },
+          itemStyle: {
+            opacity: opacity
+          },
           data: rawData[1].map((num) => Math.round(num))
         },
         {
@@ -213,6 +223,9 @@ const TimeRight3 = (props) => {
           },
           emphasis: {
             focus: 'none'
+          },
+          itemStyle: {
+            opacity: opacity
           },
           data: rawData[2].map((num) => Math.round(num))
         },
@@ -226,6 +239,9 @@ const TimeRight3 = (props) => {
           emphasis: {
             focus: 'none'
           },
+          itemStyle: {
+            opacity: opacity
+          },
           data: rawData[3].map((num) => Math.round(num))
         },
         {
@@ -234,6 +250,9 @@ const TimeRight3 = (props) => {
           stack: 'total',
           label: {
             show: false
+          },
+          itemStyle: {
+            opacity: opacity
           },
           emphasis: {
             focus: 'none'
