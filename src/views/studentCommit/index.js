@@ -49,12 +49,12 @@ const StudentCommit = (props) => {
     const legendData = [
       { category: '完全正确', value: '#27B774' },
       { category: '部分正确', value: '#68D8A3' },
-      { category: '错误', value: 'red' },
-      { category: 'Method_C', value: '0081a7' },
-      { category: 'Method_g', value: '#00afb9' },
-      { category: 'Method_5', value: '#f6bd60' },
-      { category: 'Method_m', value: '#9c6644' },
-      { category: 'Method_B', value: '#f07167' }
+      { category: '错误', value: '#f28482' },
+      { category: 'Method_C', value: '#f6bd60' },
+      { category: 'Method_g', value: '#ff7d00' },
+      { category: 'Method_5', value: '#bc4749' },
+      { category: 'Method_m', value: '#7f5539' },
+      { category: 'Method_B', value: '#669bbc' }
     ]
 
     const legend = legendsvg.append('g').attr('class', 'legend')
@@ -166,17 +166,17 @@ const StudentCommit = (props) => {
           type: 'line',
           smooth: true,
           itemStyle: {
-            color: 'rgb(255, 70, 131)'
+            color: '#f28482'
           },
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: 'rgb(255, 158, 68)'
+                color: '#f28482'
               },
               {
                 offset: 1,
-                color: 'rgb(255, 70, 131)'
+                color: '#ffccd5'
               }
             ])
           }
@@ -258,7 +258,7 @@ const StudentCommit = (props) => {
         } else if (d[2] == 'Absolutely_Correct') {
           return '#27B774'
         } else {
-          return 'red'
+          return '#f28482'
         }
       })
       .on('mouseover', function (e, d) {
@@ -285,7 +285,7 @@ const StudentCommit = (props) => {
     const methodcolor = d3
       .scaleOrdinal()
       .domain(['Method_C', 'Method_g', 'Method_5', 'Method_m', 'Method_B'])
-      .range(['#0081a7', '#00afb9', '#f6bd60', '#9c6644', '#f07167'])
+      .range(['#f6bd60', '#ff7d00', '#bc4749', '#7f5539', '#669bbc'])
     methodevent
       .selectAll('rect')
       .data(commits)
@@ -470,7 +470,7 @@ const StudentCommit = (props) => {
           } else if (d[2] == 'Absolutely_Correct') {
             return '#27B774'
           } else {
-            return 'red'
+            return '#f28482'
           }
         })
         .on('mouseover', function (e, d) {

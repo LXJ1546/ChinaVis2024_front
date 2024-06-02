@@ -53,13 +53,13 @@ const Calendar = (props) => {
     const legendData = [
       { category: '正确占比', value: '#179349' },
       { category: '答题数', value: '#EFA3A3' },
-      { category: 'Method_C', value: '#0081a7' },
-      { category: 'Method_g', value: '#00afb9' },
-      { category: 'Method_5', value: '#f6bd60' },
-      { category: 'Method_m', value: '#9c6644' },
-      { category: 'Method_B', value: '#f07167' }
+      { category: 'Method_C', value: '#f6bd60' },
+      { category: 'Method_g', value: '#ff7d00' },
+      { category: 'Method_5', value: '#bc4749' },
+      { category: 'Method_m', value: '#7f5539' },
+      { category: 'Method_B', value: '#669bbc' }
     ]
-    // .range(['#0081a7', '#00afb9', '#f6bd60', '#9c6644', '#f07167'])
+    //         .range(['#f6bd60', '#ff7d00', '#bc4749', '#7f5539', '#669bbc'])
 
     const legend = svg.append('g').attr('class', 'legend')
     // 添加图例条目
@@ -148,7 +148,8 @@ const Calendar = (props) => {
         .scaleOrdinal()
         .domain(['Method_C', 'Method_g', 'Method_5', 'Method_m', 'Method_B'])
         // .range(['#8E6D6C', '#B64B08', '#E26D24', '#D16D6D', '#CB9A08'])
-        .range(['#0081a7', '#00afb9', '#f6bd60', '#9c6644', '#f07167'])
+        // .range(['#0081a7', '#00afb9', '#f6bd60', '#9c6644', '#f07167'])
+        .range(['#f6bd60', '#ff7d00', '#bc4749', '#7f5539', '#669bbc'])
       // .range(d3.schemeCategory10)
       //数据组装
       function generateDataset(options = { fill: {} }) {
