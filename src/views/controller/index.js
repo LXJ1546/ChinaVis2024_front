@@ -7,7 +7,13 @@ const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/c/font_4565164_juvpif6y83m.js'
 })
 const Cotroller = (props) => {
-  const { handleClassNum, handleWeight, isChangeWeight } = props
+  const {
+    handleClassNum,
+    handleWeight,
+    isChangeWeight,
+    handleHighLightedXaix,
+    handleClickTitleFlag
+  } = props
   // 定义输入框状态
   const [scoreRate, setScoreRate] = useState('')
   const [correctRate, setCorrectRate] = useState('')
@@ -19,6 +25,10 @@ const Cotroller = (props) => {
   const [loadings, setLoadings] = useState(false)
   //数据集选择函数
   const handleChange = (value) => {
+    //重新选择班级后题目掌握程度回到未选择状态
+    handleClickTitleFlag(0)
+    //将题目高亮的标志清理
+    handleHighLightedXaix('Q_bum')
     handleClassNum(value)
     // 改变classNum
     setClassNum(value)
@@ -44,6 +54,10 @@ const Cotroller = (props) => {
       Number(memoryUse)
     ).then((res) => {
       console.log(res)
+      //重新选择班级后题目掌握程度回到未选择状态
+      handleClickTitleFlag(0)
+      //将题目高亮的标志清理
+      handleHighLightedXaix('Q_bum')
       // 加载状态完毕
       setLoadings(false)
       // 通知其他组件进行更新

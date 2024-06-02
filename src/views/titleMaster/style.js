@@ -29,7 +29,7 @@ export const TitleMasterWrapper = styled.div`
     }
     .titleMaster {
       height: 50%;
-      width: 70%;
+      width: 100%;
       position: absolute;
       top: 40px;
     }

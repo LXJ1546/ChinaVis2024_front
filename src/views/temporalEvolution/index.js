@@ -281,7 +281,7 @@ const Evolution = () => {
         item.forEach((piedata, index) => {
           svg.append('g').attr('id', 'peoplePie' + workFlag + index)
           // 定义饼图函数
-          let pie = d3.pie()
+          let pie = d3.pie().sort(null) // 禁用排序
 
           // 将数据转换为适合饼图的格式
           let arcs = pie(piedata[2])
