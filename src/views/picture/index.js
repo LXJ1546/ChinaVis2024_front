@@ -290,7 +290,7 @@ const Picture = (props) => {
         tip.hide()
       })
       .on('click', function (e, d) {
-        console.log(d[0])
+        console.log(d[0]) //点击每个学生获取点击学生的ID用于主图的高亮显示
       })
 
     //班级排名视图标签

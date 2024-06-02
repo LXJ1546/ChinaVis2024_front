@@ -28,7 +28,7 @@ const Cotroller = (props) => {
     //重新选择班级后题目掌握程度回到未选择状态
     handleClickTitleFlag(0)
     //将题目高亮的标志清理
-    handleHighLightedXaix('Q_bum')
+    handleHighLightedXaix(null)
     handleClassNum(value)
     // 改变classNum
     setClassNum(value)
@@ -57,7 +57,7 @@ const Cotroller = (props) => {
       //重新选择班级后题目掌握程度回到未选择状态
       handleClickTitleFlag(0)
       //将题目高亮的标志清理
-      handleHighLightedXaix('Q_bum')
+      handleHighLightedXaix(null)
       // 加载状态完毕
       setLoadings(false)
       // 通知其他组件进行更新

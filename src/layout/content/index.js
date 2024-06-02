@@ -24,7 +24,7 @@ const Content = () => {
   const [studentDatefromCalendar, setSudentDatefromCalendar] = useState(null) //提交事件获取学习日历中选中的日期
   const [selectedRowKeys, setSelectedRowKeys] = useState([]) // 表格选择数据的数组
   const [calendarFlag, setCalendarFlag] = useState(false) //用于表示表格中是否确认生成日历
-  const [highlightedXAxisName, setHighlightedXAxisName] = useState('Q_bum') //用于获取知识点掌握程度与题目掌握的交互高亮
+  const [highlightedXAxisName, setHighlightedXAxisName] = useState(null) //用于获取知识点掌握程度与题目掌握的交互高亮
   const [clicktitleFlag, setClickTitleFlag] = useState(0) //用于设置点击事件将题目折线图缩小
   // 平行坐标系的数据
   const [parallelList, setParallelList] = useState([[], [], []])
@@ -133,17 +133,13 @@ const Content = () => {
             />
           </Card>
           <Card className="card4">
-            {/* <Knowledge classNum={classNum} /> */}
             <KnowledgeIcicle
               classNum={classNum}
               isChangeWeight={isChangeWeight}
-              // handleHighLightedXaix={handleHighLightedXaix}
+              handleHighLightedXaix={handleHighLightedXaix}
+              handleClickTitleFlag={handleClickTitleFlag}
             />
           </Card>
-          {/* <Card className="card3">
-            <TitleMaster classNum={classNum} />
-          </Card> */}
-          {/* <Card className="card4"></Card> */}
         </div>
         <div className="middle">
           <Card className="card5">

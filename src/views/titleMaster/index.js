@@ -371,6 +371,132 @@ const TitleMaster = (props) => {
         memoryDistributionChart.setOption(memoryOption)
       })
     })
+
+    //根据知识点掌握程度的点击事件生成相应的分布
+    if (highlightedXAxisName !== null) {
+      handleHighLightedXaix(highlightedXAxisName)
+      handleClickTitleFlag(1) //将折线图缩小
+      //根据params的name对应该题目名称，提取该题目的数据
+      let memoryInfo = {}
+      let timeInfo = {}
+      getTitleMemoryInfo(classNum, highlightedXAxisName).then((res) => {
+        memoryInfo = res.memory
+        timeInfo = res.time
+
+        const existingInstancetime = echarts.getInstanceByDom(
+          timeDistributionRef.current
+        )
+        if (existingInstancetime) {
+          existingInstancetime.dispose()
+        }
+        const existingInstancememory = echarts.getInstanceByDom(
+          memoryDistributionRef.current
+        )
+        if (existingInstancememory) {
+          existingInstancememory.dispose()
+        }
+
+        //题目对应用时分布
+        const timeDistributionChart = echarts.init(timeDistributionRef.current)
+        timeDistributionChart.clear() //清空实例重画
+        const timeOption = {
+          title: {
+            text: highlightedXAxisName + '用时分布',
+            left: 'center',
+            textStyle: {
+              fontSize: 10,
+              fontWeight: 'normal'
+            }
+          },
+          tooltip: {
+            trigger: 'item',
+            axisPointer: {
+              type: 'shadow'
+            }
+          },
+          grid: {
+            left: '10%', // 左边距
+            top: '20%', // 上边距
+            right: '10%',
+            bottom: '20%' // 下边距
+          },
+          xAxis: {
+            type: 'category',
+            data: timeInfo.keys
+          },
+          yAxis: {
+            type: 'value'
+          },
+          series: [
+            {
+              data: timeInfo.value,
+              type: 'bar'
+            }
+          ],
+          dataZoom: [
+            {
+              id: 'dataZoomX',
+              type: 'inside',
+              zooLock: true,
+              xAxisIndex: [0],
+              filterMode: 'filter'
+            }
+          ]
+        }
+        timeDistributionChart.setOption(timeOption)
+
+        //题目对应内存分布
+        const memoryDistributionChart = echarts.init(
+          memoryDistributionRef.current
+        )
+        memoryDistributionChart.clear() //清空实例重画
+        const memoryOption = {
+          title: {
+            text: highlightedXAxisName + '内存分布',
+            left: 'center',
+            textStyle: {
+              fontSize: 10,
+              fontWeight: 'normal'
+            }
+          },
+          tooltip: {
+            trigger: 'item',
+            axisPointer: {
+              type: 'shadow'
+            }
+          },
+          grid: {
+            left: '15%', // 左边距
+            top: '20%', // 上边距
+            right: '5%',
+            bottom: '20%' // 下边距
+          },
+          xAxis: {
+            type: 'category',
+            data: memoryInfo.keys
+          },
+          yAxis: {
+            type: 'value'
+          },
+          series: [
+            {
+              data: memoryInfo.keys,
+              type: 'bar'
+            }
+          ],
+          dataZoom: [
+            {
+              id: 'dataZoomX',
+              type: 'inside',
+              zooLock: true,
+              xAxisIndex: [0],
+              filterMode: 'filter'
+            }
+          ]
+        }
+        memoryDistributionChart.setOption(memoryOption)
+      })
+    }
   }
 
   useEffect(() => {
