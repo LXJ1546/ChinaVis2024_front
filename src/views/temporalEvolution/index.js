@@ -269,12 +269,74 @@ const Evolution = () => {
     }
 
     let workFlag = 0 //0为工作日
-    const timeColor = ['blue', 'red']
+    const timeColor = ['#3A80E2', '#BB5757']
+    const peopleColor = ['#F3D475', '#F3B28A', '#F1928E']
     const workPosition = [-25, 35]
     const peoplecategory = ['top', 'mid', 'low']
+    //绘制图例
+    const legend = svg.append('g').attr('class', 'legend')
+    // 添加图例条目
+    legend
+      .selectAll('rect')
+      .data(peopleColor)
+      .enter()
+      .append('rect')
+      .attr('x', (d, i) => i * 80 + 50)
+      .attr('y', 12)
+      .attr('width', 20)
+      .attr('height', 15)
+      .attr('fill', (d) => d)
+
+    // 添加图例文本
+    legend
+      .selectAll('text')
+      .data(peoplecategory)
+      .enter()
+      .append('text')
+      .attr('x', (d, i) => i * 80 + 75)
+      .attr('y', 20)
+      .attr('dy', '0.35em')
+      .text((d) => d)
+      .attr('font-size', 12)
+
+    // 添加图例条目
+    legend
+      .selectAll('line')
+      .data(timeColor)
+      .enter()
+      .append('line')
+      .attr('x1', (d, i) => 270 + i * 100)
+      .attr('y1', 20)
+      .attr('x2', (d, i) => 310 + i * 100)
+      .attr('y2', 20)
+      .attr('stroke', (d) => d)
+      .attr('stroke-width', 2)
+
+    // 添加图例文本
+    legend
+      .append('text')
+      .attr('x', 320)
+      .attr('y', 20)
+      .attr('dy', '0.35em')
+      .text('工作日')
+      .attr('font-size', 12)
+    legend
+      .append('text')
+      .attr('x', 425)
+      .attr('y', 20)
+      .attr('dy', '0.35em')
+      .text('休息日')
+      .attr('font-size', 12)
+
+    //设置饼图top,mid和low的颜色映射
+    const pieColorScale = d3
+      .scaleOrdinal()
+      .domain(peoplecategory)
+      .range(peopleColor)
 
     //利用循环绘制工作日和休息日的演变趋势
     //(工作日和休息日都展示的情况)(工作日情况)(休息日情况)
+    console.log(data)
     if (showFlag == 'all') {
       data.forEach((item) => {
         svg.append('g').attr('id', 'time' + workFlag)
@@ -296,8 +358,8 @@ const Evolution = () => {
             .enter()
             .append('path')
             .attr('d', arc)
-            .attr('fill', function (d, i) {
-              return d3.schemeCategory10[i] // 使用内置的颜色方案
+            .attr('fill', function (d) {
+              return pieColorScale(peoplecategory[d.index])
             })
             .attr(
               'transform',
@@ -380,8 +442,8 @@ const Evolution = () => {
           .enter()
           .append('path')
           .attr('d', arc)
-          .attr('fill', function (d, i) {
-            return d3.schemeCategory10[i] // 使用内置的颜色方案
+          .attr('fill', function (d) {
+            return pieColorScale(peoplecategory[d.index])
           })
           .attr(
             'transform',
@@ -461,8 +523,8 @@ const Evolution = () => {
           .enter()
           .append('path')
           .attr('d', arc)
-          .attr('fill', function (d, i) {
-            return d3.schemeCategory10[i] // 使用内置的颜色方案
+          .attr('fill', function (d) {
+            return pieColorScale(peoplecategory[d.index])
           })
           .attr(
             'transform',

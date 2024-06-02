@@ -51,14 +51,15 @@ const Calendar = (props) => {
     //图例
     //图例数据
     const legendData = [
-      { category: '正确占比', value: 'green' },
-      { category: '答题数', value: 'pink' },
-      { category: 'Method_C', value: 'orange' },
-      { category: 'Method_g', value: 'green' },
-      { category: 'Method_5', value: 'red' },
-      { category: 'Method_m', value: 'purple' },
-      { category: 'Method_B', value: 'blue' }
+      { category: '正确占比', value: '#00A65F' },
+      { category: '答题数', value: '#EFA3A3' },
+      { category: 'Method_C', value: '#5D403F' },
+      { category: 'Method_g', value: '#B64B08' },
+      { category: 'Method_5', value: '#E26D24' },
+      { category: 'Method_m', value: '#D16D6D' },
+      { category: 'Method_B', value: '#CB9A08' }
     ]
+    // .range(['#8E6D6C', '#B64B08', '#E26D24', '#D16D6D', '#CB9A08'])
 
     const legend = svg.append('g').attr('class', 'legend')
     // 添加图例条目
@@ -140,13 +141,14 @@ const Calendar = (props) => {
       const rightcolor = d3
         .scaleOrdinal()
         .domain(['rightrate', 'errorrate'])
-        .range(['green', 'red'])
+        .range(['#00A65F', 'red'])
 
       //使用语言的颜色映射
       const languagecolor = d3
         .scaleOrdinal()
         .domain(['Method_C', 'Method_g', 'Method_5', 'Method_m', 'Method_B'])
-        .range(d3.schemeCategory10)
+        .range(['#8E6D6C', '#B64B08', '#E26D24', '#D16D6D', '#CB9A08'])
+      // .range(d3.schemeCategory10)
       //数据组装
       function generateDataset(options = { fill: {} }) {
         // 开始时间
@@ -409,7 +411,7 @@ const Calendar = (props) => {
           .enter()
           .append('path')
           .attr('d', arctitle)
-          .attr('fill', 'pink')
+          .attr('fill', '#EFA3A3')
           .attr('opacity', function (d) {
             if (d.data[0] == 'titletotalrate') {
               return 1
