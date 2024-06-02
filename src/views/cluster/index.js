@@ -6,7 +6,7 @@ import {
   getTransferData,
   getMonthStatisticInfo
 } from '../../api'
-import { Radio, Select, Switch } from 'antd'
+import { Radio, Select, Switch, Slider } from 'antd'
 import { createFromIconfontCN } from '@ant-design/icons'
 const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/c/font_4565164_juvpif6y83m.js'
@@ -21,7 +21,9 @@ const Scatter = (props) => {
     changeBrushSelectedData,
     brushData,
     amode,
-    isChangeWeight
+    isChangeWeight,
+    classNum,
+    month
   } = props
   const [clusterData, setClusterData] = useState([])
   const colorAll = ['#37A2DA', '#e06343', '#37a354']
@@ -32,6 +34,8 @@ const Scatter = (props) => {
   // 设置坐标轴大小
   const [xmax, setXmax] = useState(-7)
   const [ymax, setYmax] = useState(-7)
+  // const [xmin, setXmin] = useState(-10)
+  // const [ymin, setYmin] = useState(-12)
   // 设置点的大小
   const [symbolSize, setSymbolSize] = useState(25)
   // 定义一个状态来控制组件的显示和隐藏
@@ -62,6 +66,8 @@ const Scatter = (props) => {
   const [showShape, setShowShape] = useState(false)
   // 开关是否不可操作
   const [disabledShape, setDisabledShape] = useState(false)
+  // 节点开关大小滑动条是否可用
+  const [sliderDisabled, setSliderDisabled] = useState(false)
   const monthsChoice = [
     { value: 9, label: '2023-09' },
     { value: 10, label: '2023-10' },
@@ -148,9 +154,11 @@ const Scatter = (props) => {
     },
     xAxis: {
       max: xmax
+      // min: xmin
     },
     yAxis: {
       max: ymax
+      // min: ymin
     },
     dataZoom: [
       {
@@ -336,11 +344,26 @@ const Scatter = (props) => {
   }
   // 点击初始化系统时重新拿数据
   useEffect(() => {
-    getClusterData().then((res) => {
+    getClusterData(classNum).then((res) => {
       setClusterData(res)
-      setNowClusterData(res[5])
+      if (amode == 1) {
+        setNowClusterData(res[5])
+      } else {
+        if (month == 9) {
+          setNowClusterData(res[0])
+        } else if (month == 10) {
+          setNowClusterData(res[1])
+        } else if (month == 11) {
+          setNowClusterData(res[2])
+        } else if (month == 12) {
+          setNowClusterData(res[3])
+        } else if (month == 1) {
+          setNowClusterData(res[4])
+        }
+      }
+      // console.log('10月份', res[1])
     })
-  }, [isChangeWeight])
+  }, [isChangeWeight, classNum])
   useEffect(() => {
     getTransferData().then((res) => {
       setTransferCircleData(res[0])
@@ -356,6 +379,8 @@ const Scatter = (props) => {
       setNowClusterData(clusterData[5])
       setXmax(-7)
       setYmax(-7)
+      // setXmin(-10)
+      // setYmin(-12)
       setSymbolSize(25)
       setClusterName(['高峰型', '低峰型', '平均型'])
       // 月份是否可见
@@ -370,10 +395,14 @@ const Scatter = (props) => {
       setDisabledShape(false)
       // 特征统计开关可以操作
       setDisabledStats(true)
+      // 滑动条可用
+      setSliderDisabled(false)
     } else if (value == 0) {
       setNowClusterData(clusterData[1])
       setXmax(60)
       setYmax(40)
+      // setXmin(-60)
+      // setYmin(-40)
       setSymbolSize(10)
       setClusterName(['针对型', '多样型', '尝试型'])
       setVisible(true)
@@ -391,6 +420,8 @@ const Scatter = (props) => {
       getMonthStatisticInfo(10).then((res) => {
         setStatsFeature(res)
       })
+      // 滑动条可用
+      setSliderDisabled(false)
     } else if (value == 2) {
       // 是否显示演变视图
       setIsTransfer(true)
@@ -400,6 +431,8 @@ const Scatter = (props) => {
       setDisabledShape(false)
       // 是否展示箱线图
       setShowStats(false)
+      // 滑动条不可用
+      setSliderDisabled(true)
     }
   }
   const handleChangeMonth = (value) => {
@@ -411,28 +444,36 @@ const Scatter = (props) => {
       setNowClusterData(clusterData[0])
       setXmax(60)
       setYmax(40)
+      // setXmax(-40)
+      // setYmin(-60)
       // 更改父组件的月份状态
       changeMonth(9)
       // 更改相关性数据的索引
     } else if (value == 10) {
       setNowClusterData(clusterData[1])
-      setXmax(60)
-      setYmax(40)
+      // setXmax(60)
+      // setYmax(40)
       changeMonth(10)
     } else if (value == 11) {
       setNowClusterData(clusterData[2])
       setXmax(60)
       setYmax(40)
+      // setXmax(-60)
+      // setYmin(-40)
       changeMonth(11)
     } else if (value == 12) {
       setNowClusterData(clusterData[3])
       setXmax(40)
       setYmax(60)
+      // setXmax(-60)
+      // setYmin(-60)
       changeMonth(12)
     } else if (value == 1) {
       setNowClusterData(clusterData[4])
       setXmax(20)
       setYmax(25)
+      // setXmax(-40)
+      // setYmin(-30)
       changeMonth(1)
     }
   }
@@ -494,6 +535,10 @@ const Scatter = (props) => {
     },
     [nowClusterData]
   )
+  // 滑动条的事件
+  const handleSlider = (value) => {
+    setSymbolSize(value)
+  }
   return (
     <ScatterWrapper>
       <div className="title">
@@ -573,6 +618,18 @@ const Scatter = (props) => {
               )}
             </div>
             <div className="rightbtn">
+              <h3 className="label">节点大小</h3>
+              <div className="aslider">
+                <Slider
+                  defaultValue={25}
+                  min={5}
+                  max={30}
+                  style={{ marginLeft: '10px' }}
+                  value={symbolSize}
+                  onChange={handleSlider}
+                  disabled={sliderDisabled}
+                />
+              </div>
               <h3 className="label">等级编码</h3>
               <Switch
                 onChange={onSwitchChange1}

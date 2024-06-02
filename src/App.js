@@ -13,6 +13,10 @@ const App = () => {
           Table: {
             cellPaddingBlockSM: 1,
             cellPaddingInlineSM: 8
+          },
+          Slider: {
+            railSize: 5,
+            dotSize: 6
           }
         }
       }}
