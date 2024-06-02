@@ -509,7 +509,7 @@ const KnowledgeIcicle = (props) => {
     // Color the cell with respect to which child of root it belongs to.
     let rects = cell
       .append('rect')
-      .attr('width', (d) => (5 / 4) * (d.y1 - d.y0))
+      .attr('width', 0)
       .attr('height', (d) => d.x1 - d.x0)
       .attr('fill-opacity', 0.6)
       .attr('fill', (d) => {
@@ -517,6 +517,16 @@ const KnowledgeIcicle = (props) => {
         return color(d.data.score)
       })
       .attr('opacity', 0.9)
+
+    // 选择要设置动画的矩形元素
+    rects
+      // 应用动画效果
+      .transition()
+      // 设置动画持续时间（以毫秒为单位）
+      .duration(800)
+      // 设置要动画化的属性
+      .attr('width', (d) => (5 / 4) * (d.y1 - d.y0))
+    // .attr('height', 50)
 
     // 添加鼠标滑过事件监听器
     rects.on('mouseover', function () {
