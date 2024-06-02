@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { TitleMasterWrapper } from './style'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import * as echarts from 'echarts'
 import { getTitleMasterInfo } from '../../api'
 import { getTitleMemoryInfo } from '../../api'
@@ -10,12 +10,18 @@ const IconFont = createFromIconfontCN({
 })
 
 const TitleMaster = (props) => {
-  const { classNum, isChangeWeight } = props
+  const {
+    classNum,
+    isChangeWeight,
+    highlightedXAxisName,
+    handleHighLightedXaix,
+    clicktitleFlag,
+    handleClickTitleFlag
+  } = props
   const titleMasterRef = useRef(null)
-  const subKnowledgeRef = useRef(null)
+  // const subKnowledgeRef = useRef(null)
   const timeDistributionRef = useRef(null)
   const memoryDistributionRef = useRef(null)
-  const [clickFlag, setClickFlag] = useState(0) //用于设置点击事件将题目折线图缩小
 
   //主知识点和从属知识点的掌握情况
   function drawKnowledge(titleInfo) {
@@ -96,6 +102,14 @@ const TitleMaster = (props) => {
           fontSize: 10,
           rotate: 30
         }
+        // axisPointer: {
+        //   show: true,
+        //   type: 'shadow',
+        //   label: {
+        //     show: true,
+        //     backgroundColor: 'rgba(255, 0, 0, 0.5)' // 设置背景颜色
+        //   }
+        // }
       },
       yAxis: {
         type: 'value',
@@ -117,9 +131,34 @@ const TitleMaster = (props) => {
     titleMasterChart.setOption(titleMasterOption)
     window.onresize = titleMasterChart.resize
 
+    //高亮某个问题
+    if (highlightedXAxisName != null) {
+      titleMasterChart.setOption({
+        xAxis: {
+          axisPointer: {
+            show: true,
+            type: 'shadow',
+            value: highlightedXAxisName,
+            label: {
+              show: true,
+              fontSize: 10, // 设置字体大小
+              backgroundColor: 'rgba(255, 0, 0, 0.5)'
+            },
+            handle: {
+              show: true,
+              color: 'rgba(255, 0, 0, 0.5)',
+              size: [10, 30] // 设置大拖条的宽度和高度
+            }
+          }
+        },
+        animation: false
+      })
+    }
+
     // 根据主知识点图表的提示信息更新从属知识点图表的数据,用时分布的数据，内存分布的数据
     titleMasterChart.on('click', function (params) {
-      setClickFlag(1) //将折线图缩小
+      handleHighLightedXaix(params.name)
+      handleClickTitleFlag(1) //将折线图缩小
       //根据params的name对应该题目名称，提取该题目的数据
       let memoryInfo = {}
       let timeInfo = {}
@@ -128,12 +167,12 @@ const TitleMaster = (props) => {
         timeInfo = res.time
 
         // 检查是否已有图表实例存在，并销毁它
-        const existingInstancesubKnowledge = echarts.getInstanceByDom(
-          subKnowledgeRef.current
-        )
-        if (existingInstancesubKnowledge) {
-          existingInstancesubKnowledge.dispose()
-        }
+        // const existingInstancesubKnowledge = echarts.getInstanceByDom(
+        //   subKnowledgeRef.current
+        // )
+        // if (existingInstancesubKnowledge) {
+        //   existingInstancesubKnowledge.dispose()
+        // }
         const existingInstancetime = echarts.getInstanceByDom(
           timeDistributionRef.current
         )
@@ -148,88 +187,88 @@ const TitleMaster = (props) => {
         }
 
         //题目对应从属知识点
-        const subKnowledgeChart = echarts.init(subKnowledgeRef.current)
-        subKnowledgeChart.clear() //清空实例重画
-        //假数据
-        var data1 = [
-          {
-            name: 'Q1',
-            children: [
-              {
-                name: 'R',
-                value: 15
-              },
-              {
-                name: 'B',
-                children: [
-                  {
-                    name: 'B_a',
-                    value: 4
-                  }
-                ]
-              },
-              {
-                name: 'D',
-                value: 10,
-                children: [
-                  {
-                    name: 'D_p',
-                    value: 5,
-                    itemStyle: {
-                      color: 'red'
-                    }
-                  },
-                  {
-                    name: 'D_y',
-                    value: 5
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-        const subOption = {
-          title: {
-            text: params.name + '对应知识点掌握情况',
-            left: 'center',
-            textStyle: {
-              fontSize: 10,
-              fontWeight: 'normal'
-            }
-          },
-          tooltip: {
-            trigger: 'item',
-            axisPointer: {
-              type: 'shadow'
-            }
-          },
-          visualMap: {
-            type: 'continuous',
-            min: 0,
-            max: 10,
-            inRange: {
-              color: ['#5EB8DF', '#5E98DF', '#5E84DF', '#4C7AE4']
-            },
-            show: false
-          },
-          grid: {
-            left: '30%', // 左边距
-            top: '0%', // 上边距
-            right: '5%',
-            bottom: '20%' // 下边距
-          },
-          series: {
-            type: 'sunburst',
-            data: data1,
-            radius: [0, '78%'],
-            label: {
-              rotate: 'radial'
-              // position: 'inside' // 将标签放置在圆弧内部
-            }
-          }
-        }
+        // const subKnowledgeChart = echarts.init(subKnowledgeRef.current)
+        // subKnowledgeChart.clear() //清空实例重画
+        // //假数据
+        // var data1 = [
+        //   {
+        //     name: 'Q1',
+        //     children: [
+        //       {
+        //         name: 'R',
+        //         value: 15
+        //       },
+        //       {
+        //         name: 'B',
+        //         children: [
+        //           {
+        //             name: 'B_a',
+        //             value: 4
+        //           }
+        //         ]
+        //       },
+        //       {
+        //         name: 'D',
+        //         value: 10,
+        //         children: [
+        //           {
+        //             name: 'D_p',
+        //             value: 5,
+        //             itemStyle: {
+        //               color: 'red'
+        //             }
+        //           },
+        //           {
+        //             name: 'D_y',
+        //             value: 5
+        //           }
+        //         ]
+        //       }
+        //     ]
+        //   }
+        // ]
+        // const subOption = {
+        //   title: {
+        //     text: params.name + '对应知识点掌握情况',
+        //     left: 'center',
+        //     textStyle: {
+        //       fontSize: 10,
+        //       fontWeight: 'normal'
+        //     }
+        //   },
+        //   tooltip: {
+        //     trigger: 'item',
+        //     axisPointer: {
+        //       type: 'shadow'
+        //     }
+        //   },
+        //   visualMap: {
+        //     type: 'continuous',
+        //     min: 0,
+        //     max: 10,
+        //     inRange: {
+        //       color: ['#5EB8DF', '#5E98DF', '#5E84DF', '#4C7AE4']
+        //     },
+        //     show: false
+        //   },
+        //   grid: {
+        //     left: '30%', // 左边距
+        //     top: '0%', // 上边距
+        //     right: '5%',
+        //     bottom: '20%' // 下边距
+        //   },
+        //   series: {
+        //     type: 'sunburst',
+        //     data: data1,
+        //     radius: [0, '78%'],
+        //     label: {
+        //       rotate: 'radial'
+        //       // position: 'inside' // 将标签放置在圆弧内部
+        //     }
+        //   }
+        // }
 
-        subKnowledgeChart.setOption(subOption)
+        // subKnowledgeChart.setOption(subOption)
 
         //题目对应用时分布
         const timeDistributionChart = echarts.init(timeDistributionRef.current)
@@ -335,12 +374,12 @@ const TitleMaster = (props) => {
   }
 
   useEffect(() => {
-    console.log('知识' + classNum)
     getTitleMasterInfo(classNum).then((res) => {
       drawKnowledge(res)
     })
+    // handleHighLightedXaix('Q_n2B')
     // 初始化系统时更新组件
-  }, [classNum, isChangeWeight, clickFlag])
+  }, [classNum, isChangeWeight, clicktitleFlag, highlightedXAxisName])
 
   return (
     <TitleMasterWrapper>
@@ -351,13 +390,13 @@ const TitleMaster = (props) => {
         题目掌握程度
       </div>
       <div className="Titleview">
-        {clickFlag == 0 && (
+        {clicktitleFlag == 0 && (
           <div className="titleMasterall" ref={titleMasterRef}></div>
         )}
-        {clickFlag == 1 && (
+        {clicktitleFlag == 1 && (
           <div>
             <div className="titleMaster" ref={titleMasterRef}></div>
-            <div className="subKnowledge" ref={subKnowledgeRef}></div>
+            {/* <div className="subKnowledge" ref={subKnowledgeRef}></div> */}
             <div className="timeDistribution" ref={timeDistributionRef}></div>
             <div
               className="memoryDistribution"

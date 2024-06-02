@@ -24,6 +24,8 @@ const Content = () => {
   const [studentDatefromCalendar, setSudentDatefromCalendar] = useState(null) //提交事件获取学习日历中选中的日期
   const [selectedRowKeys, setSelectedRowKeys] = useState([]) // 表格选择数据的数组
   const [calendarFlag, setCalendarFlag] = useState(false) //用于表示表格中是否确认生成日历
+  const [highlightedXAxisName, setHighlightedXAxisName] = useState('Q_bum') //用于获取知识点掌握程度与题目掌握的交互高亮
+  const [clicktitleFlag, setClickTitleFlag] = useState(0) //用于设置点击事件将题目折线图缩小
   // 平行坐标系的数据
   const [parallelList, setParallelList] = useState([[], [], []])
   // 是否改变权重
@@ -75,6 +77,14 @@ const Content = () => {
   const handleWeight = (value) => {
     setIsChangeWeight(value)
   }
+  //定义新函数,用于更新题目掌握情况高亮
+  const handleHighLightedXaix = (value) => {
+    setHighlightedXAxisName(value)
+  }
+  //定义新函数,用于确认是否选择了某个题目
+  const handleClickTitleFlag = (value) => {
+    setClickTitleFlag(value)
+  }
   useEffect(() => {
     // 最开始的时候平行坐标系展示全部数据
     let paraList = [[], [], []]
@@ -104,19 +114,29 @@ const Content = () => {
               handleClassNum={handleClassNum}
               handleWeight={handleWeight}
               isChangeWeight={isChangeWeight}
+              handleHighLightedXaix={handleHighLightedXaix}
+              handleClickTitleFlag={handleClickTitleFlag}
             />
           </Card>
           <Card className="card2">
             <Picture classNum={classNum} isChangeWeight={isChangeWeight} />
           </Card>
           <Card className="card3">
-            <TitleMaster classNum={classNum} isChangeWeight={isChangeWeight} />
+            <TitleMaster
+              classNum={classNum}
+              isChangeWeight={isChangeWeight}
+              highlightedXAxisName={highlightedXAxisName}
+              handleHighLightedXaix={handleHighLightedXaix}
+              clicktitleFlag={clicktitleFlag}
+              handleClickTitleFlag={handleClickTitleFlag}
+            />
           </Card>
           <Card className="card4">
             {/* <Knowledge classNum={classNum} /> */}
             <KnowledgeIcicle
               classNum={classNum}
               isChangeWeight={isChangeWeight}
+              // handleHighLightedXaix={handleHighLightedXaix}
             />
           </Card>
           {/* <Card className="card3">
