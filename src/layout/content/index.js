@@ -132,17 +132,13 @@ const Content = () => {
             />
           </Card>
           <Card className="card4">
-            {/* <Knowledge classNum={classNum} /> */}
             <KnowledgeIcicle
               classNum={classNum}
               isChangeWeight={isChangeWeight}
-              // handleHighLightedXaix={handleHighLightedXaix}
+              handleHighLightedXaix={handleHighLightedXaix}
+              handleClickTitleFlag={handleClickTitleFlag}
             />
           </Card>
-          {/* <Card className="card3">
-            <TitleMaster classNum={classNum} />
-          </Card> */}
-          {/* <Card className="card4"></Card> */}
         </div>
         <div className="middle">
           <Card className="card5">

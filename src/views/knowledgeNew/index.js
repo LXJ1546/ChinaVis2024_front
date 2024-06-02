@@ -38,7 +38,12 @@ const title_knowledge = {
 }
 
 const KnowledgeIcicle = (props) => {
-  const { classNum, isChangeWeight } = props
+  const {
+    classNum,
+    isChangeWeight,
+    handleHighLightedXaix,
+    handleClickTitleFlag
+  } = props
 
   const ref = useRef() //用于获取d3绘图使用div的宽高
   const [width, setWidth] = useState(0)
@@ -482,8 +487,8 @@ const KnowledgeIcicle = (props) => {
           // console.log(Object.prototype.hasOwnProperty.call(d.data, 'icon'))
           if (Object.prototype.hasOwnProperty.call(d.data, 'icon')) {
             // console.log('icon', d.data.icon)
-            return `addIcon _${d.data.icon}`
-          }
+            return `questionRect addIcon _${d.data.icon}`
+          } else return `questionRect`
         }
       })
       .attr('transform', (d) => {
@@ -578,6 +583,17 @@ const KnowledgeIcicle = (props) => {
       }
       // console.log('点击了 <g> 元素', Knowledge)
     })
+    //题目添加点击事件
+    const myQuestions = d3.selectAll('g.questionRect')
+    myQuestions.on('click', function (e) {
+      // 在这里编写点击事件的处理逻辑
+      let question = e.target.__data__.data.name
+      let Q_name = 'Q_' + question.substring(9, 12)
+      console.log('点击了 <g> 元素', Q_name)
+
+      handleHighLightedXaix(Q_name)
+      handleClickTitleFlag(1)
+    })
 
     // 所有知识点时绘制iocn
     if (viewState) {
@@ -587,7 +603,7 @@ const KnowledgeIcicle = (props) => {
         icons = d3.selectAll('g.addIcon')
       } else {
         icons = d3.selectAll(`g.addIcon.${questionIconState}`)
-        console.log('点击图标', `g.addIcon.${questionIconState}`, icons)
+        // console.log('点击图标', `g.addIcon.${questionIconState}`, icons)
       }
       // console.log('icon', icons)
       icons
