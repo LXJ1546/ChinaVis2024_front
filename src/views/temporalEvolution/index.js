@@ -328,6 +328,37 @@ const Evolution = () => {
       .text('休息日')
       .attr('font-size', 12)
 
+    const gradient = d3
+      .select('#evolutionSvg')
+      .append('defs')
+      .append('linearGradient')
+      .attr('id', 'gradient')
+      .attr('x1', '0%')
+      .attr('y1', '0%')
+      .attr('x2', '100%')
+      .attr('y2', '0%')
+    // 添加渐变色段
+    gradient.append('stop').attr('offset', '0%').attr('stop-color', '#d7f7e7')
+    gradient.append('stop').attr('offset', '100%').attr('stop-color', '#68ba91')
+
+    // 创建矩形
+    legend
+      .append('rect')
+      .attr('width', 100)
+      .attr('height', 18)
+      .attr('x', 480)
+      .attr('y', 11)
+      .style('fill', 'url(#gradient)')
+    //创建标签
+    // 创建矩形
+    legend
+      .append('text')
+      .attr('x', 590)
+      .attr('y', 20)
+      .attr('dy', '0.35em')
+      .text('正确率')
+      .attr('font-size', 12)
+
     //设置饼图top,mid和low的颜色映射
     const pieColorScale = d3
       .scaleOrdinal()
