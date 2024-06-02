@@ -5,7 +5,7 @@ export const HeaderBarWrapper = styled.div`
   height: 50px;
   display: flex;
   align-items: center;
-  justify-content:center;
+  justify-content: center;
   flex-shrink: 0;
   background: white;
   border-bottom: 1px solid rgb(239, 239, 245, 1);
@@ -13,6 +13,6 @@ export const HeaderBarWrapper = styled.div`
     font-weight: 700;
     font-size: 18px;
     flex-shrink: 0;
-    color: #316c72;
+    color: #269b69;
   }
 `

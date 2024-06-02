@@ -7,7 +7,7 @@ const App = () => {
       theme={{
         token: {
           // Seed Token，影响范围大
-          colorPrimary: '#316c72'
+          colorPrimary: '#269B69'
         },
         components: {
           Table: {

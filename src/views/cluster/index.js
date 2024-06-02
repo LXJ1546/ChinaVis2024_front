@@ -148,6 +148,7 @@ const Scatter = (props) => {
       itemWidth: 16,
       itemHeight: 16,
       left: '5%',
+      top: '0.5%',
       textStyle: {
         fontSize: 14
       }
