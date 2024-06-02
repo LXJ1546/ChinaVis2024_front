@@ -162,7 +162,7 @@ const Evolution = () => {
     const rightscaleColor = d3
       .scaleLinear()
       .domain([0, 1])
-      .range(['#b2e8cd', '#5ab588'])
+      .range(['#d7f7e7', '#68ba91'])
     //工作日/休息日平均,工作日或休息日
     if (showFlag == 'all' && backgroundFlag) {
       const rightbackground = svg.append('g').attr('id', 'rightBackground')
@@ -365,7 +365,7 @@ const Evolution = () => {
       item.forEach((piedata, index) => {
         svg.append('g').attr('id', 'peoplePie' + workFlag + index)
         // 定义饼图函数
-        let pie = d3.pie()
+        let pie = d3.pie().sort(null) // 禁用排序
 
         // 将数据转换为适合饼图的格式
         let arcs = pie(piedata[2])
@@ -446,7 +446,7 @@ const Evolution = () => {
       item.forEach((piedata, index) => {
         svg.append('g').attr('id', 'peoplePie' + workFlag + index)
         // 定义饼图函数
-        let pie = d3.pie()
+        let pie = d3.pie().sort(null)
 
         // 将数据转换为适合饼图的格式
         let arcs = pie(piedata[2])

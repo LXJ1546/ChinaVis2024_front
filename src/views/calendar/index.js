@@ -617,11 +617,14 @@ const Calendar = (props) => {
       .select('#answerSession')
       .append('svg')
       .attr('id', 'answerSessionsvg')
-      .attr('width', '60%')
+      .attr('width', '80%')
       .attr('height', '100%')
     const margin = { top: 30, right: 100, bottom: 30, left: 70 }
     const width =
-      svg.node().getBoundingClientRect().width - margin.left - margin.right
+      svg.node().getBoundingClientRect().width -
+      margin.left -
+      margin.right -
+      160
     const height =
       svg.node().getBoundingClientRect().height - margin.top - margin.bottom
     svg.call(tip)
@@ -651,7 +654,7 @@ const Calendar = (props) => {
     // 创建矩形
     svg
       .append('rect')
-      .attr('width', 150)
+      .attr('width', 100)
       .attr('height', 18)
       .attr('x', 10)
       .attr('y', 10)
@@ -661,10 +664,11 @@ const Calendar = (props) => {
     // 创建矩形
     svg
       .append('text')
-      .attr('x', 170)
+      .attr('x', 120)
       .attr('y', 20)
       .attr('dy', '0.35em')
       .text('提交次数')
+      .attr('font-size', 12)
 
     //   定义颜色映射的线性渐变
     const gradientanswerpeople = svg
@@ -680,18 +684,18 @@ const Calendar = (props) => {
     gradientanswerpeople
       .append('stop')
       .attr('offset', '0%')
-      .attr('stop-color', '#77EB80')
+      .attr('stop-color', '#8DCF8A')
     gradientanswerpeople
       .append('stop')
       .attr('offset', '100%')
-      .attr('stop-color', '#EB8277')
+      .attr('stop-color', '#D06B63')
 
     // 创建矩形
     svg
       .append('rect')
-      .attr('width', 150)
+      .attr('width', 100)
       .attr('height', 18)
-      .attr('x', 260)
+      .attr('x', 180)
       .attr('y', 10)
       .style('fill', 'url(#gradientanswerpeople)')
 
@@ -699,10 +703,42 @@ const Calendar = (props) => {
     // 创建矩形
     svg
       .append('text')
-      .attr('x', 420)
+      .attr('x', 290)
       .attr('y', 20)
       .attr('dy', '0.35em')
       .text('活跃人数')
+      .attr('font-size', 12)
+
+    //图例数据
+    const legendData = [
+      { category: '针对型', value: '#86C6F0' },
+      { category: '多样型', value: '#EB8277' },
+      { category: '尝试型', value: '#86F0B0' }
+    ]
+    const legend = svg.append('g').attr('class', 'legend')
+    // 添加图例条目
+    legend
+      .selectAll('rect')
+      .data(legendData)
+      .enter()
+      .append('rect')
+      .attr('x', (d, i) => i * 80 + 350)
+      .attr('y', 12)
+      .attr('width', 20)
+      .attr('height', 15)
+      .attr('fill', (d) => d.value)
+
+    // 添加图例文本
+    legend
+      .selectAll('text')
+      .data(legendData)
+      .enter()
+      .append('text')
+      .attr('x', (d, i) => i * 80 + 375)
+      .attr('y', 20)
+      .attr('dy', '0.35em')
+      .text((d) => d.category)
+      .attr('font-size', 12)
 
     //创建横纵坐标比例尺
     // 数据
@@ -739,7 +775,7 @@ const Calendar = (props) => {
     const peopleColorScale = d3
       .scaleLinear()
       .domain([minPeople, maxPeople])
-      .range(['#77EB80', '#EB8277'])
+      .range(['#8DCF8A', '#D06B63'])
 
     // 创建 X 轴生成器
     const xAxis = d3.axisBottom(xScale).tickFormat((d) => `${d}月`)
@@ -888,6 +924,7 @@ const Calendar = (props) => {
     //   '2023-09-30': [300, 200, 500],
     //   '2023-09-31': [300, 200, 500]
     // }
+    console.log(dataAnswerArr)
     //创建svg
     const svg = d3
       .select('#answerDetailSession')
@@ -1586,7 +1623,7 @@ const Calendar = (props) => {
             <div id="orderSelect" className="orderSelectview">
               <Select
                 defaultValue="按照工作日/非工作日排序"
-                style={{ width: 230, position: 'absolute' }}
+                style={{ width: 220, position: 'absolute' }}
                 onChange={handleOrder}
                 options={[
                   {
