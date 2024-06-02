@@ -50,11 +50,11 @@ const StudentCommit = (props) => {
       { category: '完全正确', value: '#27B774' },
       { category: '部分正确', value: '#68D8A3' },
       { category: '错误', value: 'red' },
-      { category: 'Method_C', value: 'orange' },
-      { category: 'Method_g', value: 'green' },
-      { category: 'Method_5', value: 'red' },
-      { category: 'Method_m', value: 'purple' },
-      { category: 'Method_B', value: 'blue' }
+      { category: 'Method_C', value: '0081a7' },
+      { category: 'Method_g', value: '#00afb9' },
+      { category: 'Method_5', value: '#f6bd60' },
+      { category: 'Method_m', value: '#9c6644' },
+      { category: 'Method_B', value: '#f07167' }
     ]
 
     const legend = legendsvg.append('g').attr('class', 'legend')
@@ -285,7 +285,7 @@ const StudentCommit = (props) => {
     const methodcolor = d3
       .scaleOrdinal()
       .domain(['Method_C', 'Method_g', 'Method_5', 'Method_m', 'Method_B'])
-      .range(d3.schemeCategory10)
+      .range(['#0081a7', '#00afb9', '#f6bd60', '#9c6644', '#f07167'])
     methodevent
       .selectAll('rect')
       .data(commits)

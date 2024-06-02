@@ -51,15 +51,15 @@ const Calendar = (props) => {
     //图例
     //图例数据
     const legendData = [
-      { category: '正确占比', value: '#00A65F' },
+      { category: '正确占比', value: '#179349' },
       { category: '答题数', value: '#EFA3A3' },
-      { category: 'Method_C', value: '#5D403F' },
-      { category: 'Method_g', value: '#B64B08' },
-      { category: 'Method_5', value: '#E26D24' },
-      { category: 'Method_m', value: '#D16D6D' },
-      { category: 'Method_B', value: '#CB9A08' }
+      { category: 'Method_C', value: '#0081a7' },
+      { category: 'Method_g', value: '#00afb9' },
+      { category: 'Method_5', value: '#f6bd60' },
+      { category: 'Method_m', value: '#9c6644' },
+      { category: 'Method_B', value: '#f07167' }
     ]
-    // .range(['#8E6D6C', '#B64B08', '#E26D24', '#D16D6D', '#CB9A08'])
+    // .range(['#0081a7', '#00afb9', '#f6bd60', '#9c6644', '#f07167'])
 
     const legend = svg.append('g').attr('class', 'legend')
     // 添加图例条目
@@ -99,7 +99,7 @@ const Calendar = (props) => {
 
     // 添加渐变色段
     gradient.append('stop').attr('offset', '0%').attr('stop-color', '#ABE2FE')
-    gradient.append('stop').attr('offset', '100%').attr('stop-color', '#236D92')
+    gradient.append('stop').attr('offset', '100%').attr('stop-color', '#3183AC')
 
     // 创建矩形
     d3.select('.calendarsvg')
@@ -135,19 +135,20 @@ const Calendar = (props) => {
       const commitscaleColor = d3
         .scaleLinear()
         .domain([0, maxcommitnum])
-        .range(['#ABE2FE', '#236D92'])
+        .range(['#ABE2FE', '#3183AC'])
 
       //正确占比颜色映射
       const rightcolor = d3
         .scaleOrdinal()
         .domain(['rightrate', 'errorrate'])
-        .range(['#00A65F', 'red'])
+        .range(['#179349', 'red'])
 
       //使用语言的颜色映射
       const languagecolor = d3
         .scaleOrdinal()
         .domain(['Method_C', 'Method_g', 'Method_5', 'Method_m', 'Method_B'])
-        .range(['#8E6D6C', '#B64B08', '#E26D24', '#D16D6D', '#CB9A08'])
+        // .range(['#8E6D6C', '#B64B08', '#E26D24', '#D16D6D', '#CB9A08'])
+        .range(['#0081a7', '#00afb9', '#f6bd60', '#9c6644', '#f07167'])
       // .range(d3.schemeCategory10)
       //数据组装
       function generateDataset(options = { fill: {} }) {
