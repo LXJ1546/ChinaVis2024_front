@@ -34,7 +34,7 @@ export const ScatterWrapper = styled.div`
         align-items: center;
         position: absolute;
         z-index: 10;
-        top: 11.4%;
+        top: 11%;
         right: 55%;
         .legend-item {
           display: flex;
