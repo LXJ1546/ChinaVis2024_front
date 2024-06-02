@@ -350,6 +350,9 @@ const Scatter = (props) => {
       if (amode == 1) {
         setNowClusterData(res[5])
       } else {
+        if (classNum == 'all') {
+          setSymbolSize(10)
+        }
         if (month == 9) {
           setNowClusterData(res[0])
         } else if (month == 10) {

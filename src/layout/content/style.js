@@ -8,12 +8,14 @@ export const ContentWrapper = styled.div`
   .container {
     height: 100%;
     display: flex;
-    border-color: rgb(239, 239, 245);
     .left {
       width: 25%;
       height: 100%;
       display: flex;
       flex-direction: column;
+      .ant-card {
+        border: 0px;
+      }
       .card1 {
         height: 9%;
         margin: 3px;
@@ -64,6 +66,9 @@ export const ContentWrapper = styled.div`
       height: 100%;
       display: flex;
       flex-direction: column;
+      .ant-card {
+        border: 0px;
+      }
       .card5 {
         height: 64%;
         margin: 3px 3px 3px 0px;
@@ -92,6 +97,9 @@ export const ContentWrapper = styled.div`
       height: 100%;
       display: flex;
       flex-direction: column;
+      .ant-card {
+        border: 0px;
+      }
       .card7 {
         height: 20%;
         margin: 3px 3px 3px 0px;
