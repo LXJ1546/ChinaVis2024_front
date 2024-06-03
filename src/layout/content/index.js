@@ -89,7 +89,8 @@ const Content = () => {
   }
   //定义新函数,用于传输选中的学生ID进行高亮
   const handleStudentList = (value) => {
-    setStudentIDlist(value)
+    // 状态是不可变的，不能直接push
+    setStudentIDlist((prevList) => [...prevList, value])
   }
   useEffect(() => {
     // 最开始的时候平行坐标系展示全部数据
@@ -162,6 +163,7 @@ const Content = () => {
               isChangeWeight={isChangeWeight}
               classNum={classNum}
               month={month}
+              studentIDlist={studentIDlist}
             />
           </Card>
           <Card className="card6">
