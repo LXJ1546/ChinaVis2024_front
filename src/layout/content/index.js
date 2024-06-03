@@ -26,6 +26,7 @@ const Content = () => {
   const [calendarFlag, setCalendarFlag] = useState(false) //用于表示表格中是否确认生成日历
   const [highlightedXAxisName, setHighlightedXAxisName] = useState(null) //用于获取知识点掌握程度与题目掌握的交互高亮
   const [clicktitleFlag, setClickTitleFlag] = useState(0) //用于设置点击事件将题目折线图缩小
+  const [studentIDlist, setStudentIDlist] = useState([]) //用于设置选中的学生
   // 平行坐标系的数据
   const [parallelList, setParallelList] = useState([[], [], []])
   // 是否改变权重
@@ -86,6 +87,10 @@ const Content = () => {
   const handleClickTitleFlag = (value) => {
     setClickTitleFlag(value)
   }
+  //定义新函数,用于传输选中的学生ID进行高亮
+  const handleStudentList = (value) => {
+    setStudentIDlist(value)
+  }
   useEffect(() => {
     // 最开始的时候平行坐标系展示全部数据
     let paraList = [[], [], []]
@@ -120,7 +125,12 @@ const Content = () => {
             />
           </Card>
           <Card className="card2">
-            <Picture classNum={classNum} isChangeWeight={isChangeWeight} />
+            <Picture
+              classNum={classNum}
+              isChangeWeight={isChangeWeight}
+              handleStudentList={handleStudentList}
+              studentIDlist={studentIDlist}
+            />
           </Card>
           <Card className="card3">
             <TitleMaster

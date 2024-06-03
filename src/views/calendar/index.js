@@ -1099,7 +1099,7 @@ const Calendar = (props) => {
       // .attr('fill', '#E8E8E8')
       .attr('fill', (d) => {
         if (!d.commitcount) {
-          return '#EDECEC'
+          return '#EEEDED'
         }
         //   return commitscaleColor(d.commitcount)
         else {
@@ -1610,7 +1610,7 @@ const Calendar = (props) => {
           <div className="title-icon">
             <IconFont type="icon-rili" />
           </div>
-          学习日历
+          学习日历环形图
         </div>
       )}
       {amode == 1 && (
@@ -1618,7 +1618,7 @@ const Calendar = (props) => {
           <div className="title-icon">
             <IconFont type="icon-shiduan" />
           </div>
-          答题时段分析图
+          答题时段特征矩阵气泡图与模式日历统计图
         </div>
       )}
       <div className="calendarHighview">

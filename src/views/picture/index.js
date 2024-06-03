@@ -11,7 +11,7 @@ const IconFont = createFromIconfontCN({
 import d3Tip from 'd3-tip'
 
 const Picture = (props) => {
-  const { classNum, isChangeWeight } = props
+  const { classNum, isChangeWeight, handleStudentList, studentIDlist } = props
   const distributionRef = useRef(null)
   const majorRef = useRef(null)
   const ageRef = useRef(null)
@@ -60,7 +60,7 @@ const Picture = (props) => {
           endAngle: 360,
           data: classBasicInfo[0],
           itemStyle: {
-            // opacity: 0.7,
+            opacity: 0.7,
             color: function (params) {
               //自定义颜色
               // var colorList = [
@@ -124,7 +124,7 @@ const Picture = (props) => {
           endAngle: 360,
           data: classBasicInfo[1],
           itemStyle: {
-            // opacity: 0.7,
+            opacity: 0.7,
             color: function (params) {
               //自定义颜色
               // var colorList = [
@@ -192,6 +192,7 @@ const Picture = (props) => {
           endAngle: 360,
           data: classBasicInfo[2],
           itemStyle: {
+            opacity: 0.7,
             color: function (params) {
               //自定义颜色
               // var colorList = ['#bc4749', '#669bbc']
@@ -303,11 +304,14 @@ const Picture = (props) => {
         })
         .attr('fill', function () {
           if (studentType == 0) {
-            return '#8AD0EE'
+            // return '#8AD0EE'
+            return '#BEE4D7'
           } else if (studentType == 1) {
-            return '#8AB5EE'
+            // return '#8AB5EE'
+            return '#71B0D1'
           } else {
-            return '#5686F0'
+            // return '#5686F0'
+            return '#6B89BB'
           }
         })
         .attr('x', function (d, i) {
@@ -449,11 +453,11 @@ const Picture = (props) => {
         //前30%一种颜色，30%到70%一种颜色，70%之后的一种颜色
         const rankrate = (i + 1) / classRankInfo.length
         if (rankrate <= 0.3) {
-          return '#8AD0EE'
+          return '#BEE4D7'
         } else if (rankrate <= 0.7) {
-          return '#8AB5EE'
+          return '#71B0D1'
         } else {
-          return '#5686F0'
+          return '#6B89BB'
         }
       })
       .attr('x', function (d, i) {
@@ -486,6 +490,8 @@ const Picture = (props) => {
       })
       .on('click', function (e, d) {
         console.log(d[0]) //点击每个学生获取点击学生的ID用于主图的高亮显示
+        handleStudentList(studentIDlist.push(d[0]))
+        console.log(studentIDlist)
       })
 
     //班级排名视图标签
@@ -592,11 +598,11 @@ const Picture = (props) => {
         })
         .attr('fill', function () {
           if (studentType == 0) {
-            return '#8AD0EE'
+            return '#BEE4D7'
           } else if (studentType == 1) {
-            return '#8AB5EE'
+            return '#71B0D1'
           } else {
-            return '#5686F0'
+            return '#6B89BB'
           }
         })
         .attr('x', function (d, i) {
@@ -684,7 +690,7 @@ const Picture = (props) => {
         <div className="title-icon">
           <IconFont type="icon-fenbu" />
         </div>
-        分布特征
+        分布特征统计图
       </div>
       <div className="Pictureview">
         <div className="distribution" ref={distributionRef}>

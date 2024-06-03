@@ -970,7 +970,7 @@ const TimeRight3 = (props) => {
           <div className="title-icon">
             <IconFont type="icon-huoyuedu" />
           </div>
-          群体活跃特征
+          群体活跃特征统计图
         </div>
         <div className="active-content">
           <div className="active-top">
