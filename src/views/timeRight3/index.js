@@ -91,6 +91,8 @@ const TimeRight3 = (props) => {
         },
         center: ['50%', '65%']
       },
+      // color: ['#F3D475', '#F3B28A', '#F1928E'],
+      color: ['#FAD891', '#6D9AC4', '#777B98'],
       series: [
         {
           name: 'Budget vs spending',
@@ -117,6 +119,7 @@ const TimeRight3 = (props) => {
   }
 
   const drawTimeTitle2 = () => {
+    const opacity = 1
     const Instance = echarts.getInstanceByDom(timeTitleRef.current)
     if (Instance) {
       Instance.dispose()
@@ -179,6 +182,9 @@ const TimeRight3 = (props) => {
         type: 'category',
         data: knowledges
       },
+      // color: ['#f6bd60', '#ff7d00', '#bc4749', '#7f5539', '#669bbc'],
+      color: ['#BEE4D7', '#8DD2E1', '#71B0D1', '#6B89BB', '#6168AC'],
+
       series: [
         {
           name: '9月',
@@ -189,6 +195,9 @@ const TimeRight3 = (props) => {
           },
           emphasis: {
             focus: 'none'
+          },
+          itemStyle: {
+            opacity: opacity
           },
           data: rawData[0].map((num) => Math.round(num))
         },
@@ -202,6 +211,9 @@ const TimeRight3 = (props) => {
           emphasis: {
             focus: 'none'
           },
+          itemStyle: {
+            opacity: opacity
+          },
           data: rawData[1].map((num) => Math.round(num))
         },
         {
@@ -213,6 +225,9 @@ const TimeRight3 = (props) => {
           },
           emphasis: {
             focus: 'none'
+          },
+          itemStyle: {
+            opacity: opacity
           },
           data: rawData[2].map((num) => Math.round(num))
         },
@@ -226,6 +241,9 @@ const TimeRight3 = (props) => {
           emphasis: {
             focus: 'none'
           },
+          itemStyle: {
+            opacity: opacity
+          },
           data: rawData[3].map((num) => Math.round(num))
         },
         {
@@ -234,6 +252,9 @@ const TimeRight3 = (props) => {
           stack: 'total',
           label: {
             show: false
+          },
+          itemStyle: {
+            opacity: opacity
           },
           emphasis: {
             focus: 'none'
@@ -949,7 +970,7 @@ const TimeRight3 = (props) => {
           <div className="title-icon">
             <IconFont type="icon-huoyuedu" />
           </div>
-          群体活跃特征
+          群体活跃特征统计图
         </div>
         <div className="active-content">
           <div className="active-top">

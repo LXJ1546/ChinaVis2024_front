@@ -117,6 +117,7 @@ const TitleMaster = (props) => {
           fontSize: 10
         }
       },
+      color: ['#3770A7', '#64B4B1', '#EDCC65'],
       series: titleInfo,
       dataZoom: [
         {
@@ -301,6 +302,7 @@ const TitleMaster = (props) => {
           yAxis: {
             type: 'value'
           },
+          color: ['#6B89BB'],
           series: [
             {
               data: timeInfo.value,
@@ -352,6 +354,7 @@ const TitleMaster = (props) => {
           yAxis: {
             type: 'value'
           },
+          color: ['#6B89BB'],
           series: [
             {
               data: memoryInfo.keys,
@@ -427,6 +430,7 @@ const TitleMaster = (props) => {
           yAxis: {
             type: 'value'
           },
+          color: ['#6B89BB'],
           series: [
             {
               data: timeInfo.value,
@@ -478,6 +482,7 @@ const TitleMaster = (props) => {
           yAxis: {
             type: 'value'
           },
+          color: ['#6B89BB'],
           series: [
             {
               data: memoryInfo.keys,
