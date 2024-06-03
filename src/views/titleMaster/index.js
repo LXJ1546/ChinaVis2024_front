@@ -304,7 +304,7 @@ const TitleMaster = (props) => {
           yAxis: {
             type: 'value'
           },
-          color: ['#6B89BB'],
+          color: ['#71B0D1'],
           series: [
             {
               data: timeInfo.value,
@@ -356,7 +356,7 @@ const TitleMaster = (props) => {
           yAxis: {
             type: 'value'
           },
-          color: ['#6B89BB'],
+          color: ['#71B0D1'],
           series: [
             {
               data: memoryInfo.keys,
@@ -432,7 +432,7 @@ const TitleMaster = (props) => {
           yAxis: {
             type: 'value'
           },
-          color: ['#6B89BB'],
+          color: ['#71B0D1'],
           series: [
             {
               data: timeInfo.value,
@@ -484,7 +484,7 @@ const TitleMaster = (props) => {
           yAxis: {
             type: 'value'
           },
-          color: ['#6B89BB'],
+          color: ['#71B0D1'],
           series: [
             {
               data: memoryInfo.keys,

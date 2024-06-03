@@ -346,19 +346,51 @@ const Picture = (props) => {
           }
         })
         .on('mouseover', function (e, d) {
-          tip.html(`<div style="line-height: 1;
-          font-weight: bold;
-          padding: 12px;
-          background: white;
-          color: grey;
-          border-radius: 2px;
-          pointer-events: none;
-          font-family: Arial, sans-serif;
-          font-size: 12px;
-          text-align: center;">班级：${d[0]}<p> 排名分布: ${d[2]}</p><div>`)
-          tip.show(d, this)
+          d3.select(this).style('stroke', 'grey').style('stroke-width', 2)
+          if (
+            d3.select(this)._groups[0][0].className.baseVal == 'studentType0'
+          ) {
+            tip.html(`<div style="line-height: 1;
+            font-weight: bold;
+            padding: 12px;
+            background: white;
+            color: grey;
+            border-radius: 2px;
+            pointer-events: none;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            text-align: center;">班级：${d[0]}<p> 前30%人数: ${d[2][0]}</p><div>`)
+            tip.show(d, this)
+          } else if (
+            d3.select(this)._groups[0][0].className.baseVal == 'studentType1'
+          ) {
+            tip.html(`<div style="line-height: 1;
+            font-weight: bold;
+            padding: 12px;
+            background: white;
+            color: grey;
+            border-radius: 2px;
+            pointer-events: none;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            text-align: center;">班级：${d[0]}<p> 30%~70%人数: ${d[2][1]}</p><div>`)
+            tip.show(d, this)
+          } else {
+            tip.html(`<div style="line-height: 1;
+            font-weight: bold;
+            padding: 12px;
+            background: white;
+            color: grey;
+            border-radius: 2px;
+            pointer-events: none;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            text-align: center;">班级：${d[0]}<p> 后30%人数: ${d[2][2]}</p><div>`)
+            tip.show(d, this)
+          }
         })
         .on('mouseout', function () {
+          d3.select(this).style('stroke', 'grey').style('stroke-width', 0)
           tip.hide()
         })
     }
@@ -377,6 +409,7 @@ const Picture = (props) => {
       .attr('x', '2%')
       .attr('y', '55%')
       .style('opacity', 0.8)
+    svg.call(tip)
   }
 
   //更新班级内部排名视图
@@ -492,6 +525,7 @@ const Picture = (props) => {
       })
       .attr('y', '10px')
       .on('mouseover', function (e, d) {
+        d3.select(this).attr('width', '5px')
         tip.html(`<div style="line-height: 1;
         font-weight: bold;
         padding: 12px;
@@ -505,6 +539,7 @@ const Picture = (props) => {
         tip.show(d, this)
       })
       .on('mouseout', function () {
+        d3.select(this).attr('width', '2px')
         tip.hide()
       })
       .on('click', function (e, d) {
@@ -660,20 +695,53 @@ const Picture = (props) => {
             )
           }
         })
+        .attr('class', 'studentType' + studentType)
         .on('mouseover', function (e, d) {
-          tip.html(`<div style="line-height: 1;
-          font-weight: bold;
-          padding: 12px;
-          background: white;
-          color: grey;
-          border-radius: 2px;
-          pointer-events: none;
-          font-family: Arial, sans-serif;
-          font-size: 12px;
-          text-align: center;">班级：${d[0]}<p> 排名分布: ${d[2]}</p><div>`)
-          tip.show(d, this)
+          d3.select(this).style('stroke', 'grey').style('stroke-width', 2)
+          if (
+            d3.select(this)._groups[0][0].className.baseVal == 'studentType0'
+          ) {
+            tip.html(`<div style="line-height: 1;
+            font-weight: bold;
+            padding: 12px;
+            background: white;
+            color: grey;
+            border-radius: 2px;
+            pointer-events: none;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            text-align: center;">班级：${d[0]}<p> 前30%人数: ${d[2][0]}</p><div>`)
+            tip.show(d, this)
+          } else if (
+            d3.select(this)._groups[0][0].className.baseVal == 'studentType1'
+          ) {
+            tip.html(`<div style="line-height: 1;
+            font-weight: bold;
+            padding: 12px;
+            background: white;
+            color: grey;
+            border-radius: 2px;
+            pointer-events: none;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            text-align: center;">班级：${d[0]}<p> 30%~70%人数: ${d[2][1]}</p><div>`)
+            tip.show(d, this)
+          } else {
+            tip.html(`<div style="line-height: 1;
+            font-weight: bold;
+            padding: 12px;
+            background: white;
+            color: grey;
+            border-radius: 2px;
+            pointer-events: none;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            text-align: center;">班级：${d[0]}<p> 后30%人数: ${d[2][2]}</p><div>`)
+            tip.show(d, this)
+          }
         })
         .on('mouseout', function () {
+          d3.select(this).style('stroke', 'grey').style('stroke-width', 0)
           tip.hide()
         })
     }
@@ -729,7 +797,7 @@ const Picture = (props) => {
         <div className="title-icon">
           <IconFont type="icon-fenbu" />
         </div>
-        分布特征统计图
+        分布特征统计排名图
       </div>
       <div className="Pictureview">
         <div className="distribution" ref={distributionRef}>
