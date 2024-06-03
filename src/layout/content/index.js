@@ -7,7 +7,8 @@ import Controller from '../../views/controller'
 import Scatter from '@/views/cluster'
 import Correlation from '../../views/correlation'
 import TitleMaster from '../../views/titleMaster'
-import KnowledgeIcicle from '../../views/knowledgeNew'
+// import KnowledgeIcicle from '../../views/knowledgeNew'
+import KnowledgeTree from '../../views/knowledgeNew/test'
 import Calendar from '../../views/calendar'
 import StudentCommit from '../../views/studentCommit'
 import MonthFeature from '../../views/monthFeature/index'
@@ -144,12 +145,13 @@ const Content = () => {
             />
           </Card>
           <Card className="card4">
-            <KnowledgeIcicle
+            {/* <KnowledgeIcicle
               classNum={classNum}
               isChangeWeight={isChangeWeight}
               handleHighLightedXaix={handleHighLightedXaix}
               handleClickTitleFlag={handleClickTitleFlag}
-            />
+            /> */}
+            <KnowledgeTree />
           </Card>
         </div>
         <div className="middle">
