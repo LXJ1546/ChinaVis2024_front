@@ -85,7 +85,7 @@ const MonthFeature = (props) => {
       {
         data: correct,
         type: 'line',
-        color: '#FFC0CB',
+        color: '#EB8277',
         areaStyle: {}
       }
     ]
@@ -124,7 +124,7 @@ const MonthFeature = (props) => {
       {
         data: submit,
         type: 'line',
-        color: '#FFC0CB',
+        color: '#EB8277',
         areaStyle: {}
       }
     ]
@@ -163,7 +163,7 @@ const MonthFeature = (props) => {
       {
         data: active,
         type: 'line',
-        color: '#FFC0CB',
+        color: '#EB8277',
         areaStyle: {}
       }
     ]
@@ -202,7 +202,7 @@ const MonthFeature = (props) => {
       {
         data: question,
         type: 'line',
-        color: '#FFC0CB',
+        color: '#EB8277',
         areaStyle: {}
       }
     ]
@@ -236,7 +236,10 @@ const MonthFeature = (props) => {
     legend: {
       top: '2%',
       itemWidth: 20,
-      itemHeight: 10
+      itemHeight: 10,
+      textStyle: {
+        fontSize: 11
+      }
     },
     xAxis: [
       {
@@ -277,6 +280,9 @@ const MonthFeature = (props) => {
       {
         name: '提交次数',
         type: 'bar',
+        itemStyle: {
+          color: '#71B0D1'
+        },
         tooltip: {
           valueFormatter: function (value) {
             return value + ' 次'
@@ -288,6 +294,9 @@ const MonthFeature = (props) => {
         name: '正确率',
         type: 'line',
         yAxisIndex: 1,
+        itemStyle: {
+          color: '#6ABF57'
+        },
         tooltip: {
           valueFormatter: function (value) {
             // 将小数转换为百分比，并保留两位小数
@@ -390,7 +399,10 @@ const MonthFeature = (props) => {
     legend: {
       top: '4%',
       itemWidth: 20,
-      itemHeight: 10
+      itemHeight: 9,
+      textStyle: {
+        fontSize: 11
+      }
     },
     tooltip: {
       valueFormatter: function (value) {
@@ -422,7 +434,8 @@ const MonthFeature = (props) => {
         name: '针对型',
         type: 'parallel',
         lineStyle: {
-          width: 1
+          color: '#86C6F0',
+          width: 1.2
         },
         smooth: true,
         data: parallelList[0]
@@ -431,7 +444,8 @@ const MonthFeature = (props) => {
         name: '多样型',
         type: 'parallel',
         lineStyle: {
-          width: 1
+          width: 1.2,
+          color: '#EB8277'
         },
         smooth: true,
         data: parallelList[1]
@@ -440,7 +454,8 @@ const MonthFeature = (props) => {
         name: '尝试型',
         type: 'parallel',
         lineStyle: {
-          width: 1
+          width: 1.2,
+          color: '#6ABF57'
         },
         smooth: true,
         data: parallelList[2]
@@ -486,7 +501,7 @@ const MonthFeature = (props) => {
     const circleColorScale = d3
       .scaleOrdinal()
       .domain(['针对型', '多样型', '尝试型'])
-      .range(['#37A2DA', '#e06343', '#37a354'])
+      .range(['#86C6F0', '#EB8277', '#6ABF57'])
     // 渲染矩形
     svg
       .selectAll('g')
@@ -517,16 +532,7 @@ const MonthFeature = (props) => {
           .attr('cx', 5) // 圆形的 x 坐标为 10
           .attr('cy', 10) // 圆形的 y 坐标为矩形的高度的一半，使其垂直居中
           .attr('r', 5) // 圆形的半径为 5 像素
-          .attr('fill', function (d) {
-            // 根据字符串的值来决定填充颜色
-            if (d[1] === '针对型') {
-              return '#37A2DA'
-            } else if (d[1] === '多样型') {
-              return '#e06343'
-            } else {
-              return '#37a354'
-            }
-          })
+          .attr('fill', (d) => circleColorScale(d[1]))
           .on('mouseover', function (e, d) {
             d3.select(this).style('stroke', 'grey').style('stroke-width', 2)
             tip.html(`<div style="line-height: 1;
@@ -601,6 +607,8 @@ const MonthFeature = (props) => {
       .attr('y', 14)
       .text((d) => d)
       .style('font-size', '11px') // 修改字体大小
+      .style('font-family', 'sans-serif')
+      .style('opacity', 0.8)
 
     // 添加颜色比例尺图例
     const legendGradient = legendsvg
@@ -638,6 +646,7 @@ const MonthFeature = (props) => {
       .attr('text-anchor', 'end') // 设置文本锚点为右对齐
       .text('少/低') // 添加文本内容
       .style('font-size', '11px') // 修改字体大小
+      .style('opacity', 0.8)
 
     // 添加右侧文本标签
     legendsvg
@@ -647,6 +656,7 @@ const MonthFeature = (props) => {
       .attr('text-anchor', 'start') // 设置文本锚点为左对齐
       .text('多/高') // 添加文本内容
       .style('font-size', '11px') // 修改字体大小
+      .style('opacity', 0.8)
   }, [brushData])
   return (
     <MonthFeatureWrapper>

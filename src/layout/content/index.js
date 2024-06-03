@@ -92,6 +92,11 @@ const Content = () => {
   const handleStudentList = (value) => {
     // 状态是不可变的，不能直接push
     setStudentIDlist((prevList) => [...prevList, value])
+    // setStudentIDlist(value)
+  }
+  // 第二个版本
+  const handleStudentList1 = (value) => {
+    setStudentIDlist(value)
   }
   useEffect(() => {
     // 最开始的时候平行坐标系展示全部数据
@@ -131,7 +136,7 @@ const Content = () => {
               classNum={classNum}
               isChangeWeight={isChangeWeight}
               handleStudentList={handleStudentList}
-              studentIDlist={studentIDlist}
+              handleStudentList1={handleStudentList1}
             />
           </Card>
           <Card className="card3">

@@ -29,7 +29,7 @@ const Scatter = (props) => {
   } = props
   const clusterRef = useRef(null)
   const [clusterData, setClusterData] = useState([])
-  const colorAll = ['#37A2DA', '#e06343', '#37a354']
+  const colorAll = ['#86C6F0', '#EB8277', '#6ABF57']
   // 切换标签
   const [clusterName, setClusterName] = useState(['针对型', '多样型', '尝试型'])
   // 当前使用的聚类数据
@@ -184,7 +184,7 @@ const Scatter = (props) => {
     ],
     series: series
   }
-  let allColor = ['#d3d3d3', '#37A2DA', '#e06343', '#37a354']
+  let allColor = ['#d3d3d3', '#86C6F0', '#EB8277', '#6ABF57']
   let minValue = Number.MAX_VALUE
   let maxValue = Number.MIN_VALUE
   let mappedData = []
@@ -385,7 +385,7 @@ const Scatter = (props) => {
   useEffect(() => {
     // 根据id列表高亮学生
     highlightPointById(studentIDlist)
-  }, [studentIDlist])
+  }, [studentIDlist, nowClusterData])
   // 组件初始化渲染的时候
   useEffect(() => {
     getTransferData().then((res) => {
@@ -474,8 +474,8 @@ const Scatter = (props) => {
       // 更改相关性数据的索引
     } else if (value == 10) {
       setNowClusterData(clusterData[1])
-      // setXmax(60)
-      // setYmax(40)
+      setXmax(60)
+      setYmax(40)
       changeMonth(10)
     } else if (value == 11) {
       setNowClusterData(clusterData[2])
