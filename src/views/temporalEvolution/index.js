@@ -800,7 +800,7 @@ const Evolution = () => {
         <div className="title-icon">
           <IconFont type="icon-yanhuafenxi" />
         </div>
-        时间模式演化
+        时间模式演化饼图
       </div>
       <div className="Evolutioncontent">
         <div className="radioLine">

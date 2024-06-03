@@ -362,6 +362,7 @@ const Picture = (props) => {
     const ranklable = svg.append('g').attr('class', 'ranklable')
     ranklable.append('text').text('所有班级').attr('x', '2%').attr('y', '30%')
     ranklable.append('text').text('排名情况').attr('x', '2%').attr('y', '55%')
+    svg.call(tip)
   }
 
   //更新班级内部排名视图
@@ -689,7 +690,7 @@ const Picture = (props) => {
         <div className="title-icon">
           <IconFont type="icon-fenbu" />
         </div>
-        分布特征统计图
+        分布特征统计排名图
       </div>
       <div className="Pictureview">
         <div className="distribution" ref={distributionRef}>
