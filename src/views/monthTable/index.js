@@ -93,14 +93,18 @@ const MonthTable = () => {
       <div className="content">
         <div className="table">
           <div className="atable">
-            <Table dataSource={timeTable} pagination={false} size="small">
+            <Table
+              dataSource={timeTable}
+              pagination={false}
+              size="small"
+              // sticky
+            >
               <Column
                 title="时间段"
                 dataIndex="key"
                 key="key"
                 width={120}
                 ellipsis={true}
-                fixed
               />
               <Column
                 title="模式"
@@ -126,7 +130,9 @@ const MonthTable = () => {
                 title="提交率"
                 dataIndex="submit"
                 key="submit"
-                width={60}
+                width={75}
+                sorter={(a, b) => a.submit - b.submit}
+                defaultsortOrder={'descend'}
                 render={(text) => {
                   // 使用toFixed(3)方法将数字格式化为保留三位小数
                   return parseFloat(text).toFixed(3)
@@ -136,7 +142,9 @@ const MonthTable = () => {
                 title="活跃度"
                 dataIndex="active"
                 key="active"
-                width={60}
+                width={75}
+                sorter={(a, b) => a.active - b.active}
+                defaultsortOrder={'descend'}
                 render={(text) => {
                   // 使用toFixed(3)方法将数字格式化为保留三位小数
                   return parseFloat(text).toFixed(3)
@@ -146,7 +154,9 @@ const MonthTable = () => {
                 title="答题多样性"
                 dataIndex="title"
                 key="title"
-                width={85}
+                width={100}
+                sorter={(a, b) => a.title - b.title}
+                defaultsortOrder={'descend'}
                 render={(text) => {
                   // 使用toFixed(3)方法将数字格式化为保留三位小数
                   return parseFloat(text).toFixed(3)
@@ -156,7 +166,9 @@ const MonthTable = () => {
                 title="正确率"
                 dataIndex="correct"
                 key="correct"
-                width={60}
+                width={75}
+                sorter={(a, b) => a.correct - b.correct}
+                defaultsortOrder={'descend'}
                 render={(text) => {
                   // 使用toFixed(3)方法将数字格式化为保留三位小数
                   return parseFloat(text).toFixed(3)
@@ -164,6 +176,9 @@ const MonthTable = () => {
               />
               <Column
                 title="人数"
+                width={65}
+                sorter={(a, b) => a.students_num - b.students_num}
+                defaultsortOrder={'descend'}
                 dataIndex="students_num"
                 key="students_num"
               />

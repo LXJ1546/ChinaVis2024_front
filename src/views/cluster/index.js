@@ -1,12 +1,13 @@
-import React, { memo, useEffect, useState, useCallback } from 'react'
+import React, { memo, useEffect, useState, useCallback, useRef } from 'react'
 import ReactEcharts from 'echarts-for-react'
+// import * as echarts from 'echarts'
 import { ScatterWrapper } from './style'
 import {
   getClusterData,
   getTransferData,
   getMonthStatisticInfo
 } from '../../api'
-import { Radio, Select, Switch, Slider } from 'antd'
+import { Radio, Select, Switch, Slider, Button } from 'antd'
 import { createFromIconfontCN } from '@ant-design/icons'
 const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/c/font_4565164_juvpif6y83m.js'
@@ -25,6 +26,7 @@ const Scatter = (props) => {
     classNum,
     month
   } = props
+  const clusterRef = useRef(null)
   const [clusterData, setClusterData] = useState([])
   const colorAll = ['#37A2DA', '#e06343', '#37a354']
   // 切换标签
@@ -101,6 +103,14 @@ const Scatter = (props) => {
     itemStyle: {
       borderColor: '#555',
       opacity: 1
+    },
+    emphasis: {
+      scale: 1.8,
+      itemStyle: {
+        borderWidth: 2,
+        borderColor: '#FFA500',
+        shadowColor: '#D3D3D3'
+      }
     }
   }))
   const clusterOption = {
@@ -173,7 +183,6 @@ const Scatter = (props) => {
     ],
     series: series
   }
-
   let allColor = ['#d3d3d3', '#37A2DA', '#e06343', '#37a354']
   let minValue = Number.MAX_VALUE
   let maxValue = Number.MIN_VALUE
@@ -345,14 +354,18 @@ const Scatter = (props) => {
   }
   // 点击初始化系统时重新拿数据
   useEffect(() => {
+    // 根据班级来那聚类数据
     getClusterData(classNum).then((res) => {
       setClusterData(res)
+      // 模式为1时展示时间聚类
       if (amode == 1) {
         setNowClusterData(res[5])
       } else {
+        // 重置答题模式节点大小
         if (classNum == 'all') {
           setSymbolSize(10)
         }
+        // 按月也能分班级
         if (month == 9) {
           setNowClusterData(res[0])
         } else if (month == 10) {
@@ -365,7 +378,6 @@ const Scatter = (props) => {
           setNowClusterData(res[4])
         }
       }
-      // console.log('10月份', res[1])
     })
   }, [isChangeWeight, classNum])
   useEffect(() => {
@@ -543,6 +555,46 @@ const Scatter = (props) => {
   const handleSlider = (value) => {
     setSymbolSize(value)
   }
+  // 找到某个学生id对应的模式，那边分布特征要用到
+  const findModeIndex = (ids) => {
+    let newList = [[], [], []]
+    // 遍历大列表
+    ids.forEach((id) => {
+      // 找到每个id对应的series索引
+      nowClusterData.forEach((subList, i) => {
+        // 在每个小列表中查找指定的 key 是否存在，并且对应的值等于目标值
+        const foundIndex = subList.findIndex((item) => item['key'] === id)
+        if (foundIndex !== -1) {
+          newList[i].push(id)
+        }
+      })
+    })
+    return newList
+  }
+  // 根据id找到对应点并高亮
+  const highlightPointById = (ids) => {
+    const idList = findModeIndex(ids)
+    const echartsInstance = clusterRef.current.getEchartsInstance()
+    // 针对每个series高亮点
+    idList.forEach((sublist, index) => {
+      // 找到高亮点的索引
+      const dataIndexArray = sublist
+        .map((id) => {
+          const dataIndex = nowClusterData[index].findIndex(
+            (item) => item.key === id
+          )
+          return dataIndex !== -1 ? dataIndex : null
+        })
+        .filter((index) => index !== null)
+      if (dataIndexArray.length > 0) {
+        echartsInstance.dispatchAction({
+          type: 'highlight',
+          seriesIndex: index,
+          dataIndex: dataIndexArray
+        })
+      }
+    })
+  }
   return (
     <ScatterWrapper>
       <div className="title">
@@ -622,6 +674,21 @@ const Scatter = (props) => {
               )}
             </div>
             <div className="rightbtn">
+              <Button
+                onClick={() =>
+                  highlightPointById([
+                    '01qkq6w2v62cimidb3b7',
+                    '06aff3e28c5db152f506',
+                    '0088dc183f73c83f763e',
+                    '00df647ee4bf7173642f',
+                    '00cbf05221bb479e66c3',
+                    '0107f72b66cbd1a0926d'
+                  ])
+                }
+                size={'small'}
+              >
+                你好
+              </Button>
               <h3 className="label">节点大小</h3>
               <div className="aslider">
                 <Slider
@@ -655,6 +722,7 @@ const Scatter = (props) => {
           <div className="clusterView">
             {!isTransfer && (
               <ReactEcharts
+                ref={clusterRef}
                 option={clusterOption}
                 style={{ width: '100%', height: '100%' }}
                 onEvents={
