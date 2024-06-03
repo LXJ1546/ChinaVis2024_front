@@ -29,7 +29,7 @@ const Scatter = (props) => {
   } = props
   const clusterRef = useRef(null)
   const [clusterData, setClusterData] = useState([])
-  const colorAll = ['#37A2DA', '#e06343', '#37a354']
+  const colorAll = ['#86C6F0', '#EB8277', '#6ABF57']
   // 切换标签
   const [clusterName, setClusterName] = useState(['针对型', '多样型', '尝试型'])
   // 当前使用的聚类数据
