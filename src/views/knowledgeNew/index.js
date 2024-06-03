@@ -460,14 +460,16 @@ const KnowledgeIcicle = (props) => {
     const color = d3
       .scaleLinear()
       .domain([valueInfo.knowledge_min, valueInfo.knowledge_max]) // 输入数据范围
-      .range(['#ffccd5', '#c81d25']) // 输出颜色范围
+      .range(['#E2F5EF', '#80CCB7']) // 输出颜色范围
+    // .range(['#ffccd5', '#c81d25']) // 输出颜色范围
     // .range(['RGB(252, 146, 151)', 'red']) // 输出颜色范围
 
     //用于题目的颜色映射
     const color1 = d3
       .scaleLinear()
       .domain([valueInfo.title_min, valueInfo.title_max]) // 输入数据范围
-      .range(['#ffccd5', '#c81d25']) // 输出颜色范围
+      .range(['#E2F5EF', '#80CCB7']) // 输出颜色范围
+    // .range(['#ffccd5', '#c81d25']) // 输出颜色范围
     // .range(['RGB(252, 146, 151)', 'red']) // 输出颜色范围
 
     const rectType = svg.append('g')

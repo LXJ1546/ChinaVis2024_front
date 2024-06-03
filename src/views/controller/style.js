@@ -25,38 +25,23 @@ export const CotrollerWrapper = styled.div`
     flex: 1 1 0%;
     display: flex;
     flex-direction: column;
-    padding-top: 6px;
+    align-items: center;
+    justify-content: center;
     padding-left: 8px;
     padding-right: 8px;
     background-color: rgb(245, 245, 245);
-    /* .selectData {
-      width: 48%;
-      position: absolute;
-      top: calc(40% + 30px);
-      left: 1.5%;
-    } */
-    /* .weight {
-      width: 24%;
-      position: absolute;
-      top: calc(5% + 30px);
-    } */
-    /* .initialize {
-      height: 30px;
-      width: 48%;
-      position: absolute;
-      top: calc(40% + 30px);
-      left: 51%;
-    } */
     .weight {
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
     .initialize {
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: 6px;
+      margin-top: 10px;
     }
   }
 `

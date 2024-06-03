@@ -17,9 +17,9 @@ export const ScatterWrapper = styled.div`
     padding: 0px;
     font-size: 16px;
     opacity: 0.8;
-    background: #66cdaa;
+    /* background: #66cdaa;
     border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
+    border-top-right-radius: 4px; */
     .title-icon {
       font-size: 20px;
       margin-left: 4px;

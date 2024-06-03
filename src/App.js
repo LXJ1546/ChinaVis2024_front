@@ -1,9 +1,11 @@
 import { memo } from 'react'
 import { ConfigProvider } from 'antd'
 import Layout from './layout'
+import zhCN from 'antd/locale/zh_CN'
 const App = () => {
   return (
     <ConfigProvider
+      locale={zhCN}
       theme={{
         token: {
           // Seed Token，影响范围大

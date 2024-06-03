@@ -207,19 +207,6 @@ const Correlation = (props) => {
                 ellipsis={true}
               />
               <Column
-                title="掌握度"
-                dataIndex="master"
-                key="master"
-                width={80}
-                ellipsis={true}
-                sorter={(a, b) => a.master - b.master}
-                defaultsortOrder={'descend'}
-                render={(text) => {
-                  // 使用toFixed(4)方法将数字格式化为保留三位小数
-                  return parseFloat(text).toFixed(4)
-                }}
-              />
-              <Column
                 title="模式"
                 dataIndex="label"
                 key="label"
@@ -238,7 +225,29 @@ const Correlation = (props) => {
                   </Tag>
                 )}
               />
-              <Column title="排名等级" dataIndex="rank" key="rank" width={70} />
+              <Column
+                title="掌握度"
+                dataIndex="master"
+                key="master"
+                width={75}
+                ellipsis={true}
+                sorter={(a, b) => a.master - b.master}
+                defaultsortOrder={'descend'}
+                render={(text) => {
+                  // 使用toFixed(4)方法将数字格式化为保留三位小数
+                  return parseFloat(text).toFixed(4)
+                }}
+              />
+              <Column
+                title="排名等级"
+                dataIndex="rank"
+                key="rank"
+                width={85}
+                sorter={(a, b) => {
+                  const priority = { top: 3, mid: 2, low: 1 }
+                  return priority[a.rank] - priority[b.rank]
+                }}
+              />
               <Column title="年龄" dataIndex="age" key="age" width={50} />
               <Column title="性别" dataIndex="sex" key="sex" width={60} />
               <Column title="专业" dataIndex="major" key="major" width={60} />

@@ -51,7 +51,7 @@ export const PictureWrapper = styled.div`
       width: 100%;
       position: absolute;
       left: 0%;
-      top: 65%;
+      top: 60%;
     }
   }
 `

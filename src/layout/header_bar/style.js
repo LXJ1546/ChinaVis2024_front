@@ -11,7 +11,7 @@ export const HeaderBarWrapper = styled.div`
   border-bottom: 1px solid rgb(239, 239, 245, 1);
   h2 {
     font-weight: 700;
-    font-size: 18px;
+    font-size: 25px;
     flex-shrink: 0;
     color: #008b8b;
   }

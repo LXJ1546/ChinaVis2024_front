@@ -27,21 +27,25 @@ export const MonthFeatureWrapper = styled.div`
       width: 55%;
       height: 100%;
       .leftbar {
-        height: 30px;
+        height: 25px;
         display: flex;
         align-items: center;
+        justify-content: space-around;
         background-color: rgb(245, 245, 245);
         .info {
-          width: 25%;
-          width: 100%;
-          font-size: 15px;
+          width: 128px;
+          font-size: 14px;
           opacity: 0.8;
           text-align: center;
         }
       }
+      .monthlegend {
+        height: 15px;
+        width: 100%;
+      }
       .underview {
         width: 100%;
-        height: calc(100% - 30px);
+        height: calc(100% - 40px);
         position: relative;
         .echartview {
           width: 100%;
@@ -50,7 +54,7 @@ export const MonthFeatureWrapper = styled.div`
           align-items: center;
           justify-content: space-around;
           .echartbox {
-            width: 23%;
+            width: 128px;
             height: 85%;
             border: 1px solid rgb(220, 220, 220);
           }

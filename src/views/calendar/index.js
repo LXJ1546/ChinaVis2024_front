@@ -53,13 +53,14 @@ const Calendar = (props) => {
     const legendData = [
       { category: '正确占比', value: '#179349' },
       { category: '答题数', value: '#EFA3A3' },
-      { category: 'Method_C', value: '#f6bd60' },
-      { category: 'Method_g', value: '#ff7d00' },
-      { category: 'Method_5', value: '#bc4749' },
-      { category: 'Method_m', value: '#7f5539' },
-      { category: 'Method_B', value: '#669bbc' }
+      { category: 'Method_C', value: '#3770A7' },
+      { category: 'Method_g', value: '#886D80' },
+      { category: 'Method_5', value: '#E5C765' },
+      { category: 'Method_m', value: '#D9644A' },
+      { category: 'Method_B', value: '#7C5227' }
     ]
     //         .range(['#f6bd60', '#ff7d00', '#bc4749', '#7f5539', '#669bbc'])
+    // .range(['#3770A7', '#886D80', '#E5C765', '#D9644A', '#7C5227'])
 
     const legend = svg.append('g').attr('class', 'legend')
     // 添加图例条目
@@ -98,8 +99,8 @@ const Calendar = (props) => {
       .attr('y2', '0%')
 
     // 添加渐变色段
-    gradient.append('stop').attr('offset', '0%').attr('stop-color', '#ABE2FE')
-    gradient.append('stop').attr('offset', '100%').attr('stop-color', '#3183AC')
+    gradient.append('stop').attr('offset', '0%').attr('stop-color', '#E4F1F4')
+    gradient.append('stop').attr('offset', '100%').attr('stop-color', '#47A2BE')
 
     // 创建矩形
     d3.select('.calendarsvg')
@@ -135,7 +136,7 @@ const Calendar = (props) => {
       const commitscaleColor = d3
         .scaleLinear()
         .domain([0, maxcommitnum])
-        .range(['#ABE2FE', '#3183AC'])
+        .range(['#E4F1F4', '#47A2BE'])
 
       //正确占比颜色映射
       const rightcolor = d3
@@ -147,9 +148,9 @@ const Calendar = (props) => {
       const languagecolor = d3
         .scaleOrdinal()
         .domain(['Method_C', 'Method_g', 'Method_5', 'Method_m', 'Method_B'])
-        // .range(['#8E6D6C', '#B64B08', '#E26D24', '#D16D6D', '#CB9A08'])
-        // .range(['#0081a7', '#00afb9', '#f6bd60', '#9c6644', '#f07167'])
-        .range(['#f6bd60', '#ff7d00', '#bc4749', '#7f5539', '#669bbc'])
+        .range(['#3770A7', '#886D80', '#E5C765', '#D9644A', '#7C5227'])
+      // .range(['#0081a7', '#00afb9', '#f6bd60', '#9c6644', '#f07167'])
+      // .range(['#f6bd60', '#ff7d00', '#bc4749', '#7f5539', '#669bbc'])
       // .range(d3.schemeCategory10)
       //数据组装
       function generateDataset(options = { fill: {} }) {
@@ -650,11 +651,11 @@ const Calendar = (props) => {
     gradientanswercommit
       .append('stop')
       .attr('offset', '0%')
-      .attr('stop-color', '#ABE2FE')
+      .attr('stop-color', '#C3E3EC')
     gradientanswercommit
       .append('stop')
       .attr('offset', '100%')
-      .attr('stop-color', '#236D92')
+      .attr('stop-color', '#46A8C6')
     // 创建矩形
     svg
       .append('rect')
@@ -688,11 +689,11 @@ const Calendar = (props) => {
     gradientanswerpeople
       .append('stop')
       .attr('offset', '0%')
-      .attr('stop-color', '#8DCF8A')
+      .attr('stop-color', '#6ABF57')
     gradientanswerpeople
       .append('stop')
       .attr('offset', '100%')
-      .attr('stop-color', '#D06B63')
+      .attr('stop-color', '#E06343')
 
     // 创建矩形
     svg
@@ -717,7 +718,7 @@ const Calendar = (props) => {
     const legendData = [
       { category: '针对型', value: '#86C6F0' },
       { category: '多样型', value: '#EB8277' },
-      { category: '尝试型', value: '#86F0B0' }
+      { category: '尝试型', value: '#6ABF57' }
     ]
     const legend = svg.append('g').attr('class', 'legend')
     // 添加图例条目
@@ -767,7 +768,8 @@ const Calendar = (props) => {
     const submitColorScale = d3
       .scaleLinear()
       .domain([minSubmitCount, maxSubmitCount])
-      .range(['#ABE2FE', '#236D92'])
+      .range(['#C3E3EC', '#46A8C6'])
+    // .range(['#ABE2FE', '#236D92'])
 
     //创建活跃度圆心大小的比例尺
     const acticityradiusScale = d3
@@ -779,7 +781,8 @@ const Calendar = (props) => {
     const peopleColorScale = d3
       .scaleLinear()
       .domain([minPeople, maxPeople])
-      .range(['#8DCF8A', '#D06B63'])
+      .range(['#6ABF57', '#E06343'])
+    // .range(['#8DCF8A', '#D06B63'])
 
     // 创建 X 轴生成器
     const xAxis = d3.axisBottom(xScale).tickFormat((d) => `${d}月`)
@@ -1096,7 +1099,7 @@ const Calendar = (props) => {
       // .attr('fill', '#E8E8E8')
       .attr('fill', (d) => {
         if (!d.commitcount) {
-          return '#EDECEC'
+          return '#EEEDED'
         }
         //   return commitscaleColor(d.commitcount)
         else {
@@ -1175,7 +1178,7 @@ const Calendar = (props) => {
       })
       .attr('y', 60)
       .attr('fill', 'black')
-      .attr('font-size', '12px')
+      .attr('font-size', '15px')
       .attr('font-family', 'monospace')
       .text(selectMonth + '月-' + workFlag + '-' + selectPeriod)
 
@@ -1203,7 +1206,7 @@ const Calendar = (props) => {
     const modecolorScale = d3
       .scaleOrdinal()
       .domain(['point', 'various', 'trying'])
-      .range(['#86C6F0', '#EB8277', '#86F0B0'])
+      .range(['#86C6F0', '#EB8277', '#94DC84'])
     //矩形数据比例尺
     const modenumScale = d3
       .scaleLinear()
@@ -1607,7 +1610,7 @@ const Calendar = (props) => {
           <div className="title-icon">
             <IconFont type="icon-rili" />
           </div>
-          学习日历
+          学习日历环形图
         </div>
       )}
       {amode == 1 && (
@@ -1615,7 +1618,7 @@ const Calendar = (props) => {
           <div className="title-icon">
             <IconFont type="icon-shiduan" />
           </div>
-          答题时段分析图
+          答题时段特征矩阵气泡图与模式日历统计图
         </div>
       )}
       <div className="calendarHighview">

@@ -44,17 +44,18 @@ const StudentCommit = (props) => {
       .select('#legend')
       .append('svg')
       .attr('class', 'commitlegendsvg')
-      .attr('width', '98%')
+      .attr('width', '100%')
       .attr('height', '90%')
     const legendData = [
       { category: '完全正确', value: '#27B774' },
       { category: '部分正确', value: '#68D8A3' },
-      { category: '错误', value: '#f28482' },
-      { category: 'Method_C', value: '#f6bd60' },
-      { category: 'Method_g', value: '#ff7d00' },
-      { category: 'Method_5', value: '#bc4749' },
-      { category: 'Method_m', value: '#7f5539' },
-      { category: 'Method_B', value: '#669bbc' }
+      { category: '错误', value: '#F26D64' },
+      { category: 'Method_C', value: '#3770A7' },
+      { category: 'Method_g', value: '#886D80' },
+      { category: 'Method_5', value: '#E5C765' },
+      { category: 'Method_m', value: '#D9644A' },
+      { category: 'Method_B', value: '#7C5227' },
+      { category: '用时/内存分布', value: 'grey' }
     ]
 
     const legend = legendsvg.append('g').attr('class', 'legend')
@@ -64,7 +65,7 @@ const StudentCommit = (props) => {
       .data(legendData)
       .enter()
       .append('rect')
-      .attr('x', (d, i) => i * 90 + 30)
+      .attr('x', (d, i) => i * 90 + 10)
       .attr('y', 10)
       .attr('width', 20)
       .attr('height', 15)
@@ -76,7 +77,7 @@ const StudentCommit = (props) => {
       .data(legendData)
       .enter()
       .append('text')
-      .attr('x', (d, i) => i * 90 + 55)
+      .attr('x', (d, i) => i * 90 + 35)
       .attr('y', 18)
       .attr('dy', '0.35em')
       .text((d) => d.category)
@@ -258,7 +259,7 @@ const StudentCommit = (props) => {
         } else if (d[2] == 'Absolutely_Correct') {
           return '#27B774'
         } else {
-          return '#f28482'
+          return '#F26D64'
         }
       })
       .on('mouseover', function (e, d) {
@@ -285,7 +286,7 @@ const StudentCommit = (props) => {
     const methodcolor = d3
       .scaleOrdinal()
       .domain(['Method_C', 'Method_g', 'Method_5', 'Method_m', 'Method_B'])
-      .range(['#f6bd60', '#ff7d00', '#bc4749', '#7f5539', '#669bbc'])
+      .range(['#3770A7', '#886D80', '#E5C765', '#DD5233', '#7C5227'])
     methodevent
       .selectAll('rect')
       .data(commits)
@@ -303,7 +304,8 @@ const StudentCommit = (props) => {
           QuestionFlag[d.question] = 5
         }
         if (d[2] == 'Partially_Correct' || d[2] == 'Absolutely_Correct') {
-          return QuestionFlag[d.question] + xScale.bandwidth() / 2 / 4
+          // return QuestionFlag[d.question] + xScale.bandwidth() / 2 / 4
+          return QuestionFlag[d.question]
         } else {
           return QuestionFlag[d.question]
         }
@@ -311,7 +313,8 @@ const StudentCommit = (props) => {
       .attr('width', xScale.bandwidth() / 2 / 4)
       .attr('height', function (d) {
         if (d[2] == 'Partially_Correct' || d[2] == 'Absolutely_Correct') {
-          return xScale.bandwidth() / 2 / 2
+          // return xScale.bandwidth() / 2 / 2
+          return xScale.bandwidth() / 2
         } else {
           return xScale.bandwidth() / 2
         }
@@ -344,7 +347,13 @@ const StudentCommit = (props) => {
       .data(commits)
       .enter()
       .append('rect')
-      .attr('x', (d) => xScale(d.question) + xScale.bandwidth() / 4)
+      .attr(
+        'x',
+        (d) =>
+          xScale(d.question) +
+          xScale.bandwidth() / 4 +
+          xScale.bandwidth() / 2 / 4
+      )
       .attr('y', function (d) {
         // 检查questionflag中是否已存在该key
         if (Object.prototype.hasOwnProperty.call(QuestionFlag, d.question)) {
@@ -359,7 +368,7 @@ const StudentCommit = (props) => {
       })
       .attr('width', function (d) {
         if (d[2] == 'Partially_Correct' || d[2] == 'Absolutely_Correct') {
-          return (xScale.bandwidth() / 2) * d[0]
+          return (xScale.bandwidth() / 2 - xScale.bandwidth() / 2 / 4) * d[0]
         } else {
           return 0
         }
@@ -391,7 +400,13 @@ const StudentCommit = (props) => {
       .data(commits)
       .enter()
       .append('rect')
-      .attr('x', (d) => xScale(d.question) + xScale.bandwidth() / 4)
+      .attr(
+        'x',
+        (d) =>
+          xScale(d.question) +
+          xScale.bandwidth() / 4 +
+          xScale.bandwidth() / 2 / 4
+      )
       .attr('y', function (d) {
         // 检查questionflag中是否已存在该key
         if (Object.prototype.hasOwnProperty.call(QuestionFlag, d.question)) {
@@ -406,7 +421,7 @@ const StudentCommit = (props) => {
       })
       .attr('width', function (d) {
         if (d[2] == 'Partially_Correct' || d[2] == 'Absolutely_Correct') {
-          return (xScale.bandwidth() / 2) * d[1]
+          return (xScale.bandwidth() / 2 - xScale.bandwidth() / 2 / 4) * d[1]
         } else {
           return 0
         }
@@ -470,7 +485,7 @@ const StudentCommit = (props) => {
           } else if (d[2] == 'Absolutely_Correct') {
             return '#27B774'
           } else {
-            return '#f28482'
+            return '#F26D64'
           }
         })
         .on('mouseover', function (e, d) {
@@ -511,7 +526,8 @@ const StudentCommit = (props) => {
             QuestionFlag[d.question] = 5
           }
           if (d[2] == 'Partially_Correct' || d[2] == 'Absolutely_Correct') {
-            return QuestionFlag[d.question] + xScale.bandwidth() / 2 / 4
+            // return QuestionFlag[d.question] + xScale.bandwidth() / 2 / 4
+            return QuestionFlag[d.question]
           } else {
             return QuestionFlag[d.question]
           }
@@ -519,7 +535,8 @@ const StudentCommit = (props) => {
         .attr('width', xScale.bandwidth() / 2 / 4)
         .attr('height', function (d) {
           if (d[2] == 'Partially_Correct' || d[2] == 'Absolutely_Correct') {
-            return xScale.bandwidth() / 2 / 2
+            // return xScale.bandwidth() / 2 / 2
+            return xScale.bandwidth() / 2
           } else {
             return xScale.bandwidth() / 2
           }
@@ -553,7 +570,13 @@ const StudentCommit = (props) => {
         .data(filteredCommits)
         .enter()
         .append('rect')
-        .attr('x', (d) => xScale(d.question) + xScale.bandwidth() / 4)
+        .attr(
+          'x',
+          (d) =>
+            xScale(d.question) +
+            xScale.bandwidth() / 4 +
+            xScale.bandwidth() / 2 / 4
+        )
         .attr('y', function (d) {
           // 检查questionflag中是否已存在该key
           if (Object.prototype.hasOwnProperty.call(QuestionFlag, d.question)) {
@@ -568,7 +591,7 @@ const StudentCommit = (props) => {
         })
         .attr('width', function (d) {
           if (d[2] == 'Partially_Correct' || d[2] == 'Absolutely_Correct') {
-            return (xScale.bandwidth() / 2) * d[0]
+            return (xScale.bandwidth() / 2 - xScale.bandwidth() / 2 / 4) * d[0]
           } else {
             return 0
           }
@@ -601,7 +624,13 @@ const StudentCommit = (props) => {
         .data(filteredCommits)
         .enter()
         .append('rect')
-        .attr('x', (d) => xScale(d.question) + xScale.bandwidth() / 4)
+        .attr(
+          'x',
+          (d) =>
+            xScale(d.question) +
+            xScale.bandwidth() / 4 +
+            xScale.bandwidth() / 2 / 4
+        )
         .attr('y', function (d) {
           // 检查questionflag中是否已存在该key
           if (Object.prototype.hasOwnProperty.call(QuestionFlag, d.question)) {
@@ -616,7 +645,7 @@ const StudentCommit = (props) => {
         })
         .attr('width', function (d) {
           if (d[2] == 'Partially_Correct' || d[2] == 'Absolutely_Correct') {
-            return (xScale.bandwidth() / 2) * d[1]
+            return (xScale.bandwidth() / 2 - xScale.bandwidth() / 2 / 4) * d[1]
           } else {
             return 0
           }

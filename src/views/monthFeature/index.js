@@ -7,12 +7,14 @@ import { createFromIconfontCN } from '@ant-design/icons'
 const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/c/font_4565164_juvpif6y83m.js'
 })
-
 import d3Tip from 'd3-tip'
+
 const MonthFeature = (props) => {
   const { brushData, month, parallelList, handleClickRowKeys } = props
   // 拿到svg的引用
   const svgRef = useRef(null)
+  // 拿到svg的引用
+  const legendRef = useRef(null)
   // 问题列表
   const [questionList, setQuestionList] = useState([])
   // 问题的提交数据
@@ -48,6 +50,7 @@ const MonthFeature = (props) => {
   const extractedArrays = brushData.map((item) => {
     return fieldsToExtract.map((field) => item[field])
   })
+
   const option1 = {
     grid: { left: '0%', top: '5%', right: '0%', bottom: '0%' },
     xAxis: {
@@ -205,7 +208,16 @@ const MonthFeature = (props) => {
     ]
   }
   const individualOption = {
-    grid: { left: '10%', top: '20%', right: '10%', bottom: '15%' },
+    title: {
+      text: '个人答题情况',
+      left: '2%',
+      top: '2.5%',
+      textStyle: {
+        fontSize: 12,
+        fontWeight: 'normal'
+      }
+    },
+    grid: { left: '8%', top: '20%', right: '8%', bottom: '10%' },
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -222,7 +234,9 @@ const MonthFeature = (props) => {
       }
     },
     legend: {
-      top: '2%'
+      top: '2%',
+      itemWidth: 20,
+      itemHeight: 10
     },
     xAxis: [
       {
@@ -349,17 +363,34 @@ const MonthFeature = (props) => {
   //   ]
   // }
   const parallelOption = {
+    title: {
+      text: '群体对比视图',
+      left: '2%',
+      top: '5%',
+      textStyle: {
+        fontSize: 12,
+        fontWeight: 'normal'
+      }
+    },
     parallel: {
-      left: '6%',
-      top: '15%',
-      right: '13%',
-      bottom: '6%',
+      left: '4%',
+      top: '26%',
+      right: '11%',
+      bottom: '4%',
       parallelAxisDefault: {
         nameGap: 8,
         areaSelectStyle: {
           width: 0 // 默认不允许框选
+        },
+        nameTextStyle: {
+          align: 'left'
         }
       }
+    },
+    legend: {
+      top: '4%',
+      itemWidth: 20,
+      itemHeight: 10
     },
     tooltip: {
       valueFormatter: function (value) {
@@ -369,7 +400,12 @@ const MonthFeature = (props) => {
       }
     },
     parallelAxis: [
-      { dim: 0, name: '提交次数', min: '0', max: '600' },
+      {
+        dim: 0,
+        name: '提交次数',
+        min: '0',
+        max: '600'
+      },
       { dim: 1, name: '活跃天数', min: '0', max: '30' },
       { dim: 2, name: '答题数', min: '0', max: '38' },
       { dim: 3, name: '正确率', min: '0', max: '1' },
@@ -383,6 +419,7 @@ const MonthFeature = (props) => {
     ],
     series: [
       {
+        name: '针对型',
         type: 'parallel',
         lineStyle: {
           width: 1
@@ -391,6 +428,7 @@ const MonthFeature = (props) => {
         data: parallelList[0]
       },
       {
+        name: '多样型',
         type: 'parallel',
         lineStyle: {
           width: 1
@@ -399,6 +437,7 @@ const MonthFeature = (props) => {
         data: parallelList[1]
       },
       {
+        name: '尝试型',
         type: 'parallel',
         lineStyle: {
           width: 1
@@ -416,8 +455,11 @@ const MonthFeature = (props) => {
     })
   useEffect(() => {
     const svg = d3.select(svgRef.current)
+    // 图例的svg
+    const legendsvg = d3.select(legendRef.current)
     // 清空之前的绘制
     svg.selectAll('*').remove()
+    legendsvg.selectAll('*').remove()
     // 创建颜色比例尺
     const colorScale1 = d3
       .scaleSequential(
@@ -440,6 +482,11 @@ const MonthFeature = (props) => {
       )
       .domain([0, 38])
     const colorScales = [colorScale1, colorScale2, colorScale3, colorScale4]
+    // 定义图例中圆形颜色比例尺
+    const circleColorScale = d3
+      .scaleOrdinal()
+      .domain(['针对型', '多样型', '尝试型'])
+      .range(['#37A2DA', '#e06343', '#37a354'])
     // 渲染矩形
     svg
       .selectAll('g')
@@ -467,17 +514,17 @@ const MonthFeature = (props) => {
             })
           })
           .append('circle')
-          .attr('cx', 8) // 圆形的 x 坐标为 10
+          .attr('cx', 5) // 圆形的 x 坐标为 10
           .attr('cy', 10) // 圆形的 y 坐标为矩形的高度的一半，使其垂直居中
-          .attr('r', 7) // 圆形的半径为 8 像素
+          .attr('r', 5) // 圆形的半径为 5 像素
           .attr('fill', function (d) {
             // 根据字符串的值来决定填充颜色
             if (d[1] === '针对型') {
-              return 'steelblue'
+              return '#37A2DA'
             } else if (d[1] === '多样型') {
-              return 'red'
+              return '#e06343'
             } else {
-              return 'green'
+              return '#37a354'
             }
           })
           .on('mouseover', function (e, d) {
@@ -505,9 +552,9 @@ const MonthFeature = (props) => {
           .data((d) => d.slice(2))
           .enter()
           .append('rect')
-          .attr('x', (_, i) => 22 + i * 130) // 矩形的 x 坐标，留出空间给圆形和间隔
+          .attr('x', (_, i) => 15 + i * 134) // 矩形的 x 坐标，留出空间给圆形和间隔
           .attr('y', 0)
-          .attr('width', 120) // 每个矩形的固定宽度为100像素
+          .attr('width', 128) // 每个矩形的固定宽度为130像素
           .attr('height', 20) // 每个矩形的固定高度为20像素
           .attr('fill', (d, i) => colorScales[i](d)) // 使用颜色比例尺编码矩形的颜色
           .on('mouseover', function (e, d) {
@@ -531,6 +578,75 @@ const MonthFeature = (props) => {
 
         svg.call(tip)
       })
+
+    //渲染圆点图例
+    legendsvg
+      .selectAll('.legend-circle')
+      .data(['针对型', '多样型', '尝试型'])
+      .enter()
+      .append('circle')
+      .attr('class', 'legend-circle')
+      .attr('cx', (d, i) => 25 + i * 65)
+      .attr('cy', 10)
+      .attr('r', 5)
+      .style('fill', (d) => circleColorScale(d))
+    // 添加图例标签
+    legendsvg
+      .selectAll('.legend-label')
+      .data(['针对型', '多样型', '尝试型'])
+      .enter()
+      .append('text')
+      .attr('class', 'legend-label')
+      .attr('x', (d, i) => 35 + i * 65)
+      .attr('y', 14)
+      .text((d) => d)
+      .style('font-size', '11px') // 修改字体大小
+
+    // 添加颜色比例尺图例
+    const legendGradient = legendsvg
+      .append('defs')
+      .append('linearGradient')
+      .attr('id', 'color-gradient')
+      .attr('x1', '0%')
+      .attr('y1', '0%')
+      .attr('x2', '100%')
+      .attr('y2', '0%')
+    legendGradient
+      .append('stop')
+      .attr('offset', '0%')
+      .attr('stop-color', '#ffebcd')
+    legendGradient
+      .append('stop')
+      .attr('offset', '50%')
+      .attr('stop-color', '#f4a460')
+    legendGradient
+      .append('stop')
+      .attr('offset', '100%')
+      .attr('stop-color', '#d2691e')
+    legendsvg
+      .append('rect')
+      .attr('x', 245)
+      .attr('y', 5)
+      .attr('width', 100)
+      .attr('height', 10)
+      .style('fill', 'url(#color-gradient)')
+    // 添加左侧文本标签
+    legendsvg
+      .append('text')
+      .attr('x', 240) // 调整位置
+      .attr('y', 14) // 调整位置
+      .attr('text-anchor', 'end') // 设置文本锚点为右对齐
+      .text('少/低') // 添加文本内容
+      .style('font-size', '11px') // 修改字体大小
+
+    // 添加右侧文本标签
+    legendsvg
+      .append('text')
+      .attr('x', 350) // 调整位置
+      .attr('y', 14) // 调整位置
+      .attr('text-anchor', 'start') // 设置文本锚点为左对齐
+      .text('多/高') // 添加文本内容
+      .style('font-size', '11px') // 修改字体大小
   }, [brushData])
   return (
     <MonthFeatureWrapper>
@@ -543,13 +659,19 @@ const MonthFeature = (props) => {
       <div className="content">
         <div className="leftview">
           <div className="leftbar">
+            <div style={{ width: 15 }}></div>
             <h3 className="info">正确率</h3>
             <h3 className="info">提交次数</h3>
             <h3 className="info">活跃天数</h3>
             <h3 className="info">答题数</h3>
+            <div style={{ width: 12 }}></div>
+          </div>
+          <div className="monthlegend">
+            <svg ref={legendRef} width="100%" />
           </div>
           <div className="underview">
             <div className="echartview">
+              <div style={{ width: 15 }}></div>
               <div className="echartbox">
                 <ReactEcharts
                   option={option1}
@@ -574,6 +696,7 @@ const MonthFeature = (props) => {
                   style={{ width: '100%', height: '100%' }}
                 />
               </div>
+              <div style={{ width: 12 }}></div>
             </div>
             <div className="asvg">
               <svg

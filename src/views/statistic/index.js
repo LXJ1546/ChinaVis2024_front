@@ -18,25 +18,25 @@ const StatisticFeature = (props) => {
         {
           name: '提交次数',
           itemStyle: {
-            color: '#FF7F50'
+            color: '#91CCC0'
           }
         },
         {
           name: '活跃天数',
           itemStyle: {
-            color: '#98FB98'
+            color: '#7FABD1'
           }
         },
         {
           name: '答题数',
           itemStyle: {
-            color: '#AFEEEE'
+            color: '#F7AC53'
           }
         },
         {
           name: '正确占比',
           itemStyle: {
-            color: '#87CEFA'
+            color: '#EC6E66'
           }
         }
       ]
@@ -175,7 +175,7 @@ const StatisticFeature = (props) => {
         xAxisIndex: 0,
         yAxisIndex: 0,
         itemStyle: {
-          color: '#FF7F50', // 设置箱子的填充颜色
+          color: '#91CCC0', // 设置箱子的填充颜色
           borderColor: '#F4A460', // 设置边框颜色
           borderWidth: 1 // 设置边框宽度
         }
@@ -187,7 +187,7 @@ const StatisticFeature = (props) => {
         xAxisIndex: 1,
         yAxisIndex: 1,
         itemStyle: {
-          color: '#98FB98', // 设置箱子的填充颜色
+          color: '#7FABD1', // 设置箱子的填充颜色
           borderColor: '#F4A460', // 设置边框颜色
           borderWidth: 1 // 设置边框宽度
         }
@@ -199,7 +199,7 @@ const StatisticFeature = (props) => {
         xAxisIndex: 2,
         yAxisIndex: 2,
         itemStyle: {
-          color: '#AFEEEE', // 设置箱子的填充颜色
+          color: '#F7AC53', // 设置箱子的填充颜色
           borderColor: '#F4A460', // 设置边框颜色
           borderWidth: 1 // 设置边框宽度
         }
@@ -211,7 +211,7 @@ const StatisticFeature = (props) => {
         xAxisIndex: 3,
         yAxisIndex: 3,
         itemStyle: {
-          color: '#87CEFA', // 设置箱子的填充颜色
+          color: '#EC6E66', // 设置箱子的填充颜色
           borderColor: '#F4A460', // 设置边框颜色
           borderWidth: 1 // 设置边框宽度
         }

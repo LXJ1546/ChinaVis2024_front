@@ -18,31 +18,31 @@ const TimeStatisticFeature = (props) => {
         {
           name: '平均提交率',
           itemStyle: {
-            color: '#FF7F50'
+            color: '#91CCC0'
           }
         },
         {
           name: '活跃度',
           itemStyle: {
-            color: '#98FB98'
+            color: '#7FABD1'
           }
         },
         {
           name: '答题多样性',
           itemStyle: {
-            color: '#AFEEEE'
+            color: '#F7AC53'
           }
         },
         {
           name: '正确占比',
           itemStyle: {
-            color: '#87CEFA'
+            color: '#EC6E66'
           }
         },
         {
           name: '答题人数',
           itemStyle: {
-            color: '#FF69B4'
+            color: '#B5CE4E'
           }
         }
       ]
@@ -208,7 +208,7 @@ const TimeStatisticFeature = (props) => {
         xAxisIndex: 0,
         yAxisIndex: 0,
         itemStyle: {
-          color: '#FF7F50', // 设置箱子的填充颜色
+          color: '#91CCC0', // 设置箱子的填充颜色
           borderColor: '#F4A460', // 设置边框颜色
           borderWidth: 1 // 设置边框宽度
         }
@@ -220,7 +220,7 @@ const TimeStatisticFeature = (props) => {
         xAxisIndex: 1,
         yAxisIndex: 1,
         itemStyle: {
-          color: '#98FB98', // 设置箱子的填充颜色
+          color: '#7FABD1', // 设置箱子的填充颜色
           borderColor: '#F4A460', // 设置边框颜色
           borderWidth: 1 // 设置边框宽度
         }
@@ -232,7 +232,7 @@ const TimeStatisticFeature = (props) => {
         xAxisIndex: 2,
         yAxisIndex: 2,
         itemStyle: {
-          color: '#AFEEEE', // 设置箱子的填充颜色
+          color: '#F7AC53', // 设置箱子的填充颜色
           borderColor: '#F4A460', // 设置边框颜色
           borderWidth: 1 // 设置边框宽度
         }
@@ -244,7 +244,7 @@ const TimeStatisticFeature = (props) => {
         xAxisIndex: 3,
         yAxisIndex: 3,
         itemStyle: {
-          color: '#87CEFA', // 设置箱子的填充颜色
+          color: '#EC6E66', // 设置箱子的填充颜色
           borderColor: '#F4A460', // 设置边框颜色
           borderWidth: 1 // 设置边框宽度
         }
@@ -256,7 +256,7 @@ const TimeStatisticFeature = (props) => {
         xAxisIndex: 4,
         yAxisIndex: 4,
         itemStyle: {
-          color: '#FF69B4', // 设置箱子的填充颜色
+          color: '#B5CE4E', // 设置箱子的填充颜色
           borderColor: '#F4A460', // 设置边框颜色
           borderWidth: 1 // 设置边框宽度
         }
