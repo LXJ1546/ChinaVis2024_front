@@ -184,7 +184,7 @@ const Scatter = (props) => {
     ],
     series: series
   }
-  let allColor = ['#d3d3d3', '#37A2DA', '#e06343', '#37a354']
+  let allColor = ['#d3d3d3', '#86C6F0', '#EB8277', '#6ABF57']
   let minValue = Number.MAX_VALUE
   let maxValue = Number.MIN_VALUE
   let mappedData = []
@@ -385,7 +385,7 @@ const Scatter = (props) => {
   useEffect(() => {
     // 根据id列表高亮学生
     highlightPointById(studentIDlist)
-  }, [studentIDlist])
+  }, [studentIDlist, nowClusterData])
   // 组件初始化渲染的时候
   useEffect(() => {
     getTransferData().then((res) => {

@@ -37,7 +37,8 @@ const TitleMaster = (props) => {
         textStyle: {
           fontSize: 12,
           fontWeight: 'normal'
-        }
+        },
+        left: '1%'
       },
       tooltip: {
         trigger: 'item',
@@ -48,7 +49,8 @@ const TitleMaster = (props) => {
       legend: {
         show: true,
         data: ['掌握程度', '得分率', '正确占比'],
-        left: 'right'
+        // left: 'right',
+        right: '1%'
       },
       grid: {
         left: '8%', // 距离左边框的距离
@@ -290,7 +292,7 @@ const TitleMaster = (props) => {
             }
           },
           grid: {
-            left: '10%', // 左边距
+            left: '15%', // 左边距
             top: '20%', // 上边距
             right: '10%',
             bottom: '20%' // 下边距
@@ -418,7 +420,7 @@ const TitleMaster = (props) => {
             }
           },
           grid: {
-            left: '10%', // 左边距
+            left: '13%', // 左边距
             top: '20%', // 上边距
             right: '10%',
             bottom: '20%' // 下边距
@@ -472,7 +474,7 @@ const TitleMaster = (props) => {
           grid: {
             left: '15%', // 左边距
             top: '20%', // 上边距
-            right: '5%',
+            right: '4%',
             bottom: '20%' // 下边距
           },
           xAxis: {

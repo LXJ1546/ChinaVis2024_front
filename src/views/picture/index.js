@@ -253,6 +253,7 @@ const Picture = (props) => {
       .attr('stroke', 'black')
       .attr('stroke-width', 1)
       .attr('fill', 'none')
+      .style('opacity', 0.8)
 
     // 添加箭头
     svg
@@ -270,6 +271,7 @@ const Picture = (props) => {
       .attr('orient', 'auto') // 箭头方向
       .append('svg:path')
       .attr('d', 'M0,-5L10,0L0,5')
+      .style('opacity', 0.8)
 
     // 给直线添加箭头
     lineGraph.attr('marker-end', 'url(#arrow)')
@@ -279,12 +281,14 @@ const Picture = (props) => {
       .attr('fontSize', '12')
       .attr('x', '11%')
       .attr('y', '85%')
+      .style('opacity', 0.8)
     svg
       .append('text')
       .text('低')
       .attr('fontSize', '12')
       .attr('x', '97%')
       .attr('y', '85%')
+      .style('opacity', 0.8)
 
     for (var studentType = 0; studentType < 3; studentType++) {
       var beforeOne = 0
@@ -360,8 +364,18 @@ const Picture = (props) => {
 
     //班级排名视图标签
     const ranklable = svg.append('g').attr('class', 'ranklable')
-    ranklable.append('text').text('所有班级').attr('x', '2%').attr('y', '30%')
-    ranklable.append('text').text('排名情况').attr('x', '2%').attr('y', '55%')
+    ranklable
+      .append('text')
+      .text('所有班级')
+      .attr('x', '2%')
+      .attr('y', '30%')
+      .style('opacity', 0.8)
+    ranklable
+      .append('text')
+      .text('排名情况')
+      .attr('x', '2%')
+      .attr('y', '55%')
+      .style('opacity', 0.8)
   }
 
   //更新班级内部排名视图
@@ -408,6 +422,7 @@ const Picture = (props) => {
       .attr('stroke', 'black')
       .attr('stroke-width', 1)
       .attr('fill', 'none')
+      .style('opacity', 0.8)
 
     // 添加箭头
     svg
@@ -425,6 +440,7 @@ const Picture = (props) => {
       .attr('orient', 'auto') // 箭头方向
       .append('svg:path')
       .attr('d', 'M0,-5L10,0L0,5')
+      .style('opacity', 0.8)
 
     // 给直线添加箭头
     lineGraph.attr('marker-end', 'url(#arrow)')
@@ -434,12 +450,14 @@ const Picture = (props) => {
       .attr('fontSize', '12')
       .attr('x', '12%')
       .attr('y', '85%')
+      .style('opacity', 0.8)
     svg
       .append('text')
       .text('低')
       .attr('fontSize', '12')
       .attr('x', '97%')
       .attr('y', '85%')
+      .style('opacity', 0.8)
     //创建班级排名视图,为该视图创建一个group
     const ranking = svg.append('g')
     ranking
@@ -489,7 +507,6 @@ const Picture = (props) => {
         tip.hide()
       })
       .on('click', function (e, d) {
-        console.log(d[0]) //点击每个学生获取点击学生的ID用于主图的高亮显示
         handleStudentList(d[0])
       })
 
@@ -498,9 +515,15 @@ const Picture = (props) => {
     ranklable
       .append('text')
       .text('Class ' + classNum)
-      .attr('x', '5%')
+      .attr('x', '4%')
       .attr('y', '30%')
-    ranklable.append('text').text('排名情况').attr('x', '4%').attr('y', '55%')
+      .style('opacity', 0.8)
+    ranklable
+      .append('text')
+      .text('排名情况')
+      .attr('x', '3%')
+      .attr('y', '55%')
+      .style('opacity', 0.8)
   }
 
   //更新所有学生的数据集的班级排名
@@ -546,6 +569,7 @@ const Picture = (props) => {
       .attr('stroke', 'black')
       .attr('stroke-width', 1)
       .attr('fill', 'none')
+      .style('opacity', 0.8)
 
     // 添加箭头
     svg
@@ -563,6 +587,7 @@ const Picture = (props) => {
       .attr('orient', 'auto') // 箭头方向
       .append('svg:path')
       .attr('d', 'M0,-5L10,0L0,5')
+      .style('opacity', 0.8)
 
     // 给直线添加箭头
     lineGraph.attr('marker-end', 'url(#arrow)')
@@ -572,12 +597,14 @@ const Picture = (props) => {
       .attr('fontSize', '12')
       .attr('x', '11%')
       .attr('y', '85%')
+      .style('opacity', 0.8)
     svg
       .append('text')
       .text('低')
       .attr('fontSize', '12')
       .attr('x', '97%')
       .attr('y', '85%')
+      .style('opacity', 0.8)
 
     for (var studentType = 0; studentType < 3; studentType++) {
       var beforeOne = 0
@@ -650,8 +677,18 @@ const Picture = (props) => {
 
     //班级排名视图标签
     const ranklable = svg.append('g').attr('class', 'ranklable')
-    ranklable.append('text').text('所有班级').attr('x', '2%').attr('y', '30%')
-    ranklable.append('text').text('排名情况').attr('x', '2%').attr('y', '55%')
+    ranklable
+      .append('text')
+      .text('所有班级')
+      .attr('x', '2%')
+      .attr('y', '30%')
+      .style('opacity', 0.8)
+    ranklable
+      .append('text')
+      .text('排名情况')
+      .attr('x', '2%')
+      .attr('y', '55%')
+      .style('opacity', 0.8)
   }
 
   //根据选择的班级更新视图
