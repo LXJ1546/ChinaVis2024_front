@@ -7,7 +7,7 @@ import {
   getTransferData,
   getMonthStatisticInfo
 } from '../../api'
-import { Radio, Select, Switch, Slider, Button } from 'antd'
+import { Radio, Select, Switch, Slider } from 'antd'
 import { createFromIconfontCN } from '@ant-design/icons'
 const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/c/font_4565164_juvpif6y83m.js'
@@ -24,7 +24,8 @@ const Scatter = (props) => {
     amode,
     isChangeWeight,
     classNum,
-    month
+    month,
+    studentIDlist
   } = props
   const clusterRef = useRef(null)
   const [clusterData, setClusterData] = useState([])
@@ -380,6 +381,12 @@ const Scatter = (props) => {
       }
     })
   }, [isChangeWeight, classNum])
+  // 分布特征的高亮情况
+  useEffect(() => {
+    // 根据id列表高亮学生
+    highlightPointById(studentIDlist)
+  }, [studentIDlist])
+  // 组件初始化渲染的时候
   useEffect(() => {
     getTransferData().then((res) => {
       setTransferCircleData(res[0])
@@ -674,21 +681,6 @@ const Scatter = (props) => {
               )}
             </div>
             <div className="rightbtn">
-              <Button
-                onClick={() =>
-                  highlightPointById([
-                    '01qkq6w2v62cimidb3b7',
-                    '06aff3e28c5db152f506',
-                    '0088dc183f73c83f763e',
-                    '00df647ee4bf7173642f',
-                    '00cbf05221bb479e66c3',
-                    '0107f72b66cbd1a0926d'
-                  ])
-                }
-                size={'small'}
-              >
-                你好
-              </Button>
               <h3 className="label">节点大小</h3>
               <div className="aslider">
                 <Slider
