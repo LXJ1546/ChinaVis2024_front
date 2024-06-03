@@ -150,7 +150,12 @@ const Content = () => {
               handleHighLightedXaix={handleHighLightedXaix}
               handleClickTitleFlag={handleClickTitleFlag}
             /> */}
-            <KnowledgeTree />
+            <KnowledgeTree
+              classNum={classNum}
+              isChangeWeight={isChangeWeight}
+              handleHighLightedXaix={handleHighLightedXaix}
+              handleClickTitleFlag={handleClickTitleFlag}
+            />
           </Card>
         </div>
         <div className="middle">
