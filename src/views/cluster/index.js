@@ -474,8 +474,8 @@ const Scatter = (props) => {
       // 更改相关性数据的索引
     } else if (value == 10) {
       setNowClusterData(clusterData[1])
-      // setXmax(60)
-      // setYmax(40)
+      setXmax(60)
+      setYmax(40)
       changeMonth(10)
     } else if (value == 11) {
       setNowClusterData(clusterData[2])

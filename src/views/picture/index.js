@@ -11,7 +11,8 @@ const IconFont = createFromIconfontCN({
 import d3Tip from 'd3-tip'
 
 const Picture = (props) => {
-  const { classNum, isChangeWeight, handleStudentList } = props
+  const { classNum, isChangeWeight, handleStudentList, handleStudentList1 } =
+    props
   const distributionRef = useRef(null)
   const majorRef = useRef(null)
   const ageRef = useRef(null)
@@ -507,6 +508,8 @@ const Picture = (props) => {
         tip.hide()
       })
       .on('click', function (e, d) {
+        // let newArray = [...studentIDlist]
+        // newArray.push(d[0])
         handleStudentList(d[0])
       })
 
@@ -695,7 +698,7 @@ const Picture = (props) => {
   useEffect(() => {
     var classBasicInfo = []
     var classRankInfo = []
-
+    handleStudentList1([])
     getClassBasicInfo(classNum).then((res) => {
       classBasicInfo = res[0]
       classRankInfo = res[1]
