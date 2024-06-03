@@ -607,6 +607,8 @@ const MonthFeature = (props) => {
       .attr('y', 14)
       .text((d) => d)
       .style('font-size', '11px') // 修改字体大小
+      .style('font-family', 'sans-serif')
+      .style('opacity', 0.8)
 
     // 添加颜色比例尺图例
     const legendGradient = legendsvg
@@ -644,6 +646,7 @@ const MonthFeature = (props) => {
       .attr('text-anchor', 'end') // 设置文本锚点为右对齐
       .text('少/低') // 添加文本内容
       .style('font-size', '11px') // 修改字体大小
+      .style('opacity', 0.8)
 
     // 添加右侧文本标签
     legendsvg
@@ -653,6 +656,7 @@ const MonthFeature = (props) => {
       .attr('text-anchor', 'start') // 设置文本锚点为左对齐
       .text('多/高') // 添加文本内容
       .style('font-size', '11px') // 修改字体大小
+      .style('opacity', 0.8)
   }, [brushData])
   return (
     <MonthFeatureWrapper>
