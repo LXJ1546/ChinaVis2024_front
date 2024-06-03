@@ -58,7 +58,28 @@ const Picture = (props) => {
           // adjust the start and end angle
           startAngle: 180,
           endAngle: 360,
-          data: classBasicInfo[0]
+          data: classBasicInfo[0],
+          itemStyle: {
+            // opacity: 0.7,
+            color: function (params) {
+              //自定义颜色
+              // var colorList = [
+              //   '#f6bd60',
+              //   '#ff7d00',
+              //   '#bc4749',
+              //   '#7f5539',
+              //   '#669bbc'
+              // ]
+              var colorList = [
+                '#BEE4D7',
+                '#8DD2E1',
+                '#71B0D1',
+                '#6B89BB',
+                '#6168AC'
+              ]
+              return colorList[params.dataIndex]
+            }
+          }
         }
       ]
     }
@@ -101,7 +122,32 @@ const Picture = (props) => {
           // adjust the start and end angle
           startAngle: 180,
           endAngle: 360,
-          data: classBasicInfo[1]
+          data: classBasicInfo[1],
+          itemStyle: {
+            // opacity: 0.7,
+            color: function (params) {
+              //自定义颜色
+              // var colorList = [
+              //   '#f6bd60',
+              //   '#ff7d00',
+              //   '#bc4749',
+              //   '#7f5539',
+              //   '#669bbc',
+              //   '#087e8b',
+              //   '#22577a'
+              // ]
+              var colorList = [
+                '#BEE4D7',
+                '#8DD2E1',
+                '#71B0D1',
+                '#6B89BB',
+                '#6168AC',
+                '#3770A7',
+                '#777B98'
+              ]
+              return colorList[params.dataIndex]
+            }
+          }
         }
       ]
     }
@@ -144,7 +190,15 @@ const Picture = (props) => {
           // adjust the start and end angle
           startAngle: 180,
           endAngle: 360,
-          data: classBasicInfo[2]
+          data: classBasicInfo[2],
+          itemStyle: {
+            color: function (params) {
+              //自定义颜色
+              // var colorList = ['#bc4749', '#669bbc']
+              var colorList = ['#71B0D1', '#6168AC']
+              return colorList[params.dataIndex]
+            }
+          }
         }
       ]
     }
@@ -164,73 +218,6 @@ const Picture = (props) => {
       .attr('class', 'ranksvg')
       .attr('width', '100%')
       .attr('height', '100%')
-
-    for (var studentType = 0; studentType < 3; studentType++) {
-      var beforeOne = 0
-      var rectX = 92 //第一个方块的起始值
-      //创建班级排名视图,为该视图创建一个group
-      const ranking = svg.append('g')
-      ranking
-        .selectAll('rect')
-        .data(data)
-        .enter()
-        .append('rect')
-        .attr('width', '10px')
-        .attr('height', function (d) {
-          const totalStudent = d[2][0] + d[2][1] + d[2][2]
-          const rectH = (d[2][studentType] / totalStudent) * 40
-          return rectH + 'px'
-        })
-        .attr('fill', function () {
-          if (studentType == 0) {
-            return '#8AD0EE'
-          } else if (studentType == 1) {
-            return '#8AB5EE'
-          } else {
-            return '#5686F0'
-          }
-        })
-        .attr('x', function (d, i) {
-          if (i == 0) {
-            rectX = rectX + 12
-            beforeOne = d[1]
-            return '92px'
-          } else {
-            rectX = rectX + 12 + rectDistance * (beforeOne - d[1])
-            beforeOne = d[1]
-            return rectX + rectDistance * (beforeOne - d[1]) + 'px'
-          }
-        })
-        .attr('y', function (d) {
-          const totalStudent = d[2][0] + d[2][1] + d[2][2]
-          if (studentType == 0) {
-            return '10px'
-          } else if (studentType == 1) {
-            return 10 + (d[2][0] / totalStudent) * 40 + 'px'
-          } else {
-            return (
-              10 +
-              (d[2][0] / totalStudent) * 40 +
-              (d[2][1] / totalStudent) * 40 +
-              'px'
-            )
-          }
-        })
-    }
-
-    //班级排名视图标签
-    const ranklable = svg.append('g').attr('class', 'ranklable')
-    ranklable.append('text').text('所有班级').attr('x', '2%').attr('y', '40%')
-    ranklable.append('text').text('排名情况').attr('x', '2%').attr('y', '65%')
-  }
-
-  //更新班级内部排名视图
-  function updateRank(classRankInfo) {
-    console.log(classRankInfo)
-    const rectDistance = 400 //用于扩大方块之间的差异
-    var beforeOne = 0
-    var rectX = 100 //第一个方块的起始值
-    const svg = d3.select('.ranksvg')
     //tooltip
     const tip = d3Tip()
       .attr('class', 'd3-tip')
@@ -238,86 +225,66 @@ const Picture = (props) => {
         return `Class ${d[0]},人数: <span >${d}</span>`
       })
 
-    svg.call(tip)
-    // 清空 SVG 的内容
-    svg.selectAll('*').remove()
-    //创建班级排名视图,为该视图创建一个group
-    const ranking = svg.append('g')
-    ranking
-      .selectAll('rect')
-      .data(classRankInfo)
+    //绘制排名指示标志
+    //定义直线的起始点和终点坐标
+    var lineData = [
+      { x: 90, y: 65 },
+      { x: 600, y: 65 }
+    ]
+
+    // 定义箭头大小
+    var arrowSize = 6
+
+    // 创建直线生成器
+    var lineFunction = d3
+      .line()
+      .x(function (d) {
+        return d.x
+      })
+      .y(function (d) {
+        return d.y
+      })
+
+    // 绘制直线
+    var lineGraph = svg
+      .append('path')
+      .attr('d', lineFunction(lineData))
+      .attr('stroke', 'black')
+      .attr('stroke-width', 1)
+      .attr('fill', 'none')
+
+    // 添加箭头
+    svg
+      .append('svg:defs')
+      .selectAll('marker')
+      .data(['arrow']) // 定义箭头的名称
       .enter()
-      .append('rect')
-      .attr('width', '2px')
-      .attr('height', '50px')
-      .attr('fill', function (d, i) {
-        //前30%一种颜色，30%到70%一种颜色，70%之后的一种颜色
-        const rankrate = (i + 1) / classRankInfo.length
-        if (rankrate <= 0.3) {
-          return '#8AD0EE'
-        } else if (rankrate <= 0.7) {
-          return '#8AB5EE'
-        } else {
-          return '#5686F0'
-        }
-      })
-      .attr('x', function (d, i) {
-        if (i == 0) {
-          rectX = rectX + 2
-          beforeOne = d[4]
-          return '100px'
-        } else {
-          rectX = rectX + 2 + rectDistance * (beforeOne - d[4])
-          beforeOne = d[4]
-          return rectX + rectDistance * (beforeOne - d[4]) + 'px'
-        }
-      })
-      .attr('y', '10px')
-      .on('mouseover', function (e, d) {
-        tip.html(`<div style="line-height: 1;
-        font-weight: bold;
-        padding: 12px;
-        background: white;
-        color: grey;
-        border-radius: 2px;
-        pointer-events: none;
-        font-family: Arial, sans-serif;
-        font-size: 12px;
-        text-align: center;">学生ID: ${d[0]}  <p>专业:${d[1]}</p> <p>年龄:${d[2]}</p><p>性别:${d[3]}</p><p>掌握程度:${d[4]}</p><div>`)
-        tip.show(d, this)
-      })
-      .on('mouseout', function () {
-        tip.hide()
-      })
-      .on('click', function (e, d) {
-        console.log(d[0]) //点击每个学生获取点击学生的ID用于主图的高亮显示
-      })
+      .append('svg:marker')
+      .attr('id', String)
+      .attr('viewBox', '0 -5 10 10')
+      .attr('refX', 0) // 箭头与直线的距离
+      .attr('refY', 0)
+      .attr('markerWidth', arrowSize) // 箭头大小
+      .attr('markerHeight', arrowSize)
+      .attr('orient', 'auto') // 箭头方向
+      .append('svg:path')
+      .attr('d', 'M0,-5L10,0L0,5')
 
-    //班级排名视图标签
-    const ranklable = svg.append('g').attr('class', 'ranklable')
-    ranklable
+    // 给直线添加箭头
+    lineGraph.attr('marker-end', 'url(#arrow)')
+    svg
       .append('text')
-      .text('Class ' + classNum)
-      .attr('x', '5%')
-      .attr('y', '35%')
-    ranklable.append('text').text('排名情况').attr('x', '4%').attr('y', '60%')
-  }
+      .text('高')
+      .attr('fontSize', '12')
+      .attr('x', '11%')
+      .attr('y', '85%')
+    svg
+      .append('text')
+      .text('低')
+      .attr('fontSize', '12')
+      .attr('x', '97%')
+      .attr('y', '85%')
 
-  //更新所有学生的数据集的班级排名
-  function updataclassRank(classRankInfo) {
-    const data = classRankInfo
-    const rectDistance = 2000 //用于扩大方块之间的差异
-    const svg = d3.select('.ranksvg')
-    //tooltip
-    const tip = d3Tip()
-      .attr('class', 'd3-tip')
-      .html(function (d) {
-        return `Class ${d[0]},人数: <span >${d}</span>`
-      })
-
-    svg.call(tip)
-    // 清空 SVG 的内容
-    svg.selectAll('*').remove()
     for (var studentType = 0; studentType < 3; studentType++) {
       var beforeOne = 0
       var rectX = 92 //第一个方块的起始值
@@ -389,8 +356,297 @@ const Picture = (props) => {
 
     //班级排名视图标签
     const ranklable = svg.append('g').attr('class', 'ranklable')
-    ranklable.append('text').text('所有班级').attr('x', '2%').attr('y', '40%')
-    ranklable.append('text').text('排名情况').attr('x', '2%').attr('y', '65%')
+    ranklable.append('text').text('所有班级').attr('x', '2%').attr('y', '30%')
+    ranklable.append('text').text('排名情况').attr('x', '2%').attr('y', '55%')
+  }
+
+  //更新班级内部排名视图
+  function updateRank(classRankInfo) {
+    console.log(classRankInfo)
+    const rectDistance = 400 //用于扩大方块之间的差异
+    var beforeOne = 0
+    var rectX = 100 //第一个方块的起始值
+    const svg = d3.select('.ranksvg')
+    //tooltip
+    const tip = d3Tip()
+      .attr('class', 'd3-tip')
+      .html(function (d) {
+        return `Class ${d[0]},人数: <span >${d}</span>`
+      })
+
+    svg.call(tip)
+    // 清空 SVG 的内容
+    svg.selectAll('*').remove()
+    //绘制排名指示标志
+    //定义直线的起始点和终点坐标
+    var lineData = [
+      { x: 100, y: 65 },
+      { x: 600, y: 65 }
+    ]
+
+    // 定义箭头大小
+    var arrowSize = 6
+
+    // 创建直线生成器
+    var lineFunction = d3
+      .line()
+      .x(function (d) {
+        return d.x
+      })
+      .y(function (d) {
+        return d.y
+      })
+
+    // 绘制直线
+    var lineGraph = svg
+      .append('path')
+      .attr('d', lineFunction(lineData))
+      .attr('stroke', 'black')
+      .attr('stroke-width', 1)
+      .attr('fill', 'none')
+
+    // 添加箭头
+    svg
+      .append('svg:defs')
+      .selectAll('marker')
+      .data(['arrow']) // 定义箭头的名称
+      .enter()
+      .append('svg:marker')
+      .attr('id', String)
+      .attr('viewBox', '0 -5 10 10')
+      .attr('refX', 0) // 箭头与直线的距离
+      .attr('refY', 0)
+      .attr('markerWidth', arrowSize) // 箭头大小
+      .attr('markerHeight', arrowSize)
+      .attr('orient', 'auto') // 箭头方向
+      .append('svg:path')
+      .attr('d', 'M0,-5L10,0L0,5')
+
+    // 给直线添加箭头
+    lineGraph.attr('marker-end', 'url(#arrow)')
+    svg
+      .append('text')
+      .text('高')
+      .attr('fontSize', '12')
+      .attr('x', '12%')
+      .attr('y', '85%')
+    svg
+      .append('text')
+      .text('低')
+      .attr('fontSize', '12')
+      .attr('x', '97%')
+      .attr('y', '85%')
+    //创建班级排名视图,为该视图创建一个group
+    const ranking = svg.append('g')
+    ranking
+      .selectAll('rect')
+      .data(classRankInfo)
+      .enter()
+      .append('rect')
+      .attr('width', '2px')
+      .attr('height', '50px')
+      .attr('fill', function (d, i) {
+        //前30%一种颜色，30%到70%一种颜色，70%之后的一种颜色
+        const rankrate = (i + 1) / classRankInfo.length
+        if (rankrate <= 0.3) {
+          return '#8AD0EE'
+        } else if (rankrate <= 0.7) {
+          return '#8AB5EE'
+        } else {
+          return '#5686F0'
+        }
+      })
+      .attr('x', function (d, i) {
+        if (i == 0) {
+          rectX = rectX + 2
+          beforeOne = d[4]
+          return '100px'
+        } else {
+          rectX = rectX + 2 + rectDistance * (beforeOne - d[4])
+          beforeOne = d[4]
+          return rectX + rectDistance * (beforeOne - d[4]) + 'px'
+        }
+      })
+      .attr('y', '10px')
+      .on('mouseover', function (e, d) {
+        tip.html(`<div style="line-height: 1;
+        font-weight: bold;
+        padding: 12px;
+        background: white;
+        color: grey;
+        border-radius: 2px;
+        pointer-events: none;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        text-align: center;">学生ID: ${d[0]}  <p>专业:${d[1]}</p> <p>年龄:${d[2]}</p><p>性别:${d[3]}</p><p>掌握程度:${d[4]}</p><div>`)
+        tip.show(d, this)
+      })
+      .on('mouseout', function () {
+        tip.hide()
+      })
+      .on('click', function (e, d) {
+        console.log(d[0]) //点击每个学生获取点击学生的ID用于主图的高亮显示
+      })
+
+    //班级排名视图标签
+    const ranklable = svg.append('g').attr('class', 'ranklable')
+    ranklable
+      .append('text')
+      .text('Class ' + classNum)
+      .attr('x', '5%')
+      .attr('y', '30%')
+    ranklable.append('text').text('排名情况').attr('x', '4%').attr('y', '55%')
+  }
+
+  //更新所有学生的数据集的班级排名
+  function updataclassRank(classRankInfo) {
+    const data = classRankInfo
+    const rectDistance = 2000 //用于扩大方块之间的差异
+    const svg = d3.select('.ranksvg')
+    //tooltip
+    const tip = d3Tip()
+      .attr('class', 'd3-tip')
+      .html(function (d) {
+        return `Class ${d[0]},人数: <span >${d}</span>`
+      })
+
+    svg.call(tip)
+    // 清空 SVG 的内容
+    svg.selectAll('*').remove()
+
+    //绘制排名指示标志
+    //定义直线的起始点和终点坐标
+    var lineData = [
+      { x: 90, y: 65 },
+      { x: 600, y: 65 }
+    ]
+
+    // 定义箭头大小
+    var arrowSize = 6
+
+    // 创建直线生成器
+    var lineFunction = d3
+      .line()
+      .x(function (d) {
+        return d.x
+      })
+      .y(function (d) {
+        return d.y
+      })
+
+    // 绘制直线
+    var lineGraph = svg
+      .append('path')
+      .attr('d', lineFunction(lineData))
+      .attr('stroke', 'black')
+      .attr('stroke-width', 1)
+      .attr('fill', 'none')
+
+    // 添加箭头
+    svg
+      .append('svg:defs')
+      .selectAll('marker')
+      .data(['arrow']) // 定义箭头的名称
+      .enter()
+      .append('svg:marker')
+      .attr('id', String)
+      .attr('viewBox', '0 -5 10 10')
+      .attr('refX', 0) // 箭头与直线的距离
+      .attr('refY', 0)
+      .attr('markerWidth', arrowSize) // 箭头大小
+      .attr('markerHeight', arrowSize)
+      .attr('orient', 'auto') // 箭头方向
+      .append('svg:path')
+      .attr('d', 'M0,-5L10,0L0,5')
+
+    // 给直线添加箭头
+    lineGraph.attr('marker-end', 'url(#arrow)')
+    svg
+      .append('text')
+      .text('高')
+      .attr('fontSize', '12')
+      .attr('x', '11%')
+      .attr('y', '85%')
+    svg
+      .append('text')
+      .text('低')
+      .attr('fontSize', '12')
+      .attr('x', '97%')
+      .attr('y', '85%')
+
+    for (var studentType = 0; studentType < 3; studentType++) {
+      var beforeOne = 0
+      var rectX = 92 //第一个方块的起始值
+      //创建班级排名视图,为该视图创建一个group
+      const ranking = svg.append('g')
+      ranking
+        .selectAll('rect')
+        .data(data)
+        .enter()
+        .append('rect')
+        .attr('width', '10px')
+        .attr('height', function (d) {
+          const totalStudent = d[2][0] + d[2][1] + d[2][2]
+          const rectH = (d[2][studentType] / totalStudent) * 50
+          return rectH + 'px'
+        })
+        .attr('fill', function () {
+          if (studentType == 0) {
+            return '#8AD0EE'
+          } else if (studentType == 1) {
+            return '#8AB5EE'
+          } else {
+            return '#5686F0'
+          }
+        })
+        .attr('x', function (d, i) {
+          if (i == 0) {
+            rectX = rectX + 12
+            beforeOne = d[1]
+            return '92px'
+          } else {
+            rectX = rectX + 12 + rectDistance * (beforeOne - d[1])
+            beforeOne = d[1]
+            return rectX + rectDistance * (beforeOne - d[1]) + 'px'
+          }
+        })
+        .attr('y', function (d) {
+          const totalStudent = d[2][0] + d[2][1] + d[2][2]
+          if (studentType == 0) {
+            return '10px'
+          } else if (studentType == 1) {
+            return 10 + (d[2][0] / totalStudent) * 50 + 'px'
+          } else {
+            return (
+              10 +
+              (d[2][0] / totalStudent) * 50 +
+              (d[2][1] / totalStudent) * 50 +
+              'px'
+            )
+          }
+        })
+        .on('mouseover', function (e, d) {
+          tip.html(`<div style="line-height: 1;
+          font-weight: bold;
+          padding: 12px;
+          background: white;
+          color: grey;
+          border-radius: 2px;
+          pointer-events: none;
+          font-family: Arial, sans-serif;
+          font-size: 12px;
+          text-align: center;">班级：${d[0]}<p> 排名分布: ${d[2]}</p><div>`)
+          tip.show(d, this)
+        })
+        .on('mouseout', function () {
+          tip.hide()
+        })
+    }
+
+    //班级排名视图标签
+    const ranklable = svg.append('g').attr('class', 'ranklable')
+    ranklable.append('text').text('所有班级').attr('x', '2%').attr('y', '30%')
+    ranklable.append('text').text('排名情况').attr('x', '2%').attr('y', '55%')
   }
 
   //根据选择的班级更新视图

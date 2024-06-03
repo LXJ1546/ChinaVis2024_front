@@ -162,7 +162,8 @@ const Evolution = () => {
     const rightscaleColor = d3
       .scaleLinear()
       .domain([0, 1])
-      .range(['#d7f7e7', '#68ba91'])
+      .range(['white', '#37A354'])
+    // .range(['#d7f7e7', '#68ba91'])
     //工作日/休息日平均,工作日或休息日
     if (showFlag == 'all' && backgroundFlag) {
       const rightbackground = svg.append('g').attr('id', 'rightBackground')
@@ -270,7 +271,8 @@ const Evolution = () => {
 
     let workFlag = 0 //0为工作日
     const timeColor = ['#3A80E2', '#BB5757']
-    const peopleColor = ['#F3D475', '#F3B28A', '#F1928E']
+    // const peopleColor = ['#F3D475', '#F3B28A', '#F1928E']
+    const peopleColor = ['#FAD891', '#6D9AC4', '#777B98']
     const workPosition = [-25, 35]
     const peoplecategory = ['top', 'mid', 'low']
     //绘制图例
@@ -338,8 +340,8 @@ const Evolution = () => {
       .attr('x2', '100%')
       .attr('y2', '0%')
     // 添加渐变色段
-    gradient.append('stop').attr('offset', '0%').attr('stop-color', '#d7f7e7')
-    gradient.append('stop').attr('offset', '100%').attr('stop-color', '#68ba91')
+    gradient.append('stop').attr('offset', '0%').attr('stop-color', 'white')
+    gradient.append('stop').attr('offset', '100%').attr('stop-color', '#37A354')
 
     // 创建矩形
     legend

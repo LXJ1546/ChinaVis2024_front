@@ -91,7 +91,8 @@ const TimeRight3 = (props) => {
         },
         center: ['50%', '65%']
       },
-      color: ['#F3D475', '#F3B28A', '#F1928E'],
+      // color: ['#F3D475', '#F3B28A', '#F1928E'],
+      color: ['#FAD891', '#6D9AC4', '#777B98'],
       series: [
         {
           name: 'Budget vs spending',
@@ -118,7 +119,7 @@ const TimeRight3 = (props) => {
   }
 
   const drawTimeTitle2 = () => {
-    const opacity = 0.7
+    const opacity = 1
     const Instance = echarts.getInstanceByDom(timeTitleRef.current)
     if (Instance) {
       Instance.dispose()
@@ -181,7 +182,8 @@ const TimeRight3 = (props) => {
         type: 'category',
         data: knowledges
       },
-      color: ['#f6bd60', '#ff7d00', '#bc4749', '#7f5539', '#669bbc'],
+      // color: ['#f6bd60', '#ff7d00', '#bc4749', '#7f5539', '#669bbc'],
+      color: ['#BEE4D7', '#8DD2E1', '#71B0D1', '#6B89BB', '#6168AC'],
 
       series: [
         {
