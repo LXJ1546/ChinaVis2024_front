@@ -28,6 +28,7 @@ const Content = () => {
   const [highlightedXAxisName, setHighlightedXAxisName] = useState(null) //用于获取知识点掌握程度与题目掌握的交互高亮
   const [clicktitleFlag, setClickTitleFlag] = useState(0) //用于设置点击事件将题目折线图缩小
   const [studentIDlist, setStudentIDlist] = useState([]) //用于设置选中的学生
+  const [studentSelectMatery, setStudentSelectMastery] = useState([])
   // 平行坐标系的数据
   const [parallelList, setParallelList] = useState([[], [], []])
   // 是否改变权重
@@ -98,6 +99,10 @@ const Content = () => {
   const handleStudentList1 = (value) => {
     setStudentIDlist(value)
   }
+  //定义新函数,用于传输选中的学生ID的总的掌握程度
+  const handleStudentSelectMastery = (value) => {
+    setStudentSelectMastery((prevList) => [...prevList, value])
+  }
   useEffect(() => {
     // 最开始的时候平行坐标系展示全部数据
     let paraList = [[], [], []]
@@ -137,6 +142,7 @@ const Content = () => {
               isChangeWeight={isChangeWeight}
               handleStudentList={handleStudentList}
               handleStudentList1={handleStudentList1}
+              handleStudentSelectMastery={handleStudentSelectMastery}
             />
           </Card>
           <Card className="card3">
@@ -186,6 +192,7 @@ const Content = () => {
                 month={month}
                 parallelList={parallelList}
                 handleClickRowKeys={handleClickRowKeys}
+                studentIDlist={studentIDlist}
               />
             ) : (
               <Evolution />

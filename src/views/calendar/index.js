@@ -815,9 +815,24 @@ const Calendar = (props) => {
       .attr('y', -margin.left + 20)
       .attr('fill', '#000')
       .style('text-anchor', 'middle')
+
     workAxisg
       .selectAll('.domain, .tick line') // 选择轴线和刻度线
       .style('display', 'none') // 隐藏轴线和刻度线
+
+    // 选择Y轴元素设置字体大小
+    workAxisg
+      .select('.y-axis')
+      // 设置字体大小为14像素
+      .selectAll('text')
+      .style('font-size', '13px')
+
+    workAxisg
+      .select('.x-axis')
+      // 设置字体大小为14像素
+      .selectAll('text')
+      .style('font-size', '13px')
+
     //绘制答题情况
     const workg = svg
       .append('g')
@@ -1618,7 +1633,7 @@ const Calendar = (props) => {
           <div className="title-icon">
             <IconFont type="icon-shiduan" />
           </div>
-          答题时段特征矩阵气泡图与模式日历统计图
+          答题时段特征矩阵气泡图与模式统计日历图
         </div>
       )}
       <div className="calendarHighview">

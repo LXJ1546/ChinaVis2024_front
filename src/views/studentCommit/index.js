@@ -675,13 +675,13 @@ const StudentCommit = (props) => {
       const bbox = svg.node().getBBox()
 
       // 动态设置 SVG 的宽度和高度
-      svg.attr('height', bbox.height + bbox.x)
+      svg.attr('height', bbox.height)
     })
     // 获取 SVG 的边界框
     const bbox = svg.node().getBBox()
 
     // 动态设置 SVG 的宽度和高度
-    svg.attr('height', bbox.height + bbox.x)
+    svg.attr('height', bbox.height)
   }
 
   //绘制时间模式的对比分析图
