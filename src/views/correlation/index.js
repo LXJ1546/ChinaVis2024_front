@@ -226,10 +226,10 @@ const Correlation = (props) => {
                 )}
               />
               <Column
-                title="掌握度"
+                title="月掌握度"
                 dataIndex="master"
                 key="master"
-                width={75}
+                width={90}
                 ellipsis={true}
                 sorter={(a, b) => a.master - b.master}
                 defaultsortOrder={'descend'}

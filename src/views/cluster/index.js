@@ -76,6 +76,8 @@ const Scatter = (props) => {
   const [disabledShape, setDisabledShape] = useState(false)
   // 节点开关大小滑动条是否可用
   const [sliderDisabled, setSliderDisabled] = useState(false)
+  // 高亮数据开关是否可用
+  const [disabledHighlight, setDisabledHighlight] = useState(false)
   // 高亮数据的信息
   const [highlightInfo, setHighlightInfo] = useState([])
   const monthsChoice = [
@@ -435,6 +437,8 @@ const Scatter = (props) => {
       setDisabledStats(true)
       // 滑动条可用
       setSliderDisabled(false)
+      // 高亮开关可用
+      setDisabledHighlight(false)
     } else if (value == 0) {
       setNowClusterData(clusterData[1])
       setXmax(60)
@@ -460,6 +464,8 @@ const Scatter = (props) => {
       })
       // 滑动条可用
       setSliderDisabled(false)
+      // 高亮开关可用
+      setDisabledHighlight(true)
     } else if (value == 2) {
       // 是否显示演变视图
       setIsTransfer(true)
@@ -471,6 +477,8 @@ const Scatter = (props) => {
       setShowStats(false)
       // 滑动条不可用
       setSliderDisabled(true)
+      // 高亮开关可用
+      setDisabledHighlight(false)
     }
   }
   const handleChangeMonth = (value) => {
@@ -812,6 +820,7 @@ const Scatter = (props) => {
                     value={showHighlight}
                     size={'small'}
                     style={{ marginLeft: '10px' }}
+                    disabled={!disabledHighlight}
                   />
                 </div>
               </div>
