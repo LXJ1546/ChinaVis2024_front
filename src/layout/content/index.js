@@ -176,6 +176,7 @@ const Content = () => {
               classNum={classNum}
               month={month}
               studentIDlist={studentIDlist}
+              handleStudentList1={handleStudentList1}
             />
           </Card>
           <Card className="card6">

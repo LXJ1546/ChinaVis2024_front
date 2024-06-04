@@ -25,7 +25,8 @@ const Scatter = (props) => {
     isChangeWeight,
     classNum,
     month,
-    studentIDlist
+    studentIDlist,
+    handleStudentList1
   } = props
   const clusterRef = useRef(null)
   const [clusterData, setClusterData] = useState([])
@@ -67,10 +68,14 @@ const Scatter = (props) => {
   const [brushEnabled, setBrushEnabled] = useState(false)
   // 展示高中低不同的形状
   const [showShape, setShowShape] = useState(false)
+  // 展示高亮数据
+  const [showHighlight, setShowHighlight] = useState(false)
   // 开关是否不可操作
   const [disabledShape, setDisabledShape] = useState(false)
   // 节点开关大小滑动条是否可用
   const [sliderDisabled, setSliderDisabled] = useState(false)
+  // 高亮数据的信息
+  const [highlightInfo, setHighlightInfo] = useState([])
   const monthsChoice = [
     { value: 9, label: '2023-09' },
     { value: 10, label: '2023-10' },
@@ -78,6 +83,14 @@ const Scatter = (props) => {
     { value: 12, label: '2023-12' },
     { value: 1, label: '2024-01' }
   ]
+  // 定义一个对象，存储每个值对应的月份
+  const monthMap = {
+    0: '9',
+    1: '10',
+    2: '11',
+    3: '12',
+    4: '1'
+  }
   // 生成散点图系列
   const series = Object.keys(nowClusterData).map((cluster) => ({
     name: clusterName[cluster],
@@ -533,6 +546,37 @@ const Scatter = (props) => {
   const onSwitchChange2 = (checked) => {
     setShowStats(checked)
   }
+  // 高亮数据的切换开关事件
+  const onSwitchChange3 = (checked) => {
+    setShowHighlight(checked)
+    if (checked) {
+      let nothinglist = []
+      // 遍历大列表
+      studentIDlist.forEach((id) => {
+        let nothingDict = {}
+        let nothingmonth = []
+        clusterData.forEach((subList, i) => {
+          subList.forEach((sub) => {
+            // 在每个小列表中查找指定的 key 是否存在，并且对应的值等于目标值
+            const foundIndex = sub.findIndex((item) => item['key'] === id)
+            if (foundIndex !== -1) {
+              nothingmonth.push(i)
+            }
+          })
+        })
+        nothingDict[id] = nothingmonth
+        nothinglist.push(nothingDict)
+      })
+      // 更新高亮数据
+      setHighlightInfo(nothinglist)
+    } else {
+      // 清除高亮
+      downplayPointById(studentIDlist)
+      // 清除数据
+      handleStudentList1([])
+      setHighlightInfo([])
+    }
+  }
   // 刷选选择事件处理逻辑
   const onBrushSelected = useCallback(
     (params) => {
@@ -602,6 +646,30 @@ const Scatter = (props) => {
       }
     })
   }
+  // 根据id找到对应点并高亮
+  const downplayPointById = (ids) => {
+    const idList = findModeIndex(ids)
+    const echartsInstance = clusterRef.current.getEchartsInstance()
+    // 针对每个series高亮点
+    idList.forEach((sublist, index) => {
+      // 找到高亮点的索引
+      const dataIndexArray = sublist
+        .map((id) => {
+          const dataIndex = nowClusterData[index].findIndex(
+            (item) => item.key === id
+          )
+          return dataIndex !== -1 ? dataIndex : null
+        })
+        .filter((index) => index !== null)
+      if (dataIndexArray.length > 0) {
+        echartsInstance.dispatchAction({
+          type: 'downplay',
+          seriesIndex: index,
+          dataIndex: dataIndexArray
+        })
+      }
+    })
+  }
   return (
     <ScatterWrapper>
       <div className="title">
@@ -633,6 +701,46 @@ const Scatter = (props) => {
           )}
           {showStats && amode == 1 && (
             <TimeStatisticFeature statsFeature={timeStatsFeature} />
+          )}
+          {/* 高亮数据展示 */}
+          {showHighlight && amode == 0 && (
+            <div className="highlight">
+              <div className="highlightContainer">
+                <div className="ahead">
+                  <div style={{ width: '45%', textAlign: 'center' }}>
+                    学生ID
+                  </div>
+                  <div style={{ width: '30%', textAlign: 'center' }}>
+                    答题月份
+                  </div>
+                  <div style={{ width: '20%', textAlign: 'center' }}>
+                    掌握程度
+                  </div>
+                </div>
+                {highlightInfo.map((subList, index) => (
+                  <div key={index} className="highlightItem">
+                    {/* 直接使用 subList 的唯一键作为月份显示 */}
+                    <div className="aid">{Object.keys(subList)[0]}</div>
+                    {/* 渲染对应月份的值数组 */}
+                    <div className="amonth">
+                      {subList[Object.keys(subList)[0]].map(
+                        (value, subIndex) => {
+                          const month = monthMap[value]
+                          return (
+                            <span key={`month-${subIndex}`}>{month}&nbsp;</span>
+                          )
+                        }
+                      )}
+                    </div>
+                    <div className="amaster">
+                      {subList[Object.keys(subList)[0]][
+                        subList[Object.keys(subList)[0]].length - 1
+                      ].toFixed(4)}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           )}
           <div className="btn">
             <div className="leftbtn">
@@ -681,34 +789,53 @@ const Scatter = (props) => {
               )}
             </div>
             <div className="rightbtn">
-              <h3 className="label">节点大小</h3>
-              <div className="aslider">
-                <Slider
-                  defaultValue={25}
-                  min={5}
-                  max={30}
-                  style={{ marginLeft: '10px' }}
-                  value={symbolSize}
-                  onChange={handleSlider}
-                  disabled={sliderDisabled}
-                />
+              <div className="two-switch">
+                <div className="btn-item">
+                  <h3 className="label">节点大小</h3>
+                  <div className="aslider">
+                    <Slider
+                      defaultValue={25}
+                      min={5}
+                      max={30}
+                      style={{ marginLeft: '10px' }}
+                      value={symbolSize}
+                      onChange={handleSlider}
+                      disabled={sliderDisabled}
+                    />
+                  </div>
+                </div>
+                <div className="btn-item">
+                  <h3 className="label">高亮数据</h3>
+                  <Switch
+                    onChange={onSwitchChange3}
+                    value={showHighlight}
+                    size={'small'}
+                    style={{ marginLeft: '10px' }}
+                  />
+                </div>
               </div>
-              <h3 className="label">等级编码</h3>
-              <Switch
-                onChange={onSwitchChange1}
-                value={showShape}
-                size={'small'}
-                style={{ marginLeft: '10px' }}
-                disabled={!disabledShape}
-              />
-              <h3 className="label">特征统计</h3>
-              <Switch
-                onChange={onSwitchChange2}
-                value={showStats}
-                size={'small'}
-                style={{ marginLeft: '10px' }}
-                disabled={!disabledStats}
-              />
+              <div className="two-switch">
+                <div className="btn-item">
+                  <h3 className="label">等级编码</h3>
+                  <Switch
+                    onChange={onSwitchChange1}
+                    value={showShape}
+                    size={'small'}
+                    style={{ marginLeft: '10px' }}
+                    disabled={!disabledShape}
+                  />
+                </div>
+                <div className="btn-item">
+                  <h3 className="label">特征统计</h3>
+                  <Switch
+                    onChange={onSwitchChange2}
+                    value={showStats}
+                    size={'small'}
+                    style={{ marginLeft: '10px' }}
+                    disabled={!disabledStats}
+                  />
+                </div>
+              </div>
             </div>
           </div>
           <div className="clusterView">

@@ -72,6 +72,50 @@ export const ScatterWrapper = styled.div`
           }
         }
       }
+      .highlight {
+        width: 30%;
+        height: 20%;
+        position: absolute;
+        z-index: 10;
+        bottom: 6%;
+        left: 5%;
+        background-color: #fff;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+        border-radius: 4px;
+        .highlightContainer {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          justify-content: center;
+          .ahead {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+          }
+          .highlightItem {
+            display: flex;
+            width: 100%;
+            justify-content: space-around;
+            .aid {
+              width: 45%;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              text-align: center;
+            }
+            .amonth {
+              width: 30%;
+              text-align: center;
+            }
+            .amaster {
+              width: 20%;
+              text-align: center;
+            }
+          }
+        }
+      }
       .btn {
         display: flex;
         justify-content: space-between;
@@ -109,11 +153,23 @@ export const ScatterWrapper = styled.div`
           align-items: center;
           .aslider {
             width: 80px;
+            .ant-slider {
+              margin: 0px;
+            }
           }
           .label {
             opacity: 0.8;
             margin-left: 10px;
             font-size: 15px;
+          }
+          .two-switch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .btn-item {
+              display: flex;
+              align-items: center;
+            }
           }
         }
       }
