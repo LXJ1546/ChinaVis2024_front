@@ -1620,7 +1620,7 @@ const Calendar = (props) => {
   return (
     <CalendarWrapper>
       {/* amode=0答题模式 ，amode=1时间模式*/}
-      {amode == 0 && (
+      {(amode == 0 || amode == 2) && (
         <div className="title">
           <div className="title-icon">
             <IconFont type="icon-rili" />

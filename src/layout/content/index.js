@@ -193,7 +193,7 @@ const Content = () => {
             />
           </Card>
           <Card className="card6">
-            {amode == 0 ? (
+            {amode == 0 || amode == 2 ? (
               <MonthFeature
                 brushData={brushSelectedData}
                 month={month}
@@ -208,7 +208,7 @@ const Content = () => {
         </div>
         <div className="right">
           <Card className="card7">
-            {amode == 0 ? (
+            {amode == 0 || amode == 2 ? (
               <Correlation
                 amode={amode}
                 month={month}
@@ -237,7 +237,7 @@ const Content = () => {
             />
           </Card>
           <Card className="card9">
-            {amode == 0 ? (
+            {amode == 0 || amode == 2 ? (
               <StudentCommit
                 amode={amode}
                 month={month}

@@ -720,7 +720,7 @@ const StudentCommit = (props) => {
     //更新重画
     // d3.select('svg').remove() //移除已有的svg元素
 
-    if (amode == 0 && calendarSelectFlag == true) {
+    if ((amode == 0 || amode == 2) && calendarSelectFlag == true) {
       //获取学习日历的学生ID和日期
       getEventInfo(studentIDfromCalendar, studentDatefromCalendar).then(
         (res) => {
@@ -741,7 +741,7 @@ const StudentCommit = (props) => {
   return (
     <StudentCommitWrapper>
       {/* amode=0答题模式 ，amode=1时间模式*/}
-      {amode == 0 && (
+      {(amode == 0 || amode == 2) && (
         <div className="title">
           <div className="title-icon">
             <IconFont type="icon-a-tijiaoshangchuantiqu" />
@@ -752,7 +752,7 @@ const StudentCommit = (props) => {
       {amode == 1 && <div className="title">高峰分析矩阵图</div>}
       <div className="Studentview">
         {/* amode=0答题模式 ，amode=1时间模式*/}
-        {amode == 0 && (
+        {(amode == 0 || amode == 2) && (
           <div className="StudentCommitview">
             <div id="legend" className="legendsvg"></div>
             <div className="commitchart" ref={commitCountChartRef}></div>
