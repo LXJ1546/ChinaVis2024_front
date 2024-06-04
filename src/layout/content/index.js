@@ -159,6 +159,7 @@ const Content = () => {
             <KnowledgeTree
               classNum={classNum}
               isChangeWeight={isChangeWeight}
+              highlightedXAxisName={highlightedXAxisName}
               handleHighLightedXaix={handleHighLightedXaix}
               handleClickTitleFlag={handleClickTitleFlag}
             />

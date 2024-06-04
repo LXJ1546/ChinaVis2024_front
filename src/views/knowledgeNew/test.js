@@ -29,6 +29,7 @@ const KnowledgeTree = (props) => {
   const {
     classNum,
     isChangeWeight,
+    highlightedXAxisName,
     handleHighLightedXaix,
     handleClickTitleFlag
   } = props
@@ -426,6 +427,24 @@ const KnowledgeTree = (props) => {
     })
   }, [classNum, isChangeWeight])
 
+  //接受题目掌握程度里传入的题目
+  useEffect(() => {
+    d3.selectAll('g.questionRect text')
+      .style('fill', 'black')
+      .style('font-weight', 'normal')
+    // console.log('选择题', highlightedXAxisName)
+    // 假设您希望选择 text 值为 "特定字符串" 的元素
+    d3.selectAll('g.questionRect text') // 替换 'your-selector' 为您的选择器
+      .filter(function () {
+        if (d3.select(this).text() === highlightedXAxisName) {
+          d3.select(this).style('fill', 'red').style('font-weight', 'bold')
+        }
+        return d3.select(this).text() === highlightedXAxisName // 选择 text 值为 "特定字符串" 的元素
+      })
+    //  // 例如，将其文本颜色设置为红色
+    // console.log(tt, typeof tt)
+  }, [highlightedXAxisName])
+
   //获取元素宽高
   useLayoutEffect(() => {
     setWidth(ref.current.offsetWidth)
@@ -683,7 +702,7 @@ const KnowledgeTree = (props) => {
     circles.on('mouseover', function () {
       // 在回调函数中修改样式
       let radius = +d3.select(this).attr('r')
-      // console.log('滑入', radius)
+      // console.log('滑入', radius, this, typeof this)
       d3.select(this)
         .style('stroke', 'RGB(22, 106, 100)')
         .style('stroke-width', 1)
