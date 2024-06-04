@@ -467,6 +467,8 @@ const Scatter = (props) => {
       // 高亮开关可用
       setDisabledHighlight(true)
     } else if (value == 2) {
+      // 改变成演变模式
+      changeMode(2)
       // 是否显示演变视图
       setIsTransfer(true)
       // 统计值开关不可操作

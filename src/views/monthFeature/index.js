@@ -530,7 +530,7 @@ const MonthFeature = (props) => {
             })
           })
           .append('circle')
-          .attr('cx', 5) // 圆形的 x 坐标为 10
+          .attr('cx', 7) // 圆形的 x 坐标为 10
           .attr('cy', 10) // 圆形的 y 坐标为矩形的高度的一半，使其垂直居中
           .attr('r', 5) // 圆形的半径为 5 像素
           .attr('fill', (d) => circleColorScale(d[1]))
@@ -605,7 +605,7 @@ const MonthFeature = (props) => {
       .enter()
       .append('circle')
       .attr('class', 'legend-circle')
-      .attr('cx', (d, i) => 25 + i * 65)
+      .attr('cx', (d, i) => 28 + i * 65)
       .attr('cy', 10)
       .attr('r', 5)
       .style('fill', (d) => circleColorScale(d))
