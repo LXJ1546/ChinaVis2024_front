@@ -84,12 +84,15 @@ export const ScatterWrapper = styled.div`
         border-radius: 4px;
         .highlightContainer {
           width: 100%;
+          height: 100%;
           display: flex;
           align-items: center;
           flex-direction: column;
-          justify-content: center;
+          justify-content: flex-start;
+          overflow: auto;
           .ahead {
             width: 100%;
+            height: 20px;
             display: flex;
             align-items: center;
             justify-content: space-around;
