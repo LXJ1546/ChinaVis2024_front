@@ -14,6 +14,7 @@ const IconFont = createFromIconfontCN({
 })
 import StatisticFeature from '../statistic/index'
 import TimeStatisticFeature from '../timeStatistic/index'
+import Radar from '../radar/index'
 const Scatter = (props) => {
   // 父组件传递的设置模式函数
   const {
@@ -715,6 +716,7 @@ const Scatter = (props) => {
           {showStats && amode == 1 && (
             <TimeStatisticFeature statsFeature={timeStatsFeature} />
           )}
+          {amode == 2 && <Radar />}
           {/* 高亮数据展示 */}
           {showHighlight && amode == 0 && (
             <div className="highlight">
