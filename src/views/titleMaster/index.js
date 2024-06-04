@@ -119,7 +119,7 @@ const TitleMaster = (props) => {
           fontSize: 10
         }
       },
-      color: ['#F38C8A', '#6ABF57', '#EDCC65'],
+      color: ['#3A80E2', '#6ABF57', '#EDCC65'],
       series: titleInfo,
       dataZoom: [
         {

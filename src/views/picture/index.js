@@ -11,8 +11,13 @@ const IconFont = createFromIconfontCN({
 import d3Tip from 'd3-tip'
 
 const Picture = (props) => {
-  const { classNum, isChangeWeight, handleStudentList, handleStudentList1 } =
-    props
+  const {
+    classNum,
+    isChangeWeight,
+    handleStudentList,
+    handleStudentList1,
+    handleStudentSelectMastery
+  } = props
   const distributionRef = useRef(null)
   const majorRef = useRef(null)
   const ageRef = useRef(null)
@@ -546,6 +551,7 @@ const Picture = (props) => {
         // let newArray = [...studentIDlist]
         // newArray.push(d[0])
         handleStudentList(d[0])
+        handleStudentSelectMastery(d[4])
       })
 
     //班级排名视图标签
