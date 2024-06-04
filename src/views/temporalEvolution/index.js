@@ -157,6 +157,13 @@ const Evolution = () => {
       .selectAll('.domain, .tick line') // 选择轴线和刻度线
       .style('display', 'none') // 隐藏轴线和刻度线
 
+    // 选择Y轴元素设置字体大小
+    svg
+      .select('.y-axis')
+      // 设置字体大小为14像素
+      .selectAll('text')
+      .style('font-size', '13px')
+
     //绘制正确占比或者得分率的背景色
     //创建线性颜色比例尺
     const rightscaleColor = d3
