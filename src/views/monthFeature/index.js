@@ -571,7 +571,7 @@ const MonthFeature = (props) => {
           .data((d) => d.slice(2))
           .enter()
           .append('rect')
-          .attr('x', (_, i) => 15 + i * 134) // 矩形的 x 坐标，留出空间给圆形和间隔
+          .attr('x', (_, i) => 19 + i * 135) // 矩形的 x 坐标，留出空间给圆形和间隔
           .attr('y', 0)
           .attr('width', 128) // 每个矩形的固定宽度为130像素
           .attr('height', 20) // 每个矩形的固定高度为20像素
