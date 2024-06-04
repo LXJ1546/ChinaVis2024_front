@@ -185,6 +185,7 @@ const Content = () => {
                 month={month}
                 parallelList={parallelList}
                 handleClickRowKeys={handleClickRowKeys}
+                studentIDlist={studentIDlist}
               />
             ) : (
               <Evolution />

@@ -10,7 +10,8 @@ const IconFont = createFromIconfontCN({
 import d3Tip from 'd3-tip'
 
 const MonthFeature = (props) => {
-  const { brushData, month, parallelList, handleClickRowKeys } = props
+  const { brushData, month, parallelList, handleClickRowKeys, studentIDlist } =
+    props
   // 拿到svg的引用
   const svgRef = useRef(null)
   // 拿到svg的引用
@@ -533,6 +534,14 @@ const MonthFeature = (props) => {
           .attr('cy', 10) // 圆形的 y 坐标为矩形的高度的一半，使其垂直居中
           .attr('r', 5) // 圆形的半径为 5 像素
           .attr('fill', (d) => circleColorScale(d[1]))
+          .style('stroke', 'yellow')
+          .style('stroke-width', function (d) {
+            if (studentIDlist.indexOf(d[0]) == -1) {
+              return 0
+            } else {
+              return 2
+            }
+          })
           .on('mouseover', function (e, d) {
             d3.select(this).style('stroke', 'grey').style('stroke-width', 2)
             tip.html(`<div style="line-height: 1;
@@ -547,9 +556,13 @@ const MonthFeature = (props) => {
                   text-align: center;">学生ID: ${d[0]}</p><p>答题模式: ${d[1]}</p><div>`)
             tip.show(d, this)
           })
-          .on('mouseout', function () {
+          .on('mouseout', function (e, d) {
             tip.hide()
-            d3.select(this).style('stroke-width', 0)
+            if (studentIDlist.indexOf(d[0]) == -1) {
+              d3.select(this).style('stroke-width', 0)
+            } else {
+              d3.select(this).style('stroke', 'yellow').style('stroke-width', 2)
+            }
           })
 
         // 在每个 g 元素中根据数据添加矩形
