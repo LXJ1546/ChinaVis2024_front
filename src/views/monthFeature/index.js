@@ -8,17 +8,10 @@ const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/c/font_4565164_juvpif6y83m.js'
 })
 import d3Tip from 'd3-tip'
-import TitleCompare from '../titleCompare'
 
 const MonthFeature = (props) => {
-  const {
-    brushData,
-    month,
-    parallelList,
-    handleClickRowKeys,
-    studentIDlist,
-    amode
-  } = props
+  const { brushData, month, parallelList, handleClickRowKeys, studentIDlist } =
+    props
   // 拿到svg的引用
   const svgRef = useRef(null)
   // 拿到svg的引用
@@ -314,69 +307,6 @@ const MonthFeature = (props) => {
       }
     ]
   }
-  // const radarOption = {
-  //   legend: {
-  //     left: '5%'
-  //   },
-  //   radar: {
-  //     indicator: [
-  //       { text: '提交次数' },
-  //       { text: '活跃天数' },
-  //       { text: '正确率' },
-  //       { text: '答题数' }
-  //     ],
-  //     center: ['50%', '50%'],
-  //     radius: '70%',
-  //     startAngle: 90,
-  //     splitNumber: 4,
-  //     shape: 'circle',
-  //     nameGap: 5,
-  //     axisName: {
-  //       color: '#428BD4'
-  //     },
-  //     splitArea: {
-  //       // areaStyle: {
-  //       //   // color: ['#77EADF', '#26C3BE', '#64AFE9', '#428BD4'],
-  //       //   shadowColor: 'rgba(0, 0, 0, 0.2)',
-  //       //   shadowBlur: 10
-  //       // }
-  //     },
-
-  //     axisLine: {
-  //       lineStyle: {
-  //         color: 'rgba(211, 253, 250, 0.8)'
-  //       }
-  //     },
-  //     splitLine: {
-  //       lineStyle: {
-  //         color: 'rgb(220,220,220)'
-  //       }
-  //     }
-  //   },
-  //   series: [
-  //     {
-  //       type: 'radar',
-  //       emphasis: {
-  //         lineStyle: {
-  //           width: 4
-  //         }
-  //       },
-  //       data: [
-  //         {
-  //           value: [100, 8, 0.4, -80, 2000],
-  //           name: '学生 A'
-  //         },
-  //         {
-  //           value: [60, 5, 0.3, -100, 1500],
-  //           name: '学生 B',
-  //           areaStyle: {
-  //             color: 'rgba(255, 228, 52, 0.6)'
-  //           }
-  //         }
-  //       ]
-  //     }
-  //   ]
-  // }
   const parallelOption = {
     title: {
       text: '群体对比视图',
@@ -737,14 +667,11 @@ const MonthFeature = (props) => {
         </div>
         <div className="rightview">
           <div className="individual">
-            {isIndividual && amode == 0 && (
+            {isIndividual && (
               <ReactEcharts
                 option={individualOption}
                 style={{ width: '100%', height: '100%' }}
               />
-            )}
-            {isIndividual && amode == 2 && (
-              <TitleCompare isIndividual={isIndividual} />
             )}
           </div>
           <div className="compare">
