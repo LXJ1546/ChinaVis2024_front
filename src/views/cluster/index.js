@@ -52,10 +52,12 @@ const Scatter = (props) => {
   const [transferCircleData, setTransferCircleData] = useState([])
   // 用来画状态转换的连接
   const [transferLinksData, setTransferLinksData] = useState([])
+  // 用来拿到状态转换的学生id
+  const [transferStudentData, setTransferStudentData] = useState([])
   // 状态转移的第一月份
-  const [firstMonth, setFirstMonth] = useState('2023-09')
+  const [firstMonth, setFirstMonth] = useState(9)
   // 状态转移的第二月份
-  const [secondMonth, setSecondMonth] = useState('2023-10')
+  const [secondMonth, setSecondMonth] = useState(10)
   // 是否可以选择第二个月份
   const [canChoose, setCanChoose] = useState(false)
   // 是否展示统计特征箱线图
@@ -94,6 +96,14 @@ const Scatter = (props) => {
     2: '11',
     3: '12',
     4: '1'
+  }
+  // 定义一个对象，存储每个值对应的月份
+  const monthMap1 = {
+    9: 0,
+    10: 1,
+    11: 2,
+    12: 3,
+    1: 4
   }
   // 生成散点图系列
   const series = Object.keys(nowClusterData).map((cluster) => ({
@@ -201,7 +211,7 @@ const Scatter = (props) => {
     ],
     series: series
   }
-  let allColor = ['#d3d3d3', '#86C6F0', '#EB8277', '#6ABF57']
+  let allColor = ['#86C6F0', '#EB8277', '#6ABF57', '#d3d3d3']
   let minValue = Number.MAX_VALUE
   let maxValue = Number.MIN_VALUE
   let mappedData = []
@@ -301,9 +311,9 @@ const Scatter = (props) => {
         },
         data: [
           {
-            name: '无提交',
-            x: 500,
-            y: 300,
+            name: '针对型',
+            x: 600,
+            y: 290,
             value: transferCircleData[0],
             itemStyle: {
               color: allColor[0],
@@ -316,9 +326,9 @@ const Scatter = (props) => {
             }
           },
           {
-            name: '针对型',
-            x: 600,
-            y: 290,
+            name: '多样型',
+            x: 650,
+            y: 200,
             value: transferCircleData[1],
             itemStyle: {
               color: allColor[1],
@@ -331,9 +341,9 @@ const Scatter = (props) => {
             }
           },
           {
-            name: '多样型',
-            x: 650,
-            y: 200,
+            name: '尝试型',
+            x: 680,
+            y: 380,
             value: transferCircleData[2],
             itemStyle: {
               color: allColor[2],
@@ -346,9 +356,9 @@ const Scatter = (props) => {
             }
           },
           {
-            name: '尝试型',
-            x: 680,
-            y: 380,
+            name: '无提交',
+            x: 500,
+            y: 300,
             value: transferCircleData[3],
             itemStyle: {
               color: allColor[3],
@@ -408,6 +418,7 @@ const Scatter = (props) => {
     getTransferData().then((res) => {
       setTransferCircleData(res[0])
       setTransferLinksData(res[1])
+      setTransferStudentData(res[2])
     })
     getMonthStatisticInfo(2).then((res) => {
       setTimeStatsFeature(res)
@@ -550,6 +561,17 @@ const Scatter = (props) => {
     )
     return monthsChoice.slice(firstMonthIndex + 1)
   }
+  // 演变视图的连接线的点击事件
+  const handleTranferLinks = (params) => {
+    if (params.dataType === 'edge') {
+      const asource = params.data.source
+      const atarget = params.data.target
+      let month1 = monthMap1[firstMonth]
+      let month2 = monthMap1[secondMonth]
+      console.log(transferStudentData[asource][atarget])
+      console.log(month1, month2)
+    }
+  }
   // 切换开关事件
   const onSwitchChange1 = (checked) => {
     setShowShape(checked)
@@ -638,50 +660,56 @@ const Scatter = (props) => {
   // 根据id找到对应点并高亮
   const highlightPointById = (ids) => {
     const idList = findModeIndex(ids)
-    const echartsInstance = clusterRef.current.getEchartsInstance()
-    // 针对每个series高亮点
-    idList.forEach((sublist, index) => {
-      // 找到高亮点的索引
-      const dataIndexArray = sublist
-        .map((id) => {
-          const dataIndex = nowClusterData[index].findIndex(
-            (item) => item.key === id
-          )
-          return dataIndex !== -1 ? dataIndex : null
-        })
-        .filter((index) => index !== null)
-      if (dataIndexArray.length > 0) {
-        echartsInstance.dispatchAction({
-          type: 'highlight',
-          seriesIndex: index,
-          dataIndex: dataIndexArray
-        })
-      }
-    })
+    // 使用条件语句检查 clusterRef 是否存在
+    if (clusterRef && clusterRef.current) {
+      const echartsInstance = clusterRef.current.getEchartsInstance()
+      // 针对每个series高亮点
+      idList.forEach((sublist, index) => {
+        // 找到高亮点的索引
+        const dataIndexArray = sublist
+          .map((id) => {
+            const dataIndex = nowClusterData[index].findIndex(
+              (item) => item.key === id
+            )
+            return dataIndex !== -1 ? dataIndex : null
+          })
+          .filter((index) => index !== null)
+        if (dataIndexArray.length > 0) {
+          echartsInstance.dispatchAction({
+            type: 'highlight',
+            seriesIndex: index,
+            dataIndex: dataIndexArray
+          })
+        }
+      })
+    }
   }
   // 根据id找到对应点并高亮
   const downplayPointById = (ids) => {
     const idList = findModeIndex(ids)
-    const echartsInstance = clusterRef.current.getEchartsInstance()
-    // 针对每个series高亮点
-    idList.forEach((sublist, index) => {
-      // 找到高亮点的索引
-      const dataIndexArray = sublist
-        .map((id) => {
-          const dataIndex = nowClusterData[index].findIndex(
-            (item) => item.key === id
-          )
-          return dataIndex !== -1 ? dataIndex : null
-        })
-        .filter((index) => index !== null)
-      if (dataIndexArray.length > 0) {
-        echartsInstance.dispatchAction({
-          type: 'downplay',
-          seriesIndex: index,
-          dataIndex: dataIndexArray
-        })
-      }
-    })
+    // 使用条件语句检查 clusterRef 是否存在
+    if (clusterRef && clusterRef.current) {
+      const echartsInstance = clusterRef.current.getEchartsInstance()
+      // 针对每个series高亮点
+      idList.forEach((sublist, index) => {
+        // 找到高亮点的索引
+        const dataIndexArray = sublist
+          .map((id) => {
+            const dataIndex = nowClusterData[index].findIndex(
+              (item) => item.key === id
+            )
+            return dataIndex !== -1 ? dataIndex : null
+          })
+          .filter((index) => index !== null)
+        if (dataIndexArray.length > 0) {
+          echartsInstance.dispatchAction({
+            type: 'downplay',
+            seriesIndex: index,
+            dataIndex: dataIndexArray
+          })
+        }
+      })
+    }
   }
   return (
     <ScatterWrapper>
@@ -869,6 +897,9 @@ const Scatter = (props) => {
               <ReactEcharts
                 option={transferOption}
                 style={{ width: '100%', height: '100%' }}
+                onEvents={{
+                  click: handleTranferLinks
+                }}
               />
             )}
           </div>
