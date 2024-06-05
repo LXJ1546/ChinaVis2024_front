@@ -3,7 +3,22 @@ import { TitleCompareWrapper } from './style'
 import * as d3 from 'd3'
 
 const TitleCompare = (props) => {
-  const { isIndividual } = props
+  const {
+    isIndividual,
+    questionList,
+    submitData1,
+    correctRate1,
+    submitData2,
+    correctRate2
+  } = props
+  // 防止报错
+  console.log(
+    questionList,
+    submitData1,
+    correctRate1,
+    submitData2,
+    correctRate2
+  )
   let flag = 1
   function drawTitleCompare(flag) {
     const width = d3

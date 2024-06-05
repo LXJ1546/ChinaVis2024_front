@@ -29,7 +29,10 @@ const Scatter = (props) => {
     studentIDlist,
     handleStudentList1,
     studentSelectMastery,
-    handleStudentSelectMastery1
+    handleStudentSelectMastery1,
+    handleTransferLinksData,
+    handleTransferFirstMonth,
+    handleTransferSecondMonth
   } = props
   const clusterRef = useRef(null)
   const [clusterData, setClusterData] = useState([])
@@ -53,10 +56,12 @@ const Scatter = (props) => {
   const [transferCircleData, setTransferCircleData] = useState([])
   // 用来画状态转换的连接
   const [transferLinksData, setTransferLinksData] = useState([])
+  // 用来拿到状态转换的学生id
+  const [transferStudentData, setTransferStudentData] = useState([])
   // 状态转移的第一月份
-  const [firstMonth, setFirstMonth] = useState('2023-09')
+  const [firstMonth, setFirstMonth] = useState(9)
   // 状态转移的第二月份
-  const [secondMonth, setSecondMonth] = useState('2023-10')
+  const [secondMonth, setSecondMonth] = useState(10)
   // 是否可以选择第二个月份
   const [canChoose, setCanChoose] = useState(false)
   // 是否展示统计特征箱线图
@@ -95,6 +100,14 @@ const Scatter = (props) => {
     2: '11',
     3: '12',
     4: '1'
+  }
+  // 定义一个对象，存储每个值对应的月份
+  const monthMap1 = {
+    9: 0,
+    10: 1,
+    11: 2,
+    12: 3,
+    1: 4
   }
   // 生成散点图系列
   const series = Object.keys(nowClusterData).map((cluster) => ({
@@ -202,7 +215,7 @@ const Scatter = (props) => {
     ],
     series: series
   }
-  let allColor = ['#d3d3d3', '#86C6F0', '#EB8277', '#6ABF57']
+  let allColor = ['#86C6F0', '#EB8277', '#6ABF57', '#d3d3d3']
   let minValue = Number.MAX_VALUE
   let maxValue = Number.MIN_VALUE
   let mappedData = []
@@ -302,9 +315,9 @@ const Scatter = (props) => {
         },
         data: [
           {
-            name: '无提交',
-            x: 500,
-            y: 300,
+            name: '针对型',
+            x: 600,
+            y: 290,
             value: transferCircleData[0],
             itemStyle: {
               color: allColor[0],
@@ -317,9 +330,9 @@ const Scatter = (props) => {
             }
           },
           {
-            name: '针对型',
-            x: 600,
-            y: 290,
+            name: '多样型',
+            x: 650,
+            y: 200,
             value: transferCircleData[1],
             itemStyle: {
               color: allColor[1],
@@ -332,9 +345,9 @@ const Scatter = (props) => {
             }
           },
           {
-            name: '多样型',
-            x: 650,
-            y: 200,
+            name: '尝试型',
+            x: 680,
+            y: 380,
             value: transferCircleData[2],
             itemStyle: {
               color: allColor[2],
@@ -347,9 +360,9 @@ const Scatter = (props) => {
             }
           },
           {
-            name: '尝试型',
-            x: 680,
-            y: 380,
+            name: '无提交',
+            x: 500,
+            y: 300,
             value: transferCircleData[3],
             itemStyle: {
               color: allColor[3],
@@ -409,6 +422,7 @@ const Scatter = (props) => {
     getTransferData().then((res) => {
       setTransferCircleData(res[0])
       setTransferLinksData(res[1])
+      setTransferStudentData(res[2])
     })
     getMonthStatisticInfo(2).then((res) => {
       setTimeStatsFeature(res)
@@ -551,6 +565,42 @@ const Scatter = (props) => {
     )
     return monthsChoice.slice(firstMonthIndex + 1)
   }
+  // 演变视图的连接线的点击事件
+  const handleTranferLinks = (params) => {
+    if (params.dataType === 'edge') {
+      // 拿到起始点和去向
+      const asource = params.data.source
+      const atarget = params.data.target
+      // 拿到演变的月份
+      let month1 = monthMap1[firstMonth]
+      let month2 = monthMap1[secondMonth]
+      // 拿到该links的学生id数据
+      const student_ids = transferStudentData[asource][atarget]
+      // 假设 clusterData 是一个包含三个子列表的大列表，student_ids 是要匹配的学生id数组
+      let matched_dicts1 = []
+      let matched_dicts2 = []
+      for (let i = 0; i < clusterData[month1].length; i++) {
+        // 遍历大列表中的每个子列表
+        let matched_dicts_in_sublist = clusterData[month1][i].filter(
+          (student_dict) => student_ids.includes(student_dict.key)
+        )
+        matched_dicts1 = matched_dicts1.concat(matched_dicts_in_sublist)
+      }
+      for (let i = 0; i < clusterData[month2].length; i++) {
+        // 遍历大列表中的每个子列表
+        let matched_dicts_in_sublist = clusterData[month2][i].filter(
+          (student_dict) => student_ids.includes(student_dict.key)
+        )
+        matched_dicts2 = matched_dicts2.concat(matched_dicts_in_sublist)
+      }
+      // console.log(clusterData[month1])
+      // 更新状态
+      handleTransferLinksData([matched_dicts1, matched_dicts2])
+      // console.log('转移数据', [matched_dicts1, matched_dicts2])
+      handleTransferFirstMonth(firstMonth)
+      handleTransferSecondMonth(secondMonth)
+    }
+  }
   // 切换开关事件
   const onSwitchChange1 = (checked) => {
     setShowShape(checked)
@@ -639,50 +689,56 @@ const Scatter = (props) => {
   // 根据id找到对应点并高亮
   const highlightPointById = (ids) => {
     const idList = findModeIndex(ids)
-    const echartsInstance = clusterRef.current.getEchartsInstance()
-    // 针对每个series高亮点
-    idList.forEach((sublist, index) => {
-      // 找到高亮点的索引
-      const dataIndexArray = sublist
-        .map((id) => {
-          const dataIndex = nowClusterData[index].findIndex(
-            (item) => item.key === id
-          )
-          return dataIndex !== -1 ? dataIndex : null
-        })
-        .filter((index) => index !== null)
-      if (dataIndexArray.length > 0) {
-        echartsInstance.dispatchAction({
-          type: 'highlight',
-          seriesIndex: index,
-          dataIndex: dataIndexArray
-        })
-      }
-    })
+    // 使用条件语句检查 clusterRef 是否存在
+    if (clusterRef && clusterRef.current) {
+      const echartsInstance = clusterRef.current.getEchartsInstance()
+      // 针对每个series高亮点
+      idList.forEach((sublist, index) => {
+        // 找到高亮点的索引
+        const dataIndexArray = sublist
+          .map((id) => {
+            const dataIndex = nowClusterData[index].findIndex(
+              (item) => item.key === id
+            )
+            return dataIndex !== -1 ? dataIndex : null
+          })
+          .filter((index) => index !== null)
+        if (dataIndexArray.length > 0) {
+          echartsInstance.dispatchAction({
+            type: 'highlight',
+            seriesIndex: index,
+            dataIndex: dataIndexArray
+          })
+        }
+      })
+    }
   }
   // 根据id找到对应点并高亮
   const downplayPointById = (ids) => {
     const idList = findModeIndex(ids)
-    const echartsInstance = clusterRef.current.getEchartsInstance()
-    // 针对每个series高亮点
-    idList.forEach((sublist, index) => {
-      // 找到高亮点的索引
-      const dataIndexArray = sublist
-        .map((id) => {
-          const dataIndex = nowClusterData[index].findIndex(
-            (item) => item.key === id
-          )
-          return dataIndex !== -1 ? dataIndex : null
-        })
-        .filter((index) => index !== null)
-      if (dataIndexArray.length > 0) {
-        echartsInstance.dispatchAction({
-          type: 'downplay',
-          seriesIndex: index,
-          dataIndex: dataIndexArray
-        })
-      }
-    })
+    // 使用条件语句检查 clusterRef 是否存在
+    if (clusterRef && clusterRef.current) {
+      const echartsInstance = clusterRef.current.getEchartsInstance()
+      // 针对每个series高亮点
+      idList.forEach((sublist, index) => {
+        // 找到高亮点的索引
+        const dataIndexArray = sublist
+          .map((id) => {
+            const dataIndex = nowClusterData[index].findIndex(
+              (item) => item.key === id
+            )
+            return dataIndex !== -1 ? dataIndex : null
+          })
+          .filter((index) => index !== null)
+        if (dataIndexArray.length > 0) {
+          echartsInstance.dispatchAction({
+            type: 'downplay',
+            seriesIndex: index,
+            dataIndex: dataIndexArray
+          })
+        }
+      })
+    }
   }
   return (
     <ScatterWrapper>
@@ -871,6 +927,9 @@ const Scatter = (props) => {
               <ReactEcharts
                 option={transferOption}
                 style={{ width: '100%', height: '100%' }}
+                onEvents={{
+                  click: handleTranferLinks
+                }}
               />
             )}
           </div>
