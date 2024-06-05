@@ -86,6 +86,8 @@ const Scatter = (props) => {
   const [disabledHighlight, setDisabledHighlight] = useState(false)
   // 高亮数据的信息
   const [highlightInfo, setHighlightInfo] = useState([])
+  // 演变视图的雷达图数据
+  const [transferRadarData, setTransferRadarData] = useState([])
   const monthsChoice = [
     { value: 9, label: '2023-09' },
     { value: 10, label: '2023-10' },
@@ -596,6 +598,8 @@ const Scatter = (props) => {
       // console.log(clusterData[month1])
       // 更新状态
       handleTransferLinksData([matched_dicts1, matched_dicts2])
+      // 更新雷达图数据
+      setTransferRadarData([matched_dicts1, matched_dicts2])
       // console.log('转移数据', [matched_dicts1, matched_dicts2])
       handleTransferFirstMonth(firstMonth)
       handleTransferSecondMonth(secondMonth)
@@ -772,7 +776,7 @@ const Scatter = (props) => {
           {showStats && amode == 1 && (
             <TimeStatisticFeature statsFeature={timeStatsFeature} />
           )}
-          {amode == 2 && <Radar />}
+          {amode == 2 && <Radar transferRadarData={transferRadarData} />}
           {/* 高亮数据展示 */}
           {showHighlight && amode == 0 && (
             <div className="highlight">

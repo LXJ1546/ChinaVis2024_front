@@ -1,7 +1,10 @@
 import React, { memo, useEffect, useRef } from 'react'
 import * as echarts from 'echarts'
 
-const Radar = () => {
+const Radar = (props) => {
+  const { transferRadarData } = props
+  //防止报错
+  console.log(transferRadarData)
   const radarRef = useRef(null)
 
   const res = {
@@ -12,7 +15,8 @@ const Radar = () => {
     drawRadar()
   }, [])
 
-  const drawRadar = () => {
+  const drawRadar = (transferRadarData) => {
+    console.log('雷达图数据', transferRadarData)
     const radarInstance = echarts.getInstanceByDom(radarRef.current)
     if (radarInstance) {
       radarInstance.dispose()
