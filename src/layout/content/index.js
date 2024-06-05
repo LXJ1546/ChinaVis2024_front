@@ -265,6 +265,8 @@ const Content = () => {
               selectedRowKeys={selectedRowKeys}
               calendarFlag={calendarFlag}
               brushSelectedData={brushSelectedData}
+              transferFirstMonth={transferFirstMonth}
+              transferSecondMonth={transferSecondMonth}
             />
           </Card>
           <Card className="card9">

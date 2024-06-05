@@ -73,11 +73,11 @@ export const MonthFeatureWrapper = styled.div`
       height: 100%;
       .individual {
         width: 100%;
-        height: 45%;
+        height: 50%;
       }
       .compare {
         width: 100%;
-        height: 55%;
+        height: 50%;
       }
     }
   }

@@ -21,7 +21,9 @@ const Calendar = (props) => {
     handleStudentDatefromCalendar,
     selectedRowKeys,
     calendarFlag,
-    brushSelectedData
+    brushSelectedData,
+    transferFirstMonth,
+    transferSecondMonth
   } = props
   let studentID = []
   let studentCalandarInfo = {}
@@ -1113,7 +1115,7 @@ const Calendar = (props) => {
     //对选中的每个学生都生成这个图
     studentID.forEach(function (item, index) {
       console.log(item, index)
-      let monthList = [10, 11]
+      let monthList = [transferFirstMonth, transferSecondMonth]
       monthList.forEach((m, i) => {
         const dataArr = studentCalandarInfo[item + '-' + monthList[i]]
         console.log(dataArr)
@@ -2109,7 +2111,7 @@ const Calendar = (props) => {
       })
       newList = [selectedRowKeys, modeList, rankList] //需要更改,获取的前一个月和后一个月的模式
 
-      getCalenderInfo(studentID, month, amode).then((res) => {
+      getCalenderInfo(studentID, transferFirstMonth, amode).then((res) => {
         d3.select('.calendarsvg').remove()
         studentCalandarInfo = res
         console.log(res)
