@@ -2,18 +2,40 @@ import React, { memo, useEffect, useRef } from 'react'
 import * as echarts from 'echarts'
 
 const Radar = (props) => {
-  const { transferRadarData } = props
+  const { transferRadarData, firstM, secondM } = props
   //防止报错
-  console.log(transferRadarData)
+  // console.log('雷达图数据', transferRadarData)
   const radarRef = useRef(null)
-
-  const res = {
-    '9月': [0.46962646079945264, 0.5551806867812913, 31.842490842490843],
-    '10月': [0.6250595748462441, 0.7619955945820197, 15.493887530562347]
+  const attr = {
+    active: '活跃天数',
+    correct: '正确率',
+    master: '掌握程度',
+    question: '答题数',
+    submit: '提交次数'
   }
+  let dataProcess = []
+  for (let i in transferRadarData) {
+    let tempArr = []
+    for (let j in Object.keys(attr)) {
+      let sum = transferRadarData[i].reduce(
+        (accumulator, currentValue) =>
+          accumulator + currentValue[Object.keys(attr)[j]],
+        0
+      )
+      let average = sum / transferRadarData[i].length
+      tempArr.push(average)
+    }
+    dataProcess.push(tempArr)
+  }
+  // console.log('雷达图数据', dataProcess)
+
+  let res = {}
+  res[firstM] = dataProcess[0]
+  res[secondM] = dataProcess[1]
   useEffect(() => {
     drawRadar()
-  }, [])
+    // console.log('雷达图', res)
+  }, [transferRadarData])
 
   const drawRadar = () => {
     const radarInstance = echarts.getInstanceByDom(radarRef.current)
@@ -27,9 +49,9 @@ const Radar = (props) => {
       legend: {
         orient: 'vertical',
         x: 'left',
-        // left: '4%',
-        width: '10px',
-        data: ['9月', '10月']
+        left: '4%',
+        width: '50px',
+        data: name
       },
       tooltip: {
         trigger: 'item',
@@ -37,20 +59,27 @@ const Radar = (props) => {
         formatter: (params) => {
           //   console.log('tooltip', params.data)
           let { value, name } = params.data
-          return `${name}<br />掌握程度： ${value[0].toFixed(2)}<br />正确率：  &nbsp &nbsp${value[1].toFixed(2)}<br />活跃度：&nbsp  ${value[2].toFixed(2)}`
+          let str = ''
+          for (let i in value) {
+            str =
+              str +
+              Object.values(attr)[i] +
+              ':' +
+              value[i].toFixed(2) +
+              '<br />'
+          }
+          return `${name}<br />${str}`
         }
       },
       radar: {
         // shape: 'circle',
-        indicator: [
-          { name: '掌握程度' },
-          { name: '正确率' },
-          { name: '活跃度' }
-        ],
+        indicator: Object.values(attr).map((x) => {
+          return { name: x }
+        }),
         axisName: {
           color: '#888'
         },
-        center: ['50%', '55%']
+        center: ['50%', '60%']
       },
       // color: ['#F3D475', '#F3B28A', '#F1928E'],
       color: ['#FAD891', '#6D9AC4', '#777B98'],
@@ -60,12 +89,12 @@ const Radar = (props) => {
           type: 'radar',
           data: [
             {
-              value: res['9月'],
-              name: '9月'
+              value: res[firstM],
+              name: firstM
             },
             {
-              value: res['10月'],
-              name: '10月'
+              value: res[secondM],
+              name: secondM
             }
           ]
         }
@@ -78,7 +107,7 @@ const Radar = (props) => {
   return (
     <div
       style={{
-        width: '25%',
+        width: '30%',
         height: '25%',
         position: 'absolute',
         zIndex: 10,

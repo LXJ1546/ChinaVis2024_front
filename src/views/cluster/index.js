@@ -807,7 +807,13 @@ const Scatter = (props) => {
           {showStats && amode == 1 && (
             <TimeStatisticFeature statsFeature={timeStatsFeature} />
           )}
-          {amode == 2 && <Radar transferRadarData={transferRadarData} />}
+          {amode == 2 && transferRadarData.length > 0 && (
+            <Radar
+              transferRadarData={transferRadarData}
+              firstM={firstMonth + '月'}
+              secondM={secondMonth + '月'}
+            />
+          )}
           {/* 高亮数据展示 */}
           {showHighlight && amode == 0 && (
             <div className="highlight">
