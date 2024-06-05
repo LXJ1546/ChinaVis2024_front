@@ -8,10 +8,17 @@ const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/c/font_4565164_juvpif6y83m.js'
 })
 import d3Tip from 'd3-tip'
+import TitleCompare from '../titleCompare'
 
 const MonthFeature = (props) => {
-  const { brushData, month, parallelList, handleClickRowKeys, studentIDlist } =
-    props
+  const {
+    brushData,
+    month,
+    parallelList,
+    handleClickRowKeys,
+    studentIDlist,
+    amode
+  } = props
   // 拿到svg的引用
   const svgRef = useRef(null)
   // 拿到svg的引用
@@ -732,11 +739,14 @@ const MonthFeature = (props) => {
         </div>
         <div className="rightview">
           <div className="individual">
-            {isIndividual && (
+            {isIndividual && amode == 0 && (
               <ReactEcharts
                 option={individualOption}
                 style={{ width: '100%', height: '100%' }}
               />
+            )}
+            {isIndividual && amode == 2 && (
+              <TitleCompare isIndividual={isIndividual} />
             )}
           </div>
           <div className="compare">

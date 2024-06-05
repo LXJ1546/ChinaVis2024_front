@@ -200,6 +200,7 @@ const Content = () => {
                 parallelList={parallelList}
                 handleClickRowKeys={handleClickRowKeys}
                 studentIDlist={studentIDlist}
+                amode={amode}
               />
             ) : (
               <Evolution />
