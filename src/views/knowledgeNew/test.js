@@ -687,14 +687,17 @@ const KnowledgeTree = (props) => {
       .duration(1000)
       // 设置要动画化的属性
       .attr('r', (d) => {
-        if (viewState) {
+        if (knowledgeState.length == 0) {
           if (d.value >= 3) return d.value * 1.7
           else return d.value * 2.3
-        } else {
+        } else if (knowledgeState.length == 1) {
           if (d.value >= 10) return d.value * 2
           else if (d.value >= 3) return d.value * 4
           else if (d.value >= 2) return d.value * 6
           else return d.value * 8
+        } else {
+          if (d.value >= 2) return d.value * 2
+          else return d.value * 4
         }
       })
 
