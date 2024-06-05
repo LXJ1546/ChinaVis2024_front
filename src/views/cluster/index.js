@@ -1,4 +1,11 @@
-import React, { memo, useEffect, useState, useCallback, useRef } from 'react'
+import React, {
+  memo,
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+  useMemo
+} from 'react'
 import ReactEcharts from 'echarts-for-react'
 // import * as echarts from 'echarts'
 import { ScatterWrapper } from './style'
@@ -44,8 +51,6 @@ const Scatter = (props) => {
   // 设置坐标轴大小
   const [xmax, setXmax] = useState(-7)
   const [ymax, setYmax] = useState(-7)
-  // const [xmin, setXmin] = useState(-10)
-  // const [ymin, setYmin] = useState(-12)
   // 设置点的大小
   const [symbolSize, setSymbolSize] = useState(25)
   // 定义一个状态来控制组件的显示和隐藏
@@ -88,6 +93,19 @@ const Scatter = (props) => {
   const [highlightInfo, setHighlightInfo] = useState([])
   // 演变视图的雷达图数据
   const [transferRadarData, setTransferRadarData] = useState([])
+  // 缓存更新状态的回调函数
+  const memoizedHandleTransferLinksData = useMemo(
+    () => handleTransferLinksData,
+    [handleTransferLinksData]
+  )
+  const memoizedHandleTransferFirstMonth = useMemo(
+    () => handleTransferFirstMonth,
+    [handleTransferFirstMonth]
+  )
+  const memoizedHandleTransferSecondMonth = useMemo(
+    () => handleTransferSecondMonth,
+    [handleTransferSecondMonth]
+  )
   const monthsChoice = [
     { value: 9, label: '2023-09' },
     { value: 10, label: '2023-10' },
@@ -281,6 +299,7 @@ const Scatter = (props) => {
         (maxFontSize - minFontSize)
     )
   }
+  // console.log('演变')
   const transferOption = {
     tooltip: {},
     animationDurationUpdate: 1500,
@@ -548,13 +567,14 @@ const Scatter = (props) => {
     setSecondMonth(null) // 重置第二个选择器
     setCanChoose(true)
   }
-  // 处理第一个演变视图中选择器的变化
+  // 处理第2个演变视图中选择器的变化
   const handleSecondMonthChange = (value) => {
     setSecondMonth(value)
     setCanChoose(false)
     getTransferData(firstMonth, value).then((res) => {
       setTransferCircleData(res[0])
       setTransferLinksData(res[1])
+      setTransferStudentData(res[2])
     })
   }
   // 获取第二个选择器的可选项
@@ -568,43 +588,53 @@ const Scatter = (props) => {
     return monthsChoice.slice(firstMonthIndex + 1)
   }
   // 演变视图的连接线的点击事件
-  const handleTranferLinks = (params) => {
-    if (params.dataType === 'edge') {
-      // 拿到起始点和去向
-      const asource = params.data.source
-      const atarget = params.data.target
-      // 拿到演变的月份
-      let month1 = monthMap1[firstMonth]
-      let month2 = monthMap1[secondMonth]
-      // 拿到该links的学生id数据
-      const student_ids = transferStudentData[asource][atarget]
-      // 假设 clusterData 是一个包含三个子列表的大列表，student_ids 是要匹配的学生id数组
-      let matched_dicts1 = []
-      let matched_dicts2 = []
-      for (let i = 0; i < clusterData[month1].length; i++) {
-        // 遍历大列表中的每个子列表
-        let matched_dicts_in_sublist = clusterData[month1][i].filter(
-          (student_dict) => student_ids.includes(student_dict.key)
-        )
-        matched_dicts1 = matched_dicts1.concat(matched_dicts_in_sublist)
+  const handleTranferLinks = useCallback(
+    (params) => {
+      if (params.dataType === 'edge') {
+        // 拿到起始点和去向
+        const asource = params.data.source
+        const atarget = params.data.target
+        // 拿到演变的月份
+        let month1 = monthMap1[firstMonth]
+        let month2 = monthMap1[secondMonth]
+        // 拿到该links的学生id数据
+        const student_ids = transferStudentData[asource][atarget]
+        // console.log('学生id', transferStudentData[asource][atarget])
+        // console.log('学生id', student_ids)
+        // 假设 clusterData 是一个包含三个子列表的大列表，student_ids 是要匹配的学生id数组
+        let matched_dicts1 = []
+        let matched_dicts2 = []
+        for (let i = 0; i < clusterData[month1].length; i++) {
+          // 遍历大列表中的每个子列表
+          let matched_dicts_in_sublist = clusterData[month1][i].filter(
+            (student_dict) => student_ids.includes(student_dict.key)
+          )
+          matched_dicts1 = matched_dicts1.concat(matched_dicts_in_sublist)
+        }
+        for (let i = 0; i < clusterData[month2].length; i++) {
+          // 遍历大列表中的每个子列表
+          let matched_dicts_in_sublist = clusterData[month2][i].filter(
+            (student_dict) => student_ids.includes(student_dict.key)
+          )
+          matched_dicts2 = matched_dicts2.concat(matched_dicts_in_sublist)
+        }
+        // console.log(clusterData[month1])
+        // // 更新状态
+        // handleTransferLinksData([matched_dicts1, matched_dicts2])
+        // // 更新雷达图数据
+        // setTransferRadarData([matched_dicts1, matched_dicts2])
+        console.log('转移数据', [matched_dicts1, matched_dicts2])
+        // handleTransferFirstMonth(firstMonth)
+        // handleTransferSecondMonth(secondMonth)
+        // 更新状态，使用缓存的回调函数
+        memoizedHandleTransferLinksData([matched_dicts1, matched_dicts2])
+        setTransferRadarData([matched_dicts1, matched_dicts2])
+        memoizedHandleTransferFirstMonth(firstMonth)
+        memoizedHandleTransferSecondMonth(secondMonth)
       }
-      for (let i = 0; i < clusterData[month2].length; i++) {
-        // 遍历大列表中的每个子列表
-        let matched_dicts_in_sublist = clusterData[month2][i].filter(
-          (student_dict) => student_ids.includes(student_dict.key)
-        )
-        matched_dicts2 = matched_dicts2.concat(matched_dicts_in_sublist)
-      }
-      // console.log(clusterData[month1])
-      // 更新状态
-      handleTransferLinksData([matched_dicts1, matched_dicts2])
-      // 更新雷达图数据
-      setTransferRadarData([matched_dicts1, matched_dicts2])
-      // console.log('转移数据', [matched_dicts1, matched_dicts2])
-      handleTransferFirstMonth(firstMonth)
-      handleTransferSecondMonth(secondMonth)
-    }
-  }
+    },
+    [transferCircleData, transferLinksData, transferStudentData]
+  )
   // 切换开关事件
   const onSwitchChange1 = (checked) => {
     setShowShape(checked)
@@ -612,6 +642,7 @@ const Scatter = (props) => {
   // 切换开关事件
   const onSwitchChange2 = (checked) => {
     setShowStats(checked)
+    handleTranferLinks()
   }
   // 高亮数据的切换开关事件
   const onSwitchChange3 = (checked) => {
@@ -843,15 +874,13 @@ const Scatter = (props) => {
                 <div className="monthbtn">
                   <h3 className="label">月份</h3>
                   <Select
-                    defaultValue="2023-09"
                     style={{ width: 100, marginLeft: '10px' }}
                     options={monthsChoice}
-                    onChange={handleFirstMonthChange}
+                    onSelect={handleFirstMonthChange}
                     value={firstMonth}
                   />
                   <div className="to">to</div>
                   <Select
-                    defaultValue="2023-10"
                     style={{ width: 100, marginLeft: '5px' }}
                     options={getSecondMonthOptions()}
                     onChange={handleSecondMonthChange}
