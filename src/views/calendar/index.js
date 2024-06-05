@@ -21,7 +21,9 @@ const Calendar = (props) => {
     handleStudentDatefromCalendar,
     selectedRowKeys,
     calendarFlag,
-    brushSelectedData
+    brushSelectedData,
+    transferFirstMonth,
+    transferSecondMonth
   } = props
   let studentID = []
   let studentCalandarInfo = {}
@@ -31,6 +33,7 @@ const Calendar = (props) => {
   const [selectMonth, setSelectMonth] = useState('9') //用于获取点击某个时间段的月份
   const [selectIsWork, setSelectIsWork] = useState(1) //用于获取点击某个时间段是否为工作日
   const [selectPeriod, setSelectPeriod] = useState('凌晨') //用于获取点击某个时间段的具体时间段
+  let CalendarCompareNum = 0 //用于标志对比日历图中生成了多少个日历图
   //tooltip
   const tip = d3Tip()
     .attr('class', 'd3-tip')
@@ -574,6 +577,551 @@ const Calendar = (props) => {
       const dataArr = studentCalandarInfo[item]
       console.log(dataArr)
       drawStudentCalendar(item, index, dataArr)
+    })
+    // 获取 SVG 的边界框
+    const bbox = svg.node().getBBox()
+
+    // 动态设置 SVG 的宽度和高度
+    svg.attr('width', bbox.width + bbox.x)
+  }
+  //绘制演变视图的对比日历
+  function drawCalenderCompare(studentID) {
+    //用于判断生成了多少个日历图
+
+    //判断是否已经存在svg
+    const svg = d3
+      .select('.calendarview')
+      .append('svg')
+      .attr('class', 'calendarsvg')
+      //   .attr('width', '100%')
+      .attr('height', '99%')
+    svg.call(tip)
+
+    //图例
+    //图例数据
+    const legendData = [
+      { category: '正确占比', value: '#179349' },
+      { category: '答题数', value: '#EFA3A3' },
+      { category: 'Method_C', value: '#3770A7' },
+      { category: 'Method_g', value: '#886D80' },
+      { category: 'Method_5', value: '#E5C765' },
+      { category: 'Method_m', value: '#D9644A' },
+      { category: 'Method_B', value: '#7C5227' }
+    ]
+
+    const legend = svg.append('g').attr('class', 'legend')
+    // 添加图例条目
+    legend
+      .selectAll('rect')
+      .data(legendData)
+      .enter()
+      .append('rect')
+      .attr('x', (d, i) => i * 90 + 15)
+      .attr('y', 10)
+      .attr('width', 20)
+      .attr('height', 15)
+      .attr('fill', (d) => d.value)
+
+    // 添加图例文本
+    legend
+      .selectAll('text')
+      .data(legendData)
+      .enter()
+      .append('text')
+      .attr('x', (d, i) => i * 90 + 40)
+      .attr('y', 18)
+      .attr('dy', '0.35em')
+      .text((d) => d.category)
+      .attr('font-size', 12)
+    //添加中间线性映射的圆的提交次数的颜色
+    //   定义颜色映射的线性渐变
+    const gradient = d3
+      .select('.calendarsvg')
+      .append('defs')
+      .append('linearGradient')
+      .attr('id', 'gradientcompare')
+      .attr('x1', '0%')
+      .attr('y1', '0%')
+      .attr('x2', '100%')
+      .attr('y2', '0%')
+
+    // 添加渐变色段
+    gradient.append('stop').attr('offset', '0%').attr('stop-color', '#E4F1F4')
+    gradient.append('stop').attr('offset', '100%').attr('stop-color', '#47A2BE')
+
+    // 创建矩形
+    d3.select('.calendarsvg')
+      .append('rect')
+      .attr('width', 100)
+      .attr('height', 18)
+      //   .attr('x', 30)
+      //   .attr('y', 40)
+      .attr('x', 640)
+      .attr('y', 8)
+      .style('fill', 'url(#gradientcompare)')
+    //创建标签
+    // 创建矩形
+    d3.select('.calendarsvg')
+      .append('text')
+      .attr('x', 750)
+      .attr('y', 18)
+      .attr('dy', '0.35em')
+      .text('提交次数')
+      .attr('font-size', 12)
+
+    //画日历
+    function drawStudentCalendarCompare(
+      studentName,
+      studentNum,
+      dataArr,
+      monthFlag
+    ) {
+      const commitscaleColor = d3
+        .scaleLinear()
+        .domain([0, maxcommitnum])
+        .range(['#E4F1F4', '#47A2BE'])
+
+      //正确占比颜色映射
+      const rightcolor = d3
+        .scaleOrdinal()
+        .domain(['rightrate', 'errorrate'])
+        .range(['#179349', 'red'])
+
+      //使用语言的颜色映射
+      const languagecolor = d3
+        .scaleOrdinal()
+        .domain(['Method_C', 'Method_g', 'Method_5', 'Method_m', 'Method_B'])
+        .range(['#3770A7', '#886D80', '#E5C765', '#D9644A', '#7C5227'])
+      //数据组装
+      function generateDataset(options = { fill: {} }) {
+        // 开始时间
+        const startDate = options.startDate
+          ? new Date(options.startDate)
+          : new Date(new Date().getFullYear() + '-' + '01' + '-' + '01')
+        // 结束时间
+        const endDate = options.endDate ? new Date(options.endDate) : new Date()
+
+        // 相隔天数
+        const totalDays = Math.floor(
+          (endDate.getTime() - startDate.getTime()) / 86400000
+        )
+
+        // 循环天数
+        let year, month
+        let yearIndex = -1,
+          monthIndex = -1
+        let yearGroup = []
+        let dayTem = 0
+        while (dayTem <= totalDays) {
+          const dateName = d3.timeFormat('%Y-%m-%d')(
+            new Date(startDate.getTime() + 86400000 * dayTem)
+          )
+          const dateArr = dateName.split('-')
+
+          // 年
+          if (!year || dateArr[0] !== year) {
+            year = dateArr[0]
+            yearGroup.push({
+              name: dateArr[0],
+              monthGroup: []
+            })
+
+            yearIndex++
+            monthIndex = -1
+          }
+          // 月
+          if (!month || dateArr[1] !== month) {
+            month = dateArr[1]
+            yearGroup[yearIndex].monthGroup.push({
+              name: dateArr[0] + '-' + dateArr[1],
+              dayGroup: []
+            })
+            monthIndex++
+          }
+          console.log(options)
+          // 获取热力数据值
+          let right = null
+          let titletotal = null
+          let language = []
+          let commitcount = null
+          if (options.fill.hasOwnProperty.call(dataArr, dateName)) {
+            right = options.fill[dateName][0]
+            titletotal = options.fill[dateName][1]
+            language = options.fill[dateName][2]
+            commitcount = options.fill[dateName][3]
+          }
+          // 天里面的特征
+          //日期，正确占比，答题数，五种语言占比，提交次数
+          yearGroup[yearIndex].monthGroup[monthIndex].dayGroup.push({
+            name: dateName,
+            dayTem: dayTem + startDate.getDay(),
+            right,
+            titletotal,
+            language,
+            commitcount
+          })
+
+          dayTem++
+        }
+
+        return yearGroup
+      }
+      // startDate：日历开始时间 endDate：日历结束时间 dataArr：要展示的数据 - 之前定义好的格式
+
+      //绘制每个月的日历
+
+      let dayDatas = {}
+      if (monthFlag == 10 || monthFlag == 12) {
+        dayDatas = generateDataset({
+          startDate: '2023-' + monthFlag + '-01',
+          endDate: '2023-' + monthFlag + '-31',
+          fill: dataArr
+        })
+      } else if (monthFlag == 1) {
+        dayDatas = generateDataset({
+          startDate: '2024-' + monthFlag + '-01',
+          endDate: '2024-' + monthFlag + '-31',
+          fill: dataArr
+        })
+      } else {
+        dayDatas = generateDataset({
+          startDate: '2023-' + monthFlag + '-01',
+          endDate: '2023-' + monthFlag + '-30',
+          fill: dataArr
+        })
+      }
+      // 绘制日历块，给每个日历分组
+      const yearSvg = svg
+        .append('g')
+        .attr('transform', `translate(${50 + studentNum * 370},80)`)
+        .selectAll()
+        .data(dayDatas)
+        .enter()
+        .append('g')
+        .attr('class', (d) => 'year year-' + d.name)
+
+      const monthSvg = yearSvg
+        .selectAll()
+        .data((d) => d.monthGroup)
+        .enter()
+        .append('g')
+        .attr('class', (d) => 'month month-' + d.name)
+      // 绘制方块,颜色映射改天是否活跃
+      monthSvg
+        .selectAll()
+        .data((d) => d.dayGroup)
+        .enter()
+        .append('rect')
+        .attr('width', 65)
+        .attr('height', 65)
+        //   .attr('stroke', '#cccc') // 设置边框颜色
+        .attr('rx', 3)
+        .attr('x', (d) => Math.floor(d.dayTem / 7) * 66)
+        .attr('y', (d) => (d.dayTem % 7) * 66)
+        // .attr('fill', '#E8E8E8')
+        .attr('fill', (d) => {
+          if (!d.commitcount) {
+            return '#FBFAFA'
+          }
+          //   return commitscaleColor(d.commitcount)
+          else {
+            return '#EDECEC'
+          }
+        })
+        .on('mouseover', function (e, d) {
+          d3.select(this).style('stroke', 'grey').style('stroke-width', 2)
+          if (d.commitcount != null) {
+            tip.html(`<div style="line-height: 1;
+                font-weight: bold;
+                padding: 12px;
+                background: white;
+                color: grey;
+                border-radius: 2px;
+                pointer-events: none;
+                font-family: Arial, sans-serif;
+                font-size: 12px;
+                text-align: center;">日期: ${d.name}  <p>答题数: ${d.titletotal}</p> <p>Method_C: ${d.language[0].toFixed(2)}</p> <p>Method_g: ${d.language[1].toFixed(2)}</p> <p>Method_5: ${d.language[2].toFixed(2)}</p> <p>Method_m: ${d.language[3].toFixed(2)}</p> <p>Method_B: ${d.language[4].toFixed(2)}</p><p>提交平均次数: ${d.commitcount.toFixed(2)}</p><div>`)
+            tip.show(d, this)
+          } else {
+            tip.html(`<div style="line-height: 1;
+            font-weight: bold;
+            padding: 12px;
+            background: white;
+            color: grey;
+            border-radius: 2px;
+            pointer-events: none;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            text-align: center;">日期: ${d.name} 无答题行为<div>`)
+            tip.show(d, this)
+          }
+        })
+        .on('mouseout', function () {
+          tip.hide()
+          d3.select(this).style('stroke-width', 0)
+        })
+
+      // 定义饼图生成器
+      const pie = d3
+        .pie()
+        .value((d) => d[1])
+        .sort(null)
+
+      //绘制正确占比的圆环
+      // 定义弧生成器
+      const arcright = d3
+        .arc()
+        .innerRadius(28 * 0.8) // 内半径（控制圆环宽度）
+        .outerRadius(28) // 外半径
+
+      const rightSvg = monthSvg
+        .selectAll()
+        .data((d) => d.dayGroup)
+        .enter()
+        .append('g')
+        .attr(
+          'transform',
+          (d) =>
+            `translate(${Math.floor(d.dayTem / 7) * 66 + 33}, ${(d.dayTem % 7) * 66 + 33})`
+        )
+
+      rightSvg.each(function (d) {
+        let piedata = {}
+        if (d.right != null) {
+          piedata = {
+            rightrate: d.right.toFixed(2),
+            errorrate: (1 - d.right).toFixed(2)
+          }
+        } else {
+          piedata = {}
+        }
+        let right_data = pie(Object.entries(piedata))
+        //对每个 <g> 元素进行操作
+        const gRight = d3.select(this)
+        // 绘制圆环
+        gRight
+          .selectAll('path')
+          .data(right_data)
+          .enter()
+          .append('path')
+          .attr('d', arcright)
+          .attr('fill', function (d) {
+            return rightcolor(d.data[0])
+          })
+          .attr('opacity', function (d) {
+            if (d.data[0] == 'rightrate') {
+              return 1
+            } else {
+              return 0
+            }
+          })
+        // .attr('stroke', 'white')
+        // .style('stroke-width', '2px')
+      })
+
+      //绘制答题数占比
+      // 定义弧生成器
+      const arctitle = d3
+        .arc()
+        .innerRadius(23 * 0.8) // 内半径（控制圆环宽度）
+        .outerRadius(23) // 外半径
+
+      const titleSvg = monthSvg
+        .selectAll()
+        .data((d) => d.dayGroup)
+        .enter()
+        .append('g')
+        .attr(
+          'transform',
+          (d) =>
+            `translate(${Math.floor(d.dayTem / 7) * 66 + 33}, ${(d.dayTem % 7) * 66 + 33})`
+        )
+
+      titleSvg.each(function (d) {
+        let piedata = {}
+        if (d.titletotal != null) {
+          piedata = {
+            titletotalrate: d.titletotal,
+            notitletotalrate: 38 - d.titletotal
+          }
+        } else {
+          piedata = {}
+        }
+        let title_data = pie(Object.entries(piedata))
+        //对每个 <g> 元素进行操作
+        const gTitle = d3.select(this)
+        // 绘制圆环
+        gTitle
+          .selectAll('path')
+          .data(title_data)
+          .enter()
+          .append('path')
+          .attr('d', arctitle)
+          .attr('fill', '#EFA3A3')
+          .attr('opacity', function (d) {
+            if (d.data[0] == 'titletotalrate') {
+              return 1
+            } else {
+              return 0
+            }
+          })
+        // .attr('stroke', 'white')
+        // .style('stroke-width', '2px')
+      })
+
+      //绘制使用语言占比'Method_C', 'Method_g', 'Method_5', 'Method_m', 'Method_B'
+      // 定义弧生成器
+      const arcMethod = d3
+        .arc()
+        .innerRadius(18 * 0.7) // 内半径（控制圆环宽度）
+        .outerRadius(18) // 外半径
+
+      const MethodSvg = monthSvg
+        .selectAll()
+        .data((d) => d.dayGroup)
+        .enter()
+        .append('g')
+        .attr(
+          'transform',
+          (d) =>
+            `translate(${Math.floor(d.dayTem / 7) * 66 + 33}, ${(d.dayTem % 7) * 66 + 33})`
+        )
+
+      MethodSvg.each(function (d) {
+        let piedata = {}
+        if (d.language != null) {
+          piedata = {
+            Method_C: d.language[0],
+            Method_g: d.language[1],
+            Method_5: d.language[2],
+            Method_m: d.language[3],
+            Method_B: d.language[4]
+          }
+        } else {
+          piedata = {}
+        }
+        let Method_data = pie(Object.entries(piedata))
+        //对每个 <g> 元素进行操作
+        const gMethod = d3.select(this)
+        // 绘制圆环
+        gMethod
+          .selectAll('path')
+          .data(Method_data)
+          .enter()
+          .append('path')
+          .attr('d', arcMethod)
+          .attr('fill', function (d) {
+            return languagecolor(d.data[0])
+          })
+        // .attr('stroke', 'white')
+        // .style('stroke-width', '2px')
+      })
+
+      //绘制提交次数的中心圆
+      const commitSvg = monthSvg.append('g')
+      commitSvg
+        .selectAll()
+        .data((d) => d.dayGroup)
+        .enter()
+        .append('circle')
+        .attr('r', function (d) {
+          if (!d.commitcount) {
+            return 0
+          } else {
+            return 11
+          }
+        }) // 半径
+        .attr('cx', (d) => Math.floor(d.dayTem / 7) * 66 + 33)
+        .attr('cy', (d) => (d.dayTem % 7) * 66 + 33)
+        .attr('fill', (d) => {
+          if (!d.commitcount) {
+            return '#FBFAFA'
+          }
+          return commitscaleColor(d.commitcount)
+        })
+        .on('click', function (event, d) {
+          // 在点击事件中，可以访问数据（d）和索引（i）
+          handleCalendarSelectFlag(true)
+          handleStudentIDfromCalendar(studentName)
+          handleStudentDatefromCalendar(d.name)
+          tip.hide()
+        })
+        .on('mouseover', function (e, d) {
+          tip.html(`<div style="line-height: 1;
+        font-weight: bold;
+        padding: 12px;
+        background: white;
+        color: grey;
+        border-radius: 2px;
+        pointer-events: none;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        text-align: center;">日期: ${d.name} <p>提交平均次数: ${d.commitcount.toFixed(2)}</p><div>`)
+          tip.show(d, this)
+          d3.select(this).style('stroke', 'grey').style('stroke-width', 2)
+        })
+        .on('mouseout', function () {
+          tip.hide()
+          d3.select(this).style('stroke-width', 0)
+        })
+
+      //绘制月和周
+      const title = svg.append('g')
+
+      // 绘制 周
+      const weeks = ['日', '一', '二', '三', '四', '五', '六']
+      title
+        .append('g')
+        .attr('class', 'week')
+        .selectAll('.label')
+        .data(weeks)
+        .enter()
+        .append('text')
+        .attr('class', 'label')
+        .attr('x', 15)
+        .attr('y', 90)
+        .attr('dy', (d, i) => i * 66 + 30)
+        .attr('fill', 'black')
+        .text((d) => d)
+
+      //根据日历图布局，绘制周文本
+      let monthAll = []
+      dayDatas.forEach((element) => {
+        monthAll = monthAll.concat(element.monthGroup)
+      })
+
+      title
+        .append('g')
+        .attr('class', 'student-title')
+        .append('text')
+        .attr('x', (d, i) => {
+          return i * 71 * 4.25 + 90 + studentNum * 370
+        })
+        .attr('y', 60)
+        .attr('fill', function () {
+          if (newList[1][studentNum] == '针对型') {
+            return '#37A2DA'
+          } else if (newList[1][studentNum] == '多样型') {
+            return '#e06343'
+          } else {
+            return '#37a354'
+          }
+        })
+        .attr('font-size', '15px')
+        .attr('font-family', 'serif')
+        .text('学生ID: ' + studentName + '(' + monthFlag + '月)')
+    }
+
+    //对选中的每个学生都生成这个图
+    studentID.forEach(function (item, index) {
+      console.log(item, index)
+      let monthList = [transferFirstMonth, transferSecondMonth]
+      monthList.forEach((m, i) => {
+        const dataArr = studentCalandarInfo[item + '-' + monthList[i]]
+        console.log(dataArr)
+        drawStudentCalendarCompare(item, CalendarCompareNum, dataArr, m)
+        CalendarCompareNum = CalendarCompareNum + 1
+      })
     })
     // 获取 SVG 的边界框
     const bbox = svg.node().getBBox()
@@ -1515,8 +2063,6 @@ const Calendar = (props) => {
   useEffect(() => {
     if (amode == 0 && selectedRowKeys != []) {
       //更新重画
-      // d3.select('svg').remove() //移除已有的svg元素
-      // // 选择现有的 SVG 元素，如果已经存在则移除它
       studentID = selectedRowKeys
       let modeList = []
       let rankList = []
@@ -1530,9 +2076,10 @@ const Calendar = (props) => {
       })
       newList = [selectedRowKeys, modeList, rankList]
 
-      getCalenderInfo(studentID, month).then((res) => {
+      getCalenderInfo(studentID, month, amode).then((res) => {
         d3.select('.calendarsvg').remove()
         studentCalandarInfo = res
+        console.log(res)
         // 遍历 JSON 对象的每个键,获取这一组学生的提交最大值
         for (const key1 in studentCalandarInfo) {
           if (Object.prototype.hasOwnProperty.call(studentCalandarInfo, key1)) {
@@ -1549,6 +2096,57 @@ const Calendar = (props) => {
           }
         }
         drawCalendar(studentID)
+      })
+    } else if (amode == 2 && selectedRowKeys != []) {
+      studentID = selectedRowKeys
+      let modeList = []
+      let rankList = []
+      selectedRowKeys.forEach((id) => {
+        brushSelectedData.forEach((item) => {
+          if (item['key'] == id) {
+            modeList.push(item['label'])
+            rankList.push(item['rank'])
+          }
+        })
+      })
+      newList = [selectedRowKeys, modeList, rankList] //需要更改,获取的前一个月和后一个月的模式
+
+      getCalenderInfo(studentID, transferFirstMonth, amode).then((res) => {
+        d3.select('.calendarsvg').remove()
+        studentCalandarInfo = res
+        console.log(res)
+        //假数据
+        // studentCalandarInfo = {
+        //   '0b307ee95b41e222f204-9': {
+        //     '2023-09-02': [1, 1, [2, 3, 5, 0, 4], 0]
+        //   },
+        //   '0b307ee95b41e222f204-10': {
+        //     '2023-10-21': [0.5, 3, [2, 3, 6, 0, 4], 1]
+        //   },
+        //   '18cdd44af62c6935e7a0-9': {
+        //     '2023-09-05': [1, 1, [2, 3, 5, 0, 4], 0]
+        //   },
+        //   '18cdd44af62c6935e7a0-10': {
+        //     '2023-10-11': [0.5, 3, [2, 3, 6, 0, 4], 1]
+        //   }
+        // }
+        // 遍历 JSON 对象的每个键,获取这一组学生的提交最大值
+        for (const key1 in studentCalandarInfo) {
+          if (Object.prototype.hasOwnProperty.call(studentCalandarInfo, key1)) {
+            // 获得 key1 对应的数字
+            const key2Array = studentCalandarInfo[key1]
+            for (const key2 in key2Array) {
+              if (Object.prototype.hasOwnProperty.call(key2Array, key2)) {
+                // 遍历 key2Array 数组中的每个对象
+                if (key2Array[key2][3] > maxcommitnum) {
+                  maxcommitnum = key2Array[key2][3]
+                }
+              }
+            }
+          }
+        }
+        console.log(studentCalandarInfo)
+        drawCalenderCompare(studentID)
       })
     } else if (amode == 1) {
       // d3.select('.calendarsvg').remove()
@@ -1638,7 +2236,7 @@ const Calendar = (props) => {
       )}
       <div className="calendarHighview">
         {/* amode=0答题模式 ，amode=1时间模式*/}
-        {amode == 0 && <div className="calendarview"></div>}
+        {(amode == 0 || amode == 2) && <div className="calendarview"></div>}
         {amode == 1 && (
           <div id="answerSession" className="answerSessionview">
             <div id="answerDetailSession" className="answerDetailview"></div>
