@@ -633,7 +633,14 @@ const Scatter = (props) => {
         memoizedHandleTransferSecondMonth(secondMonth)
       }
     },
-    [transferCircleData, transferLinksData, transferStudentData]
+    [
+      transferCircleData,
+      transferLinksData,
+      transferStudentData,
+      clusterData,
+      firstMonth,
+      secondMonth
+    ]
   )
   // 切换开关事件
   const onSwitchChange1 = (checked) => {
