@@ -44,12 +44,16 @@ const TitleCompare = (props) => {
     //设置颜色比例尺
     const beforecolorScale = d3
       .scaleLinear()
-      .domain([column3Min, column3Max]) // 输入数据范围
+      .domain([
+        d3.min([column3Min, column4Min]),
+        d3.max([column3Max, column4Max])
+      ]) // 输入数据范围
       .range(['#ffccd5', '#E0464E']) // 输出颜色范围
-    const aftercolorScale = d3
-      .scaleLinear()
-      .domain([column4Min, column4Max]) // 输入数据范围
-      .range(['#BFD4EE', '#6A93C6']) // 输出颜色范围
+    // const aftercolorScale = d3
+    //   .scaleLinear()
+    //   .domain([column4Min, column4Max]) // 输入数据范围
+    //   .range(['#BFD4EE', '#6A93C6']) // 输出颜色范围
+    // console.log(aftercolorScale)
 
     const svg = d3
       .select('#TitleCompareSvg')
@@ -79,6 +83,7 @@ const TitleCompare = (props) => {
       .append('g')
       .attr('transform', 'translate(30,183)')
       .call(d3.axisBottom(xScale))
+    // 设置缩放行为
 
     // 添加纵轴
     svg
@@ -126,49 +131,73 @@ const TitleCompare = (props) => {
         return beforecolorScale(d[1][2])
       })
 
-    // 添加蓝色圆
+    // 添加红色三角形
+    // svg
+    //   .selectAll('.circle-after')
+    //   .data(Object.entries(titledata))
+    //   .enter()
+    //   .append('circle')
+    //   .attr('class', 'circle-after')
+    //   .attr('cx', function (d) {
+    //     return xScale(d[0]) + xScale.bandwidth() / 2 + 30
+    //   })
+    //   .attr('cy', function (d) {
+    //     return yScale(d[1][1]) - 5
+    //   })
+    //   .attr('r', 4)
+    //   .attr('fill', function (d) {
+    //     return aftercolorScale(d[1][3])
+    //   })
     svg
-      .selectAll('.circle-after')
+      .selectAll('.polygon-after')
       .data(Object.entries(titledata))
       .enter()
-      .append('circle')
-      .attr('class', 'circle-after')
-      .attr('cx', function (d) {
-        return xScale(d[0]) + xScale.bandwidth() / 2 + 30
+      .append('polygon')
+      .attr('class', 'polygon-after')
+      .attr('points', function (d) {
+        // 根据中心坐标确定多边形的顶点坐标
+        var centerX = xScale(d[0]) + xScale.bandwidth() / 2 + 30
+        var centerY = yScale(d[1][1]) - 5 // 修改y坐标，让三角尖朝下
+        var sideLength = 8 // 设置多边形的边长，这里假设为20
+        var halfSide = sideLength / 2
+        var vertices = [
+          [centerX, centerY - halfSide],
+          [centerX - halfSide, centerY + halfSide],
+          [centerX + halfSide, centerY + halfSide],
+          [centerX, centerY - halfSide] // 添加最后一个顶点以闭合多边形
+        ]
+        // 根据顶点坐标生成多边形的points属性值
+        return vertices.join(' ')
       })
-      .attr('cy', function (d) {
-        return yScale(d[1][1]) - 5
-      })
-      .attr('r', 4)
       .attr('fill', function (d) {
-        return aftercolorScale(d[1][3])
+        return beforecolorScale(d[1][3])
       })
 
-    // // 添加缩放功能
-    // function zoomed() {
-    //   // 更新x轴
-    //   xAxis.call(d3.axisBottom(xScale))
-    //   // 更新圆和线的位置
-    //   svg.selectAll('.circle-sept').attr('cx', function (d) {
-    //     return xScale(d[0]) + xScale.bandwidth() / 2
-    //   })
-    //   svg.selectAll('.circle-oct').attr('cx', function (d) {
-    //     return xScale(d[0]) + xScale.bandwidth() / 2
-    //   })
-    //   svg
-    //     .selectAll('.line')
-    //     .attr('x1', function (d) {
-    //       return xScale(d[0]) + xScale.bandwidth() / 2
-    //     })
-    //     .attr('x2', function (d) {
-    //       return xScale(d[0]) + xScale.bandwidth() / 2
-    //     })
-    // }
+    //增加X轴缩放事件
+    // 缩放处理函数
+    // 创建一个缩放行为，只在 X 轴上进行缩放
+    // 创建一个缩放行为
+    // var zoom = d3
+    //   .zoom()
+    //   .scaleExtent([1, 10]) // 设置缩放范围
+    //   .translateExtent([
+    //     [0, 0],
+    //     [0, 0]
+    //   ]) // 禁用Y轴上的平移
+    //   .on('zoom', zoomed) // 设置缩放事件处理函数
 
-    // var zoom = d3.zoom().scaleExtent([1, 10]).on('zoom', zoomed)
-
+    // // 将缩放行为应用到SVG元素上
     // svg.call(zoom)
 
+    // // 缩放事件处理函数
+    // function zoomed(event) {
+    //   // 获取当前的缩放状态
+    //   var transform = event.transform
+
+    //   // 对SVG元素进行缩放和平移
+    //   svg.attr('transform', transform)
+    // }
+    //绘制题目
     svg
       .append('text')
       .text('题目')
@@ -207,56 +236,64 @@ const TitleCompare = (props) => {
       .append('rect')
       .attr('width', 50)
       .attr('height', 10)
-      .attr('x', 150)
-      .attr('y', 5)
+      .attr('x', 380)
+      .attr('y', 6)
       .style('fill', 'url(#gradient)')
     svg
       .append('text')
-      .text('10月/正确率')
+      .text('正确率')
+      .attr('x', 440)
+      .attr('y', 15)
+      .style('font-size', '12px')
+    // 添加红色圆
+    svg
+      .append('circle')
+      .attr('cx', 195)
+      .attr('cy', 12)
+      .attr('r', 4)
+      .attr('fill', '#E0464E')
+    svg
+      .append('text')
+      .text('10月')
       .attr('x', 205)
       .attr('y', 15)
       .style('font-size', '12px')
-
-    const gradient2 = svg
-      .append('defs')
-      .append('linearGradient')
-      .attr('id', 'gradient2')
-      .attr('x1', '0%')
-      .attr('y1', '0%')
-      .attr('x2', '100%')
-      .attr('y2', '0%')
-    // 添加渐变色段
-    gradient2.append('stop').attr('offset', '0%').attr('stop-color', '#BFD4EE')
-    gradient2
-      .append('stop')
-      .attr('offset', '100%')
-      .attr('stop-color', '#6A93C6')
-
-    // 创建矩形
     svg
-      .append('rect')
-      .attr('width', 50)
-      .attr('height', 10)
-      .attr('x', 275)
-      .attr('y', 5)
-      .style('fill', 'url(#gradient2)')
+
+      .append('polygon')
+      .attr('points', function () {
+        // 根据中心坐标确定多边形的顶点坐标
+        var centerX = 240
+        var centerY = 11 // 修改y坐标，让三角尖朝下
+        var sideLength = 8 // 设置多边形的边长，这里假设为20
+        var halfSide = sideLength / 2
+        var vertices = [
+          [centerX, centerY - halfSide],
+          [centerX - halfSide, centerY + halfSide],
+          [centerX + halfSide, centerY + halfSide],
+          [centerX, centerY - halfSide] // 添加最后一个顶点以闭合多边形
+        ]
+        // 根据顶点坐标生成多边形的points属性值
+        return vertices.join(' ')
+      })
+      .attr('fill', '#E0464E')
     svg
       .append('text')
-      .text('11月/正确率')
-      .attr('x', 330)
+      .text('11月')
+      .attr('x', 250)
       .attr('y', 15)
       .style('font-size', '12px')
     svg
       .append('line')
-      .attr('x1', 400)
+      .attr('x1', 280)
       .attr('y1', 12)
-      .attr('x2', 420)
+      .attr('x2', 310)
       .attr('y2', 12)
       .attr('stroke', 'black')
     svg
       .append('text')
       .text('次数差距')
-      .attr('x', 430)
+      .attr('x', 320)
       .attr('y', 15)
       .style('font-size', '12px')
   }
