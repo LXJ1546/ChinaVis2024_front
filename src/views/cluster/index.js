@@ -29,7 +29,10 @@ const Scatter = (props) => {
     studentIDlist,
     handleStudentList1,
     studentSelectMastery,
-    handleStudentSelectMastery1
+    handleStudentSelectMastery1,
+    handleTransferLinksData,
+    handleTransferFirstMonth,
+    handleTransferSecondMonth
   } = props
   const clusterRef = useRef(null)
   const [clusterData, setClusterData] = useState([])
@@ -565,12 +568,37 @@ const Scatter = (props) => {
   // 演变视图的连接线的点击事件
   const handleTranferLinks = (params) => {
     if (params.dataType === 'edge') {
+      // 拿到起始点和去向
       const asource = params.data.source
       const atarget = params.data.target
+      // 拿到演变的月份
       let month1 = monthMap1[firstMonth]
       let month2 = monthMap1[secondMonth]
-      console.log(transferStudentData[asource][atarget])
-      console.log(month1, month2)
+      // 拿到该links的学生id数据
+      const student_ids = transferStudentData[asource][atarget]
+      // 假设 clusterData 是一个包含三个子列表的大列表，student_ids 是要匹配的学生id数组
+      let matched_dicts1 = []
+      let matched_dicts2 = []
+      for (let i = 0; i < clusterData[month1].length; i++) {
+        // 遍历大列表中的每个子列表
+        let matched_dicts_in_sublist = clusterData[month1][i].filter(
+          (student_dict) => student_ids.includes(student_dict.key)
+        )
+        matched_dicts1 = matched_dicts1.concat(matched_dicts_in_sublist)
+      }
+      for (let i = 0; i < clusterData[month2].length; i++) {
+        // 遍历大列表中的每个子列表
+        let matched_dicts_in_sublist = clusterData[month2][i].filter(
+          (student_dict) => student_ids.includes(student_dict.key)
+        )
+        matched_dicts2 = matched_dicts2.concat(matched_dicts_in_sublist)
+      }
+      // console.log(clusterData[month1])
+      // 更新状态
+      handleTransferLinksData([matched_dicts1, matched_dicts2])
+      // console.log('转移数据', [matched_dicts1, matched_dicts2])
+      handleTransferFirstMonth(firstMonth)
+      handleTransferSecondMonth(secondMonth)
     }
   }
   // 切换开关事件

@@ -1,7 +1,7 @@
 import React, { memo, useRef, useEffect, useState } from 'react'
 import * as d3 from 'd3'
 import ReactEcharts from 'echarts-for-react'
-import { MonthFeatureWrapper } from './style'
+import { TransferMonthWrapper } from './style'
 import { getMonthQuestionSubmit } from '../../api'
 import { createFromIconfontCN } from '@ant-design/icons'
 const IconFont = createFromIconfontCN({
@@ -10,14 +10,14 @@ const IconFont = createFromIconfontCN({
 import d3Tip from 'd3-tip'
 import TitleCompare from '../titleCompare'
 
-const MonthFeature = (props) => {
+const TransferMonth = (props) => {
   const {
-    brushData,
-    month,
+    transferLinksData,
+    transferFirstMonth,
+    transferSecondMonth,
     parallelList,
     handleClickRowKeys,
-    studentIDlist,
-    amode
+    studentIDlist
   } = props
   // 拿到svg的引用
   const svgRef = useRef(null)
@@ -25,23 +25,36 @@ const MonthFeature = (props) => {
   const legendRef = useRef(null)
   // 问题列表
   const [questionList, setQuestionList] = useState([])
-  // 问题的提交数据
-  const [submitData, setSubmitData] = useState([])
-  // 问题的正确率
-  const [correctRate, setCorrectRate] = useState([])
+  // 问题的提交数据,第一个月
+  const [submitData1, setSubmitData1] = useState([])
+  // 问题的正确率,第一个月
+  const [correctRate1, setCorrectRate1] = useState([])
+  // 问题的提交数据，第二个月
+  const [submitData2, setSubmitData2] = useState([])
+  // 问题的正确率，第二个月
+  const [correctRate2, setCorrectRate2] = useState([])
   // 是否展示个人视图
   const [isIndividual, setIsIndividual] = useState(false)
   // 是否展示平行坐标系
   const [isParallel, setIsParallel] = useState(false)
-  const student = brushData.map((item) => item.key)
+  // 四个框框的横坐标
+  const student = transferLinksData[0].map((item) => item.key)
   // 正确率的数据
-  const correct = brushData.map((item) => item.correct)
+  const correct1 = transferLinksData[0].map((item) => item.correct)
   // 提交的数据
-  const submit = brushData.map((item) => item.submit)
+  const submit1 = transferLinksData[0].map((item) => item.submit)
   // 活跃的数据
-  const active = brushData.map((item) => item.active)
+  const active1 = transferLinksData[0].map((item) => item.active)
   // 答题的数据
-  const question = brushData.map((item) => item.question)
+  const question1 = transferLinksData[0].map((item) => item.question)
+  // 正确率的数据,第二个月
+  const correct2 = transferLinksData[1].map((item) => item.correct)
+  // 提交的数据,第二个月
+  const submit2 = transferLinksData[1].map((item) => item.submit)
+  // 活跃的数据,第二个月
+  const active2 = transferLinksData[1].map((item) => item.active)
+  // 答题的数据,第二个月
+  const question2 = transferLinksData[1].map((item) => item.question)
   // 矩形条的数据
   // 提取的字段名
   const fieldsToExtract = [
@@ -53,10 +66,22 @@ const MonthFeature = (props) => {
     'question'
   ]
   // 使用 map 方法提取字段值并创建新数组
-  const extractedArrays = brushData.map((item) => {
+  const extractedArrays1 = transferLinksData[0].map((item) => {
     return fieldsToExtract.map((field) => item[field])
   })
-
+  const extractedArrays2 = transferLinksData[1].map((item) => {
+    return fieldsToExtract.map((field) => item[field])
+  })
+  // 将两个月的数据进行合并
+  let combinedArray = []
+  extractedArrays1.forEach((sublist, index1) => {
+    let tmp = []
+    sublist.forEach((value, index2) => {
+      tmp.push([value, extractedArrays2[index1][index2]])
+    })
+    combinedArray.push(tmp)
+  })
+  // console.log(combinedArray)
   const option1 = {
     grid: { left: '0%', top: '5%', right: '0%', bottom: '0%' },
     xAxis: {
@@ -89,9 +114,15 @@ const MonthFeature = (props) => {
     },
     series: [
       {
-        data: correct,
+        data: correct1,
         type: 'line',
         color: '#EB8277',
+        areaStyle: {}
+      },
+      {
+        data: correct2,
+        type: 'line',
+        color: '#86C6F0',
         areaStyle: {}
       }
     ]
@@ -128,9 +159,15 @@ const MonthFeature = (props) => {
     },
     series: [
       {
-        data: submit,
+        data: submit1,
         type: 'line',
         color: '#EB8277',
+        areaStyle: {}
+      },
+      {
+        data: submit2,
+        type: 'line',
+        color: '#86C6F0',
         areaStyle: {}
       }
     ]
@@ -167,9 +204,15 @@ const MonthFeature = (props) => {
     },
     series: [
       {
-        data: active,
+        data: active1,
         type: 'line',
         color: '#EB8277',
+        areaStyle: {}
+      },
+      {
+        data: active2,
+        type: 'line',
+        color: '#86C6F0',
         areaStyle: {}
       }
     ]
@@ -206,177 +249,19 @@ const MonthFeature = (props) => {
     },
     series: [
       {
-        data: question,
+        data: question1,
         type: 'line',
         color: '#EB8277',
+        areaStyle: {}
+      },
+      {
+        data: question2,
+        type: 'line',
+        color: '#86C6F0',
         areaStyle: {}
       }
     ]
   }
-  const individualOption = {
-    title: {
-      text: '个人答题情况',
-      left: '2%',
-      top: '2.5%',
-      textStyle: {
-        fontSize: 12,
-        fontWeight: 'normal'
-      }
-    },
-    grid: { left: '8%', top: '20%', right: '8%', bottom: '10%' },
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'cross',
-        crossStyle: {
-          color: '#999'
-        }
-      }
-    },
-    toolbox: {
-      feature: {
-        magicType: { show: true, type: ['line', 'bar'] },
-        restore: { show: true }
-      }
-    },
-    legend: {
-      top: '2%',
-      itemWidth: 20,
-      itemHeight: 10,
-      textStyle: {
-        fontSize: 11
-      }
-    },
-    xAxis: [
-      {
-        type: 'category',
-        data: questionList,
-        axisPointer: {
-          type: 'shadow'
-        },
-        axisLabel: {
-          formatter: function (value) {
-            // 拆分字符串，以 '_' 作为分隔符
-            const parts = value.split('_')
-            // 获取第二部分的前3个字符
-            const shortId = parts[1].substring(0, 3)
-            // 返回缩写后的ID
-            return `Q_${shortId}`
-          }
-        }
-      }
-    ],
-    yAxis: [
-      {
-        type: 'value',
-        splitLine: {
-          show: false
-        }
-      },
-      {
-        type: 'value',
-        min: 0,
-        max: 1
-      }
-    ],
-    dataZoom: {
-      type: 'inside'
-    },
-    series: [
-      {
-        name: '提交次数',
-        type: 'bar',
-        itemStyle: {
-          color: '#71B0D1'
-        },
-        tooltip: {
-          valueFormatter: function (value) {
-            return value + ' 次'
-          }
-        },
-        data: submitData
-      },
-      {
-        name: '正确率',
-        type: 'line',
-        yAxisIndex: 1,
-        itemStyle: {
-          color: '#6ABF57'
-        },
-        tooltip: {
-          valueFormatter: function (value) {
-            // 将小数转换为百分比，并保留两位小数
-            const percentage = (value * 100).toFixed(2)
-            return percentage + '%'
-          }
-        },
-        data: correctRate
-      }
-    ]
-  }
-  // const radarOption = {
-  //   legend: {
-  //     left: '5%'
-  //   },
-  //   radar: {
-  //     indicator: [
-  //       { text: '提交次数' },
-  //       { text: '活跃天数' },
-  //       { text: '正确率' },
-  //       { text: '答题数' }
-  //     ],
-  //     center: ['50%', '50%'],
-  //     radius: '70%',
-  //     startAngle: 90,
-  //     splitNumber: 4,
-  //     shape: 'circle',
-  //     nameGap: 5,
-  //     axisName: {
-  //       color: '#428BD4'
-  //     },
-  //     splitArea: {
-  //       // areaStyle: {
-  //       //   // color: ['#77EADF', '#26C3BE', '#64AFE9', '#428BD4'],
-  //       //   shadowColor: 'rgba(0, 0, 0, 0.2)',
-  //       //   shadowBlur: 10
-  //       // }
-  //     },
-
-  //     axisLine: {
-  //       lineStyle: {
-  //         color: 'rgba(211, 253, 250, 0.8)'
-  //       }
-  //     },
-  //     splitLine: {
-  //       lineStyle: {
-  //         color: 'rgb(220,220,220)'
-  //       }
-  //     }
-  //   },
-  //   series: [
-  //     {
-  //       type: 'radar',
-  //       emphasis: {
-  //         lineStyle: {
-  //           width: 4
-  //         }
-  //       },
-  //       data: [
-  //         {
-  //           value: [100, 8, 0.4, -80, 2000],
-  //           name: '学生 A'
-  //         },
-  //         {
-  //           value: [60, 5, 0.3, -100, 1500],
-  //           name: '学生 B',
-  //           areaStyle: {
-  //             color: 'rgba(255, 228, 52, 0.6)'
-  //           }
-  //         }
-  //       ]
-  //     }
-  //   ]
-  // }
   const parallelOption = {
     title: {
       text: '群体对比视图',
@@ -511,76 +396,141 @@ const MonthFeature = (props) => {
     // 渲染矩形
     svg
       .selectAll('g')
-      .data(extractedArrays)
+      .data(combinedArray)
       .enter()
       .append('g')
       .attr('transform', (_, i) => `translate(5, ${i * 30})`) // 每个学生之间间隔30像素
       /* eslint-disable no-unused-vars */
       .each(function (d, i) {
-        // 在每个 g 元素中添加一个圆
-        d3.select(this)
-          .on('click', function (event, d) {
-            // 处理点击事件
-            // 给表格选中数据传入新的选择
-            handleClickRowKeys(d[0])
-            // 获取个人视图和平行坐标系的数据
-            getMonthQuestionSubmit(d[0], month).then((res) => {
-              // 个人图x轴标签
-              setQuestionList(res[0])
-              // 个人图数据
-              setSubmitData(res[1])
-              setCorrectRate(res[2])
-              setIsIndividual(true)
-              setIsParallel(true)
+        // 在每个 g 元素添加点击事件
+        d3.select(this).on('click', function (event, d) {
+          // 处理点击事件
+          // 给表格选中数据传入新的选择
+          handleClickRowKeys(d[0][0])
+          // 等两个请求都成功获取之后才会执行后面的内容
+          Promise.all([
+            getMonthQuestionSubmit(d[0][0], transferFirstMonth),
+            getMonthQuestionSubmit(d[0][0], transferSecondMonth)
+          ]).then(([res1, res2]) => {
+            // 先拿到第一个月做的题
+            const qList1 = res1[0]
+            // 个人图数据
+            const submit1 = res1[1]
+            const correct1 = res1[2]
+            // 拿到第二个月做的题
+            const qList2 = res2[0]
+            // 个人图数据
+            const submit2 = res2[1]
+            const correct2 = res2[2]
+            // 合并问题列表
+            let aset = new Set([...qList1, ...qList2]) // 将两个列表合并到一个 Set 中
+            let mergedList = Array.from(aset)
+            // console.log(mergedList)
+            // 保存匹配后的数据
+            let new_submit1 = []
+            let new_correct1 = []
+            let new_submit2 = []
+            let new_correct2 = []
+            // 根据合并的问题列表来对应提交次数和正确率
+            mergedList.forEach((id) => {
+              let findindex = qList1.indexOf(id)
+              if (findindex !== -1) {
+                new_submit1.push(submit1[findindex])
+                new_correct1.push(correct1[findindex])
+              } else {
+                // 没有该问题就加0
+                new_submit1.push(0)
+                new_correct1.push(0)
+              }
             })
+            // 匹配第二个月的
+            mergedList.forEach((id) => {
+              let findindex = qList2.indexOf(id)
+              if (findindex !== -1) {
+                new_submit2.push(submit2[findindex])
+                new_correct2.push(correct2[findindex])
+              } else {
+                new_submit2.push(0)
+                new_correct2.push(0)
+              }
+            })
+            // 更新两个月份的状态
+            setSubmitData1(new_submit1)
+            setSubmitData2(new_submit2)
+            setCorrectRate1(new_correct1)
+            setCorrectRate2(new_correct2)
+            // 更新问题列表
+            setQuestionList(mergedList)
+            // 可以展示比较视图
+            setIsIndividual(true)
+            setIsParallel(true)
           })
+        })
+        // 在每个g元素中添加圆，又两个圆
+        d3.select(this)
+          .selectAll('circle')
+          .data(d[1]) // 绑定 d[1] 中的两个元素
+          .enter()
           .append('circle')
-          .attr('cx', 5) // 圆形的 x 坐标为 10
+          .attr('cx', (_, i) => 2 + i * 12) // 调整 x 坐标，使圆形水平排列
           .attr('cy', 10) // 圆形的 y 坐标为矩形的高度的一半，使其垂直居中
           .attr('r', 5) // 圆形的半径为 5 像素
-          .attr('fill', (d) => circleColorScale(d[1]))
+          .attr('fill', (data) => circleColorScale(data))
           .style('stroke', 'yellow')
-          .style('stroke-width', function (d) {
-            if (studentIDlist.indexOf(d[0]) == -1) {
+          .style('stroke-width', function (data) {
+            if (studentIDlist.indexOf(d[0][0]) == -1) {
               return 0
             } else {
               return 2
             }
           })
-          .on('mouseover', function (e, d) {
+          .on('mouseover', function (e, data) {
             d3.select(this).style('stroke', 'grey').style('stroke-width', 2)
             tip.html(`<div style="line-height: 1;
-                  font-weight: bold;
-                  padding: 12px;
-                  background: white;
-                  color: grey;
-                  border-radius: 2px;
-                  pointer-events: none;
-                  font-family: Arial, sans-serif;
-                  font-size: 12px;
-                  text-align: center;">学生ID: ${d[0]}</p><p>答题模式: ${d[1]}</p><div>`)
+              font-weight: bold;
+              padding: 12px;
+              background: white;
+              color: grey;
+              border-radius: 2px;
+              pointer-events: none;
+              font-family: Arial, sans-serif;
+              font-size: 12px;
+              text-align: center;">学生ID: ${d[0][0]}</p><p>答题模式: ${data}</p><div>`)
             tip.show(d, this)
           })
-          .on('mouseout', function (e, d) {
+          .on('mouseout', function (e, data) {
             tip.hide()
-            if (studentIDlist.indexOf(d[0]) == -1) {
+            if (studentIDlist.indexOf(d[0][0]) == -1) {
               d3.select(this).style('stroke-width', 0)
             } else {
               d3.select(this).style('stroke', 'yellow').style('stroke-width', 2)
             }
           })
-
         // 在每个 g 元素中根据数据添加矩形
         d3.select(this)
           .selectAll('rect')
           .data((d) => d.slice(2))
           .enter()
-          .append('rect')
-          .attr('x', (_, i) => 22 + i * 137) // 矩形的 x 坐标，留出空间给圆形和间隔
-          .attr('y', 0)
-          .attr('width', 128) // 每个矩形的固定宽度为130像素
-          .attr('height', 20) // 每个矩形的固定高度为20像素
-          .attr('fill', (d, i) => colorScales[i](d)) // 使用颜色比例尺编码矩形的颜色
+          .append('g') // 添加一个 g 容器来包含两个分开的矩形部分
+          .attr('transform', (_, i) => `translate(${22 + i * 137}, 0)`) // 矩形的 x 坐标，留出空间给圆形和间隔
+          .each(function (d, i) {
+            // 在每个 g 容器中添加两个小矩形
+            d3.select(this)
+              .append('rect')
+              .attr('x', 0)
+              .attr('y', 0)
+              .attr('width', 64) // 矩形的第一部分宽度为64的一半
+              .attr('height', 20)
+              .attr('fill', colorScales[i](d[0])) // 使用颜色比例尺编码第一个小矩形的颜色
+
+            d3.select(this)
+              .append('rect')
+              .attr('x', 64) // 第二个小矩形紧接在第一个后面
+              .attr('y', 0)
+              .attr('width', 64) // 矩形的第二部分宽度为64的一半
+              .attr('height', 20)
+              .attr('fill', colorScales[i](d[1])) // 使用颜色比例尺编码第二个小矩形的颜色
+          })
           .on('mouseover', function (e, d) {
             d3.select(this).style('stroke', 'grey').style('stroke-width', 2)
             tip.html(`<div style="line-height: 1;
@@ -675,9 +625,16 @@ const MonthFeature = (props) => {
       .text('多/高') // 添加文本内容
       .style('font-size', '11px') // 修改字体大小
       .style('opacity', 0.8)
-  }, [brushData])
+  }, [transferLinksData])
+  useEffect(() => {
+    console.log('问题列表', questionList)
+    console.log('第1个月提交次数', submitData1)
+    console.log('第2个月提交次数', submitData2)
+    console.log('第1个月正确率', correctRate1)
+    console.log('第2个月正确率', correctRate2)
+  }, [questionList, submitData1, submitData2, correctRate1, correctRate2])
   return (
-    <MonthFeatureWrapper>
+    <TransferMonthWrapper>
       <div className="title">
         <div className="title-icon">
           <IconFont type="icon-yuefen" />
@@ -730,22 +687,21 @@ const MonthFeature = (props) => {
               <svg
                 ref={svgRef}
                 width="100%"
-                height={extractedArrays.length * 30}
+                height={combinedArray.length * 30}
               />
             </div>
           </div>
         </div>
         <div className="rightview">
           <div className="individual">
-            {isIndividual && amode == 0 && (
-              <ReactEcharts
-                option={individualOption}
-                style={{ width: '100%', height: '100%' }}
-              />
-            )}
-            {isIndividual && amode == 2 && (
-              <TitleCompare isIndividual={isIndividual} />
-            )}
+            <TitleCompare
+              isIndividual={isIndividual}
+              questionList={questionList}
+              submitData1={submitData1}
+              correctRate1={correctRate1}
+              submitData2={submitData2}
+              correctRate2={correctRate2}
+            />
           </div>
           <div className="compare">
             {isParallel && (
@@ -757,7 +713,7 @@ const MonthFeature = (props) => {
           </div>
         </div>
       </div>
-    </MonthFeatureWrapper>
+    </TransferMonthWrapper>
   )
 }
-export default memo(MonthFeature)
+export default memo(TransferMonth)

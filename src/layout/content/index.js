@@ -15,6 +15,7 @@ import MonthFeature from '../../views/monthFeature/index'
 import TimeRight3 from '../../views/timeRight3'
 import Evolution from '../../views/temporalEvolution/index'
 import MonthTable from '../../views/monthTable/index'
+import TransferMonth from '../../views/transferMonth/index'
 const Content = () => {
   const [amode, setAmode] = useState(1) //模式0代表答题模式，1代表时间模式
   const [month, setMonth] = useState(10) //9,10,11,12,1
@@ -29,6 +30,12 @@ const Content = () => {
   const [clicktitleFlag, setClickTitleFlag] = useState(0) //用于设置点击事件将题目折线图缩小
   const [studentIDlist, setStudentIDlist] = useState([]) //用于设置选中的学生
   const [studentSelectMastery, setStudentSelectMastery] = useState([])
+  // 演变视图转移的学生数据
+  const [transferLinksData, setTransferLinksData] = useState([[], []])
+  // 演变视图转移的第一个月
+  const [transferFirstMonth, setTransferFirstMonth] = useState(9)
+  // 演变视图转移的第二个月
+  const [transferSecondMonth, setTransferSecondMonth] = useState(10)
   // 平行坐标系的数据
   const [parallelList, setParallelList] = useState([[], [], []])
   // 是否改变权重
@@ -103,9 +110,21 @@ const Content = () => {
   const handleStudentSelectMastery = (value) => {
     setStudentSelectMastery((prevList) => [...prevList, value])
   }
-  //定义新函数,用于传输选中的学生ID的总的掌握程度
+  //定义新函数,用于传输选中的学生ID的总的掌握程度，但主要用于设置空值
   const handleStudentSelectMastery1 = (value) => {
     setStudentSelectMastery(value)
+  }
+  //定义新函数,用于传输演变连接线对应的学生数据
+  const handleTransferLinksData = (value) => {
+    setTransferLinksData(value)
+  }
+  //定义新函数,用于修改演变的第一个月
+  const handleTransferFirstMonth = (value) => {
+    setTransferFirstMonth(value)
+  }
+  //定义新函数,用于修改演变的二个月
+  const handleTransferSecondMonth = (value) => {
+    setTransferSecondMonth(value)
   }
   useEffect(() => {
     // 最开始的时候平行坐标系展示全部数据
@@ -190,10 +209,13 @@ const Content = () => {
               handleStudentList1={handleStudentList1}
               studentSelectMastery={studentSelectMastery}
               handleStudentSelectMastery1={handleStudentSelectMastery1}
+              handleTransferLinksData={handleTransferLinksData}
+              handleTransferFirstMonth={handleTransferFirstMonth}
+              handleTransferSecondMonth={handleTransferSecondMonth}
             />
           </Card>
           <Card className="card6">
-            {amode == 0 || amode == 2 ? (
+            {amode == 0 && (
               <MonthFeature
                 brushData={brushSelectedData}
                 month={month}
@@ -202,8 +224,17 @@ const Content = () => {
                 studentIDlist={studentIDlist}
                 amode={amode}
               />
-            ) : (
-              <Evolution />
+            )}
+            {amode === 1 && <Evolution />}
+            {amode === 2 && (
+              <TransferMonth
+                transferLinksData={transferLinksData}
+                transferFirstMonth={transferFirstMonth}
+                transferSecondMonth={transferSecondMonth}
+                parallelList={parallelList}
+                handleClickRowKeys={handleClickRowKeys}
+                studentIDlist={studentIDlist}
+              />
             )}
           </Card>
         </div>
