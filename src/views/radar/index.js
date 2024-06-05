@@ -15,7 +15,8 @@ const Radar = (props) => {
     drawRadar()
   }, [])
 
-  const drawRadar = () => {
+  const drawRadar = (transferRadarData) => {
+    console.log('雷达图数据', transferRadarData)
     const radarInstance = echarts.getInstanceByDom(radarRef.current)
     if (radarInstance) {
       radarInstance.dispose()
