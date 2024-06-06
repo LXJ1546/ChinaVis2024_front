@@ -566,6 +566,7 @@ const Scatter = (props) => {
     setFirstMonth(value)
     setSecondMonth(null) // 重置第二个选择器
     setCanChoose(true)
+    setTransferRadarData([])
   }
   // 处理第2个演变视图中选择器的变化
   const handleSecondMonthChange = (value) => {
