@@ -376,7 +376,7 @@ const Evolution = () => {
 
     //利用循环绘制工作日和休息日的演变趋势
     //(工作日和休息日都展示的情况)(工作日情况)(休息日情况)
-    console.log(data)
+    // console.log(data)
     if (showFlag == 'all') {
       data.forEach((item) => {
         svg.append('g').attr('id', 'time' + workFlag)

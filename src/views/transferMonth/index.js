@@ -81,7 +81,6 @@ const TransferMonth = (props) => {
     })
     combinedArray.push(tmp)
   })
-  // console.log(combinedArray)
   const option1 = {
     grid: { left: '0%', top: '5%', right: '0%', bottom: '0%' },
     xAxis: {
@@ -350,6 +349,9 @@ const TransferMonth = (props) => {
       return `Class ${d[0]},人数: <span >${d}</span>`
     })
   useEffect(() => {
+    if (transferLinksData.length != 0) {
+      setIsParallel(true)
+    }
     const svg = d3.select(svgRef.current)
     // 图例的svg
     const legendsvg = d3.select(legendRef.current)
@@ -453,7 +455,6 @@ const TransferMonth = (props) => {
             setQuestionList(mergedList)
             // 可以展示比较视图
             setIsIndividual(true)
-            setIsParallel(true)
           })
         })
         // 在每个g元素中添加圆，又两个圆
@@ -616,13 +617,6 @@ const TransferMonth = (props) => {
       .style('font-size', '11px') // 修改字体大小
       .style('opacity', 0.8)
   }, [transferLinksData])
-  useEffect(() => {
-    console.log('问题列表', questionList)
-    console.log('第1个月提交次数', submitData1)
-    console.log('第2个月提交次数', submitData2)
-    console.log('第1个月正确率', correctRate1)
-    console.log('第2个月正确率', correctRate2)
-  }, [questionList, submitData1, submitData2, correctRate1, correctRate2])
   return (
     <TransferMonthWrapper>
       <div className="title">
