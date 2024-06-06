@@ -12,14 +12,6 @@ const TitleCompare = (props) => {
     submitData2,
     correctRate2
   } = props
-  // 防止报错
-  console.log(
-    questionList, //问题列表
-    submitData1, //提交列表1
-    correctRate1, //正确率列表1
-    submitData2, //提交列表2
-    correctRate2 //正确列表2
-  )
 
   //前一个月和后一个月提交数和答题数
   let titledata = {}
