@@ -20,12 +20,15 @@ const Correlation = (props) => {
     handleCalendarFlag,
     calendarFlag,
     changeParallelList,
-    isChangeWeight
+    isChangeWeight,
+    transferLinksData
   } = props
   // 保存相关性矩阵数据
   const [correlationData, setCorrelationData] = useState([])
   // 相关性数据的下标
   const [correlationIndex, setCorrelationIndex] = useState(1)
+  // 保存演化数据的数组
+  const [linksData, setLinksData] = useState([])
   const correlationOption = {
     tooltip: {
       position: 'left'
@@ -116,8 +119,9 @@ const Correlation = (props) => {
     // console.log(selectedRowKeys)
     // 根据选中的表格id来匹配数据，并更新平行坐标系的展示数据
     let paraList = [[], [], []]
+    const tmplist = amode === 0 ? brushData : linksData
     selectedRowKeys.forEach((id) => {
-      brushData.forEach((item) => {
+      tmplist.forEach((item) => {
         if (item['key'] == id) {
           let tmp = []
           tmp.push(item['submit'])
@@ -142,6 +146,10 @@ const Correlation = (props) => {
   useEffect(() => {
     setTableNum(selectedRowKeys.length)
   }, [selectedRowKeys])
+  // 表格勾选清空
+  useEffect(() => {
+    handleRowKeys([])
+  }, [amode])
   // 拿到相关性数据
   useEffect(() => {
     getCorrelationData().then((res) => {
@@ -149,6 +157,25 @@ const Correlation = (props) => {
     })
     // 初始化系统时更新数据
   }, [isChangeWeight])
+  // 演变视图的数据
+  useEffect(() => {
+    if (transferLinksData[0].length != 0 && transferLinksData[1].length != 0) {
+      let linksData1 = transferLinksData[0]
+      let linksData2 = transferLinksData[1]
+      // 按照字典的age属性进行排序
+      linksData1.sort(function (a, b) {
+        return a.key.localeCompare(b.key)
+      })
+      linksData2.sort(function (a, b) {
+        return a.key.localeCompare(b.key)
+      })
+      linksData1.forEach((value, index) => {
+        value.label1 = linksData2[index].label
+      })
+      setLinksData(linksData1)
+      console.log(linksData1)
+    }
+  }, [transferLinksData])
   useEffect(() => {
     if (amode == 0) {
       if (month == 9) {
@@ -176,7 +203,9 @@ const Correlation = (props) => {
         <div className="table">
           <div className="rightbar">
             <div className="num">
-              <h3 className="info">已刷选：{brushData.length}人</h3>
+              {amode == 0 && (
+                <h3 className="info">已刷选：{brushData.length}人</h3>
+              )}
               <h3 className="info">表格勾选：{tableNum}人</h3>
             </div>
             <div className="littlebtn">
@@ -194,7 +223,7 @@ const Correlation = (props) => {
           </div>
           <div className="atable">
             <Table
-              dataSource={brushData}
+              dataSource={amode == 0 ? brushData : linksData}
               pagination={false}
               size="small"
               rowSelection={rowSelection}
@@ -206,38 +235,84 @@ const Correlation = (props) => {
                 width={160}
                 ellipsis={true}
               />
-              <Column
-                title="模式"
-                dataIndex="label"
-                key="label"
-                width={70}
-                render={(_, record) => (
-                  <Tag
-                    color={
-                      record.label === '针对型'
-                        ? '#37A2DA'
-                        : record.label === '多样型'
-                          ? '#e06343'
-                          : '#37a354'
-                    }
-                  >
-                    {record.label}
-                  </Tag>
-                )}
-              />
-              <Column
-                title="月掌握度"
-                dataIndex="master"
-                key="master"
-                width={90}
-                ellipsis={true}
-                sorter={(a, b) => a.master - b.master}
-                defaultsortOrder={'descend'}
-                render={(text) => {
-                  // 使用toFixed(4)方法将数字格式化为保留三位小数
-                  return parseFloat(text).toFixed(4)
-                }}
-              />
+              {amode == 0 && (
+                <Column
+                  title="模式"
+                  dataIndex="label"
+                  key="label"
+                  width={70}
+                  render={(_, record) => (
+                    <Tag
+                      color={
+                        record.label === '针对型'
+                          ? '#37A2DA'
+                          : record.label === '多样型'
+                            ? '#e06343'
+                            : '#37a354'
+                      }
+                    >
+                      {record.label}
+                    </Tag>
+                  )}
+                />
+              )}
+              {amode == 0 && (
+                <Column
+                  title="月掌握度"
+                  dataIndex="master"
+                  key="master"
+                  width={90}
+                  ellipsis={true}
+                  sorter={(a, b) => a.master - b.master}
+                  defaultsortOrder={'descend'}
+                  render={(text) => {
+                    // 使用toFixed(4)方法将数字格式化为保留三位小数
+                    return parseFloat(text).toFixed(4)
+                  }}
+                />
+              )}
+              {amode == 2 && (
+                <Column
+                  title="模式1"
+                  dataIndex="label"
+                  key="label"
+                  width={70}
+                  render={(_, record) => (
+                    <Tag
+                      color={
+                        record.label === '针对型'
+                          ? '#37A2DA'
+                          : record.label === '多样型'
+                            ? '#e06343'
+                            : '#37a354'
+                      }
+                    >
+                      {record.label}
+                    </Tag>
+                  )}
+                />
+              )}
+              {amode == 2 && (
+                <Column
+                  title="模式2"
+                  dataIndex="label1"
+                  key="label1"
+                  width={70}
+                  render={(_, record) => (
+                    <Tag
+                      color={
+                        record.label1 === '针对型'
+                          ? '#37A2DA'
+                          : record.label1 === '多样型'
+                            ? '#e06343'
+                            : '#37a354'
+                      }
+                    >
+                      {record.label1}
+                    </Tag>
+                  )}
+                />
+              )}
               <Column
                 title="排名等级"
                 dataIndex="rank"

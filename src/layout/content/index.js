@@ -250,6 +250,7 @@ const Content = () => {
                 calendarFlag={calendarFlag}
                 changeParallelList={handleParallelList}
                 isChangeWeight={isChangeWeight}
+                transferLinksData={transferLinksData}
               />
             ) : (
               <MonthTable />
