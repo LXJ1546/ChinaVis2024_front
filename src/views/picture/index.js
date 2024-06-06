@@ -419,7 +419,7 @@ const Picture = (props) => {
 
   //更新班级内部排名视图
   function updateRank(classRankInfo) {
-    console.log(classRankInfo)
+    // console.log(classRankInfo)
     const rectDistance = 400 //用于扩大方块之间的差异
     var beforeOne = 0
     var rectX = 100 //第一个方块的起始值

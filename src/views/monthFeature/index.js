@@ -405,6 +405,9 @@ const MonthFeature = (props) => {
       return `Class ${d[0]},人数: <span >${d}</span>`
     })
   useEffect(() => {
+    if (brushData.length != 0) {
+      setIsParallel(true)
+    }
     const svg = d3.select(svgRef.current)
     // 图例的svg
     const legendsvg = d3.select(legendRef.current)
@@ -461,7 +464,6 @@ const MonthFeature = (props) => {
               setSubmitData(res[1])
               setCorrectRate(res[2])
               setIsIndividual(true)
-              setIsParallel(true)
             })
           })
           .append('circle')

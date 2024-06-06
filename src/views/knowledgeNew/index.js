@@ -412,7 +412,7 @@ const KnowledgeIcicle = (props) => {
       //一个知识点
       else if (knowledgeState.length == 1) {
         let childrenData
-        console.log('lemgth', knowledgeState.length)
+        // console.log('lemgth', knowledgeState.length)
         for (let i = 0, len = tempdata.children.length; i < len; i++) {
           if (tempdata.children[i].name == knowledgeState[0]) {
             childrenData = tempdata.children[i]
@@ -421,7 +421,7 @@ const KnowledgeIcicle = (props) => {
         }
         drawData = { name: 'q1', children: [childrenData] }
       } else if (knowledgeState.length == 2) {
-        console.log('lemgth', knowledgeState.length)
+        // console.log('lemgth', knowledgeState.length)
 
         let childrenData0
         let childrenData1
@@ -434,7 +434,7 @@ const KnowledgeIcicle = (props) => {
             childrenData1 = tempdata.children[i]
           }
         }
-        console.log('test', [childrenData0, childrenData1])
+        // console.log('test', [childrenData0, childrenData1])
         drawData = { name: 'q1', children: [childrenData0, childrenData1] }
       }
 
@@ -617,7 +617,7 @@ const KnowledgeIcicle = (props) => {
       // 在这里编写点击事件的处理逻辑
       let question = e.target.__data__.data.name
       let Q_name = 'Q_' + question.substring(9, 12)
-      console.log('点击了 <g> 元素', Q_name)
+      // console.log('点击了 <g> 元素', Q_name)
 
       handleHighLightedXaix(Q_name)
       handleClickTitleFlag(1)
@@ -665,7 +665,7 @@ const KnowledgeIcicle = (props) => {
         // 获取第二个类名
         let secondClassName = clickedRect.classList[1]
         // 在控制台中打印第二个类名
-        console.log(secondClassName)
+        // console.log(secondClassName)
         setquestionIconState(secondClassName)
         setQuestionState(() => !questionState)
         //不知道为什么要!

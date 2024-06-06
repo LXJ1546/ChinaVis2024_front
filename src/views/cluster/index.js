@@ -625,7 +625,7 @@ const Scatter = (props) => {
         matched_dicts2.sort(function (a, b) {
           return a.key.localeCompare(b.key)
         })
-        console.log('线的数据', matched_dicts1, matched_dicts2)
+        // console.log('线的数据', matched_dicts1, matched_dicts2)
         // // 更新状态
         // handleTransferLinksData([matched_dicts1, matched_dicts2])
         // // 更新雷达图数据
@@ -649,7 +649,6 @@ const Scatter = (props) => {
   // 切换开关事件
   const onSwitchChange2 = (checked) => {
     setShowStats(checked)
-    handleTranferLinks()
   }
   // 高亮数据的切换开关事件
   const onSwitchChange3 = (checked) => {
