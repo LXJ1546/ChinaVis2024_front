@@ -618,7 +618,13 @@ const Scatter = (props) => {
           )
           matched_dicts2 = matched_dicts2.concat(matched_dicts_in_sublist)
         }
-        // console.log(clusterData[month1])
+        matched_dicts1.sort(function (a, b) {
+          return a.key.localeCompare(b.key)
+        })
+        matched_dicts2.sort(function (a, b) {
+          return a.key.localeCompare(b.key)
+        })
+        console.log('线的数据', matched_dicts1, matched_dicts2)
         // // 更新状态
         // handleTransferLinksData([matched_dicts1, matched_dicts2])
         // // 更新雷达图数据
