@@ -116,12 +116,63 @@ const Correlation = (props) => {
     onChange: onSelectChange
   }
   // 点击确认按钮
-  const changeFlag = () => {
-    handleCalendarFlag(!calendarFlag)
-    // console.log(selectedRowKeys)
-    // 根据选中的表格id来匹配数据，并更新平行坐标系的展示数据
-    let paraList = [[], [], []]
-    const tmplist = amode === 0 ? brushData : linksData
+  // 点击确认按钮
+  // const changeFlag = () => {
+  //   let paraList1 = [[], [], []]
+  //   let paraList2 = [[], []] // 根据选中的表格id来匹配数据，并更新平行坐标系的展示数据
+  //   selectedRowKeys.forEach((id) => {
+  //     // 按模式来更新平行坐标系
+  //     if (amode == 0) {
+  //       brushData.forEach((item) => {
+  //         if (item['key'] == id) {
+  //           let tmp = []
+  //           tmp.push(item['submit'])
+  //           tmp.push(item['active'])
+  //           tmp.push(item['question'])
+  //           tmp.push(item['correct'])
+  //           tmp.push(item['label'])
+  //           if (item['label'] == '针对型') {
+  //             paraList1[0].push(tmp)
+  //           } else if (item['label'] == '多样型') {
+  //             paraList1[1].push(tmp)
+  //           } else {
+  //             paraList1[2].push(tmp)
+  //           }
+  //         }
+  //       }) // 父组件传来的props
+  //       changeParallelList(paraList1)
+  //     } else if (amode == 2) {
+  //       transferLinksData[0].forEach((item) => {
+  //         if (item['key'] == id) {
+  //           let tmp = []
+  //           tmp.push(item['submit'])
+  //           tmp.push(item['active'])
+  //           tmp.push(item['question'])
+  //           tmp.push(item['correct'])
+  //           tmp.push(item['label'])
+  //           paraList2[0].push(tmp)
+  //         }
+  //       })
+  //       transferLinksData[1].forEach((item) => {
+  //         if (item['key'] == id) {
+  //           let tmp = []
+  //           tmp.push(item['submit'])
+  //           tmp.push(item['active'])
+  //           tmp.push(item['question'])
+  //           tmp.push(item['correct'])
+  //           tmp.push(item['label'])
+  //           paraList2[1].push(tmp)
+  //         }
+  //       })
+  //       handleTranferParallelList(paraList2)
+  //     }
+  //   })
+  // }
+  // 表格勾选人数的更新
+  useEffect(() => {
+    setTableNum(selectedRowKeys.length)
+    let paraList1 = [[], [], []]
+    let paraList2 = [[], []] // 根据选中的表格id来匹配数据，并更新平行坐标系的展示数据
     selectedRowKeys.forEach((id) => {
       // 按模式来更新平行坐标系
       if (amode == 0) {
@@ -141,8 +192,7 @@ const Correlation = (props) => {
               paraList1[2].push(tmp)
             }
           }
-        })
-        // 父组件传来的props
+        }) // 父组件传来的props
         changeParallelList(paraList1)
       } else if (amode == 2) {
         transferLinksData[0].forEach((item) => {
@@ -170,12 +220,6 @@ const Correlation = (props) => {
         handleTranferParallelList(paraList2)
       }
     })
-    // 父组件传来的props
-    changeParallelList(paraList)
-  }
-  // 表格勾选人数的更新
-  useEffect(() => {
-    setTableNum(selectedRowKeys.length)
   }, [selectedRowKeys])
   // 数据清空
   useEffect(() => {
