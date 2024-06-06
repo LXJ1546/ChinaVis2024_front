@@ -17,12 +17,13 @@ const Correlation = (props) => {
     brushData,
     handleRowKeys,
     selectedRowKeys,
-    handleCalendarFlag,
-    calendarFlag,
+    // handleCalendarFlag,
+    // calendarFlag,
     changeParallelList,
     isChangeWeight,
     transferLinksData
   } = props
+
   // 保存相关性矩阵数据
   const [correlationData, setCorrelationData] = useState([])
   // 相关性数据的下标
@@ -114,10 +115,37 @@ const Correlation = (props) => {
     onChange: onSelectChange
   }
   // 点击确认按钮
-  const changeFlag = () => {
-    handleCalendarFlag(!calendarFlag)
-    // console.log(selectedRowKeys)
-    // 根据选中的表格id来匹配数据，并更新平行坐标系的展示数据
+  // const changeFlag = () => {
+  //   handleCalendarFlag(!calendarFlag)
+  //   // console.log(selectedRowKeys)
+  //   // 根据选中的表格id来匹配数据，并更新平行坐标系的展示数据
+  //   let paraList = [[], [], []]
+  //   const tmplist = amode === 0 ? brushData : linksData
+  //   selectedRowKeys.forEach((id) => {
+  //     tmplist.forEach((item) => {
+  //       if (item['key'] == id) {
+  //         let tmp = []
+  //         tmp.push(item['submit'])
+  //         tmp.push(item['active'])
+  //         tmp.push(item['question'])
+  //         tmp.push(item['correct'])
+  //         tmp.push(item['label'])
+  //         if (item['label'] == '针对型') {
+  //           paraList[0].push(tmp)
+  //         } else if (item['label'] == '多样型') {
+  //           paraList[1].push(tmp)
+  //         } else {
+  //           paraList[2].push(tmp)
+  //         }
+  //       }
+  //     })
+  //   })
+  //   // 父组件传来的props
+  //   changeParallelList(paraList)
+  // }
+  // 表格勾选人数的更新
+  useEffect(() => {
+    setTableNum(selectedRowKeys.length)
     let paraList = [[], [], []]
     const tmplist = amode === 0 ? brushData : linksData
     selectedRowKeys.forEach((id) => {
@@ -141,10 +169,6 @@ const Correlation = (props) => {
     })
     // 父组件传来的props
     changeParallelList(paraList)
-  }
-  // 表格勾选人数的更新
-  useEffect(() => {
-    setTableNum(selectedRowKeys.length)
   }, [selectedRowKeys])
   // 表格勾选清空
   useEffect(() => {
@@ -216,9 +240,9 @@ const Correlation = (props) => {
               >
                 取消
               </Button>
-              <Button type="primary" size="small" onClick={changeFlag}>
+              {/* <Button type="primary" size="small" onClick={changeFlag}>
                 确认
-              </Button>
+              </Button> */}
             </div>
           </div>
           <div className="atable">

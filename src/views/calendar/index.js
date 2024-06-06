@@ -23,7 +23,9 @@ const Calendar = (props) => {
     calendarFlag,
     brushSelectedData,
     transferFirstMonth,
-    transferSecondMonth
+    transferSecondMonth,
+    transferLinksData,
+    handleRowKeys
   } = props
   let studentID = []
   let studentCalandarInfo = {}
@@ -738,7 +740,7 @@ const Calendar = (props) => {
             })
             monthIndex++
           }
-          console.log(options)
+
           // 获取热力数据值
           let right = null
           let titletotal = null
@@ -1099,9 +1101,9 @@ const Calendar = (props) => {
         })
         .attr('y', 60)
         .attr('fill', function () {
-          if (newList[1][studentNum] == '针对型') {
+          if (newList[1][CalendarCompareNum] == '针对型') {
             return '#37A2DA'
-          } else if (newList[1][studentNum] == '多样型') {
+          } else if (newList[1][CalendarCompareNum] == '多样型') {
             return '#e06343'
           } else {
             return '#37a354'
@@ -2059,6 +2061,12 @@ const Calendar = (props) => {
       })
   }
 
+  // 表格勾选清空
+  useEffect(() => {
+    handleRowKeys([])
+    console.log(selectedRowKeys)
+  }, [amode])
+
   //视图更新
   useEffect(() => {
     if (amode == 0 && selectedRowKeys != []) {
@@ -2098,23 +2106,23 @@ const Calendar = (props) => {
         drawCalendar(studentID)
       })
     } else if (amode == 2 && selectedRowKeys != []) {
+      console.log(selectedRowKeys)
       studentID = selectedRowKeys
       let modeList = []
-      let rankList = []
       selectedRowKeys.forEach((id) => {
-        brushSelectedData.forEach((item) => {
+        transferLinksData[0].forEach((item) => {
           if (item['key'] == id) {
             modeList.push(item['label'])
-            rankList.push(item['rank'])
+            modeList.push(item['label1'])
           }
         })
       })
-      newList = [selectedRowKeys, modeList, rankList] //需要更改,获取的前一个月和后一个月的模式
+      newList = [selectedRowKeys, modeList] //需要更改,获取的前一个月和后一个月的模式
 
       getCalenderInfo(studentID, transferFirstMonth, amode).then((res) => {
         d3.select('.calendarsvg').remove()
         studentCalandarInfo = res
-        console.log(res)
+        console.log(studentID, transferFirstMonth, amode, res)
         //假数据
         // studentCalandarInfo = {
         //   '0b307ee95b41e222f204-9': {
@@ -2180,7 +2188,7 @@ const Calendar = (props) => {
         drawAnswerSession(sessionPeriods, answerData)
       })
     }
-  }, [amode, order, calendarFlag])
+  }, [order, calendarFlag, selectedRowKeys])
 
   //监听是否有选中的时间段
   useEffect(() => {

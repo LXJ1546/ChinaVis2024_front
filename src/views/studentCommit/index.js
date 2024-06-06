@@ -17,7 +17,9 @@ const StudentCommit = (props) => {
     month,
     calendarSelectFlag,
     studentIDfromCalendar,
-    studentDatefromCalendar
+    studentDatefromCalendar,
+    handleCalendarSelectFlag,
+    handleStudentIDfromCalendar
   } = props
   console.log(month)
   const commitCountChartRef = useRef(null)
@@ -714,6 +716,18 @@ const StudentCommit = (props) => {
       }
     }
   }
+  useEffect(() => {
+    d3.select('.studentCommitsvg').remove()
+    d3.select('.commitlegendsvg').remove()
+    const existingInstance = echarts.getInstanceByDom(
+      commitCountChartRef.current
+    )
+    if (existingInstance) {
+      existingInstance.dispose()
+    }
+    handleCalendarSelectFlag(false)
+    handleStudentIDfromCalendar([])
+  }, [amode])
 
   //视图更新
   useEffect(() => {
@@ -731,12 +745,7 @@ const StudentCommit = (props) => {
         }
       )
     }
-  }, [
-    amode,
-    calendarSelectFlag,
-    studentIDfromCalendar,
-    studentDatefromCalendar
-  ])
+  }, [calendarSelectFlag, studentIDfromCalendar, studentDatefromCalendar])
 
   return (
     <StudentCommitWrapper>

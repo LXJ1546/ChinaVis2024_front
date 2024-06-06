@@ -146,6 +146,7 @@ const Content = () => {
     })
     setParallelList(paraList)
   }, [brushSelectedData])
+
   return (
     <ContentWrapper>
       <div className="container">
@@ -268,6 +269,9 @@ const Content = () => {
               brushSelectedData={brushSelectedData}
               transferFirstMonth={transferFirstMonth}
               transferSecondMonth={transferSecondMonth}
+              transferLinksData={transferLinksData}
+              handleRowKeys={handleRowKeys}
+              handleCalendarFlag={handleCalendarFlag}
             />
           </Card>
           <Card className="card9">
@@ -278,6 +282,8 @@ const Content = () => {
                 calendarSelectFlag={calendarSelectFlag}
                 studentIDfromCalendar={studentIDfromCalendar}
                 studentDatefromCalendar={studentDatefromCalendar}
+                handleCalendarSelectFlag={handleCalendarSelectFlag}
+                handleStudentIDfromCalendar={handleStudentIDfromCalendar}
               />
             ) : (
               <TimeRight3 isChangeWeight={isChangeWeight} />
