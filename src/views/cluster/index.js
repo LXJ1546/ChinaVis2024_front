@@ -623,7 +623,7 @@ const Scatter = (props) => {
         // handleTransferLinksData([matched_dicts1, matched_dicts2])
         // // 更新雷达图数据
         // setTransferRadarData([matched_dicts1, matched_dicts2])
-        console.log('转移数据', [matched_dicts1, matched_dicts2])
+        // console.log('转移数据', [matched_dicts1, matched_dicts2])
         // handleTransferFirstMonth(firstMonth)
         // handleTransferSecondMonth(secondMonth)
         // 更新状态，使用缓存的回调函数
@@ -633,14 +633,7 @@ const Scatter = (props) => {
         memoizedHandleTransferSecondMonth(secondMonth)
       }
     },
-    [
-      transferCircleData,
-      transferLinksData,
-      transferStudentData,
-      clusterData,
-      firstMonth,
-      secondMonth
-    ]
+    [transferCircleData, transferLinksData, transferStudentData, clusterData]
   )
   // 切换开关事件
   const onSwitchChange1 = (checked) => {
