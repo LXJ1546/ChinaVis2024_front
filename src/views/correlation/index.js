@@ -21,7 +21,8 @@ const Correlation = (props) => {
     // calendarFlag,
     changeParallelList,
     isChangeWeight,
-    transferLinksData
+    transferLinksData,
+    handleTranferParallelList
   } = props
 
   // 保存相关性矩阵数据
@@ -115,64 +116,73 @@ const Correlation = (props) => {
     onChange: onSelectChange
   }
   // 点击确认按钮
-  // const changeFlag = () => {
-  //   handleCalendarFlag(!calendarFlag)
-  //   // console.log(selectedRowKeys)
-  //   // 根据选中的表格id来匹配数据，并更新平行坐标系的展示数据
-  //   let paraList = [[], [], []]
-  //   const tmplist = amode === 0 ? brushData : linksData
-  //   selectedRowKeys.forEach((id) => {
-  //     tmplist.forEach((item) => {
-  //       if (item['key'] == id) {
-  //         let tmp = []
-  //         tmp.push(item['submit'])
-  //         tmp.push(item['active'])
-  //         tmp.push(item['question'])
-  //         tmp.push(item['correct'])
-  //         tmp.push(item['label'])
-  //         if (item['label'] == '针对型') {
-  //           paraList[0].push(tmp)
-  //         } else if (item['label'] == '多样型') {
-  //           paraList[1].push(tmp)
-  //         } else {
-  //           paraList[2].push(tmp)
-  //         }
-  //       }
-  //     })
-  //   })
-  //   // 父组件传来的props
-  //   changeParallelList(paraList)
-  // }
-  // 表格勾选人数的更新
-  useEffect(() => {
-    setTableNum(selectedRowKeys.length)
+  const changeFlag = () => {
+    handleCalendarFlag(!calendarFlag)
+    // console.log(selectedRowKeys)
+    // 根据选中的表格id来匹配数据，并更新平行坐标系的展示数据
     let paraList = [[], [], []]
     const tmplist = amode === 0 ? brushData : linksData
     selectedRowKeys.forEach((id) => {
-      tmplist.forEach((item) => {
-        if (item['key'] == id) {
-          let tmp = []
-          tmp.push(item['submit'])
-          tmp.push(item['active'])
-          tmp.push(item['question'])
-          tmp.push(item['correct'])
-          tmp.push(item['label'])
-          if (item['label'] == '针对型') {
-            paraList[0].push(tmp)
-          } else if (item['label'] == '多样型') {
-            paraList[1].push(tmp)
-          } else {
-            paraList[2].push(tmp)
+      // 按模式来更新平行坐标系
+      if (amode == 0) {
+        brushData.forEach((item) => {
+          if (item['key'] == id) {
+            let tmp = []
+            tmp.push(item['submit'])
+            tmp.push(item['active'])
+            tmp.push(item['question'])
+            tmp.push(item['correct'])
+            tmp.push(item['label'])
+            if (item['label'] == '针对型') {
+              paraList1[0].push(tmp)
+            } else if (item['label'] == '多样型') {
+              paraList1[1].push(tmp)
+            } else {
+              paraList1[2].push(tmp)
+            }
           }
-        }
-      })
+        })
+        // 父组件传来的props
+        changeParallelList(paraList1)
+      } else if (amode == 2) {
+        transferLinksData[0].forEach((item) => {
+          if (item['key'] == id) {
+            let tmp = []
+            tmp.push(item['submit'])
+            tmp.push(item['active'])
+            tmp.push(item['question'])
+            tmp.push(item['correct'])
+            tmp.push(item['label'])
+            paraList2[0].push(tmp)
+          }
+        })
+        transferLinksData[1].forEach((item) => {
+          if (item['key'] == id) {
+            let tmp = []
+            tmp.push(item['submit'])
+            tmp.push(item['active'])
+            tmp.push(item['question'])
+            tmp.push(item['correct'])
+            tmp.push(item['label'])
+            paraList2[1].push(tmp)
+          }
+        })
+        handleTranferParallelList(paraList2)
+      }
     })
     // 父组件传来的props
     changeParallelList(paraList)
-  }, [selectedRowKeys])
-  // 表格勾选清空
+  }
+  // 表格勾选人数的更新
   useEffect(() => {
+    setTableNum(selectedRowKeys.length)
+  }, [selectedRowKeys])
+  // 数据清空
+  useEffect(() => {
+    // 清空勾选
     handleRowKeys([])
+    // 清空演变数据
+    setLinksData([])
   }, [amode])
   // 拿到相关性数据
   useEffect(() => {
@@ -181,7 +191,7 @@ const Correlation = (props) => {
     })
     // 初始化系统时更新数据
   }, [isChangeWeight])
-  // 演变视图的数据
+  // 演变视图的表格数据
   useEffect(() => {
     if (transferLinksData[0].length != 0 && transferLinksData[1].length != 0) {
       let linksData1 = transferLinksData[0]
@@ -197,7 +207,7 @@ const Correlation = (props) => {
         value.label1 = linksData2[index].label
       })
       setLinksData(linksData1)
-      console.log(linksData1)
+      // console.log(linksData1)
     }
   }, [transferLinksData])
   useEffect(() => {

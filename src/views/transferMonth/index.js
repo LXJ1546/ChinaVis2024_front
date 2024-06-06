@@ -15,7 +15,7 @@ const TransferMonth = (props) => {
     transferLinksData,
     transferFirstMonth,
     transferSecondMonth,
-    parallelList,
+    transferParallelList,
     handleClickRowKeys,
     studentIDlist
   } = props
@@ -322,34 +322,24 @@ const TransferMonth = (props) => {
     ],
     series: [
       {
-        name: '针对型',
+        name: transferFirstMonth,
         type: 'parallel',
         lineStyle: {
           color: '#86C6F0',
           width: 1.2
         },
         smooth: true,
-        data: parallelList[0]
+        data: transferParallelList[0]
       },
       {
-        name: '多样型',
+        name: transferSecondMonth,
         type: 'parallel',
         lineStyle: {
           width: 1.2,
           color: '#EB8277'
         },
         smooth: true,
-        data: parallelList[1]
-      },
-      {
-        name: '尝试型',
-        type: 'parallel',
-        lineStyle: {
-          width: 1.2,
-          color: '#6ABF57'
-        },
-        smooth: true,
-        data: parallelList[2]
+        data: transferParallelList[1]
       }
     ]
   }

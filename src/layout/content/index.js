@@ -38,6 +38,8 @@ const Content = () => {
   const [transferSecondMonth, setTransferSecondMonth] = useState(10)
   // 平行坐标系的数据
   const [parallelList, setParallelList] = useState([[], [], []])
+  // 演化模式下平行坐标系的数据
+  const [transferParallelList, setTransferParallelList] = useState([[], []])
   // 是否改变权重
   const [isChangeWeight, setIsChangeWeight] = useState(0)
   // 改变班级
@@ -83,6 +85,10 @@ const Content = () => {
   //定义新函数,用于更新平行坐标系
   const handleParallelList = (value) => {
     setParallelList(value)
+  }
+  //定义新函数,用于更新平行坐标系
+  const handleTranferParallelList = (value) => {
+    setTransferParallelList(value)
   }
   //定义新函数,用于更新权重改变
   const handleWeight = (value) => {
@@ -146,7 +152,29 @@ const Content = () => {
     })
     setParallelList(paraList)
   }, [brushSelectedData])
-
+  useEffect(() => {
+    // 最开始的时候演化平行坐标系展示全部数据
+    let paraList = [[], []]
+    transferLinksData[0].forEach((item) => {
+      let tmp = []
+      tmp.push(item['submit'])
+      tmp.push(item['active'])
+      tmp.push(item['question'])
+      tmp.push(item['correct'])
+      tmp.push(item['label'])
+      paraList[0].push(tmp)
+    })
+    transferLinksData[1].forEach((item) => {
+      let tmp = []
+      tmp.push(item['submit'])
+      tmp.push(item['active'])
+      tmp.push(item['question'])
+      tmp.push(item['correct'])
+      tmp.push(item['label'])
+      paraList[1].push(tmp)
+    })
+    setTransferParallelList(paraList)
+  }, [transferLinksData])
   return (
     <ContentWrapper>
       <div className="container">
@@ -231,7 +259,7 @@ const Content = () => {
                 transferLinksData={transferLinksData}
                 transferFirstMonth={transferFirstMonth}
                 transferSecondMonth={transferSecondMonth}
-                parallelList={parallelList}
+                transferParallelList={transferParallelList}
                 handleClickRowKeys={handleClickRowKeys}
                 studentIDlist={studentIDlist}
               />
@@ -252,6 +280,7 @@ const Content = () => {
                 changeParallelList={handleParallelList}
                 isChangeWeight={isChangeWeight}
                 transferLinksData={transferLinksData}
+                handleTranferParallelList={handleTranferParallelList}
               />
             ) : (
               <MonthTable />
