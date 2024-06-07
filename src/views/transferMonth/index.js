@@ -685,6 +685,8 @@ const TransferMonth = (props) => {
               correctRate1={correctRate1}
               submitData2={submitData2}
               correctRate2={correctRate2}
+              transferFirstMonth={transferFirstMonth}
+              transferSecondMonth={transferSecondMonth}
             />
           </div>
           <div className="compare">

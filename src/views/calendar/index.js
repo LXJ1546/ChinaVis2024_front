@@ -31,6 +31,7 @@ const Calendar = (props) => {
   let studentCalandarInfo = {}
   let maxcommitnum = 0
   let newList = [] //存储刷取的学生的ID和类型
+  let tempclick
   const [order, setOrder] = useState('workOrder') //用于调整排纵轴的排序方式
   const [selectMonth, setSelectMonth] = useState('9') //用于获取点击某个时间段的月份
   const [selectIsWork, setSelectIsWork] = useState(1) //用于获取点击某个时间段是否为工作日
@@ -132,6 +133,7 @@ const Calendar = (props) => {
       .style('opacity', 0.8)
     //画日历
     function drawStudentCalendar(studentName, studentNum, dataArr) {
+      tempclick = svg.append('circle').attr('cx', 0).attr('cy', -100)
       //假数据
       //日期，正确占比，答题数，五种语言占比，提交次数
       // console.log(Object.values(data).map((item) => item[3])) //打印所有列表的某一列的值
@@ -510,6 +512,9 @@ const Calendar = (props) => {
           handleStudentIDfromCalendar(studentName)
           handleStudentDatefromCalendar(d.name)
           tip.hide()
+          tempclick.style('r', 11)
+          d3.select(this).style('r', 8)
+          tempclick = d3.select(this)
         })
         .on('mouseover', function (e, d) {
           tip.html(`<div style="line-height: 1;
@@ -602,7 +607,7 @@ const Calendar = (props) => {
       //   .attr('width', '100%')
       .attr('height', '99%')
     svg.call(tip)
-
+    tempclick = svg.append('circle').attr('cx', 0).attr('cy', -100)
     //图例
     //图例数据
     const legendData = [
@@ -1055,6 +1060,9 @@ const Calendar = (props) => {
           handleStudentIDfromCalendar(studentName)
           handleStudentDatefromCalendar(d.name)
           tip.hide()
+          tempclick.style('r', 11)
+          d3.select(this).style('r', 8)
+          tempclick = d3.select(this)
         })
         .on('mouseover', function (e, d) {
           tip.html(`<div style="line-height: 1;
