@@ -10,7 +10,9 @@ const TitleCompare = (props) => {
     submitData1,
     correctRate1,
     submitData2,
-    correctRate2
+    correctRate2,
+    transferFirstMonth,
+    transferSecondMonth
   } = props
 
   //前一个月和后一个月提交数和答题数
@@ -301,7 +303,7 @@ const TitleCompare = (props) => {
       .attr('fill', '#E0464E')
     svg
       .append('text')
-      .text('10月')
+      .text(transferFirstMonth + '月')
       .attr('x', 205)
       .attr('y', 15)
       .style('font-size', '12px')
@@ -326,7 +328,7 @@ const TitleCompare = (props) => {
       .attr('fill', '#E0464E')
     svg
       .append('text')
-      .text('11月')
+      .text(transferSecondMonth + '月')
       .attr('x', 250)
       .attr('y', 15)
       .style('font-size', '12px')
