@@ -88,7 +88,7 @@ const TitleCompare = (props) => {
     // let xAxis =
     svg
       .append('g')
-      .attr('transform', 'translate(30,165)')
+      .attr('transform', 'translate(30,188)')
       .call(d3.axisBottom(xScale))
       .selectAll('text')
       .style('font-size', '8px') // 设置字体大小
