@@ -371,7 +371,7 @@ const MonthFeature = (props) => {
         type: 'parallel',
         lineStyle: {
           color: '#86C6F0',
-          width: 1.2
+          width: 1.5
         },
         smooth: true,
         data: parallelList[0]
@@ -380,7 +380,7 @@ const MonthFeature = (props) => {
         name: '多样型',
         type: 'parallel',
         lineStyle: {
-          width: 1.2,
+          width: 1.5,
           color: '#EB8277'
         },
         smooth: true,
@@ -390,7 +390,7 @@ const MonthFeature = (props) => {
         name: '尝试型',
         type: 'parallel',
         lineStyle: {
-          width: 1.2,
+          width: 1.5,
           color: '#6ABF57'
         },
         smooth: true,

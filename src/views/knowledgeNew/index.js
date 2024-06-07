@@ -477,11 +477,20 @@ const KnowledgeIcicle = (props) => {
       .append('text')
       .text('主知识点')
       .attr('transform', `translate(80, 10)`)
+      .style('opacity', 0.8)
+      .style('font-size', '12px')
     rectType
       .append('text')
       .text('子知识点')
       .attr('transform', `translate(280, 10)`)
-    rectType.append('text').text('题目').attr('transform', `translate(480, 10)`)
+      .style('opacity', 0.8)
+      .style('font-size', '12px')
+    rectType
+      .append('text')
+      .text('题目')
+      .attr('transform', `translate(480, 10)`)
+      .style('opacity', 0.8)
+      .style('font-size', '12px')
 
     // Create a partition layout.
     const partition = d3
@@ -529,14 +538,18 @@ const KnowledgeIcicle = (props) => {
         }
       })
 
-    cell.append('title').text((d) => {
-      let nodes = d.ancestors()
-      nodes.reverse().shift() //删除祖先点
-      //   console.log('数据', nodes)
-      return `${nodes
-        .map((d) => d.data.name)
-        .join('/')}\n${formatTip(d.data.score)}`
-    })
+    cell
+      .append('title')
+      .text((d) => {
+        let nodes = d.ancestors()
+        nodes.reverse().shift() //删除祖先点
+        //   console.log('数据', nodes)
+        return `${nodes
+          .map((d) => d.data.name)
+          .join('/')}\n${formatTip(d.data.score)}`
+      })
+      .style('opacity', 0.8)
+      .style('font-size', '12px')
 
     // Color the cell with respect to which child of root it belongs to.
     let rects = cell

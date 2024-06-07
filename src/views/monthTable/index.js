@@ -19,8 +19,8 @@ const MonthTable = () => {
       position: 'left'
     },
     grid: {
-      top: '2%',
-      bottom: '12%',
+      top: '3%',
+      bottom: '9%',
       right: '3%',
       left: '11%'
     },
@@ -116,10 +116,10 @@ const MonthTable = () => {
                   <Tag
                     color={
                       record.label === '高峰型'
-                        ? '#37A2DA'
+                        ? '#86C6F0'
                         : record.label === '低峰型'
-                          ? '#e06343'
-                          : '#37a354'
+                          ? '#EB8277'
+                          : '#6ABF57'
                     }
                   >
                     {record.label}

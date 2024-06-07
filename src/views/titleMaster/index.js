@@ -55,8 +55,8 @@ const TitleMaster = (props) => {
       grid: {
         left: '8%', // 距离左边框的距离
         right: '5%', // 距离右边框的距离
-        top: '20%', // 距离上边框的距离
-        bottom: '20%' // 距离下边框的距离
+        top: '15%', // 距离上边框的距离
+        bottom: '25%' // 距离下边框的距离
       },
       xAxis: {
         type: 'category',
@@ -119,7 +119,8 @@ const TitleMaster = (props) => {
           fontSize: 10
         }
       },
-      color: ['#3A80E2', '#6ABF57', '#EDCC65'],
+      // color: ['#3A80E2', '#6ABF57', '#EDCC65'],
+      color: ['#71B0D1', '#87c977', '#EDCC65'],
       series: titleInfo,
       dataZoom: [
         {

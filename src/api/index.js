@@ -148,3 +148,11 @@ export function getEvolutionInfo() {
     url: '/timeEvolutionInfo'
   })
 }
+
+//获取高亮学生不同月份的掌握程度和总掌握程度
+export function getStudentMaster(idList) {
+  return hyRequest.post({
+    url: '/studentsDetailKnowledgeInfo',
+    data: { data: idList }
+  })
+}

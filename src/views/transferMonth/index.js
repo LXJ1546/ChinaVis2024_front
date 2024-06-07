@@ -265,7 +265,7 @@ const TransferMonth = (props) => {
     title: {
       text: '群体对比视图',
       left: '2%',
-      top: '5%',
+      top: '4%',
       textStyle: {
         fontSize: 12,
         fontWeight: 'normal'
@@ -325,7 +325,7 @@ const TransferMonth = (props) => {
         type: 'parallel',
         lineStyle: {
           color: '#86C6F0',
-          width: 1.2
+          width: 1.4
         },
         smooth: true,
         data: transferParallelList[0]
@@ -334,7 +334,7 @@ const TransferMonth = (props) => {
         name: transferSecondMonth,
         type: 'parallel',
         lineStyle: {
-          width: 1.2,
+          width: 1.4,
           color: '#EB8277'
         },
         smooth: true,
@@ -349,7 +349,7 @@ const TransferMonth = (props) => {
       return `Class ${d[0]},人数: <span >${d}</span>`
     })
   useEffect(() => {
-    if (transferLinksData.length != 0) {
+    if (transferLinksData[0].length != 0) {
       setIsParallel(true)
     }
     const svg = d3.select(svgRef.current)

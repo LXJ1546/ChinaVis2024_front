@@ -87,7 +87,7 @@ const TimeRight3 = (props) => {
           { name: '活跃度' }
         ],
         axisName: {
-          color: '#888'
+          color: '#696969'
         },
         center: ['50%', '65%']
       },

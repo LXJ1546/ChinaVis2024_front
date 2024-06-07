@@ -79,6 +79,8 @@ const Calendar = (props) => {
       .attr('width', 20)
       .attr('height', 15)
       .attr('fill', (d) => d.value)
+      .attr('rx', 4) // 设置水平圆角半径
+      .attr('ry', 4) // 设置垂直圆角半径
 
     // 添加图例文本
     legend
@@ -91,6 +93,7 @@ const Calendar = (props) => {
       .attr('dy', '0.35em')
       .text((d) => d.category)
       .attr('font-size', 12)
+      .style('opacity', 0.8)
     //添加中间线性映射的圆的提交次数的颜色
     //   定义颜色映射的线性渐变
     const gradient = d3
@@ -126,7 +129,7 @@ const Calendar = (props) => {
       .attr('dy', '0.35em')
       .text('提交次数')
       .attr('font-size', 12)
-
+      .style('opacity', 0.8)
     //画日历
     function drawStudentCalendar(studentName, studentNum, dataArr) {
       //假数据
@@ -545,6 +548,7 @@ const Calendar = (props) => {
         .attr('dy', (d, i) => i * 66 + 30)
         .attr('fill', 'black')
         .text((d) => d)
+        .style('opacity', 0.8)
 
       //根据日历图布局，绘制周文本
       let monthAll = []
@@ -623,6 +627,8 @@ const Calendar = (props) => {
       .attr('width', 20)
       .attr('height', 15)
       .attr('fill', (d) => d.value)
+      .attr('rx', 5) // 设置水平圆角半径
+      .attr('ry', 5) // 设置垂直圆角半径
 
     // 添加图例文本
     legend
@@ -635,6 +641,7 @@ const Calendar = (props) => {
       .attr('dy', '0.35em')
       .text((d) => d.category)
       .attr('font-size', 12)
+      .style('opacity', 0.8)
     //添加中间线性映射的圆的提交次数的颜色
     //   定义颜色映射的线性渐变
     const gradient = d3
@@ -670,6 +677,7 @@ const Calendar = (props) => {
       .attr('dy', '0.35em')
       .text('提交次数')
       .attr('font-size', 12)
+      .style('opacity', 0.8)
 
     //画日历
     function drawStudentCalendarCompare(
@@ -1085,6 +1093,7 @@ const Calendar = (props) => {
         .attr('dy', (d, i) => i * 66 + 30)
         .attr('fill', 'black')
         .text((d) => d)
+        .style('opacity', 0.8)
 
       //根据日历图布局，绘制周文本
       let monthAll = []
@@ -1224,6 +1233,7 @@ const Calendar = (props) => {
       .attr('dy', '0.35em')
       .text('提交次数')
       .attr('font-size', 12)
+      .style('opacity', 0.8)
 
     //   定义颜色映射的线性渐变
     const gradientanswerpeople = svg
@@ -1263,6 +1273,7 @@ const Calendar = (props) => {
       .attr('dy', '0.35em')
       .text('活跃人数')
       .attr('font-size', 12)
+      .style('opacity', 0.8)
 
     //图例数据
     const legendData = [
@@ -1282,6 +1293,8 @@ const Calendar = (props) => {
       .attr('width', 20)
       .attr('height', 15)
       .attr('fill', (d) => d.value)
+      .attr('rx', 4) // 设置水平圆角半径
+      .attr('ry', 4) // 设置垂直圆角半径
 
     // 添加图例文本
     legend
@@ -1294,6 +1307,7 @@ const Calendar = (props) => {
       .attr('dy', '0.35em')
       .text((d) => d.category)
       .attr('font-size', 12)
+      .style('opacity', 0.8)
 
     //创建横纵坐标比例尺
     // 数据
@@ -1355,6 +1369,7 @@ const Calendar = (props) => {
       .attr('y', margin.bottom - 10)
       .attr('fill', '#000')
       .style('text-anchor', 'middle')
+      .style('opacity', 0.8)
     // 在 SVG 中添加 Y 轴
     workAxisg
       .append('g')
@@ -1365,6 +1380,7 @@ const Calendar = (props) => {
       .attr('y', -margin.left + 20)
       .attr('fill', '#000')
       .style('text-anchor', 'middle')
+      .style('opacity', 0.8)
 
     workAxisg
       .selectAll('.domain, .tick line') // 选择轴线和刻度线
@@ -1376,12 +1392,14 @@ const Calendar = (props) => {
       // 设置字体大小为14像素
       .selectAll('text')
       .style('font-size', '13px')
+      .style('opacity', 0.8)
 
     workAxisg
       .select('.x-axis')
       // 设置字体大小为14像素
       .selectAll('text')
       .style('font-size', '13px')
+      .style('opacity', 0.8)
 
     //绘制答题情况
     const workg = svg
@@ -1721,6 +1739,7 @@ const Calendar = (props) => {
       .attr('dy', (d, i) => i * 66 + 30)
       .attr('fill', 'black')
       .text((d) => d)
+      .style('opacity', 0.8)
 
     //根据日历图布局，绘制周文本
     let monthAll = []
@@ -1746,6 +1765,7 @@ const Calendar = (props) => {
       .attr('font-size', '15px')
       .attr('font-family', 'monospace')
       .text(selectMonth + '月-' + workFlag + '-' + selectPeriod)
+      .style('opacity', 0.8)
 
     //绘制学习模式的人数矩形
     //用于找出三个模式中的第一大值,第二大值,最小值

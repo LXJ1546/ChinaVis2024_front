@@ -94,6 +94,7 @@ const TitleCompare = (props) => {
       .attr('dx', '2.3em') // 水平偏移
       .attr('dy', '0.1em') // 垂直偏移
       .attr('transform', 'rotate(60)') // 旋转角度
+      .style('opacity', 0.8)
 
     // 设置缩放行为
 
@@ -102,6 +103,7 @@ const TitleCompare = (props) => {
       .append('g')
       .attr('transform', 'translate(30, -5)')
       .call(d3.axisLeft(yScale))
+      .style('opacity', 0.8)
 
     // 添加连接线
     svg
@@ -123,6 +125,7 @@ const TitleCompare = (props) => {
         return yScale(d[1][1]) - 5
       })
       .attr('stroke', 'black')
+      .style('opacity', 0.8)
 
     // 添加红色圆
     svg
@@ -251,18 +254,21 @@ const TitleCompare = (props) => {
       .attr('x', 460)
       .attr('y', 175)
       .style('font-size', '10px')
+      .style('opacity', 0.8)
     svg
       .append('text')
       .text('提交次数')
       .attr('x', 30)
       .attr('y', 30)
       .style('font-size', '10px')
+      .style('opacity', 0.8)
     svg
       .append('text')
       .text('提交次数对比点线图')
       .attr('x', 10)
       .attr('y', 13)
       .style('font-size', '12px')
+      .style('opacity', 0.8)
 
     //绘制图例
 
@@ -292,6 +298,7 @@ const TitleCompare = (props) => {
       .attr('x', 440)
       .attr('y', 15)
       .style('font-size', '12px')
+      .style('opacity', 0.8)
     // 添加红色圆
     svg
       .append('circle')
@@ -305,6 +312,7 @@ const TitleCompare = (props) => {
       .attr('x', 205)
       .attr('y', 15)
       .style('font-size', '12px')
+      .style('opacity', 0.8)
     svg
 
       .append('polygon')
@@ -330,6 +338,7 @@ const TitleCompare = (props) => {
       .attr('x', 250)
       .attr('y', 15)
       .style('font-size', '12px')
+      .style('opacity', 0.8)
     svg
       .append('line')
       .attr('x1', 280)
@@ -337,12 +346,14 @@ const TitleCompare = (props) => {
       .attr('x2', 310)
       .attr('y2', 12)
       .attr('stroke', 'black')
+      .style('opacity', 0.8)
     svg
       .append('text')
       .text('次数差距')
       .attr('x', 320)
       .attr('y', 15)
       .style('font-size', '12px')
+      .style('opacity', 0.8)
   }
 
   useEffect(() => {

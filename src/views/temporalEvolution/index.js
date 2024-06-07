@@ -123,11 +123,31 @@ const Evolution = () => {
 
     //绘制月份
     const monthg = svg.append('g')
-    monthg.append('text').text('9月').attr('transform', `translate(140, 60)`)
-    monthg.append('text').text('10月').attr('transform', `translate(330, 60)`)
-    monthg.append('text').text('11月').attr('transform', `translate(520, 60)`)
-    monthg.append('text').text('12月').attr('transform', `translate(720, 60)`)
-    monthg.append('text').text('1月').attr('transform', `translate(920, 60)`)
+    monthg
+      .append('text')
+      .text('9月')
+      .attr('transform', `translate(140, 60)`)
+      .style('opacity', 0.8)
+    monthg
+      .append('text')
+      .text('10月')
+      .attr('transform', `translate(330, 60)`)
+      .style('opacity', 0.8)
+    monthg
+      .append('text')
+      .text('11月')
+      .attr('transform', `translate(520, 60)`)
+      .style('opacity', 0.8)
+    monthg
+      .append('text')
+      .text('12月')
+      .attr('transform', `translate(720, 60)`)
+      .style('opacity', 0.8)
+    monthg
+      .append('text')
+      .text('1月')
+      .attr('transform', `translate(920, 60)`)
+      .style('opacity', 0.8)
 
     svg
       .append('g')
@@ -137,6 +157,7 @@ const Evolution = () => {
       .selectAll('text')
       .style('text-anchor', 'start')
       .attr('transform', 'translate(15, 0)')
+      .style('opacity', 0.8)
 
     // 定义Y轴的比例尺
     const yScale = d3
@@ -163,6 +184,7 @@ const Evolution = () => {
       // 设置字体大小为14像素
       .selectAll('text')
       .style('font-size', '13px')
+      .style('opacity', 0.8)
 
     //绘制正确占比或者得分率的背景色
     //创建线性颜色比例尺
@@ -277,7 +299,7 @@ const Evolution = () => {
     }
 
     let workFlag = 0 //0为工作日
-    const timeColor = ['#3A80E2', '#BB5757']
+    const timeColor = ['#3A80E2', '#EB8277']
     // const peopleColor = ['#F3D475', '#F3B28A', '#F1928E']
     const peopleColor = ['#FAD891', '#6D9AC4', '#777B98']
     const workPosition = [-25, 35]
@@ -295,6 +317,8 @@ const Evolution = () => {
       .attr('width', 20)
       .attr('height', 15)
       .attr('fill', (d) => d)
+      .attr('rx', 4) // 设置水平圆角半径
+      .attr('ry', 4) // 设置垂直圆角半径
 
     // 添加图例文本
     legend
@@ -307,6 +331,7 @@ const Evolution = () => {
       .attr('dy', '0.35em')
       .text((d) => d)
       .attr('font-size', 12)
+      .style('opacity', 0.8)
 
     // 添加图例条目
     legend
@@ -329,6 +354,7 @@ const Evolution = () => {
       .attr('dy', '0.35em')
       .text('工作日')
       .attr('font-size', 12)
+      .style('opacity', 0.8)
     legend
       .append('text')
       .attr('x', 425)
@@ -336,6 +362,7 @@ const Evolution = () => {
       .attr('dy', '0.35em')
       .text('休息日')
       .attr('font-size', 12)
+      .style('opacity', 0.8)
 
     const gradient = d3
       .select('#evolutionSvg')
@@ -367,6 +394,7 @@ const Evolution = () => {
       .attr('dy', '0.35em')
       .text('正确率')
       .attr('font-size', 12)
+      .style('opacity', 0.8)
 
     //设置饼图top,mid和low的颜色映射
     const pieColorScale = d3
@@ -636,6 +664,7 @@ const Evolution = () => {
       .attr('y2', 40)
       .attr('stroke', 'black')
       .attr('stroke-width', 1)
+      .style('opacity', 0.8)
     tableLine
       .append('line')
       .attr('x1', padding)
@@ -644,6 +673,7 @@ const Evolution = () => {
       .attr('y2', 70)
       .attr('stroke', 'black')
       .attr('stroke-width', 1)
+      .style('opacity', 0.8)
     tableLine
       .append('line')
       .attr('x1', padding)
@@ -652,6 +682,7 @@ const Evolution = () => {
       .attr('y2', padding * 2)
       .attr('stroke', 'black')
       .attr('stroke-width', 1)
+      .style('opacity', 0.8)
     tableLine
       .append('line')
       .attr('x1', padding)
@@ -660,6 +691,7 @@ const Evolution = () => {
       .attr('y2', padding * 2 + yScale.bandwidth() * 3)
       .attr('stroke', 'grey')
       .attr('stroke-width', 1)
+      .style('opacity', 0.8)
 
     //表头竖线
     tableLine
@@ -670,6 +702,7 @@ const Evolution = () => {
       .attr('y2', 2 * padding)
       .attr('stroke', 'black')
       .attr('stroke-width', 1)
+      .style('opacity', 0.8)
     tableLine
       .append('line')
       .attr('x1', padding + 4 * xScale.bandwidth())
@@ -678,6 +711,7 @@ const Evolution = () => {
       .attr('y2', 2 * padding)
       .attr('stroke', 'black')
       .attr('stroke-width', 1)
+      .style('opacity', 0.8)
     tableLine
       .append('line')
       .attr('x1', padding + 8 * xScale.bandwidth())
@@ -686,6 +720,7 @@ const Evolution = () => {
       .attr('y2', 2 * padding)
       .attr('stroke', 'black')
       .attr('stroke-width', 1)
+      .style('opacity', 0.8)
     tableLine
       .append('line')
       .attr('x1', padding + 12 * xScale.bandwidth())
@@ -694,6 +729,7 @@ const Evolution = () => {
       .attr('y2', 2 * padding)
       .attr('stroke', 'black')
       .attr('stroke-width', 1)
+      .style('opacity', 0.8)
     tableLine
       .append('line')
       .attr('x1', padding + 16 * xScale.bandwidth())
@@ -702,6 +738,7 @@ const Evolution = () => {
       .attr('y2', 2 * padding)
       .attr('stroke', 'black')
       .attr('stroke-width', 1)
+      .style('opacity', 0.8)
     tableLine
       .append('line')
       .attr('x1', padding + 20 * xScale.bandwidth())
@@ -710,6 +747,7 @@ const Evolution = () => {
       .attr('y2', 2 * padding)
       .attr('stroke', 'black')
       .attr('stroke-width', 1)
+      .style('opacity', 0.8)
     tableLine
       .append('line')
       .attr('x1', padding)
@@ -718,6 +756,7 @@ const Evolution = () => {
       .attr('y2', height + 2 * padding)
       .attr('stroke', 'black')
       .attr('stroke-width', 1)
+      .style('opacity', 0.8)
     tableLine
       .append('line')
       .attr('x1', xScale.bandwidth() * 20 + padding)
@@ -726,6 +765,7 @@ const Evolution = () => {
       .attr('y2', height + 2 * padding)
       .attr('stroke', 'black')
       .attr('stroke-width', 1)
+      .style('opacity', 0.8)
 
     if (lineFlag) {
       //表格表内横线

@@ -72,6 +72,8 @@ const StudentCommit = (props) => {
       .attr('width', 20)
       .attr('height', 15)
       .attr('fill', (d) => d.value)
+      .attr('rx', 4) // 设置水平圆角半径
+      .attr('ry', 4) // 设置垂直圆角半径
 
     // 添加图例文本
     legend
@@ -84,6 +86,7 @@ const StudentCommit = (props) => {
       .attr('dy', '0.35em')
       .text((d) => d.category)
       .attr('font-size', 12)
+      .style('opacity', 0.8)
     // const commitrectwidth = 20
     // 获取提交时间和次数的最大值和最小值
     let minTime = Infinity

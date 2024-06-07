@@ -287,11 +287,7 @@ const Correlation = (props) => {
               <h3 className="info">表格勾选：{tableNum}人</h3>
             </div>
             <div className="littlebtn">
-              <Button
-                size="small"
-                style={{ marginRight: 8 }}
-                onClick={handleCancel}
-              >
+              <Button size="small" onClick={handleCancel}>
                 取消
               </Button>
               {/* <Button type="primary" size="small" onClick={changeFlag}>
@@ -323,10 +319,10 @@ const Correlation = (props) => {
                     <Tag
                       color={
                         record.label === '针对型'
-                          ? '#37A2DA'
+                          ? '#86C6F0'
                           : record.label === '多样型'
-                            ? '#e06343'
-                            : '#37a354'
+                            ? '#EB8277'
+                            : '#6ABF57'
                       }
                     >
                       {record.label}
@@ -359,10 +355,10 @@ const Correlation = (props) => {
                     <Tag
                       color={
                         record.label === '针对型'
-                          ? '#37A2DA'
+                          ? '#86C6F0'
                           : record.label === '多样型'
-                            ? '#e06343'
-                            : '#37a354'
+                            ? '#EB8277'
+                            : '#6ABF57'
                       }
                     >
                       {record.label}
@@ -380,10 +376,10 @@ const Correlation = (props) => {
                     <Tag
                       color={
                         record.label1 === '针对型'
-                          ? '#37A2DA'
+                          ? '#86C6F0'
                           : record.label1 === '多样型'
-                            ? '#e06343'
-                            : '#37a354'
+                            ? '#EB8277'
+                            : '#6ABF57'
                       }
                     >
                       {record.label1}

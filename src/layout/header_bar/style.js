@@ -13,6 +13,6 @@ export const HeaderBarWrapper = styled.div`
     font-weight: 700;
     font-size: 25px;
     flex-shrink: 0;
-    color: #008b8b;
+    color: #3cb371;
   }
 `

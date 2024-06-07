@@ -17,9 +17,9 @@ export const ScatterWrapper = styled.div`
     padding: 0px;
     font-size: 16px;
     opacity: 0.8;
-    /* background: #66cdaa;
+    background: #add8e6;
     border-top-left-radius: 4px;
-    border-top-right-radius: 4px; */
+    border-top-right-radius: 4px;
     .title-icon {
       font-size: 20px;
       margin-left: 4px;
@@ -73,8 +73,8 @@ export const ScatterWrapper = styled.div`
         }
       }
       .highlight {
-        width: 30%;
-        height: 20%;
+        width: 33%;
+        height: 21%;
         position: absolute;
         z-index: 10;
         bottom: 6%;
@@ -86,37 +86,6 @@ export const ScatterWrapper = styled.div`
           width: 100%;
           height: 100%;
           display: flex;
-          align-items: center;
-          flex-direction: column;
-          justify-content: flex-start;
-          overflow: auto;
-          .ahead {
-            width: 100%;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-          }
-          .highlightItem {
-            display: flex;
-            width: 100%;
-            justify-content: space-around;
-            .aid {
-              width: 45%;
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              text-align: center;
-            }
-            .amonth {
-              width: 30%;
-              text-align: center;
-            }
-            .amaster {
-              width: 20%;
-              text-align: center;
-            }
-          }
         }
       }
       .btn {

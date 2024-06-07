@@ -12,6 +12,9 @@ export const MonthFeatureWrapper = styled.div`
     border-bottom: 1px solid #9b9ca0;
     font-size: 16px;
     opacity: 0.8;
+    background: #add8e6;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
     .title-icon {
       font-size: 20px;
       margin-left: 4px;
