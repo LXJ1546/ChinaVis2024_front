@@ -9,7 +9,7 @@ const App = () => {
       theme={{
         token: {
           // Seed Token，影响范围大
-          colorPrimary: '#008B8B'
+          colorPrimary: '#71B0D1'
         },
         components: {
           Table: {
@@ -17,8 +17,10 @@ const App = () => {
             cellPaddingInlineSM: 8
           },
           Slider: {
-            railSize: 5,
-            dotSize: 6
+            railSize: 4,
+            dotSize: 6,
+            trackBg: '#91caff',
+            trackHoverBg: '#69b1ff'
           }
         }
       }}

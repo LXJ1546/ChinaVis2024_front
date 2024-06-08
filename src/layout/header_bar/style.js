@@ -9,10 +9,10 @@ export const HeaderBarWrapper = styled.div`
   flex-shrink: 0;
   background: white;
   border-bottom: 1px solid rgb(239, 239, 245, 1);
-  h2 {
+  .title {
     font-weight: 700;
     font-size: 25px;
     flex-shrink: 0;
-    color: #008b8b;
+    opacity: 0.6;
   }
 `

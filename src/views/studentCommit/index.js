@@ -72,6 +72,8 @@ const StudentCommit = (props) => {
       .attr('width', 20)
       .attr('height', 15)
       .attr('fill', (d) => d.value)
+      .attr('rx', 4) // 设置水平圆角半径
+      .attr('ry', 4) // 设置垂直圆角半径
 
     // 添加图例文本
     legend
@@ -84,6 +86,7 @@ const StudentCommit = (props) => {
       .attr('dy', '0.35em')
       .text((d) => d.category)
       .attr('font-size', 12)
+      .style('opacity', 0.8)
     // const commitrectwidth = 20
     // 获取提交时间和次数的最大值和最小值
     let minTime = Infinity
@@ -234,13 +237,73 @@ const StudentCommit = (props) => {
     //   .style('text-anchor', 'middle') // 文本对齐方式，居中
     //   .text('X 轴')
 
+    //为判断上午和下午的中间值
+    let timeFlag = 25
+    let Q = ''
+    //绘制上午下午晚上凌晨分割线
+    commits.forEach((commititem) => {
+      if (Q != commititem.question) {
+        timeFlag = 25
+        Q = commititem.question
+      }
+      if (
+        (timeFlag < 6 &&
+          parseInt(commititem[4].split(':')[0]) >= 6 &&
+          timeFlag != 25) ||
+        (6 <= timeFlag &&
+          timeFlag < 12 &&
+          parseInt(commititem[4].split(':')[0]) >= 12 &&
+          timeFlag != 25) ||
+        (12 <= timeFlag &&
+          timeFlag < 18 &&
+          parseInt(commititem[4].split(':')[0]) >= 18 &&
+          timeFlag != 25) ||
+        (timeFlag > 18 &&
+          parseInt(commititem[4].split(':')[0]) < 6 &&
+          timeFlag != 25)
+      ) {
+        //画分割线
+        commitevent
+          .append('line')
+          .attr('x1', xScale(commititem.question) - 2)
+          .attr('y1', function () {
+            // 检查questionflag中是否已存在该key
+            if (
+              Object.prototype.hasOwnProperty.call(
+                QuestionFlag,
+                commititem.question
+              )
+            ) {
+              // 如果已存在，修改对应的value值
+              QuestionFlag[commititem.question] =
+                QuestionFlag[commititem.question] + xScale.bandwidth() / 2 + 2
+            } else {
+              // 如果不存在，增加新的key-value对
+              QuestionFlag[commititem.question] = 5
+            }
+            return (
+              QuestionFlag[commititem.question] + xScale.bandwidth() / 2 + 1
+            )
+          })
+          .attr('x2', xScale(commititem.question) + xScale.bandwidth() - 5)
+          .attr('y2', function () {
+            return (
+              QuestionFlag[commititem.question] + xScale.bandwidth() / 2 + 1
+            )
+          })
+          .attr('stroke', 'grey')
+          .attr('stroke-width', 1)
+      }
+      timeFlag = parseInt(commititem[4].split(':')[0])
+    })
+    QuestionFlag = {} //记录前一个同一个问题的y值
     //绘制事件矩形
     commitevent
       .selectAll('rect')
       .data(commits)
       .enter()
       .append('rect')
-      .attr('x', (d) => xScale(d.question) + xScale.bandwidth() / 4)
+      .attr('x', (d) => xScale(d.question) + xScale.bandwidth() / 5)
       .attr('y', function (d) {
         // 检查questionflag中是否已存在该key
         if (Object.prototype.hasOwnProperty.call(QuestionFlag, d.question)) {
@@ -294,7 +357,7 @@ const StudentCommit = (props) => {
       .data(commits)
       .enter()
       .append('rect')
-      .attr('x', (d) => xScale(d.question) + xScale.bandwidth() / 4)
+      .attr('x', (d) => xScale(d.question) + xScale.bandwidth() / 5)
       .attr('y', function (d) {
         // 检查questionflag中是否已存在该key
         if (Object.prototype.hasOwnProperty.call(QuestionFlag, d.question)) {
@@ -353,7 +416,7 @@ const StudentCommit = (props) => {
         'x',
         (d) =>
           xScale(d.question) +
-          xScale.bandwidth() / 4 +
+          xScale.bandwidth() / 5 +
           xScale.bandwidth() / 2 / 4
       )
       .attr('y', function (d) {
@@ -406,7 +469,7 @@ const StudentCommit = (props) => {
         'x',
         (d) =>
           xScale(d.question) +
-          xScale.bandwidth() / 4 +
+          xScale.bandwidth() / 5 +
           xScale.bandwidth() / 2 / 4
       )
       .attr('y', function (d) {
@@ -458,15 +521,77 @@ const StudentCommit = (props) => {
         filteredQuestions.includes(commit.question)
       )
       xScale.domain(filteredQuestions)
-      let QuestionFlag = {} //记录前一个同一个问题的y值
-      // xScale.domain(filteredQuestions)
       commitevent.selectAll('*').remove()
+      //为判断上午和下午的中间值
+      let QuestionFlag = {} //记录前一个同一个问题的y值
+      let timeFlag = 25
+      //绘制上午下午晚上凌晨分割线
+      filteredCommits.forEach((commititem) => {
+        if (Q != commititem.question) {
+          timeFlag = 25
+          Q = commititem.question
+        }
+        console.log(timeFlag, parseInt(commititem[4].split(':')[0]))
+        if (
+          (timeFlag < 6 &&
+            parseInt(commititem[4].split(':')[0]) >= 6 &&
+            timeFlag != 25) ||
+          (6 <= timeFlag &&
+            timeFlag < 12 &&
+            parseInt(commititem[4].split(':')[0]) >= 12 &&
+            timeFlag != 25) ||
+          (12 <= timeFlag &&
+            timeFlag < 18 &&
+            parseInt(commititem[4].split(':')[0]) >= 18 &&
+            timeFlag != 25) ||
+          (timeFlag > 18 &&
+            parseInt(commititem[4].split(':')[0]) < 6 &&
+            timeFlag != 25)
+        ) {
+          //画分割线
+          commitevent
+            .append('line')
+            .attr('x1', xScale(commititem.question) - 2)
+            .attr('y1', function () {
+              // 检查questionflag中是否已存在该key
+              if (
+                Object.prototype.hasOwnProperty.call(
+                  QuestionFlag,
+                  commititem.question
+                )
+              ) {
+                // 如果已存在，修改对应的value值
+                QuestionFlag[commititem.question] =
+                  QuestionFlag[commititem.question] + xScale.bandwidth() / 2 + 2
+              } else {
+                // 如果不存在，增加新的key-value对
+                QuestionFlag[commititem.question] = 5
+              }
+              return (
+                QuestionFlag[commititem.question] + xScale.bandwidth() / 2 + 1
+              )
+            })
+            .attr('x2', xScale(commititem.question) + xScale.bandwidth() - 5)
+            .attr('y2', function () {
+              return (
+                QuestionFlag[commititem.question] + xScale.bandwidth() / 2 + 1
+              )
+            })
+            .attr('stroke', 'grey')
+            .attr('stroke-width', 1)
+        }
+        timeFlag = parseInt(commititem[4].split(':')[0])
+      })
+
+      QuestionFlag = {} //记录前一个同一个问题的y值
+      // xScale.domain(filteredQuestions)
+
       commitevent
         .selectAll('rect')
         .data(filteredCommits)
         .enter()
         .append('rect')
-        .attr('x', (d) => xScale(d.question) + xScale.bandwidth() / 4)
+        .attr('x', (d) => xScale(d.question) + xScale.bandwidth() / 5)
         .attr('y', function (d) {
           // 检查questionflag中是否已存在该key
           if (Object.prototype.hasOwnProperty.call(QuestionFlag, d.question)) {
@@ -516,7 +641,7 @@ const StudentCommit = (props) => {
         .data(filteredCommits)
         .enter()
         .append('rect')
-        .attr('x', (d) => xScale(d.question) + xScale.bandwidth() / 4)
+        .attr('x', (d) => xScale(d.question) + xScale.bandwidth() / 5)
         .attr('y', function (d) {
           // 检查questionflag中是否已存在该key
           if (Object.prototype.hasOwnProperty.call(QuestionFlag, d.question)) {
@@ -576,7 +701,7 @@ const StudentCommit = (props) => {
           'x',
           (d) =>
             xScale(d.question) +
-            xScale.bandwidth() / 4 +
+            xScale.bandwidth() / 5 +
             xScale.bandwidth() / 2 / 4
         )
         .attr('y', function (d) {
@@ -630,7 +755,7 @@ const StudentCommit = (props) => {
           'x',
           (d) =>
             xScale(d.question) +
-            xScale.bandwidth() / 4 +
+            xScale.bandwidth() / 5 +
             xScale.bandwidth() / 2 / 4
         )
         .attr('y', function (d) {

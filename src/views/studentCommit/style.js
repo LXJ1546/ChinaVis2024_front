@@ -13,6 +13,9 @@ export const StudentCommitWrapper = styled.div`
     margin-bottom: 6px;
     font-size: 16px;
     opacity: 0.8;
+    background: rgb(245, 245, 245);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
     .title-icon {
       font-size: 20px;
       margin-left: 4px;

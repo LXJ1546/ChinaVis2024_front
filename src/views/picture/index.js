@@ -11,13 +11,8 @@ const IconFont = createFromIconfontCN({
 import d3Tip from 'd3-tip'
 
 const Picture = (props) => {
-  const {
-    classNum,
-    isChangeWeight,
-    handleStudentList,
-    handleStudentList1,
-    handleStudentSelectMastery
-  } = props
+  const { classNum, isChangeWeight, handleStudentList, handleStudentList1 } =
+    props
   const distributionRef = useRef(null)
   const majorRef = useRef(null)
   const ageRef = useRef(null)
@@ -83,6 +78,13 @@ const Picture = (props) => {
                 '#6B89BB',
                 '#6168AC'
               ]
+              // var colorList = [
+              //   '#b7eb8f',
+              //   '#95de64',
+              //   '#87e8de',
+              //   '#69b1ff',
+              //   '#85a5ff'
+              // ]
               return colorList[params.dataIndex]
             }
           }
@@ -551,7 +553,6 @@ const Picture = (props) => {
         // let newArray = [...studentIDlist]
         // newArray.push(d[0])
         handleStudentList(d[0])
-        handleStudentSelectMastery(d[4])
       })
 
     //班级排名视图标签

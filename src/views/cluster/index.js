@@ -12,7 +12,8 @@ import { ScatterWrapper } from './style'
 import {
   getClusterData,
   getTransferData,
-  getMonthStatisticInfo
+  getMonthStatisticInfo,
+  getStudentMaster
 } from '../../api'
 import { Radio, Select, Switch, Slider } from 'antd'
 import { createFromIconfontCN } from '@ant-design/icons'
@@ -35,8 +36,6 @@ const Scatter = (props) => {
     month,
     studentIDlist,
     handleStudentList1,
-    studentSelectMastery,
-    handleStudentSelectMastery1,
     handleTransferLinksData,
     handleTransferFirstMonth,
     handleTransferSecondMonth
@@ -90,9 +89,11 @@ const Scatter = (props) => {
   // 高亮数据开关是否可用
   const [disabledHighlight, setDisabledHighlight] = useState(false)
   // 高亮数据的信息
-  const [highlightInfo, setHighlightInfo] = useState([])
+  const [highlightInfo, setHighlightInfo] = useState({})
   // 演变视图的雷达图数据
   const [transferRadarData, setTransferRadarData] = useState([])
+  // 点击连接线记录点击的连接线
+  const [highlightedEdge, setHighlightedEdge] = useState(null)
   // 缓存更新状态的回调函数
   const memoizedHandleTransferLinksData = useMemo(
     () => handleTransferLinksData,
@@ -113,14 +114,14 @@ const Scatter = (props) => {
     { value: 12, label: '2023-12' },
     { value: 1, label: '2024-01' }
   ]
-  // 定义一个对象，存储每个值对应的月份
-  const monthMap = {
-    0: '9',
-    1: '10',
-    2: '11',
-    3: '12',
-    4: '1'
-  }
+  // // 定义一个对象，存储每个值对应的月份
+  // const monthMap = {
+  //   0: '9',
+  //   1: '10',
+  //   2: '11',
+  //   3: '12',
+  //   4: '1'
+  // }
   // 定义一个对象，存储每个值对应的月份
   const monthMap1 = {
     9: 0,
@@ -280,7 +281,14 @@ const Scatter = (props) => {
           },
           lineStyle: {
             width: mappedData[i][j],
-            color: allColor[i]
+            color: allColor[i], // 根据是否被高亮来设置颜色
+            // 根据highlightedEdge来设置透明度，点击之后连接线的透明度会减少
+            opacity:
+              highlightedEdge &&
+              highlightedEdge.source === i &&
+              highlightedEdge.target === j
+                ? 0.5
+                : 1
           }
         }
         links.push(link)
@@ -404,6 +412,66 @@ const Scatter = (props) => {
         }
       }
     ]
+  }
+  // 格式化数据，用于高亮学生的知识点掌握程度的展示
+  var formattedMasterData = []
+  for (var studentId in highlightInfo) {
+    // 每个学生对应一个eries
+    formattedMasterData.push({
+      name: '学生' + studentId,
+      type: 'line',
+      data: highlightInfo[studentId],
+      smooth: true
+    })
+  }
+  const masterOption = {
+    title: {
+      text: '高亮学生知识点掌握折线图',
+      textStyle: {
+        fontSize: 12,
+        fontWeight: 'normal'
+      }
+    },
+    color: [
+      '#BEE4D7',
+      '#8DD2E1',
+      '#71B0D1',
+      '#FAD891',
+      '#6D9AC4',
+      '#F4A460',
+      '#EB8277'
+    ],
+    grid: {
+      top: '16%',
+      bottom: '13%',
+      right: '5%',
+      left: '10%'
+    },
+    dataZoom: {
+      type: 'inside'
+    },
+    tooltip: {
+      trigger: 'axis',
+      valueFormatter: (value) => value.toFixed(4)
+    },
+    xAxis: {
+      type: 'category',
+      data: ['Sep', 'Oct', 'Nov', 'Dex', 'Jan', 'Total'],
+      axisLabel: {
+        fontSize: 12,
+        interval: 0
+      }
+    },
+    yAxis: {
+      type: 'value',
+      axisLine: {
+        show: true
+      },
+      axisTick: {
+        show: true
+      }
+    },
+    series: formattedMasterData
   }
   // 点击初始化系统时重新拿数据
   useEffect(() => {
@@ -595,6 +663,8 @@ const Scatter = (props) => {
         // 拿到起始点和去向
         const asource = params.data.source
         const atarget = params.data.target
+        // 将被点击的连接线设置为高亮
+        setHighlightedEdge({ source: asource, target: atarget })
         // 拿到演变的月份
         let month1 = monthMap1[firstMonth]
         let month2 = monthMap1[secondMonth]
@@ -654,32 +724,18 @@ const Scatter = (props) => {
   const onSwitchChange3 = (checked) => {
     setShowHighlight(checked)
     if (checked) {
-      let nothinglist = []
-      // 遍历大列表
-      studentIDlist.forEach((id) => {
-        let nothingDict = {}
-        let nothingmonth = []
-        clusterData.forEach((subList, i) => {
-          subList.forEach((sub) => {
-            // 在每个小列表中查找指定的 key 是否存在，并且对应的值等于目标值
-            const foundIndex = sub.findIndex((item) => item['key'] === id)
-            if (foundIndex !== -1) {
-              nothingmonth.push(i)
-            }
-          })
-        })
-        nothingDict[id] = nothingmonth
-        nothinglist.push(nothingDict)
+      getStudentMaster(studentIDlist).then((res) => {
+        // console.log(res)
+        // 更新高亮信息
+        setHighlightInfo(res)
       })
-      // 更新高亮数据
-      setHighlightInfo(nothinglist)
     } else {
-      // 清除高亮
+      // 清除高亮点
       downplayPointById(studentIDlist)
-      // 清除数据
+      // 清除高亮的学生数据
       handleStudentList1([])
-      handleStudentSelectMastery1([])
-      setHighlightInfo([])
+      // 重置高亮信息
+      setHighlightInfo({})
     }
   }
   // 刷选选择事件处理逻辑
@@ -754,7 +810,7 @@ const Scatter = (props) => {
       })
     }
   }
-  // 根据id找到对应点并高亮
+  // 根据id找到对应点并取消高亮
   const downplayPointById = (ids) => {
     const idList = findModeIndex(ids)
     // 使用条件语句检查 clusterRef 是否存在
@@ -787,7 +843,7 @@ const Scatter = (props) => {
         <div className="title-icon">
           <IconFont type="icon-scatter" />
         </div>
-        学习模式聚类视图
+        学习模式聚类与演变视图
       </div>
       <div className="content">
         <div className="left">
@@ -820,41 +876,14 @@ const Scatter = (props) => {
               secondM={secondMonth + '月'}
             />
           )}
-          {/* 高亮数据展示 */}
+          {/* 高亮学生的知识点掌握程度信息展示 */}
           {showHighlight && amode == 0 && (
             <div className="highlight">
               <div className="highlightContainer">
-                <div className="ahead">
-                  <div style={{ width: '45%', textAlign: 'center' }}>
-                    学生ID
-                  </div>
-                  <div style={{ width: '30%', textAlign: 'center' }}>
-                    答题月份
-                  </div>
-                  <div style={{ width: '20%', textAlign: 'center' }}>
-                    掌握程度
-                  </div>
-                </div>
-                {highlightInfo.map((subList, index) => (
-                  <div key={index} className="highlightItem">
-                    {/* 直接使用 subList 的唯一键作为月份显示 */}
-                    <div className="aid">{Object.keys(subList)[0]}</div>
-                    {/* 渲染对应月份的值数组 */}
-                    <div className="amonth">
-                      {subList[Object.keys(subList)[0]].map(
-                        (value, subIndex) => {
-                          const month = monthMap[value]
-                          return (
-                            <span key={`month-${subIndex}`}>{month}&nbsp;</span>
-                          )
-                        }
-                      )}
-                    </div>
-                    <div className="amaster">
-                      {studentSelectMastery[index].toFixed(4)}
-                    </div>
-                  </div>
-                ))}
+                <ReactEcharts
+                  option={masterOption}
+                  style={{ width: '100%', height: '100%' }}
+                />
               </div>
             </div>
           )}

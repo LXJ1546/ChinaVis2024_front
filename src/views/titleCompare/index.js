@@ -55,7 +55,8 @@ const TitleCompare = (props) => {
         d3.min([column3Min, column4Min]),
         d3.max([column3Max, column4Max])
       ]) // 输入数据范围
-      .range(['#ffccd5', '#E0464E']) // 输出颜色范围
+      // .range(['#ffccd5', '#E0464E']) // 输出颜色范围
+      .range(['#EFA3A3', '#D9644A']) // 输出颜色范围
     // const aftercolorScale = d3
     //   .scaleLinear()
     //   .domain([column4Min, column4Max]) // 输入数据范围
@@ -88,7 +89,7 @@ const TitleCompare = (props) => {
     // let xAxis =
     svg
       .append('g')
-      .attr('transform', 'translate(30,165)')
+      .attr('transform', 'translate(30,188)')
       .call(d3.axisBottom(xScale))
       .selectAll('text')
       .style('font-size', '8px') // 设置字体大小
@@ -96,6 +97,7 @@ const TitleCompare = (props) => {
       .attr('dx', '2.3em') // 水平偏移
       .attr('dy', '0.1em') // 垂直偏移
       .attr('transform', 'rotate(60)') // 旋转角度
+      .style('opacity', 0.8)
 
     // 设置缩放行为
 
@@ -104,6 +106,7 @@ const TitleCompare = (props) => {
       .append('g')
       .attr('transform', 'translate(30, -5)')
       .call(d3.axisLeft(yScale))
+      .style('opacity', 0.8)
 
     // 添加连接线
     svg
@@ -125,6 +128,7 @@ const TitleCompare = (props) => {
         return yScale(d[1][1]) - 5
       })
       .attr('stroke', 'black')
+      .style('opacity', 0.8)
 
     // 添加红色圆
     svg
@@ -253,18 +257,21 @@ const TitleCompare = (props) => {
       .attr('x', 460)
       .attr('y', 175)
       .style('font-size', '10px')
+      .style('opacity', 0.8)
     svg
       .append('text')
       .text('提交次数')
       .attr('x', 30)
       .attr('y', 30)
       .style('font-size', '10px')
+      .style('opacity', 0.8)
     svg
       .append('text')
       .text('提交次数对比点线图')
       .attr('x', 10)
       .attr('y', 13)
       .style('font-size', '12px')
+      .style('opacity', 0.8)
 
     //绘制图例
 
@@ -277,8 +284,8 @@ const TitleCompare = (props) => {
       .attr('x2', '100%')
       .attr('y2', '0%')
     // 添加渐变色段
-    gradient.append('stop').attr('offset', '0%').attr('stop-color', '#ffccd5')
-    gradient.append('stop').attr('offset', '100%').attr('stop-color', '#E0464E')
+    gradient.append('stop').attr('offset', '0%').attr('stop-color', '#EFA3A3')
+    gradient.append('stop').attr('offset', '100%').attr('stop-color', '#D9644A')
 
     // 创建矩形
     svg
@@ -294,6 +301,7 @@ const TitleCompare = (props) => {
       .attr('x', 440)
       .attr('y', 15)
       .style('font-size', '12px')
+      .style('opacity', 0.8)
     // 添加红色圆
     svg
       .append('circle')
@@ -307,6 +315,7 @@ const TitleCompare = (props) => {
       .attr('x', 205)
       .attr('y', 15)
       .style('font-size', '12px')
+      .style('opacity', 0.8)
     svg
 
       .append('polygon')
@@ -332,6 +341,7 @@ const TitleCompare = (props) => {
       .attr('x', 250)
       .attr('y', 15)
       .style('font-size', '12px')
+      .style('opacity', 0.8)
     svg
       .append('line')
       .attr('x1', 280)
@@ -339,12 +349,14 @@ const TitleCompare = (props) => {
       .attr('x2', 310)
       .attr('y2', 12)
       .attr('stroke', 'black')
+      .style('opacity', 0.8)
     svg
       .append('text')
       .text('次数差距')
       .attr('x', 320)
       .attr('y', 15)
       .style('font-size', '12px')
+      .style('opacity', 0.8)
   }
 
   useEffect(() => {

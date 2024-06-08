@@ -80,6 +80,8 @@ const Calendar = (props) => {
       .attr('width', 20)
       .attr('height', 15)
       .attr('fill', (d) => d.value)
+      .attr('rx', 4) // 设置水平圆角半径
+      .attr('ry', 4) // 设置垂直圆角半径
 
     // 添加图例文本
     legend
@@ -92,6 +94,7 @@ const Calendar = (props) => {
       .attr('dy', '0.35em')
       .text((d) => d.category)
       .attr('font-size', 12)
+      .style('opacity', 0.8)
     //添加中间线性映射的圆的提交次数的颜色
     //   定义颜色映射的线性渐变
     const gradient = d3
@@ -105,8 +108,11 @@ const Calendar = (props) => {
       .attr('y2', '0%')
 
     // 添加渐变色段
-    gradient.append('stop').attr('offset', '0%').attr('stop-color', '#E4F1F4')
-    gradient.append('stop').attr('offset', '100%').attr('stop-color', '#47A2BE')
+    // gradient.append('stop').attr('offset', '0%').attr('stop-color', '#E4F1F4')
+    // gradient.append('stop').attr('offset', '100%').attr('stop-color', '#47A2BE')
+    gradient.append('stop').attr('offset', '0%').attr('stop-color', '#aed8f5')
+    gradient.append('stop').attr('offset', '50%').attr('stop-color', '#569ddb')
+    gradient.append('stop').attr('offset', '100%').attr('stop-color', '#2f7fce')
 
     // 创建矩形
     d3.select('.calendarsvg')
@@ -127,7 +133,7 @@ const Calendar = (props) => {
       .attr('dy', '0.35em')
       .text('提交次数')
       .attr('font-size', 12)
-
+      .style('opacity', 0.8)
     //画日历
     function drawStudentCalendar(studentName, studentNum, dataArr) {
       tempclick = svg.append('circle').attr('cx', 0).attr('cy', -100)
@@ -143,13 +149,14 @@ const Calendar = (props) => {
       const commitscaleColor = d3
         .scaleLinear()
         .domain([0, maxcommitnum])
-        .range(['#E4F1F4', '#47A2BE'])
-
+        // .range(['#E4F1F4', '#47A2BE'])
+        .range(['#aed8f5', '#569ddb', '#2f7fce'])
       //正确占比颜色映射
       const rightcolor = d3
         .scaleOrdinal()
         .domain(['rightrate', 'errorrate'])
         .range(['#179349', 'red'])
+      // .range(['#1e98a8', 'red'])
 
       //使用语言的颜色映射
       const languagecolor = d3
@@ -550,6 +557,7 @@ const Calendar = (props) => {
         .attr('dy', (d, i) => i * 66 + 30)
         .attr('fill', 'black')
         .text((d) => d)
+        .style('opacity', 0.8)
 
       //根据日历图布局，绘制周文本
       let monthAll = []
@@ -628,6 +636,8 @@ const Calendar = (props) => {
       .attr('width', 20)
       .attr('height', 15)
       .attr('fill', (d) => d.value)
+      .attr('rx', 5) // 设置水平圆角半径
+      .attr('ry', 5) // 设置垂直圆角半径
 
     // 添加图例文本
     legend
@@ -640,6 +650,7 @@ const Calendar = (props) => {
       .attr('dy', '0.35em')
       .text((d) => d.category)
       .attr('font-size', 12)
+      .style('opacity', 0.8)
     //添加中间线性映射的圆的提交次数的颜色
     //   定义颜色映射的线性渐变
     const gradient = d3
@@ -653,8 +664,11 @@ const Calendar = (props) => {
       .attr('y2', '0%')
 
     // 添加渐变色段
-    gradient.append('stop').attr('offset', '0%').attr('stop-color', '#E4F1F4')
-    gradient.append('stop').attr('offset', '100%').attr('stop-color', '#47A2BE')
+    // gradient.append('stop').attr('offset', '0%').attr('stop-color', '#E4F1F4')
+    // gradient.append('stop').attr('offset', '100%').attr('stop-color', '#47A2BE')
+    gradient.append('stop').attr('offset', '0%').attr('stop-color', '#aed8f5')
+    gradient.append('stop').attr('offset', '50%').attr('stop-color', '#569ddb')
+    gradient.append('stop').attr('offset', '100%').attr('stop-color', '#2f7fce')
 
     // 创建矩形
     d3.select('.calendarsvg')
@@ -675,6 +689,7 @@ const Calendar = (props) => {
       .attr('dy', '0.35em')
       .text('提交次数')
       .attr('font-size', 12)
+      .style('opacity', 0.8)
 
     //画日历
     function drawStudentCalendarCompare(
@@ -686,7 +701,8 @@ const Calendar = (props) => {
       const commitscaleColor = d3
         .scaleLinear()
         .domain([0, maxcommitnum])
-        .range(['#E4F1F4', '#47A2BE'])
+        // .range(['#E4F1F4', '#47A2BE'])
+        .range(['#aed8f5', '#569ddb', '#2f7fce'])
 
       //正确占比颜色映射
       const rightcolor = d3
@@ -1093,6 +1109,7 @@ const Calendar = (props) => {
         .attr('dy', (d, i) => i * 66 + 30)
         .attr('fill', 'black')
         .text((d) => d)
+        .style('opacity', 0.8)
 
       //根据日历图布局，绘制周文本
       let monthAll = []
@@ -1232,6 +1249,7 @@ const Calendar = (props) => {
       .attr('dy', '0.35em')
       .text('提交次数')
       .attr('font-size', 12)
+      .style('opacity', 0.8)
 
     //   定义颜色映射的线性渐变
     const gradientanswerpeople = svg
@@ -1271,6 +1289,7 @@ const Calendar = (props) => {
       .attr('dy', '0.35em')
       .text('活跃人数')
       .attr('font-size', 12)
+      .style('opacity', 0.8)
 
     //图例数据
     const legendData = [
@@ -1290,6 +1309,8 @@ const Calendar = (props) => {
       .attr('width', 20)
       .attr('height', 15)
       .attr('fill', (d) => d.value)
+      .attr('rx', 4) // 设置水平圆角半径
+      .attr('ry', 4) // 设置垂直圆角半径
 
     // 添加图例文本
     legend
@@ -1302,6 +1323,7 @@ const Calendar = (props) => {
       .attr('dy', '0.35em')
       .text((d) => d.category)
       .attr('font-size', 12)
+      .style('opacity', 0.8)
 
     //创建横纵坐标比例尺
     // 数据
@@ -1363,6 +1385,7 @@ const Calendar = (props) => {
       .attr('y', margin.bottom - 10)
       .attr('fill', '#000')
       .style('text-anchor', 'middle')
+      .style('opacity', 0.8)
     // 在 SVG 中添加 Y 轴
     workAxisg
       .append('g')
@@ -1373,6 +1396,7 @@ const Calendar = (props) => {
       .attr('y', -margin.left + 20)
       .attr('fill', '#000')
       .style('text-anchor', 'middle')
+      .style('opacity', 0.8)
 
     workAxisg
       .selectAll('.domain, .tick line') // 选择轴线和刻度线
@@ -1384,22 +1408,91 @@ const Calendar = (props) => {
       // 设置字体大小为14像素
       .selectAll('text')
       .style('font-size', '13px')
+      .style('opacity', 0.8)
 
     workAxisg
       .select('.x-axis')
       // 设置字体大小为14像素
       .selectAll('text')
       .style('font-size', '13px')
+      .style('opacity', 0.8)
 
     //绘制答题情况
     const workg = svg
       .append('g')
       .attr('id', 'workanswer')
       .attr('transform', `translate(${margin.left},${margin.top + 20})`)
+
+    //假数据，每个月的每天的人数
+    const peopleDetial = {
+      '上午-休息日': {
+        1: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        9: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        10: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        11: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        12: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15]
+      },
+      '上午-工作日': {
+        1: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        9: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        10: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        11: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        12: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15]
+      },
+      '下午-休息日': {
+        1: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        9: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        10: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        11: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        12: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15]
+      },
+      '下午-工作日': {
+        1: [
+          12, 16, 19, 18, 19, 17, 14, 22, 22, 12, 10, 10, 12, 16, 10, 12, 11,
+          12, 13, 15
+        ],
+        9: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        10: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        11: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        12: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15]
+      },
+      '凌晨-休息日': {
+        1: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        9: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        10: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        11: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        12: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15]
+      },
+      '凌晨-工作日': {
+        1: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        9: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        10: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        11: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        12: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15]
+      },
+      '晚上-休息日': {
+        1: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        9: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        10: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        11: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        12: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15]
+      },
+      '晚上-工作日': {
+        1: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        9: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        10: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        11: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15],
+        12: [12, 16, 19, 18, 19, 17, 1, 2, 3, 5, 1, 0, 2, 6, 0, 2, 1, 2, 3, 15]
+      }
+    }
+
     for (const key in answerData) {
       const monthdata = answerData[key]
+      const peopledata = peopleDetial[key]
       for (const monthkey in monthdata) {
         const monthvalue = monthdata[monthkey]
+        const monthpeople = peopledata[monthkey]
+
         // 绘制提交次数矩形
         workg
           .append('rect')
@@ -1410,7 +1503,6 @@ const Calendar = (props) => {
           .attr('y', yScale(key))
           .attr('fill', submitColorScale(monthvalue[0]))
           .on('mouseover', function (e, d) {
-            // d3.select(this).transition().duration(200).style('opacity', 0.5) //鼠标覆盖高亮
             d3.select(this).style('stroke', 'grey').style('stroke-width', 2)
             tip.html(`<div style="line-height: 1;
                   font-weight: bold;
@@ -1476,6 +1568,29 @@ const Calendar = (props) => {
             }
             setSelectPeriod(keyParts[0])
             tip.hide()
+          })
+        //绘制活跃度矩形
+        //单独设置比例尺
+        const peopleScale = d3
+          .scaleLinear()
+          .domain([d3.min(monthpeople), d3.max(monthpeople)])
+          .range([rectWidth / 4 - 10, acticityradiusScale(monthvalue[1])])
+        const peopleg = workg.append('g')
+        peopleg
+          .selectAll('rect')
+          .data(monthpeople)
+          .enter()
+          .append('rect')
+          .attr('x', xScale(parseInt(monthkey)) + rectWidth / 2)
+          .attr('y', yScale(key) + rectWidth / 2)
+          .attr('width', 1)
+          .attr('height', function (d) {
+            console.log(peopleScale(d))
+            return peopleScale(d)
+          })
+          .attr('fill', 'white')
+          .attr('transform', function (d, i) {
+            return `rotate(${(i * 360) / monthpeople.length + 180},${xScale(parseInt(monthkey)) + rectWidth / 2},${yScale(key) + rectWidth / 2})`
           })
       }
     }
@@ -1729,6 +1844,7 @@ const Calendar = (props) => {
       .attr('dy', (d, i) => i * 66 + 30)
       .attr('fill', 'black')
       .text((d) => d)
+      .style('opacity', 0.8)
 
     //根据日历图布局，绘制周文本
     let monthAll = []
@@ -1754,6 +1870,7 @@ const Calendar = (props) => {
       .attr('font-size', '15px')
       .attr('font-family', 'monospace')
       .text(selectMonth + '月-' + workFlag + '-' + selectPeriod)
+      .style('opacity', 0.8)
 
     //绘制学习模式的人数矩形
     //用于找出三个模式中的第一大值,第二大值,最小值

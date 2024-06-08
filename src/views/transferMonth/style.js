@@ -12,6 +12,9 @@ export const TransferMonthWrapper = styled.div`
     border-bottom: 1px solid #9b9ca0;
     font-size: 16px;
     opacity: 0.8;
+    background: rgb(245, 245, 245);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
     .title-icon {
       font-size: 20px;
       margin-left: 4px;
@@ -73,11 +76,11 @@ export const TransferMonthWrapper = styled.div`
       height: 100%;
       .individual {
         width: 100%;
-        height: 45%;
+        height: 50%;
       }
       .compare {
         width: 100%;
-        height: 55%;
+        height: 50%;
       }
     }
   }

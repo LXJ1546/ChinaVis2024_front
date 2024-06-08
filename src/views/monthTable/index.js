@@ -19,8 +19,8 @@ const MonthTable = () => {
       position: 'left'
     },
     grid: {
-      top: '2%',
-      bottom: '12%',
+      top: '3%',
+      bottom: '9%',
       right: '3%',
       left: '11%'
     },
@@ -48,13 +48,14 @@ const MonthTable = () => {
     visualMap: {
       show: false,
       min: -1,
-      max: 1,
+      max: 0,
       calculable: true,
       orient: 'vertical',
       right: '1%',
       bottom: '10%',
       itemWidth: 10,
-      itemHeight: 80
+      itemHeight: 80,
+      color: ['#DCDCDC', '#8DD2E1', '#71B0D1']
     },
     series: [
       {
@@ -62,7 +63,9 @@ const MonthTable = () => {
         type: 'heatmap',
         data: correlationData[5],
         label: {
-          show: true
+          show: true,
+          textBorderColor: '#fff',
+          textBorderWidth: 0.5
         },
         emphasis: {
           itemStyle: {
@@ -116,10 +119,10 @@ const MonthTable = () => {
                   <Tag
                     color={
                       record.label === '高峰型'
-                        ? '#37A2DA'
+                        ? '#86C6F0'
                         : record.label === '低峰型'
-                          ? '#e06343'
-                          : '#37a354'
+                          ? '#EB8277'
+                          : '#6ABF57'
                     }
                   >
                     {record.label}

@@ -508,12 +508,14 @@ const KnowledgeTree = (props) => {
     const color = d3
       .scaleLinear()
       .domain([0.36, 0.52]) // 输入数据范围
-      .range(['#ffccd5', '#E0464E']) // 输出颜色范围
+      // .range(['#ffccd5', '#E0464E']) // 输出颜色范围
+      .range(['#bae0ff', '#6B89BB']) // 输出颜色范围
 
     const color1 = d3
       .scaleLinear()
       .domain([0.26, 0.81]) // 输入数据范围
-      .range(['#ffccd5', '#E0464E']) // 输出颜色范围
+      // .range(['#ffccd5', '#E0464E']) // 输出颜色范围
+      .range(['#bae0ff', '#6B89BB']) // 输出颜色范围
 
     // 初始化计数器
     let count_deep3 = 0
@@ -567,14 +569,20 @@ const KnowledgeTree = (props) => {
       .append('text')
       .text('主知识点')
       .attr('transform', `translate(190, -370)`)
+      .style('opacity', 0.8)
+      .style('font-size', '12px')
     rectType
       .append('text')
       .text('子知识点')
       .attr('transform', `translate(405, -370)`)
+      .style('opacity', 0.8)
+      .style('font-size', '12px')
     rectType
       .append('text')
       .text('题目')
       .attr('transform', `translate(630, -370)`)
+      .style('opacity', 0.8)
+      .style('font-size', '12px')
     rectType
       .append('svg:image')
       .attr('xlink:href', function () {
@@ -590,7 +598,7 @@ const KnowledgeTree = (props) => {
       .append('text')
       .text('多知识点题目')
       .attr('transform', `translate(690, -370)`)
-
+      .style('opacity', 0.8)
     // 删除第一个元素，这里第一个是总的，实际上这里并不需要
     let temp = root.descendants()
     temp.shift()
@@ -753,6 +761,7 @@ const KnowledgeTree = (props) => {
       })
       .attr('stroke', 'white')
       .attr('paint-order', 'stroke')
+      .style('opacity', 0.8)
 
     //题目添加点击事件,题目圆
     const myQuestions = d3.selectAll('circle.questionRect')

@@ -121,7 +121,7 @@ const TransferMonth = (props) => {
       {
         data: correct2,
         type: 'line',
-        color: '#86C6F0',
+        color: '#71B0D1',
         areaStyle: {}
       }
     ]
@@ -166,7 +166,7 @@ const TransferMonth = (props) => {
       {
         data: submit2,
         type: 'line',
-        color: '#86C6F0',
+        color: '#71B0D1',
         areaStyle: {}
       }
     ]
@@ -211,7 +211,7 @@ const TransferMonth = (props) => {
       {
         data: active2,
         type: 'line',
-        color: '#86C6F0',
+        color: '#71B0D1',
         areaStyle: {}
       }
     ]
@@ -256,7 +256,7 @@ const TransferMonth = (props) => {
       {
         data: question2,
         type: 'line',
-        color: '#86C6F0',
+        color: '#71B0D1',
         areaStyle: {}
       }
     ]
@@ -265,7 +265,7 @@ const TransferMonth = (props) => {
     title: {
       text: '群体对比视图',
       left: '2%',
-      top: '5%',
+      top: '4%',
       textStyle: {
         fontSize: 12,
         fontWeight: 'normal'
@@ -325,7 +325,7 @@ const TransferMonth = (props) => {
         type: 'parallel',
         lineStyle: {
           color: '#86C6F0',
-          width: 1.2
+          width: 1.4
         },
         smooth: true,
         data: transferParallelList[0]
@@ -334,7 +334,7 @@ const TransferMonth = (props) => {
         name: transferSecondMonth,
         type: 'parallel',
         lineStyle: {
-          width: 1.2,
+          width: 1.4,
           color: '#EB8277'
         },
         smooth: true,
@@ -349,7 +349,7 @@ const TransferMonth = (props) => {
       return `Class ${d[0]},人数: <span >${d}</span>`
     })
   useEffect(() => {
-    if (transferLinksData.length != 0) {
+    if (transferLinksData[0].length != 0) {
       setIsParallel(true)
     }
     const svg = d3.select(svgRef.current)
@@ -361,22 +361,22 @@ const TransferMonth = (props) => {
     // 创建颜色比例尺
     const colorScale1 = d3
       .scaleSequential(
-        d3.interpolateRgbBasis(['#ffebcd', '#f4a460', '#d2691e'])
+        d3.interpolateRgbBasis(['#BEE4D7', '#71B0D1', '#6B89BB'])
       )
       .domain([0, 1])
     const colorScale2 = d3
       .scaleSequential(
-        d3.interpolateRgbBasis(['#ffebcd', '#f4a460', '#d2691e'])
+        d3.interpolateRgbBasis(['#BEE4D7', '#71B0D1', '#6B89BB'])
       )
       .domain([0, 400])
     const colorScale3 = d3
       .scaleSequential(
-        d3.interpolateRgbBasis(['#ffebcd', '#f4a460', '#d2691e'])
+        d3.interpolateRgbBasis(['#BEE4D7', '#71B0D1', '#6B89BB'])
       )
       .domain([0, 30])
     const colorScale4 = d3
       .scaleSequential(
-        d3.interpolateRgbBasis(['#ffebcd', '#f4a460', '#d2691e'])
+        d3.interpolateRgbBasis(['#BEE4D7', '#71B0D1', '#6B89BB'])
       )
       .domain([0, 38])
     const colorScales = [colorScale1, colorScale2, colorScale3, colorScale4]
@@ -581,15 +581,15 @@ const TransferMonth = (props) => {
     legendGradient
       .append('stop')
       .attr('offset', '0%')
-      .attr('stop-color', '#ffebcd')
+      .attr('stop-color', '#BEE4D7')
     legendGradient
       .append('stop')
       .attr('offset', '50%')
-      .attr('stop-color', '#f4a460')
+      .attr('stop-color', '#71B0D1')
     legendGradient
       .append('stop')
       .attr('offset', '100%')
-      .attr('stop-color', '#d2691e')
+      .attr('stop-color', '#6B89BB')
     legendsvg
       .append('rect')
       .attr('x', 245)
