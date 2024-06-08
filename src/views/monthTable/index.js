@@ -48,13 +48,14 @@ const MonthTable = () => {
     visualMap: {
       show: false,
       min: -1,
-      max: 1,
+      max: 0,
       calculable: true,
       orient: 'vertical',
       right: '1%',
       bottom: '10%',
       itemWidth: 10,
-      itemHeight: 80
+      itemHeight: 80,
+      color: ['#DCDCDC', '#8DD2E1', '#71B0D1']
     },
     series: [
       {
@@ -62,7 +63,9 @@ const MonthTable = () => {
         type: 'heatmap',
         data: correlationData[5],
         label: {
-          show: true
+          show: true,
+          textBorderColor: '#fff',
+          textBorderWidth: 0.5
         },
         emphasis: {
           itemStyle: {

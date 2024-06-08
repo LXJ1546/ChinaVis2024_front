@@ -24,19 +24,19 @@ const TimeStatisticFeature = (props) => {
         {
           name: '活跃度',
           itemStyle: {
-            color: '#7FABD1'
+            color: '#87c977'
           }
         },
         {
           name: '答题多样性',
           itemStyle: {
-            color: '#64B4B1'
+            color: '#EDCC65'
           }
         },
         {
           name: '正确占比',
           itemStyle: {
-            color: '#EDCC65'
+            color: '#71B0D1'
           }
         },
         {
@@ -220,7 +220,7 @@ const TimeStatisticFeature = (props) => {
         xAxisIndex: 1,
         yAxisIndex: 1,
         itemStyle: {
-          color: '#7FABD1', // 设置箱子的填充颜色
+          color: '#87c977', // 设置箱子的填充颜色
           borderColor: '#F4A460', // 设置边框颜色
           borderWidth: 1 // 设置边框宽度
         }
@@ -232,7 +232,7 @@ const TimeStatisticFeature = (props) => {
         xAxisIndex: 2,
         yAxisIndex: 2,
         itemStyle: {
-          color: '#64B4B1', // 设置箱子的填充颜色
+          color: '#EDCC65', // 设置箱子的填充颜色
           borderColor: '#F4A460', // 设置边框颜色
           borderWidth: 1 // 设置边框宽度
         }
@@ -244,7 +244,7 @@ const TimeStatisticFeature = (props) => {
         xAxisIndex: 3,
         yAxisIndex: 3,
         itemStyle: {
-          color: '#EDCC65', // 设置箱子的填充颜色
+          color: '#71B0D1', // 设置箱子的填充颜色
           borderColor: '#F4A460', // 设置边框颜色
           borderWidth: 1 // 设置边框宽度
         }
