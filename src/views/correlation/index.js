@@ -72,7 +72,8 @@ const Correlation = (props) => {
       right: '1%',
       bottom: '10%',
       itemWidth: 10,
-      itemHeight: 80
+      itemHeight: 80,
+      color: ['#6B89BB', '#8DD2E1', '#DCDCDC']
     },
     series: [
       {
@@ -80,7 +81,9 @@ const Correlation = (props) => {
         type: 'heatmap',
         data: correlationData[correlationIndex],
         label: {
-          show: true
+          show: true,
+          textBorderColor: '#fff',
+          textBorderWidth: 0.5
         },
         emphasis: {
           itemStyle: {

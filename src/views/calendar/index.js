@@ -108,8 +108,11 @@ const Calendar = (props) => {
       .attr('y2', '0%')
 
     // 添加渐变色段
-    gradient.append('stop').attr('offset', '0%').attr('stop-color', '#E4F1F4')
-    gradient.append('stop').attr('offset', '100%').attr('stop-color', '#47A2BE')
+    // gradient.append('stop').attr('offset', '0%').attr('stop-color', '#E4F1F4')
+    // gradient.append('stop').attr('offset', '100%').attr('stop-color', '#47A2BE')
+    gradient.append('stop').attr('offset', '0%').attr('stop-color', '#aed8f5')
+    gradient.append('stop').attr('offset', '50%').attr('stop-color', '#569ddb')
+    gradient.append('stop').attr('offset', '100%').attr('stop-color', '#2f7fce')
 
     // 创建矩形
     d3.select('.calendarsvg')
@@ -146,13 +149,14 @@ const Calendar = (props) => {
       const commitscaleColor = d3
         .scaleLinear()
         .domain([0, maxcommitnum])
-        .range(['#E4F1F4', '#47A2BE'])
-
+        // .range(['#E4F1F4', '#47A2BE'])
+        .range(['#aed8f5', '#569ddb', '#2f7fce'])
       //正确占比颜色映射
       const rightcolor = d3
         .scaleOrdinal()
         .domain(['rightrate', 'errorrate'])
         .range(['#179349', 'red'])
+      // .range(['#1e98a8', 'red'])
 
       //使用语言的颜色映射
       const languagecolor = d3
@@ -660,8 +664,11 @@ const Calendar = (props) => {
       .attr('y2', '0%')
 
     // 添加渐变色段
-    gradient.append('stop').attr('offset', '0%').attr('stop-color', '#E4F1F4')
-    gradient.append('stop').attr('offset', '100%').attr('stop-color', '#47A2BE')
+    // gradient.append('stop').attr('offset', '0%').attr('stop-color', '#E4F1F4')
+    // gradient.append('stop').attr('offset', '100%').attr('stop-color', '#47A2BE')
+    gradient.append('stop').attr('offset', '0%').attr('stop-color', '#aed8f5')
+    gradient.append('stop').attr('offset', '50%').attr('stop-color', '#569ddb')
+    gradient.append('stop').attr('offset', '100%').attr('stop-color', '#2f7fce')
 
     // 创建矩形
     d3.select('.calendarsvg')
@@ -694,7 +701,8 @@ const Calendar = (props) => {
       const commitscaleColor = d3
         .scaleLinear()
         .domain([0, maxcommitnum])
-        .range(['#E4F1F4', '#47A2BE'])
+        // .range(['#E4F1F4', '#47A2BE'])
+        .range(['#aed8f5', '#569ddb', '#2f7fce'])
 
       //正确占比颜色映射
       const rightcolor = d3

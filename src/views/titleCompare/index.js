@@ -55,7 +55,8 @@ const TitleCompare = (props) => {
         d3.min([column3Min, column4Min]),
         d3.max([column3Max, column4Max])
       ]) // 输入数据范围
-      .range(['#ffccd5', '#E0464E']) // 输出颜色范围
+      // .range(['#ffccd5', '#E0464E']) // 输出颜色范围
+      .range(['#EFA3A3', '#D9644A']) // 输出颜色范围
     // const aftercolorScale = d3
     //   .scaleLinear()
     //   .domain([column4Min, column4Max]) // 输入数据范围
@@ -283,8 +284,8 @@ const TitleCompare = (props) => {
       .attr('x2', '100%')
       .attr('y2', '0%')
     // 添加渐变色段
-    gradient.append('stop').attr('offset', '0%').attr('stop-color', '#ffccd5')
-    gradient.append('stop').attr('offset', '100%').attr('stop-color', '#E0464E')
+    gradient.append('stop').attr('offset', '0%').attr('stop-color', '#EFA3A3')
+    gradient.append('stop').attr('offset', '100%').attr('stop-color', '#D9644A')
 
     // 创建矩形
     svg
