@@ -156,3 +156,10 @@ export function getStudentMaster(idList) {
     data: { data: idList }
   })
 }
+
+//获取时间模式特征矩阵气泡图的具体人数分布
+export function getallPeriodDayPeople() {
+  return hyRequest.post({
+    url: '/allPeriodDayInfo'
+  })
+}
