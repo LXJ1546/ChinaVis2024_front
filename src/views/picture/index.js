@@ -404,17 +404,17 @@ const Picture = (props) => {
 
     //班级排名视图标签
     const ranklable = svg.append('g').attr('class', 'ranklable')
+    // ranklable
+    //   .append('text')
+    //   .text('所有班级')
+    //   .attr('x', '2%')
+    //   .attr('y', '40%')
+    //   .style('opacity', 0.8)
     ranklable
       .append('text')
-      .text('所有班级')
+      .text('班级排名')
       .attr('x', '2%')
-      .attr('y', '30%')
-      .style('opacity', 0.8)
-    ranklable
-      .append('text')
-      .text('排名情况')
-      .attr('x', '2%')
-      .attr('y', '55%')
+      .attr('y', '65%')
       .style('opacity', 0.8)
     svg.call(tip)
   }
@@ -557,17 +557,17 @@ const Picture = (props) => {
 
     //班级排名视图标签
     const ranklable = svg.append('g').attr('class', 'ranklable')
+    // ranklable
+    //   .append('text')
+    //   .text('Class ' + classNum)
+    //   .attr('x', '4%')
+    //   .attr('y', '40%')
+    //   .style('opacity', 0.8)
     ranklable
       .append('text')
-      .text('Class ' + classNum)
-      .attr('x', '4%')
-      .attr('y', '30%')
-      .style('opacity', 0.8)
-    ranklable
-      .append('text')
-      .text('排名情况')
-      .attr('x', '3%')
-      .attr('y', '55%')
+      .text('Class ' + classNum + ' 排名')
+      .attr('x', '2%')
+      .attr('y', '50%')
       .style('opacity', 0.8)
   }
 
@@ -755,17 +755,17 @@ const Picture = (props) => {
 
     //班级排名视图标签
     const ranklable = svg.append('g').attr('class', 'ranklable')
+    // ranklable
+    //   .append('text')
+    //   .text('所有班级')
+    //   .attr('x', '2%')
+    //   .attr('y', '40%')
+    //   .style('opacity', 0.8)
     ranklable
       .append('text')
-      .text('所有班级')
+      .text('班级排名')
       .attr('x', '2%')
-      .attr('y', '30%')
-      .style('opacity', 0.8)
-    ranklable
-      .append('text')
-      .text('排名情况')
-      .attr('x', '2%')
-      .attr('y', '55%')
+      .attr('y', '50%')
       .style('opacity', 0.8)
   }
 

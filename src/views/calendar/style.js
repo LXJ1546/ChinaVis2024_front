@@ -35,7 +35,7 @@ export const CalendarWrapper = styled.div`
       height: 100%;
       .orderSelectview {
         position: absolute;
-        left: 70%;
+        left: 75%;
         top: 6.5%;
       }
       .answerDetailview {

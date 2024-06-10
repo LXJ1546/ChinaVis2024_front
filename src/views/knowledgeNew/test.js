@@ -568,19 +568,19 @@ const KnowledgeTree = (props) => {
     rectType
       .append('text')
       .text('主知识点')
-      .attr('transform', `translate(190, -370)`)
+      .attr('transform', `translate(188, -370)`)
       .style('opacity', 0.8)
       .style('font-size', '12px')
     rectType
       .append('text')
       .text('子知识点')
-      .attr('transform', `translate(405, -370)`)
+      .attr('transform', `translate(400, -370)`)
       .style('opacity', 0.8)
       .style('font-size', '12px')
     rectType
       .append('text')
       .text('题目')
-      .attr('transform', `translate(630, -370)`)
+      .attr('transform', `translate(623, -370)`)
       .style('opacity', 0.8)
       .style('font-size', '12px')
     rectType
@@ -590,15 +590,17 @@ const KnowledgeTree = (props) => {
       })
       .attr('x', 25)
       .attr('y', -11)
-      .attr('width', 15)
-      .attr('height', 15)
-      .attr('transform', `translate(650, -370)`)
+      .attr('width', 14)
+      .attr('height', 14)
+      .attr('transform', `translate(640, -370)`)
 
     rectType
       .append('text')
       .text('多知识点题目')
-      .attr('transform', `translate(690, -370)`)
+      .attr('transform', `translate(680, -370)`)
       .style('opacity', 0.8)
+      .style('font-size', '12px')
+
     // 删除第一个元素，这里第一个是总的，实际上这里并不需要
     let temp = root.descendants()
     temp.shift()

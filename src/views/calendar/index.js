@@ -1308,9 +1308,9 @@ const Calendar = (props) => {
 
     //图例数据
     const legendData = [
-      { category: '针对型', value: '#86C6F0' },
-      { category: '多样型', value: '#EB8277' },
-      { category: '尝试型', value: '#6ABF57' }
+      { category: '集中针对型', value: '#86C6F0' },
+      { category: '广泛多样型', value: '#EB8277' },
+      { category: '尝试探索型', value: '#6ABF57' }
     ]
     const legend = svg.append('g').attr('class', 'legend')
     // 添加图例条目
@@ -1319,7 +1319,7 @@ const Calendar = (props) => {
       .data(legendData)
       .enter()
       .append('rect')
-      .attr('x', (d, i) => i * 80 + 350)
+      .attr('x', (d, i) => i * 90 + 350)
       .attr('y', 12)
       .attr('width', 20)
       .attr('height', 15)
@@ -1333,7 +1333,7 @@ const Calendar = (props) => {
       .data(legendData)
       .enter()
       .append('text')
-      .attr('x', (d, i) => i * 80 + 375)
+      .attr('x', (d, i) => i * 90 + 375)
       .attr('y', 20)
       .attr('dy', '0.35em')
       .text((d) => d.category)
@@ -2397,7 +2397,7 @@ const Calendar = (props) => {
             <div id="orderSelect" className="orderSelectview">
               <Select
                 defaultValue="按照工作日/非工作日排序"
-                style={{ width: 220, position: 'absolute' }}
+                style={{ width: 200, position: 'absolute' }}
                 onChange={handleOrder}
                 options={[
                   {
