@@ -5,7 +5,7 @@ import { TransferMonthWrapper } from './style'
 import { getMonthQuestionSubmit } from '../../api'
 import { createFromIconfontCN } from '@ant-design/icons'
 const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/c/font_4565164_5dwh5h2ar1s.js'
+  scriptUrl: '//at.alicdn.com/t/c/font_4565164_ivno85eyhk.js'
 })
 import d3Tip from 'd3-tip'
 import TitleCompare from '../titleCompare'
@@ -384,7 +384,7 @@ const TransferMonth = (props) => {
     // 定义图例中圆形颜色比例尺
     const circleColorScale = d3
       .scaleOrdinal()
-      .domain(['针对型', '多样型', '尝试型'])
+      .domain(['集中针对型', '广泛多样型', '探索尝试型'])
       .range(['#86C6F0', '#EB8277', '#6ABF57'])
     // 渲染矩形
     svg
@@ -548,22 +548,22 @@ const TransferMonth = (props) => {
     //渲染圆点图例
     legendsvg
       .selectAll('.legend-circle')
-      .data(['针对型', '多样型', '尝试型'])
+      .data(['集中针对型', '广泛多样型', '探索尝试型'])
       .enter()
       .append('circle')
       .attr('class', 'legend-circle')
-      .attr('cx', (d, i) => 25 + i * 65)
+      .attr('cx', (d, i) => 25 + i * 78)
       .attr('cy', 10)
       .attr('r', 5)
       .style('fill', (d) => circleColorScale(d))
     // 添加图例标签
     legendsvg
       .selectAll('.legend-label')
-      .data(['针对型', '多样型', '尝试型'])
+      .data(['集中针对型', '广泛多样型', '探索尝试型'])
       .enter()
       .append('text')
       .attr('class', 'legend-label')
-      .attr('x', (d, i) => 35 + i * 65)
+      .attr('x', (d, i) => 35 + i * 78)
       .attr('y', 14)
       .text((d) => d)
       .style('font-size', '11px') // 修改字体大小
@@ -593,7 +593,7 @@ const TransferMonth = (props) => {
       .attr('stop-color', '#679fc9')
     legendsvg
       .append('rect')
-      .attr('x', 245)
+      .attr('x', 285)
       .attr('y', 5)
       .attr('width', 100)
       .attr('height', 10)
@@ -601,7 +601,7 @@ const TransferMonth = (props) => {
     // 添加左侧文本标签
     legendsvg
       .append('text')
-      .attr('x', 240) // 调整位置
+      .attr('x', 280) // 调整位置
       .attr('y', 14) // 调整位置
       .attr('text-anchor', 'end') // 设置文本锚点为右对齐
       .text('少/低') // 添加文本内容
@@ -611,7 +611,7 @@ const TransferMonth = (props) => {
     // 添加右侧文本标签
     legendsvg
       .append('text')
-      .attr('x', 350) // 调整位置
+      .attr('x', 390) // 调整位置
       .attr('y', 14) // 调整位置
       .attr('text-anchor', 'start') // 设置文本锚点为左对齐
       .text('多/高') // 添加文本内容

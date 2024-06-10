@@ -13,7 +13,7 @@ import {
 import { Select } from 'antd'
 import { createFromIconfontCN } from '@ant-design/icons'
 const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/c/font_4565164_5dwh5h2ar1s.js'
+  scriptUrl: '//at.alicdn.com/t/c/font_4565164_ivno85eyhk.js'
 })
 
 const Calendar = (props) => {

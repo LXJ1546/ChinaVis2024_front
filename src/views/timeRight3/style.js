@@ -54,6 +54,11 @@ export const ActiveWrapper = styled.div`
         .active-btn {
           width: 100%;
           height: 35px;
+          .topic {
+            margin-left: 8px;
+            text-align: center;
+            opacity: 0.8;
+          }
         }
         .active-children {
           width: 100%;

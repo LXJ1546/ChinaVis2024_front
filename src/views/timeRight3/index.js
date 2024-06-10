@@ -66,10 +66,21 @@ const TimeRight3 = (props) => {
     let option
 
     option = {
+      title: {
+        text: '群体等级对比雷达图',
+        left: '30%',
+        textStyle: {
+          fontSize: 12,
+          fontWeight: 'normal'
+        }
+      },
       legend: {
         orient: 'horizontal',
         x: 'left',
-        left: '4%',
+        left: '3%',
+        top: '8%',
+        itemWidth: 20,
+        itemHeight: 10,
         width: '10px',
         data: name
       },
@@ -163,6 +174,14 @@ const TimeRight3 = (props) => {
     ]
     let option
     option = {
+      title: {
+        text: '知识点提交次数统计图',
+        left: '9%',
+        textStyle: {
+          fontSize: 12,
+          fontWeight: 'normal'
+        }
+      },
       tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -170,7 +189,12 @@ const TimeRight3 = (props) => {
           type: 'shadow' // 'shadow' as default; can also be 'line' or 'shadow'
         }
       },
-      legend: {},
+      legend: {
+        left: '40%',
+        // top: '8%',
+        itemWidth: 20,
+        itemHeight: 10
+      },
       grid: {
         left: '3%',
         right: '4%',
@@ -1015,6 +1039,7 @@ const TimeRight3 = (props) => {
                 ]}
                 size={'small'}
               />
+              <span className="topic">群体特征对比人物图</span>
             </div>
             <div className="active-children">
               <div ref={specialRef} className="special1"></div>

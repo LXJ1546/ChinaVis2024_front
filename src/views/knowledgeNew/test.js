@@ -12,7 +12,7 @@ import './knowledgeStyle.css'
 import Image0 from '../../pic/0.svg' // 导入SVG图片
 
 const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/c/font_4565164_5dwh5h2ar1s.js'
+  scriptUrl: '//at.alicdn.com/t/c/font_4565164_ivno85eyhk.js'
 })
 
 const title_knowledge = {
