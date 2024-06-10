@@ -439,7 +439,8 @@ const Scatter = (props) => {
       '#FAD891',
       '#6D9AC4',
       '#F4A460',
-      '#EB8277'
+      '#EB8277',
+      '#6ABF57'
     ],
     grid: {
       top: '16%',

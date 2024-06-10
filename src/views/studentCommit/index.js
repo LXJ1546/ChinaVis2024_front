@@ -172,17 +172,20 @@ const StudentCommit = (props) => {
           type: 'line',
           smooth: true,
           itemStyle: {
-            color: '#f28482'
+            // color: '#f28482'
+            color: '#86C6F0'
           },
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#f28482'
+                // color: '#f28482'
+                color: '#86C6F0'
               },
               {
                 offset: 1,
-                color: '#ffccd5'
+                // color: '#ffccd5'
+                color: '#def3ff'
               }
             ])
           }
@@ -320,9 +323,11 @@ const StudentCommit = (props) => {
       .attr('height', xScale.bandwidth() / 2)
       .attr('fill', function (d) {
         if (d[2] == 'Partially_Correct') {
-          return '#68D8A3'
+          // return '#68D8A3'
+          return '#99deb7'
         } else if (d[2] == 'Absolutely_Correct') {
-          return '#27B774'
+          // return '#27B774'
+          return '#49c486'
         } else {
           return '#F26D64'
         }

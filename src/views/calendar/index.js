@@ -155,8 +155,9 @@ const Calendar = (props) => {
       const rightcolor = d3
         .scaleOrdinal()
         .domain(['rightrate', 'errorrate'])
-        .range(['#179349', 'red'])
-      // .range(['#1e98a8', 'red'])
+        // .range(['#179349', 'red'])
+        // .range(['#6abf57', 'red'])
+        .range(['#49c486', 'red'])
 
       //使用语言的颜色映射
       const languagecolor = d3
@@ -1269,7 +1270,7 @@ const Calendar = (props) => {
     gradientanswerpeople
       .append('stop')
       .attr('offset', '100%')
-      .attr('stop-color', '#E06343')
+      .attr('stop-color', '#EB8277')
 
     // 创建矩形
     svg
@@ -1361,7 +1362,8 @@ const Calendar = (props) => {
     const peopleColorScale = d3
       .scaleLinear()
       .domain([minPeople, maxPeople])
-      .range(['#6ABF57', '#E06343'])
+      // .range(['#6ABF57', '#E06343'])
+      .range(['#6ABF57', '#EB8277'])
     // .range(['#8DCF8A', '#D06B63'])
 
     // 创建 X 轴生成器

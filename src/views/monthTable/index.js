@@ -55,7 +55,7 @@ const MonthTable = () => {
       bottom: '10%',
       itemWidth: 10,
       itemHeight: 80,
-      color: ['#DCDCDC', '#8DD2E1', '#71B0D1']
+      color: ['#DCDCDC', '#e0f5ff', '#86c6f0', '#679fc9']
     },
     series: [
       {

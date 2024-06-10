@@ -73,7 +73,7 @@ const Correlation = (props) => {
       bottom: '10%',
       itemWidth: 10,
       itemHeight: 80,
-      color: ['#6B89BB', '#8DD2E1', '#DCDCDC']
+      color: ['#86c6f0', '#b6e3fc', '#e0f5ff', '#DCDCDC']
     },
     series: [
       {

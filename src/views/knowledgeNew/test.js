@@ -509,13 +509,13 @@ const KnowledgeTree = (props) => {
       .scaleLinear()
       .domain([0.36, 0.52]) // 输入数据范围
       // .range(['#ffccd5', '#E0464E']) // 输出颜色范围
-      .range(['#bae0ff', '#6B89BB']) // 输出颜色范围
+      .range(['#f0faff', '#86c6f0', '#33587d']) // 输出颜色范围
 
     const color1 = d3
       .scaleLinear()
       .domain([0.26, 0.81]) // 输入数据范围
       // .range(['#ffccd5', '#E0464E']) // 输出颜色范围
-      .range(['#bae0ff', '#6B89BB']) // 输出颜色范围
+      .range(['#f0faff', '#86c6f0', '#33587d']) // 输出颜色范围
 
     // 初始化计数器
     let count_deep3 = 0

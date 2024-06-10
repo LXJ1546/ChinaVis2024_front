@@ -84,7 +84,7 @@ const MonthFeature = (props) => {
       {
         data: correct,
         type: 'line',
-        color: '#caedc9',
+        color: '#b5d9a9',
         areaStyle: {}
       }
     ]
@@ -123,7 +123,7 @@ const MonthFeature = (props) => {
       {
         data: submit,
         type: 'line',
-        color: '#caedc9',
+        color: '#b5d9a9',
         areaStyle: {}
       }
     ]
@@ -162,7 +162,7 @@ const MonthFeature = (props) => {
       {
         data: active,
         type: 'line',
-        color: '#caedc9',
+        color: '#b5d9a9',
         areaStyle: {}
       }
     ]
@@ -201,7 +201,8 @@ const MonthFeature = (props) => {
       {
         data: question,
         type: 'line',
-        color: '#caedc9',
+        // color: '#caedc9',
+        color: '#b5d9a9',
         areaStyle: {}
       }
     ]
@@ -417,22 +418,22 @@ const MonthFeature = (props) => {
     // 创建颜色比例尺
     const colorScale1 = d3
       .scaleSequential(
-        d3.interpolateRgbBasis(['#BEE4D7', '#71B0D1', '#6B89BB'])
+        d3.interpolateRgbBasis(['#e0f5ff', '#86c6f0', '#679fc9'])
       )
       .domain([0, 1])
     const colorScale2 = d3
       .scaleSequential(
-        d3.interpolateRgbBasis(['#BEE4D7', '#71B0D1', '#6B89BB'])
+        d3.interpolateRgbBasis(['#e0f5ff', '#86c6f0', '#679fc9'])
       )
       .domain([0, 400])
     const colorScale3 = d3
       .scaleSequential(
-        d3.interpolateRgbBasis(['#BEE4D7', '#71B0D1', '#6B89BB'])
+        d3.interpolateRgbBasis(['#e0f5ff', '#86c6f0', '#679fc9'])
       )
       .domain([0, 30])
     const colorScale4 = d3
       .scaleSequential(
-        d3.interpolateRgbBasis(['#BEE4D7', '#71B0D1', '#6B89BB'])
+        d3.interpolateRgbBasis(['#e0f5ff', '#86c6f0', '#679fc9'])
       )
       .domain([0, 38])
     const colorScales = [colorScale1, colorScale2, colorScale3, colorScale4]
@@ -572,15 +573,15 @@ const MonthFeature = (props) => {
     legendGradient
       .append('stop')
       .attr('offset', '0%')
-      .attr('stop-color', '#BEE4D7')
+      .attr('stop-color', '#e0f5ff')
     legendGradient
       .append('stop')
       .attr('offset', '50%')
-      .attr('stop-color', '#71B0D1')
+      .attr('stop-color', '#86c6f0')
     legendGradient
       .append('stop')
       .attr('offset', '100%')
-      .attr('stop-color', '#6B89BB')
+      .attr('stop-color', '#679fc9')
     legendsvg
       .append('rect')
       .attr('x', 245)
