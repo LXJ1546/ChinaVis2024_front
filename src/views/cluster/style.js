@@ -17,11 +17,13 @@ export const ScatterWrapper = styled.div`
     padding: 0px;
     font-size: 16px;
     opacity: 0.8;
+    font-weight: bold;
     background: rgb(245, 245, 245);
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
     .title-icon {
       font-size: 20px;
+      font-weight: bold;
       margin-left: 4px;
       margin-right: 4px;
     }
@@ -39,7 +41,7 @@ export const ScatterWrapper = styled.div`
         position: absolute;
         z-index: 10;
         top: 11%;
-        right: 55%;
+        right: 51%;
         .legend-item {
           display: flex;
           align-items: center;

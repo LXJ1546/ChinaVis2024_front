@@ -68,7 +68,7 @@ const TimeRight3 = (props) => {
         x: 'left',
         left: '4%',
         width: '10px',
-        data: ['top', 'mid', 'low']
+        data: ['A级', 'B级', 'C级']
       },
       tooltip: {
         trigger: 'item',
@@ -100,15 +100,15 @@ const TimeRight3 = (props) => {
           data: [
             {
               value: res['top'],
-              name: 'top'
+              name: 'A级'
             },
             {
               value: res['mid'],
-              name: 'mid'
+              name: 'B级'
             },
             {
               value: res['low'],
-              name: 'low'
+              name: 'C级'
             }
           ]
         }
@@ -415,7 +415,7 @@ const TimeRight3 = (props) => {
       },
       yAxis: {
         show: true,
-        data: ['top', 'mid', 'low'],
+        data: ['A级', 'B级', 'C级'],
         inverse: true,
         axisTick: { show: false },
         axisLine: { show: false },
@@ -512,7 +512,7 @@ const TimeRight3 = (props) => {
       },
       yAxis: {
         show: false,
-        data: ['top', 'mid', 'low'],
+        data: ['A', 'B', 'C'],
         inverse: true,
         axisTick: { show: false },
         axisLine: { show: false },
@@ -609,7 +609,7 @@ const TimeRight3 = (props) => {
       },
       yAxis: {
         show: false,
-        data: ['top', 'mid', 'low'],
+        data: ['A级', 'B级', 'C级'],
         inverse: true,
         axisTick: { show: false },
         axisLine: { show: false },
@@ -687,7 +687,7 @@ const TimeRight3 = (props) => {
     option = {
       title: {
         show: true,
-        text: 'top',
+        text: 'A级',
         textStyle: {
           fontSize: 14,
           fontWeight: 'normal'
@@ -783,7 +783,7 @@ const TimeRight3 = (props) => {
     option = {
       title: {
         show: true,
-        text: 'mid',
+        text: 'B级',
         textStyle: {
           fontSize: 14,
           fontWeight: 'normal'
@@ -808,7 +808,7 @@ const TimeRight3 = (props) => {
       },
       yAxis: {
         show: false,
-        data: ['top', 'mid', 'low'],
+        data: ['A级', 'B级', 'C级'],
         inverse: true,
         axisTick: { show: false },
         axisLine: { show: false },
@@ -879,7 +879,7 @@ const TimeRight3 = (props) => {
     option = {
       title: {
         show: true,
-        text: 'low',
+        text: 'C级',
         textStyle: {
           fontSize: 14,
           fontWeight: 'normal'
@@ -904,7 +904,7 @@ const TimeRight3 = (props) => {
       },
       yAxis: {
         show: false,
-        data: ['top', 'mid', 'low'],
+        data: ['A级', 'B级', 'C级'],
         inverse: true,
         axisTick: { show: false },
         axisLine: { show: false },

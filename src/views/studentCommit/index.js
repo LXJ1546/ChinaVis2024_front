@@ -49,9 +49,9 @@ const StudentCommit = (props) => {
       .attr('width', '100%')
       .attr('height', '90%')
     const legendData = [
-      { category: '完全正确', value: '#27B774' },
-      { category: '部分正确', value: '#68D8A3' },
-      { category: '错误', value: '#F26D64' },
+      { category: '完全正确', value: '#6fd19d' },
+      { category: '部分正确', value: '#c7ebd5' },
+      { category: '错误', value: '#ff9c91' },
       { category: 'Method_C', value: '#3770A7' },
       { category: 'Method_g', value: '#886D80' },
       { category: 'Method_5', value: '#E5C765' },
@@ -173,19 +173,19 @@ const StudentCommit = (props) => {
           smooth: true,
           itemStyle: {
             // color: '#f28482'
-            color: '#86C6F0'
+            color: '#6fd19d'
           },
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
                 // color: '#f28482'
-                color: '#86C6F0'
+                color: '#99deb7'
               },
               {
                 offset: 1,
                 // color: '#ffccd5'
-                color: '#def3ff'
+                color: '#f5fff0'
               }
             ])
           }
@@ -324,12 +324,12 @@ const StudentCommit = (props) => {
       .attr('fill', function (d) {
         if (d[2] == 'Partially_Correct') {
           // return '#68D8A3'
-          return '#99deb7'
+          return '#c7ebd5'
         } else if (d[2] == 'Absolutely_Correct') {
           // return '#27B774'
-          return '#49c486'
+          return '#6fd19d'
         } else {
-          return '#F26D64'
+          return '#ff9c91'
         }
       })
       .on('mouseover', function (e, d) {
@@ -613,11 +613,11 @@ const StudentCommit = (props) => {
         .attr('height', xScale.bandwidth() / 2)
         .attr('fill', function (d) {
           if (d[2] == 'Partially_Correct') {
-            return '#68D8A3'
+            return '#c7ebd5'
           } else if (d[2] == 'Absolutely_Correct') {
-            return '#27B774'
+            return '#6fd19d'
           } else {
-            return '#F26D64'
+            return '#ff9c91'
           }
         })
         .on('mouseover', function (e, d) {

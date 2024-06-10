@@ -5,7 +5,7 @@ import { Switch, Select } from 'antd'
 import d3Tip from 'd3-tip'
 import { createFromIconfontCN } from '@ant-design/icons'
 const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/c/font_4565164_kissytydd3q.js'
+  scriptUrl: '//at.alicdn.com/t/c/font_4565164_5dwh5h2ar1s.js'
 })
 import { getEvolutionInfo } from '../../api'
 
@@ -303,7 +303,7 @@ const Evolution = () => {
     // const peopleColor = ['#F3D475', '#F3B28A', '#F1928E']
     const peopleColor = ['#FAD891', '#6D9AC4', '#777B98']
     const workPosition = [-25, 35]
-    const peoplecategory = ['top', 'mid', 'low']
+    const peoplecategory = ['A级', 'B级', 'C级']
     //绘制图例
     const legend = svg.append('g').attr('class', 'legend')
     // 添加图例条目
@@ -845,7 +845,7 @@ const Evolution = () => {
     <EvolutionWrapper>
       <div className="title">
         <div className="title-icon">
-          <IconFont type="icon-yanhuafenxi" />
+          <IconFont type="icon-zhutiyanhuatu" />
         </div>
         时间模式演化饼图
       </div>

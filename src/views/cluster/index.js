@@ -210,7 +210,7 @@ const Scatter = (props) => {
     legend: {
       itemWidth: 16,
       itemHeight: 16,
-      left: '5%',
+      left: '3%',
       top: '0.5%',
       textStyle: {
         fontSize: 14
@@ -297,8 +297,8 @@ const Scatter = (props) => {
   }
   // 计算字体大小范围的映射函数
   const mapFontSize = (value) => {
-    const minFontSize = 14
-    const maxFontSize = 20
+    const minFontSize = 10
+    const maxFontSize = 18
     // 将节点的值映射到[15, 20]范围内
     return (
       minFontSize +
@@ -344,7 +344,7 @@ const Scatter = (props) => {
         },
         data: [
           {
-            name: '针对型',
+            name: '集中针对型',
             x: 600,
             y: 290,
             value: transferCircleData[0],
@@ -359,7 +359,7 @@ const Scatter = (props) => {
             }
           },
           {
-            name: '多样型',
+            name: '广泛多样型',
             x: 650,
             y: 200,
             value: transferCircleData[1],
@@ -374,7 +374,7 @@ const Scatter = (props) => {
             }
           },
           {
-            name: '尝试型',
+            name: '探索尝试型',
             x: 680,
             y: 380,
             value: transferCircleData[2],
@@ -400,7 +400,7 @@ const Scatter = (props) => {
             },
             label: {
               fontSize: mapFontSize(transferCircleData[3]),
-              color: 'white'
+              color: '#424242'
             }
           }
         ],
@@ -551,7 +551,7 @@ const Scatter = (props) => {
       // setXmin(-60)
       // setYmin(-40)
       setSymbolSize(10)
-      setClusterName(['针对型', '多样型', '尝试型'])
+      setClusterName(['集中针对型', '广泛多样型', '探索尝试型'])
       setVisible(true)
       changeMode(0)
       // 默认状态为10
@@ -852,15 +852,15 @@ const Scatter = (props) => {
             <div className="shapelegend">
               <div className="legend-item">
                 <div className="diamond"></div>
-                Top
+                A级
               </div>
               <div className="legend-item">
                 <div className="circle"></div>
-                Middle
+                B级
               </div>
               <div className="legend-item">
                 <div className="triangle"></div>
-                Low
+                C级
               </div>
             </div>
           )}

@@ -31,6 +31,12 @@ const Correlation = (props) => {
   const [correlationIndex, setCorrelationIndex] = useState(1)
   // 保存演化数据的数组
   const [linksData, setLinksData] = useState([])
+  // 创建一个标签映射对象
+  const labelMap = {
+    针对型: '集中针对型',
+    多样型: '广泛多样型',
+    尝试型: '探索尝试型'
+  }
   const correlationOption = {
     tooltip: {
       position: 'left'
@@ -74,6 +80,7 @@ const Correlation = (props) => {
       itemWidth: 10,
       itemHeight: 80,
       color: ['#86c6f0', '#b6e3fc', '#e0f5ff', '#DCDCDC']
+      // color: ['#6abf57', '#8fcc7e', '#dce6d8', '#DCDCDC']
     },
     series: [
       {
@@ -317,7 +324,7 @@ const Correlation = (props) => {
                   title="模式"
                   dataIndex="label"
                   key="label"
-                  width={70}
+                  width={90}
                   render={(_, record) => (
                     <Tag
                       color={
@@ -328,7 +335,7 @@ const Correlation = (props) => {
                             : '#6ABF57'
                       }
                     >
-                      {record.label}
+                      {labelMap[record.label]}
                     </Tag>
                   )}
                 />
@@ -353,7 +360,7 @@ const Correlation = (props) => {
                   title="模式1"
                   dataIndex="label"
                   key="label"
-                  width={70}
+                  width={90}
                   render={(_, record) => (
                     <Tag
                       color={
@@ -364,7 +371,7 @@ const Correlation = (props) => {
                             : '#6ABF57'
                       }
                     >
-                      {record.label}
+                      {labelMap[record.label]}
                     </Tag>
                   )}
                 />
@@ -374,7 +381,7 @@ const Correlation = (props) => {
                   title="模式2"
                   dataIndex="label1"
                   key="label1"
-                  width={70}
+                  width={90}
                   render={(_, record) => (
                     <Tag
                       color={
@@ -385,7 +392,7 @@ const Correlation = (props) => {
                             : '#6ABF57'
                       }
                     >
-                      {record.label1}
+                      {labelMap[record.label1]}
                     </Tag>
                   )}
                 />
@@ -398,6 +405,10 @@ const Correlation = (props) => {
                 sorter={(a, b) => {
                   const priority = { top: 3, mid: 2, low: 1 }
                   return priority[a.rank] - priority[b.rank]
+                }}
+                render={(text) => {
+                  const rankMap = { top: 'A级', mid: 'B级', low: 'C级' }
+                  return rankMap[text]
                 }}
               />
               <Column title="年龄" dataIndex="age" key="age" width={50} />

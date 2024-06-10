@@ -5,7 +5,7 @@ import { TransferMonthWrapper } from './style'
 import { getMonthQuestionSubmit } from '../../api'
 import { createFromIconfontCN } from '@ant-design/icons'
 const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/c/font_4565164_juvpif6y83m.js'
+  scriptUrl: '//at.alicdn.com/t/c/font_4565164_5dwh5h2ar1s.js'
 })
 import d3Tip from 'd3-tip'
 import TitleCompare from '../titleCompare'
@@ -263,7 +263,7 @@ const TransferMonth = (props) => {
   }
   const parallelOption = {
     title: {
-      text: '群体对比视图',
+      text: '群体对比平行坐标系',
       left: '2%',
       top: '4%',
       textStyle: {
@@ -288,6 +288,7 @@ const TransferMonth = (props) => {
     },
     legend: {
       top: '4%',
+      left: '45%',
       itemWidth: 20,
       itemHeight: 9,
       textStyle: {
@@ -621,7 +622,7 @@ const TransferMonth = (props) => {
     <TransferMonthWrapper>
       <div className="title">
         <div className="title-icon">
-          <IconFont type="icon-yuefen" />
+          <IconFont type="icon-dati" />
         </div>
         学生月答题数据视图
       </div>

@@ -13,7 +13,7 @@ import {
 import { Select } from 'antd'
 import { createFromIconfontCN } from '@ant-design/icons'
 const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/c/font_4565164_pp0ly9c3kg.js'
+  scriptUrl: '//at.alicdn.com/t/c/font_4565164_5dwh5h2ar1s.js'
 })
 
 const Calendar = (props) => {
@@ -42,6 +42,12 @@ const Calendar = (props) => {
   const [selectIsWork, setSelectIsWork] = useState(1) //用于获取点击某个时间段是否为工作日
   const [selectPeriod, setSelectPeriod] = useState('凌晨') //用于获取点击某个时间段的具体时间段
   let CalendarCompareNum = 0 //用于标志对比日历图中生成了多少个日历图
+  // 创建一个映射对象，将 'top', 'mid', 'low' 转换为 'A', 'B', 'C'
+  const rankMap = {
+    top: 'A级',
+    mid: 'B级',
+    low: 'C级'
+  }
   //tooltip
   const tip = d3Tip()
     .attr('class', 'd3-tip')
@@ -62,7 +68,7 @@ const Calendar = (props) => {
     //图例
     //图例数据
     const legendData = [
-      { category: '正确占比', value: '#179349' },
+      { category: '正确占比', value: '#49c486' },
       { category: '答题数', value: '#EFA3A3' },
       { category: 'Method_C', value: '#3770A7' },
       { category: 'Method_g', value: '#886D80' },
@@ -590,7 +596,9 @@ const Calendar = (props) => {
         })
         .attr('font-size', '15px')
         .attr('font-family', 'serif')
-        .text('学生ID: ' + studentName + '(' + newList[2][studentNum] + ')')
+        .text(
+          '学生ID: ' + studentName + '(' + rankMap[newList[2][studentNum]] + ')'
+        )
     }
     //对选中的每个学生都生成这个图
     studentID.forEach(function (item, index) {
@@ -714,7 +722,8 @@ const Calendar = (props) => {
       const rightcolor = d3
         .scaleOrdinal()
         .domain(['rightrate', 'errorrate'])
-        .range(['#179349', 'red'])
+        // .range(['#179349', 'red'])
+        .range(['#49c486', 'red'])
 
       //使用语言的颜色映射
       const languagecolor = d3
@@ -2366,7 +2375,7 @@ const Calendar = (props) => {
       {(amode == 0 || amode == 2) && (
         <div className="title">
           <div className="title-icon">
-            <IconFont type="icon-rili" />
+            <IconFont type="icon-yuefen" />
           </div>
           学习日历环形图
         </div>
@@ -2374,7 +2383,7 @@ const Calendar = (props) => {
       {amode == 1 && (
         <div className="title">
           <div className="title-icon">
-            <IconFont type="icon-shiduan" />
+            <IconFont type="icon-shiyongshiduanfenxi" />
           </div>
           答题时段特征矩阵气泡图与模式统计日历图
         </div>

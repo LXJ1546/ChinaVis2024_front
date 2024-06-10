@@ -20,6 +20,7 @@ export const ActiveWrapper = styled.div`
       background: #add8e6;
       border-top-left-radius: 4px;
       border-top-right-radius: 4px;
+      font-weight: bold;
       .title-icon {
         font-size: 23px;
         margin-left: 4px;

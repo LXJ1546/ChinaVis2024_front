@@ -5,7 +5,7 @@ import { MonthFeatureWrapper } from './style'
 import { getMonthQuestionSubmit } from '../../api'
 import { createFromIconfontCN } from '@ant-design/icons'
 const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/c/font_4565164_juvpif6y83m.js'
+  scriptUrl: '//at.alicdn.com/t/c/font_4565164_5dwh5h2ar1s.js'
 })
 import d3Tip from 'd3-tip'
 
@@ -22,6 +22,8 @@ const MonthFeature = (props) => {
   const [submitData, setSubmitData] = useState([])
   // 问题的正确率
   const [correctRate, setCorrectRate] = useState([])
+  // 点击事件获取到的学生id
+  const [clickId, setClickId] = useState('')
   // 是否展示个人视图
   const [isIndividual, setIsIndividual] = useState(false)
   // 是否展示平行坐标系
@@ -84,7 +86,7 @@ const MonthFeature = (props) => {
       {
         data: correct,
         type: 'line',
-        color: '#b5d9a9',
+        color: '#b6e3fc',
         areaStyle: {}
       }
     ]
@@ -123,7 +125,7 @@ const MonthFeature = (props) => {
       {
         data: submit,
         type: 'line',
-        color: '#b5d9a9',
+        color: '#b6e3fc',
         areaStyle: {}
       }
     ]
@@ -162,7 +164,7 @@ const MonthFeature = (props) => {
       {
         data: active,
         type: 'line',
-        color: '#b5d9a9',
+        color: '#b6e3fc',
         areaStyle: {}
       }
     ]
@@ -202,14 +204,14 @@ const MonthFeature = (props) => {
         data: question,
         type: 'line',
         // color: '#caedc9',
-        color: '#b5d9a9',
+        color: '#b6e3fc',
         areaStyle: {}
       }
     ]
   }
   const individualOption = {
     title: {
-      text: '个人答题情况',
+      text: `${clickId.substring(0, 14)}...个人答题情况`,
       left: '2%',
       top: '2.5%',
       textStyle: {
@@ -235,6 +237,7 @@ const MonthFeature = (props) => {
     },
     legend: {
       top: '2%',
+      left: '45%',
       itemWidth: 20,
       itemHeight: 10,
       textStyle: {
@@ -310,7 +313,7 @@ const MonthFeature = (props) => {
   }
   const parallelOption = {
     title: {
-      text: '群体对比视图',
+      text: '群体对比平行坐标系',
       left: '2%',
       top: '5%',
       textStyle: {
@@ -335,6 +338,7 @@ const MonthFeature = (props) => {
     },
     legend: {
       top: '4%',
+      left: '45%',
       itemWidth: 20,
       itemHeight: 9,
       textStyle: {
@@ -457,6 +461,8 @@ const MonthFeature = (props) => {
             // 处理点击事件
             // 给表格选中数据传入新的选择
             handleClickRowKeys(d[0])
+            // 设置个人答题情况的学生id
+            setClickId(d[0])
             // 获取个人视图和平行坐标系的数据
             getMonthQuestionSubmit(d[0], month).then((res) => {
               // 个人图x轴标签
@@ -613,7 +619,7 @@ const MonthFeature = (props) => {
     <MonthFeatureWrapper>
       <div className="title">
         <div className="title-icon">
-          <IconFont type="icon-yuefen" />
+          <IconFont type="icon-dati" />
         </div>
         学生月答题数据视图
       </div>

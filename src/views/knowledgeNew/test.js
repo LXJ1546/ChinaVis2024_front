@@ -12,7 +12,7 @@ import './knowledgeStyle.css'
 import Image0 from '../../pic/0.svg' // 导入SVG图片
 
 const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/c/font_4565164_juvpif6y83m.js'
+  scriptUrl: '//at.alicdn.com/t/c/font_4565164_5dwh5h2ar1s.js'
 })
 
 const title_knowledge = {
@@ -509,13 +509,13 @@ const KnowledgeTree = (props) => {
       .scaleLinear()
       .domain([0.36, 0.52]) // 输入数据范围
       // .range(['#ffccd5', '#E0464E']) // 输出颜色范围
-      .range(['#f0faff', '#86c6f0', '#33587d']) // 输出颜色范围
+      .range(['#dce6d8', '#8fcc7e', '#4c993f']) // 输出颜色范围
 
     const color1 = d3
       .scaleLinear()
       .domain([0.26, 0.81]) // 输入数据范围
       // .range(['#ffccd5', '#E0464E']) // 输出颜色范围
-      .range(['#f0faff', '#86c6f0', '#33587d']) // 输出颜色范围
+      .range(['#dce6d8', '#8fcc7e', '#4c993f']) // 输出颜色范围
 
     // 初始化计数器
     let count_deep3 = 0
@@ -857,7 +857,7 @@ const KnowledgeTree = (props) => {
       >
         <div className="atitle">
           <div className="title-icon">
-            <IconFont type="icon-zhishidian" />
+            <IconFont type="icon-a-zhishidian1" />
           </div>
           知识点掌握程度
         </div>
