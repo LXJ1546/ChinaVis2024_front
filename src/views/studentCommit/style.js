@@ -32,7 +32,7 @@ export const StudentCommitWrapper = styled.div`
       height: 100%;
       .commitchart {
         width: 99%;
-        height: 30%;
+        height: 28%;
         position: absolute;
         top: 15%;
       }
@@ -47,7 +47,7 @@ export const StudentCommitWrapper = styled.div`
         position: absolute;
         top: 30px;
         width: 99%;
-        height: 8%;
+        height: 10%;
       }
     }
   }

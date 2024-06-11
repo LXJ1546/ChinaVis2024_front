@@ -59,8 +59,15 @@ const StudentCommit = (props) => {
       { category: 'Method_B', value: '#7C5227' },
       { category: '用时/内存分布', value: 'grey' }
     ]
+    const legendData2 = [
+      { category: '凌晨', value: 'grey' },
+      { category: '上午', value: '#E5C765' },
+      { category: '下午', value: 'red' },
+      { category: '晚上', value: '#3770A7' }
+    ]
 
     const legend = legendsvg.append('g').attr('class', 'legend')
+    const legend2 = legendsvg.append('g').attr('class', 'legend2')
     // 添加图例条目
     legend
       .selectAll('rect')
@@ -83,6 +90,39 @@ const StudentCommit = (props) => {
       .append('text')
       .attr('x', (d, i) => i * 90 + 35)
       .attr('y', 18)
+      .attr('dy', '0.35em')
+      .text((d) => d.category)
+      .attr('font-size', 12)
+      .style('opacity', 0.8)
+
+    // 添加图例文本
+    legend2
+      .selectAll('line')
+      .data(legendData2)
+      .enter()
+      .append('line')
+      .attr('x1', function (d, i) {
+        return i * 90 + 460
+      })
+      .attr('y1', 38)
+      .attr('x2', function (d, i) {
+        return i * 90 + 480
+      })
+      .attr('y2', 38)
+      .attr('stroke', function (d) {
+        return d.value
+      })
+      .attr('stroke-width', 2)
+      .style('opacity', 0.8)
+
+    // 添加图例文本
+    legend2
+      .selectAll('text')
+      .data(legendData2)
+      .enter()
+      .append('text')
+      .attr('x', (d, i) => i * 90 + 500)
+      .attr('y', 38)
       .attr('dy', '0.35em')
       .text((d) => d.category)
       .attr('font-size', 12)
@@ -246,9 +286,47 @@ const StudentCommit = (props) => {
     //绘制上午下午晚上凌晨分割线
     commits.forEach((commititem) => {
       if (Q != commititem.question) {
+        console.log(Q, commititem.question)
         timeFlag = 25
         Q = commititem.question
       }
+      // 检查questionflag中是否已存在该key
+      if (
+        Object.prototype.hasOwnProperty.call(QuestionFlag, commititem.question)
+      ) {
+        // 如果已存在，修改对应的value值
+        QuestionFlag[commititem.question] =
+          QuestionFlag[commititem.question] + xScale.bandwidth() / 2 + 1
+      } else {
+        // 如果不存在，增加新的key-value对
+        QuestionFlag[commititem.question] = 5
+      }
+      if (timeFlag == 25) {
+        //画分割线
+        commitevent
+          .append('line')
+          .attr('x1', xScale(commititem.question) - 2)
+          .attr('y1', function () {
+            return 4
+          })
+          .attr('x2', xScale(commititem.question) + xScale.bandwidth() - 5)
+          .attr('y2', function () {
+            return 4
+          })
+          .attr('stroke', function () {
+            if (parseInt(commititem[4].split(':')[0]) < 6) {
+              return 'grey' //凌晨
+            } else if (parseInt(commititem[4].split(':')[0]) < 12) {
+              return '#E5C765' //上午
+            } else if (parseInt(commititem[4].split(':')[0]) < 18) {
+              return 'red' //下午red
+            } else if (parseInt(commititem[4].split(':')[0]) <= 23) {
+              return '#3770A7' //晚上
+            }
+          })
+          .attr('stroke-width', 2)
+      }
+
       if (
         (timeFlag < 6 &&
           parseInt(commititem[4].split(':')[0]) >= 6 &&
@@ -270,32 +348,24 @@ const StudentCommit = (props) => {
           .append('line')
           .attr('x1', xScale(commititem.question) - 2)
           .attr('y1', function () {
-            // 检查questionflag中是否已存在该key
-            if (
-              Object.prototype.hasOwnProperty.call(
-                QuestionFlag,
-                commititem.question
-              )
-            ) {
-              // 如果已存在，修改对应的value值
-              QuestionFlag[commititem.question] =
-                QuestionFlag[commititem.question] + xScale.bandwidth() / 2 + 2
-            } else {
-              // 如果不存在，增加新的key-value对
-              QuestionFlag[commititem.question] = 5
-            }
-            return (
-              QuestionFlag[commititem.question] + xScale.bandwidth() / 2 + 1
-            )
+            return QuestionFlag[commititem.question] + 1
           })
           .attr('x2', xScale(commititem.question) + xScale.bandwidth() - 5)
           .attr('y2', function () {
-            return (
-              QuestionFlag[commititem.question] + xScale.bandwidth() / 2 + 1
-            )
+            return QuestionFlag[commititem.question] + 1
           })
-          .attr('stroke', 'grey')
-          .attr('stroke-width', 1)
+          .attr('stroke', function () {
+            if (parseInt(commititem[4].split(':')[0]) < 6) {
+              return 'grey' //凌晨
+            } else if (parseInt(commititem[4].split(':')[0]) < 12) {
+              return '#E5C765' //上午
+            } else if (parseInt(commititem[4].split(':')[0]) < 18) {
+              return 'red' //下午
+            } else if (parseInt(commititem[4].split(':')[0]) <= 23) {
+              return '#3770A7' //晚上
+            }
+          })
+          .attr('stroke-width', 2)
       }
       timeFlag = parseInt(commititem[4].split(':')[0])
     })
@@ -536,7 +606,46 @@ const StudentCommit = (props) => {
           timeFlag = 25
           Q = commititem.question
         }
-        console.log(timeFlag, parseInt(commititem[4].split(':')[0]))
+        // 检查questionflag中是否已存在该key
+        if (
+          Object.prototype.hasOwnProperty.call(
+            QuestionFlag,
+            commititem.question
+          )
+        ) {
+          // 如果已存在，修改对应的value值
+          QuestionFlag[commititem.question] =
+            QuestionFlag[commititem.question] + xScale.bandwidth() / 2 + 1
+        } else {
+          // 如果不存在，增加新的key-value对
+          QuestionFlag[commititem.question] = 5
+        }
+        if (timeFlag == 25) {
+          //画分割线
+          commitevent
+            .append('line')
+            .attr('x1', xScale(commititem.question) - 2)
+            .attr('y1', function () {
+              return 4
+            })
+            .attr('x2', xScale(commititem.question) + xScale.bandwidth() - 5)
+            .attr('y2', function () {
+              return 4
+            })
+            .attr('stroke', function () {
+              if (parseInt(commititem[4].split(':')[0]) < 6) {
+                return 'grey' //凌晨
+              } else if (parseInt(commititem[4].split(':')[0]) < 12) {
+                return '#E5C765' //上午
+              } else if (parseInt(commititem[4].split(':')[0]) < 18) {
+                return 'red' //下午red
+              } else if (parseInt(commititem[4].split(':')[0]) <= 23) {
+                return '#3770A7' //晚上
+              }
+            })
+            .attr('stroke-width', 2)
+        }
+
         if (
           (timeFlag < 6 &&
             parseInt(commititem[4].split(':')[0]) >= 6 &&
@@ -558,32 +667,24 @@ const StudentCommit = (props) => {
             .append('line')
             .attr('x1', xScale(commititem.question) - 2)
             .attr('y1', function () {
-              // 检查questionflag中是否已存在该key
-              if (
-                Object.prototype.hasOwnProperty.call(
-                  QuestionFlag,
-                  commititem.question
-                )
-              ) {
-                // 如果已存在，修改对应的value值
-                QuestionFlag[commititem.question] =
-                  QuestionFlag[commititem.question] + xScale.bandwidth() / 2 + 2
-              } else {
-                // 如果不存在，增加新的key-value对
-                QuestionFlag[commititem.question] = 5
-              }
-              return (
-                QuestionFlag[commititem.question] + xScale.bandwidth() / 2 + 1
-              )
+              return QuestionFlag[commititem.question] + 1
             })
             .attr('x2', xScale(commititem.question) + xScale.bandwidth() - 5)
             .attr('y2', function () {
-              return (
-                QuestionFlag[commititem.question] + xScale.bandwidth() / 2 + 1
-              )
+              return QuestionFlag[commititem.question] + 1
             })
-            .attr('stroke', 'grey')
-            .attr('stroke-width', 1)
+            .attr('stroke', function () {
+              if (parseInt(commititem[4].split(':')[0]) < 6) {
+                return 'grey' //凌晨
+              } else if (parseInt(commititem[4].split(':')[0]) < 12) {
+                return '#E5C765' //上午
+              } else if (parseInt(commititem[4].split(':')[0]) < 18) {
+                return 'red' //下午
+              } else if (parseInt(commititem[4].split(':')[0]) <= 23) {
+                return '#3770A7' //晚上
+              }
+            })
+            .attr('stroke-width', 2)
         }
         timeFlag = parseInt(commititem[4].split(':')[0])
       })
