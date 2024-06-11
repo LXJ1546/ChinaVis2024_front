@@ -6,7 +6,10 @@ import React, {
   useState
 } from 'react'
 import * as d3 from 'd3'
-import { getClassKnowledgeInfo } from '../../api/index'
+import {
+  getClassKnowledgeInfo,
+  getPersonalKnowledgeInfo
+} from '../../api/index'
 import { createFromIconfontCN } from '@ant-design/icons'
 import './knowledgeStyle.css'
 import Image0 from '../../pic/0.svg' // 导入SVG图片
@@ -31,7 +34,8 @@ const KnowledgeTree = (props) => {
     isChangeWeight,
     highlightedXAxisName,
     handleHighLightedXaix,
-    handleClickTitleFlag
+    handleClickTitleFlag,
+    studentIDlist
   } = props
   const ref = useRef() //用于获取d3绘图使用div的宽高
   const [width, setWidth] = useState(0)
@@ -420,6 +424,19 @@ const KnowledgeTree = (props) => {
   // }
 
   useEffect(() => {
+    if (studentIDlist && studentIDlist.length > 0) {
+      console.log('获取xtug数据', studentIDlist.slice(-1)[0])
+      getPersonalKnowledgeInfo(studentIDlist.slice(-1)[0], 'score').then(
+        (res) => {
+          console.log('从后端获取xtug数据', res)
+          setAllDataState(res.info)
+          // setValueInfo(res.valueInfo)
+        }
+      )
+    }
+  }, [studentIDlist])
+
+  useEffect(() => {
     getClassKnowledgeInfo(classNum, 'score').then((res) => {
       // console.log('从后端获取数据', res)
       setAllDataState(res.info)
@@ -507,15 +524,16 @@ const KnowledgeTree = (props) => {
 
     const color = d3
       .scaleLinear()
-      .domain([0.36, 0.52]) // 输入数据范围
+      .domain([0, 0.52]) // 输入数据范围
       // .range(['#ffccd5', '#E0464E']) // 输出颜色范围
-      .range(['#dce6d8', '#8fcc7e', '#4c993f']) // 输出颜色范围
+      // .range(['#dce6d8', '#8fcc7e', '#4c993f']) // 输出颜色范围
+      .range(['#f1f5ef', '#8fcc7e', '#4c993f']) // 输出颜色范围
 
     const color1 = d3
       .scaleLinear()
-      .domain([0.26, 0.81]) // 输入数据范围
+      .domain([0, 0.81]) // 输入数据范围
       // .range(['#ffccd5', '#E0464E']) // 输出颜色范围
-      .range(['#dce6d8', '#8fcc7e', '#4c993f']) // 输出颜色范围
+      .range(['#f1f5ef', '#8fcc7e', '#4c993f']) // 输出颜色范围
 
     // 初始化计数器
     let count_deep3 = 0
