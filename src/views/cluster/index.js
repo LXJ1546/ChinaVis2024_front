@@ -43,6 +43,7 @@ const Scatter = (props) => {
   const clusterRef = useRef(null)
   const [clusterData, setClusterData] = useState([])
   const colorAll = ['#86C6F0', '#EB8277', '#6ABF57']
+  // const colorAll = ['#86C6F0', '#EB8277', '#49c486']
   // 切换标签
   const [clusterName, setClusterName] = useState(['高峰型', '低峰型', '平均型'])
   // 当前使用的聚类数据
@@ -237,6 +238,7 @@ const Scatter = (props) => {
     series: series
   }
   let allColor = ['#86C6F0', '#EB8277', '#6ABF57', '#d3d3d3']
+  // let allColor = ['#86C6F0', '#EB8277', '#49c486', '#d3d3d3']
   let minValue = Number.MAX_VALUE
   let maxValue = Number.MIN_VALUE
   let mappedData = []
@@ -726,7 +728,7 @@ const Scatter = (props) => {
     setShowHighlight(checked)
     if (checked) {
       getStudentMaster(studentIDlist).then((res) => {
-        // console.log(res)
+        console.log('掌握程度', res)
         // 更新高亮信息
         setHighlightInfo(res)
       })

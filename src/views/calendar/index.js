@@ -68,7 +68,7 @@ const Calendar = (props) => {
     //图例
     //图例数据
     const legendData = [
-      { category: '正确占比', value: '#49c486' },
+      { category: '正确占比', value: '#6abf57' },
       { category: '答题数', value: '#EFA3A3' },
       { category: 'Method_C', value: '#3770A7' },
       { category: 'Method_g', value: '#886D80' },
@@ -167,8 +167,8 @@ const Calendar = (props) => {
         .scaleOrdinal()
         .domain(['rightrate', 'errorrate'])
         // .range(['#179349', 'red'])
-        // .range(['#6abf57', 'red'])
-        .range(['#49c486', 'red'])
+        .range(['#6abf57', 'red'])
+      // .range(['#49c486', 'red'])
 
       //使用语言的颜色映射
       const languagecolor = d3
@@ -591,11 +591,12 @@ const Calendar = (props) => {
           } else if (newList[1][studentNum] == '多样型') {
             return '#e06343'
           } else {
-            return '#37a354'
+            return '#6ABF57'
           }
         })
         .attr('font-size', '15px')
-        .attr('font-family', 'serif')
+        // .attr('font-family', 'serif')
+        .attr('font-family', 'Segoe UI')
         .text(
           '学生ID: ' + studentName + '(' + rankMap[newList[2][studentNum]] + ')'
         )
@@ -629,7 +630,7 @@ const Calendar = (props) => {
     //图例
     //图例数据
     const legendData = [
-      { category: '正确占比', value: '#179349' },
+      { category: '正确占比', value: '#6abf57' },
       { category: '答题数', value: '#EFA3A3' },
       { category: 'Method_C', value: '#3770A7' },
       { category: 'Method_g', value: '#886D80' },
@@ -722,8 +723,8 @@ const Calendar = (props) => {
       const rightcolor = d3
         .scaleOrdinal()
         .domain(['rightrate', 'errorrate'])
-        // .range(['#179349', 'red'])
-        .range(['#49c486', 'red'])
+        .range(['#6abf57', 'red'])
+      // .range(['#49c486', 'red'])
 
       //使用语言的颜色映射
       const languagecolor = d3
@@ -1150,7 +1151,8 @@ const Calendar = (props) => {
           }
         })
         .attr('font-size', '15px')
-        .attr('font-family', 'serif')
+        // .attr('font-family', 'serif')
+        .attr('font-family', 'Segoe UI')
         .text('学生ID: ' + studentName + '(' + monthFlag + '月)')
     }
 
