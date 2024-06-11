@@ -74,7 +74,7 @@ const TimeRight3 = (props) => {
         left: '30%',
         textStyle: {
           fontSize: 12,
-          fontWeight: 'normal'
+          fontWeight: 'bold'
         }
       },
       legend: {
@@ -182,7 +182,7 @@ const TimeRight3 = (props) => {
         left: '9%',
         textStyle: {
           fontSize: 12,
-          fontWeight: 'normal'
+          fontWeight: 'bold'
         }
       },
       tooltip: {
@@ -1009,7 +1009,9 @@ const TimeRight3 = (props) => {
           </div>
           <div className="active-bottom">
             <div className="active-btn">
-              <span className="topic">群体特征对比人物图</span>
+              <span className="topic" style={{ 'font-weight': 'bold' }}>
+                群体特征对比人物图
+              </span>
 
               <Button
                 onClick={handleClick}

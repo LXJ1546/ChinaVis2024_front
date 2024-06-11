@@ -416,6 +416,7 @@ const Picture = (props) => {
       .attr('x', '2%')
       .attr('y', '65%')
       .style('opacity', 0.8)
+      .style('font-weight', 'bold')
     svg.call(tip)
   }
 
@@ -569,6 +570,7 @@ const Picture = (props) => {
       .attr('x', '2%')
       .attr('y', '50%')
       .style('opacity', 0.8)
+      .style('font-weight', 'bold')
   }
 
   //更新所有学生的数据集的班级排名
@@ -767,6 +769,7 @@ const Picture = (props) => {
       .attr('x', '2%')
       .attr('y', '50%')
       .style('opacity', 0.8)
+      .style('font-weight', 'bold')
   }
 
   //根据选择的班级更新视图

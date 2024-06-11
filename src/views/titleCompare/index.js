@@ -271,6 +271,7 @@ const TitleCompare = (props) => {
       .attr('x', 10)
       .attr('y', 13)
       .style('font-size', '12px')
+      .style('font-weight', 'bold')
       .style('opacity', 0.8)
 
     //绘制图例

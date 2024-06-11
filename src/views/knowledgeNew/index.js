@@ -704,7 +704,7 @@ const KnowledgeIcicle = (props) => {
           <div className="title-icon">
             <IconFont type="icon-zhishidian" />
           </div>
-          知识点掌握程度
+          知识点掌握程度气泡树图
         </div>
         <div
           id="knowledgeChart"

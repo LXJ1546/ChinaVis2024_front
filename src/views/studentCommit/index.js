@@ -173,7 +173,7 @@ const StudentCommit = (props) => {
           ' 的提交次数统计',
         textStyle: {
           fontSize: 12,
-          fontWeight: 'normal'
+          fontWeight: 'bold'
         }
       },
       tooltip: {
@@ -986,7 +986,7 @@ const StudentCommit = (props) => {
           <div className="title-icon">
             <IconFont type="icon-a-tijiaoshangchuantiqu" />
           </div>
-          学生提交事件
+          学生提交事件书本图
         </div>
       )}
       {amode == 1 && <div className="title">高峰分析矩阵图</div>}

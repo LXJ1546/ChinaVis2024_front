@@ -867,7 +867,7 @@ const KnowledgeTree = (props) => {
               style={{ width: 21, height: 21 }}
             />
           </div>
-          知识点掌握程度
+          知识点掌握程度气泡树图
         </div>
         <div
           id="knowledgeChart"

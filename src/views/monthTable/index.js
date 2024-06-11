@@ -91,7 +91,7 @@ const MonthTable = () => {
         <div className="title-icon">
           <IconFont type="icon-biaoge" />
         </div>
-        表格与相关性矩阵
+        详细列表与相关性矩阵热力图
       </div>
       <div className="content">
         <div className="table">
