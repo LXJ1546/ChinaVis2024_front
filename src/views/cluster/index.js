@@ -643,6 +643,8 @@ const Scatter = (props) => {
   const handleSecondMonthChange = (value) => {
     setSecondMonth(value)
     setCanChoose(false)
+    // 给演变视图选择连接线的高亮取消掉
+    setHighlightedEdge(null)
     getTransferData(firstMonth, value).then((res) => {
       setTransferCircleData(res[0])
       setTransferLinksData(res[1])

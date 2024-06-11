@@ -3,11 +3,12 @@ import { EvolutionWrapper } from './style'
 import * as d3 from 'd3'
 import { Switch, Select } from 'antd'
 import d3Tip from 'd3-tip'
-import { createFromIconfontCN } from '@ant-design/icons'
-const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/c/font_4565164_ivno85eyhk.js'
-})
+// import { createFromIconfontCN } from '@ant-design/icons'
+// const IconFont = createFromIconfontCN({
+//   scriptUrl: '//at.alicdn.com/t/c/font_4565164_ivno85eyhk.js'
+// })
 import { getEvolutionInfo } from '../../api'
+import Transfer from '../../assets/images/transfer.svg'
 
 const Evolution = () => {
   const [showFlag, setShowFlag] = useState('all') //用于监听选择查看哪些演变
@@ -845,7 +846,12 @@ const Evolution = () => {
     <EvolutionWrapper>
       <div className="title">
         <div className="title-icon">
-          <IconFont type="icon-zhutiyanhuatu" />
+          {/* <IconFont type="icon-zhutiyanhuatu" /> */}
+          <img
+            src={Transfer}
+            alt="演化图标"
+            style={{ width: 20, height: 20 }}
+          />
         </div>
         时间模式演化饼图
       </div>

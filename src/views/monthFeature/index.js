@@ -3,11 +3,12 @@ import * as d3 from 'd3'
 import ReactEcharts from 'echarts-for-react'
 import { MonthFeatureWrapper } from './style'
 import { getMonthQuestionSubmit } from '../../api'
-import { createFromIconfontCN } from '@ant-design/icons'
-const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/c/font_4565164_ivno85eyhk.js'
-})
+// import { createFromIconfontCN } from '@ant-design/icons'
+// const IconFont = createFromIconfontCN({
+//   scriptUrl: '//at.alicdn.com/t/c/font_4565164_ivno85eyhk.js'
+// })
 import d3Tip from 'd3-tip'
+import Answer from '../../assets/images/answer.svg'
 
 const MonthFeature = (props) => {
   const { brushData, month, parallelList, handleClickRowKeys, studentIDlist } =
@@ -444,7 +445,7 @@ const MonthFeature = (props) => {
     // 定义图例中圆形颜色比例尺
     const circleColorScale = d3
       .scaleOrdinal()
-      .domain(['集中针对型', '广泛多样型', '探索尝试型'])
+      .domain(['针对型', '多样型', '尝试型'])
       .range(['#86C6F0', '#EB8277', '#6ABF57'])
     // 渲染矩形
     svg
@@ -545,7 +546,7 @@ const MonthFeature = (props) => {
     //渲染圆点图例
     legendsvg
       .selectAll('.legend-circle')
-      .data(['集中针对型', '广泛多样型', '探索尝试型'])
+      .data(['针对型', '多样型', '尝试型'])
       .enter()
       .append('circle')
       .attr('class', 'legend-circle')
@@ -619,7 +620,8 @@ const MonthFeature = (props) => {
     <MonthFeatureWrapper>
       <div className="title">
         <div className="title-icon">
-          <IconFont type="icon-dati" />
+          {/* <IconFont type="icon-dati" /> */}
+          <img src={Answer} alt="答题图标" style={{ width: 20, height: 20 }} />
         </div>
         学生月答题数据视图
       </div>

@@ -360,7 +360,7 @@ const TitleMaster = (props) => {
           color: ['#86C6F0'],
           series: [
             {
-              data: memoryInfo.keys,
+              data: memoryInfo.value,
               type: 'bar'
             }
           ],
@@ -488,7 +488,7 @@ const TitleMaster = (props) => {
           color: ['#86C6F0'],
           series: [
             {
-              data: memoryInfo.keys,
+              data: memoryInfo.value,
               type: 'bar'
             }
           ],

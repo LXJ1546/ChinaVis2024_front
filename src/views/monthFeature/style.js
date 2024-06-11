@@ -20,6 +20,9 @@ export const MonthFeatureWrapper = styled.div`
       font-size: 20px;
       margin-left: 4px;
       margin-right: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
   .content {
