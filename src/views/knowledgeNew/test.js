@@ -10,7 +10,7 @@ import {
   getClassKnowledgeInfo,
   getPersonalKnowledgeInfo
 } from '../../api/index'
-import { createFromIconfontCN } from '@ant-design/icons'
+// import { createFromIconfontCN } from '@ant-design/icons'
 import './knowledgeStyle.css'
 import Image0 from '../../pic/0.svg' // 导入SVG图片
 import Know from '../../assets/images/know.svg'
