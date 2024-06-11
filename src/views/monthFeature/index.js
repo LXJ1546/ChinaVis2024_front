@@ -3,11 +3,12 @@ import * as d3 from 'd3'
 import ReactEcharts from 'echarts-for-react'
 import { MonthFeatureWrapper } from './style'
 import { getMonthQuestionSubmit } from '../../api'
-import { createFromIconfontCN } from '@ant-design/icons'
-const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/c/font_4565164_ivno85eyhk.js'
-})
+// import { createFromIconfontCN } from '@ant-design/icons'
+// const IconFont = createFromIconfontCN({
+//   scriptUrl: '//at.alicdn.com/t/c/font_4565164_ivno85eyhk.js'
+// })
 import d3Tip from 'd3-tip'
+import Answer from '../../assets/images/answer.svg'
 
 const MonthFeature = (props) => {
   const { brushData, month, parallelList, handleClickRowKeys, studentIDlist } =
@@ -619,7 +620,8 @@ const MonthFeature = (props) => {
     <MonthFeatureWrapper>
       <div className="title">
         <div className="title-icon">
-          <IconFont type="icon-dati" />
+          {/* <IconFont type="icon-dati" /> */}
+          <img src={Answer} alt="答题图标" style={{ width: 20, height: 20 }} />
         </div>
         学生月答题数据视图
       </div>

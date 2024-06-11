@@ -7,13 +7,14 @@ import React, {
 } from 'react'
 import * as d3 from 'd3'
 import { getClassKnowledgeInfo } from '../../api/index'
-import { createFromIconfontCN } from '@ant-design/icons'
+// import { createFromIconfontCN } from '@ant-design/icons'
 import './knowledgeStyle.css'
 import Image0 from '../../pic/0.svg' // 导入SVG图片
+import Know from '../../assets/images/know.svg'
 
-const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/c/font_4565164_ivno85eyhk.js'
-})
+// const IconFont = createFromIconfontCN({
+//   scriptUrl: '//at.alicdn.com/t/c/font_4565164_ivno85eyhk.js'
+// })
 
 const title_knowledge = {
   // Question_6RQj2gF3OeK5AmDvThUV: ['m3D1v', 'b3C9s'],
@@ -859,7 +860,12 @@ const KnowledgeTree = (props) => {
       >
         <div className="atitle">
           <div className="title-icon">
-            <IconFont type="icon-a-zhishidian1" />
+            {/* <IconFont type="icon-a-zhishidian1" /> */}
+            <img
+              src={Know}
+              alt="知识点图标"
+              style={{ width: 21, height: 21 }}
+            />
           </div>
           知识点掌握程度
         </div>

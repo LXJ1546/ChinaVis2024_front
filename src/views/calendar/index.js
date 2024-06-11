@@ -11,10 +11,12 @@ import {
   getallPeriodDayPeople
 } from '../../api'
 import { Select } from 'antd'
-import { createFromIconfontCN } from '@ant-design/icons'
-const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/c/font_4565164_ivno85eyhk.js'
-})
+// import { createFromIconfontCN } from '@ant-design/icons'
+// const IconFont = createFromIconfontCN({
+//   scriptUrl: '//at.alicdn.com/t/c/font_4565164_ivno85eyhk.js'
+// })
+import Frame from '../../assets/images/frame.svg'
+import Amonth from '../../assets/images/month.svg'
 
 const Calendar = (props) => {
   // 拿到父组件传递的模式状态
@@ -2377,7 +2379,12 @@ const Calendar = (props) => {
       {(amode == 0 || amode == 2) && (
         <div className="title">
           <div className="title-icon">
-            <IconFont type="icon-yuefen" />
+            {/* <IconFont type="icon-yuefen" /> */}
+            <img
+              src={Amonth}
+              alt="日历图标"
+              style={{ width: 20, height: 20 }}
+            />
           </div>
           学习日历环形图
         </div>
@@ -2385,7 +2392,12 @@ const Calendar = (props) => {
       {amode == 1 && (
         <div className="title">
           <div className="title-icon">
-            <IconFont type="icon-shiyongshiduanfenxi" />
+            {/* <IconFont type="icon-shiyongshiduanfenxi" /> */}
+            <img
+              src={Frame}
+              alt="答题时段图标"
+              style={{ width: 20, height: 20 }}
+            />
           </div>
           答题时段特征矩阵气泡图与模式统计日历图
         </div>
