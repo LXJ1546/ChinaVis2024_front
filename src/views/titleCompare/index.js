@@ -55,8 +55,8 @@ const TitleCompare = (props) => {
         d3.min([column3Min, column4Min]),
         d3.max([column3Max, column4Max])
       ]) // 输入数据范围
-      // .range(['#ffccd5', '#E0464E']) // 输出颜色范围
-      .range(['#EFA3A3', '#D9644A']) // 输出颜色范围
+      .range(['#b5d9a9', '#6abf57']) // 输出颜色范围
+    // .range(['#EFA3A3', '#D9644A']) // 输出颜色范围
     // const aftercolorScale = d3
     //   .scaleLinear()
     //   .domain([column4Min, column4Max]) // 输入数据范围
@@ -284,8 +284,8 @@ const TitleCompare = (props) => {
       .attr('x2', '100%')
       .attr('y2', '0%')
     // 添加渐变色段
-    gradient.append('stop').attr('offset', '0%').attr('stop-color', '#EFA3A3')
-    gradient.append('stop').attr('offset', '100%').attr('stop-color', '#D9644A')
+    gradient.append('stop').attr('offset', '0%').attr('stop-color', '#b5d9a9')
+    gradient.append('stop').attr('offset', '100%').attr('stop-color', '#6abf57')
 
     // 创建矩形
     svg
@@ -308,7 +308,7 @@ const TitleCompare = (props) => {
       .attr('cx', 195)
       .attr('cy', 12)
       .attr('r', 4)
-      .attr('fill', '#E0464E')
+      .attr('fill', '#6abf57')
     svg
       .append('text')
       .text(transferFirstMonth + '月')
@@ -334,7 +334,7 @@ const TitleCompare = (props) => {
         // 根据顶点坐标生成多边形的points属性值
         return vertices.join(' ')
       })
-      .attr('fill', '#E0464E')
+      .attr('fill', '#6abf57')
     svg
       .append('text')
       .text(transferSecondMonth + '月')
