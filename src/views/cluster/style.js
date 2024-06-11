@@ -48,6 +48,7 @@ export const ScatterWrapper = styled.div`
           justify-content: center;
           margin-right: 10px;
           text-align: center;
+          opacity: 0.8;
           .circle {
             width: 15px;
             height: 15px;

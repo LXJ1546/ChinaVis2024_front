@@ -49,8 +49,8 @@ const StudentCommit = (props) => {
       .attr('width', '100%')
       .attr('height', '90%')
     const legendData = [
-      { category: '完全正确', value: '#6fd19d' },
-      { category: '部分正确', value: '#c7ebd5' },
+      { category: '完全正确', value: '#6abf57' },
+      { category: '部分正确', value: '#6abf5799' },
       { category: '错误', value: '#ff9c91' },
       { category: 'Method_C', value: '#3770A7' },
       { category: 'Method_g', value: '#886D80' },
@@ -212,19 +212,19 @@ const StudentCommit = (props) => {
           type: 'line',
           smooth: true,
           itemStyle: {
-            // color: '#f28482'
-            color: '#6fd19d'
+            color: '#8fcc7e'
+            // color: '#6fd19d'
           },
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                // color: '#f28482'
+                // color: '#8fcc7e'
                 color: '#99deb7'
               },
               {
                 offset: 1,
-                // color: '#ffccd5'
+                // color: '#f5fff0'
                 color: '#f5fff0'
               }
             ])
@@ -393,11 +393,11 @@ const StudentCommit = (props) => {
       .attr('height', xScale.bandwidth() / 2)
       .attr('fill', function (d) {
         if (d[2] == 'Partially_Correct') {
-          // return '#68D8A3'
-          return '#c7ebd5'
+          return '#6abf5799'
+          // return '#c7ebd5'
         } else if (d[2] == 'Absolutely_Correct') {
-          // return '#27B774'
-          return '#6fd19d'
+          return '#7cc76b'
+          // return '#6fd19d'
         } else {
           return '#ff9c91'
         }
@@ -714,9 +714,9 @@ const StudentCommit = (props) => {
         .attr('height', xScale.bandwidth() / 2)
         .attr('fill', function (d) {
           if (d[2] == 'Partially_Correct') {
-            return '#c7ebd5'
+            return '#6abf5799'
           } else if (d[2] == 'Absolutely_Correct') {
-            return '#6fd19d'
+            return '#7cc76b'
           } else {
             return '#ff9c91'
           }
