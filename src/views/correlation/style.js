@@ -28,7 +28,7 @@ export const CorrelationWrapper = styled.div`
     width: 100%;
     height: 100%;
     .table {
-      width: 65%;
+      width: 64%;
       height: 100%;
       position: relative;
       .atable {
@@ -61,7 +61,7 @@ export const CorrelationWrapper = styled.div`
       }
     }
     .correlation {
-      width: 35%;
+      width: 36%;
       height: 100%;
     }
   }

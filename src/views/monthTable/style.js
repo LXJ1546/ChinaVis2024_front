@@ -5,6 +5,7 @@ export const MonthTableWrapper = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+
   .title {
     height: 30px;
     display: flex;

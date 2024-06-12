@@ -368,6 +368,15 @@ const MonthFeature = (props) => {
         name: '模式',
         type: 'category',
         data: ['针对型', '多样型', '尝试型'],
+        axisLabel: {
+          formatter: function (value) {
+            // 将值映射为需要展示的标签
+            if (value === '针对型') return '集中针\n 对型'
+            if (value === '多样型') return '广泛多\n 样型'
+            if (value === '尝试型') return '探索尝\n 试型'
+            return value // 如果没有对应的映射，返回原始值
+          }
+        },
         areaSelectStyle: { width: 15 }
       }
     ],

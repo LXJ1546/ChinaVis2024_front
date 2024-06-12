@@ -36,7 +36,7 @@ const MonthTable = () => {
     },
     yAxis: {
       type: 'category',
-      data: ['凌晨', '上午', '下午', '晚上'],
+      data: ['晚上', '下午', '上午', '凌晨'],
       splitArea: {
         show: true
       },
