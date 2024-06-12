@@ -59,7 +59,7 @@ const Correlation = (props) => {
     },
     yAxis: {
       type: 'category',
-      data: ['集中针\n对型 ', '广泛多\n样型 ', '探索尝\n试型 '],
+      data: ['集中 \n针对型', '广泛 \n多样型', '探索 \n尝试型'],
       splitArea: {
         show: true
       },

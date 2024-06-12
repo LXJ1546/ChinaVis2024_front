@@ -366,7 +366,16 @@ const TransferMonth = (props) => {
         name: '模式',
         type: 'category',
         data: ['针对型', '多样型', '尝试型'],
-        areaSelectStyle: { width: 15 }
+        areaSelectStyle: { width: 15 },
+        axisLabel: {
+          formatter: function (value) {
+            // 将值映射为需要展示的标签
+            if (value === '针对型') return '  集中\n针对型'
+            if (value === '多样型') return '  广泛\n多样型'
+            if (value === '尝试型') return '  探索\n尝试型'
+            return value // 如果没有对应的映射，返回原始值
+          }
+        }
       }
     ],
     series: [
