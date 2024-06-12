@@ -41,6 +41,8 @@ const Content = () => {
   const [transferParallelList, setTransferParallelList] = useState([[], []])
   // 是否改变权重
   const [isChangeWeight, setIsChangeWeight] = useState(0)
+  // 点击条形码的某个学生，保存他的id，用来传给题目掌握程度
+  const [clickStudentId, setClickStudentId] = useState(null)
   // 改变班级
   function handleClassNum(classnum) {
     setClassNum(classnum)
@@ -123,6 +125,10 @@ const Content = () => {
   const handleTransferSecondMonth = (value) => {
     setTransferSecondMonth(value)
   }
+  // 更新条形码点击事件的学生id
+  function handleClickStudentId(value) {
+    setClickStudentId(value)
+  }
   useEffect(() => {
     // 最开始的时候平行坐标系展示全部数据
     let paraList = [[], [], []]
@@ -177,6 +183,7 @@ const Content = () => {
               isChangeWeight={isChangeWeight}
               handleHighLightedXaix={handleHighLightedXaix}
               handleClickTitleFlag={handleClickTitleFlag}
+              handleClickStudentId={handleClickStudentId}
             />
           </Card>
           <Card className="card2">
@@ -185,6 +192,7 @@ const Content = () => {
               isChangeWeight={isChangeWeight}
               handleStudentList={handleStudentList}
               handleStudentList1={handleStudentList1}
+              handleClickStudentId={handleClickStudentId}
             />
           </Card>
           <Card className="card3">
@@ -195,6 +203,7 @@ const Content = () => {
               handleHighLightedXaix={handleHighLightedXaix}
               clicktitleFlag={clicktitleFlag}
               handleClickTitleFlag={handleClickTitleFlag}
+              clickStudentId={clickStudentId}
             />
           </Card>
           <Card className="card4">

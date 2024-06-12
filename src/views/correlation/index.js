@@ -43,7 +43,7 @@ const Correlation = (props) => {
     },
     grid: {
       top: '2%',
-      bottom: '12%',
+      bottom: '10%',
       right: '3%',
       left: '13%'
     },

@@ -163,3 +163,19 @@ export function getallPeriodDayPeople() {
     url: '/allPeriodDayInfo'
   })
 }
+
+//获取单个人的题目掌握程度
+export function getPersonalTitleMasterInfo(id) {
+  return hyRequest.post({
+    url: '/personalTitleMasterInfo',
+    data: { data: id }
+  })
+}
+
+//获取单个人的某个题目的用时和内存
+export function getPersonalTitleTimeMemoryInfo(id, name) {
+  return hyRequest.post({
+    url: '/personalTitleTimeMemoryInfo',
+    data: { data: id, name: name }
+  })
+}

@@ -46,10 +46,19 @@ const Radar = (props) => {
     let option
 
     option = {
+      title: {
+        text: '转移群体对比视图',
+        left: '32%',
+        textStyle: {
+          fontSize: 13,
+          fontWeight: 'normal'
+        }
+      },
       legend: {
         orient: 'vertical',
         x: 'left',
         left: '4%',
+        top: '6%',
         width: '50px',
         data: name
       },
@@ -79,7 +88,8 @@ const Radar = (props) => {
         axisName: {
           color: '#888'
         },
-        center: ['50%', '60%']
+        center: ['50%', '60%'],
+        nameGap: 10
       },
       // color: ['#F3D475', '#F3B28A', '#F1928E'],
       color: ['#FAD891', '#6D9AC4', '#777B98'],

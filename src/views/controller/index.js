@@ -12,7 +12,8 @@ const Cotroller = (props) => {
     handleWeight,
     isChangeWeight,
     handleHighLightedXaix,
-    handleClickTitleFlag
+    handleClickTitleFlag,
+    handleClickStudentId
   } = props
   // 定义输入框状态
   const [scoreRate, setScoreRate] = useState('')
@@ -32,6 +33,7 @@ const Cotroller = (props) => {
     handleClassNum(value)
     // 改变classNum
     setClassNum(value)
+    handleClickStudentId(null)
   }
   // 重置按钮相关操作
   const handleReset = () => {
