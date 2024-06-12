@@ -36,7 +36,8 @@ const KnowledgeTree = (props) => {
     highlightedXAxisName,
     handleHighLightedXaix,
     handleClickTitleFlag,
-    studentIDlist
+    studentIDlist,
+    handleIsKnowClick
   } = props
   const ref = useRef() //用于获取d3绘图使用div的宽高
   const [width, setWidth] = useState(0)
@@ -791,7 +792,7 @@ const KnowledgeTree = (props) => {
       let question = e.target.__data__.data.name
       let Q_name = 'Q_' + question.substring(9, 12)
       // console.log('点击了 <g> 元素', Q_name)
-
+      handleIsKnowClick(true)
       handleHighLightedXaix(Q_name)
       handleClickTitleFlag(1)
     })

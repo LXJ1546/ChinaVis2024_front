@@ -43,6 +43,8 @@ const Content = () => {
   const [isChangeWeight, setIsChangeWeight] = useState(0)
   // 点击条形码的某个学生，保存他的id，用来传给题目掌握程度
   const [clickStudentId, setClickStudentId] = useState(null)
+  // 是否是知识点掌握程度的点击事件
+  const [isKonwClick, setIsKonwClick] = useState(false)
   // 改变班级
   function handleClassNum(classnum) {
     setClassNum(classnum)
@@ -129,6 +131,10 @@ const Content = () => {
   function handleClickStudentId(value) {
     setClickStudentId(value)
   }
+  // 更新知识点点击事件
+  function handleIsKnowClick(value) {
+    setIsKonwClick(value)
+  }
   useEffect(() => {
     // 最开始的时候平行坐标系展示全部数据
     let paraList = [[], [], []]
@@ -204,6 +210,8 @@ const Content = () => {
               clicktitleFlag={clicktitleFlag}
               handleClickTitleFlag={handleClickTitleFlag}
               clickStudentId={clickStudentId}
+              isKonwClick={isKonwClick}
+              handleIsKnowClick={handleIsKnowClick}
             />
           </Card>
           <Card className="card4">
@@ -220,6 +228,7 @@ const Content = () => {
               handleHighLightedXaix={handleHighLightedXaix}
               handleClickTitleFlag={handleClickTitleFlag}
               studentIDlist={studentIDlist}
+              handleIsKnowClick={handleIsKnowClick}
             />
           </Card>
         </div>

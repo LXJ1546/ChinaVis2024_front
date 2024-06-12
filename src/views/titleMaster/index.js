@@ -21,7 +21,9 @@ const TitleMaster = (props) => {
     handleHighLightedXaix,
     clicktitleFlag,
     handleClickTitleFlag,
-    clickStudentId
+    clickStudentId,
+    isKonwClick,
+    handleIsKnowClick
   } = props
   const titleMasterRef = useRef(null)
   // const subKnowledgeRef = useRef(null)
@@ -171,6 +173,8 @@ const TitleMaster = (props) => {
 
     // 根据主知识点图表的提示信息更新从属知识点图表的数据,用时分布的数据，内存分布的数据
     titleMasterChart.on('click', function (params) {
+      handleIsKnowClick(false)
+      handleHighLightedXaix(params.name)
       handleClickTitleFlag(1) //将折线图缩小
       //根据params的name对应该题目名称，提取该题目的数据
       let memoryInfo = {}
@@ -179,7 +183,6 @@ const TitleMaster = (props) => {
       let personalTimeInfo = 0
       // 拿到学生的个人用时和内存分布
       if (clickStudentId != null) {
-        handleHighLightedXaix(params.name)
         const firstRequest = getPersonalTitleTimeMemoryInfo(
           clickStudentId,
           params.name
@@ -322,7 +325,7 @@ const TitleMaster = (props) => {
                 left: 'center',
                 textStyle: {
                   fontSize: 10,
-                  fontWeight: 'normal'
+                  fontWeight: 'bold'
                 }
               },
               tooltip: {
@@ -396,7 +399,7 @@ const TitleMaster = (props) => {
                 left: 'center',
                 textStyle: {
                   fontSize: 10,
-                  fontWeight: 'normal'
+                  fontWeight: 'bold'
                 }
               },
               tooltip: {
@@ -447,7 +450,6 @@ const TitleMaster = (props) => {
           })
         })
       } else {
-        handleHighLightedXaix(params.name)
         getTitleMemoryInfo(classNum, params.name).then((res) => {
           memoryInfo = res.memory
           timeInfo = res.time
@@ -578,7 +580,7 @@ const TitleMaster = (props) => {
     })
 
     //根据知识点掌握程度的点击事件生成相应的分布
-    if (highlightedXAxisName !== null) {
+    if (highlightedXAxisName !== null && isKonwClick) {
       handleHighLightedXaix(highlightedXAxisName)
       handleClickTitleFlag(1) //将折线图缩小
       //根据params的name对应该题目名称，提取该题目的数据
