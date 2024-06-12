@@ -848,7 +848,7 @@ const Scatter = (props) => {
         <div className="title-icon">
           <IconFont type="icon-scatter" />
         </div>
-        学习模式聚类与演变视图
+        学习模式聚类散点图与演变转移图
       </div>
       <div className="content">
         <div className="left">

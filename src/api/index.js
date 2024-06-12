@@ -24,6 +24,14 @@ export function getClassKnowledgeInfo(data, title) {
   })
 }
 
+//个人知识点掌握程度
+export function getPersonalKnowledgeInfo(data, title) {
+  return hyRequest.post({
+    url: '/personalKnowledgeMasterInfo',
+    data: { data: data, title: title }
+  })
+}
+
 //
 
 // 获取聚类数据

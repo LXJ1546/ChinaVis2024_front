@@ -317,7 +317,7 @@ const TransferMonth = (props) => {
       top: '4%',
       textStyle: {
         fontSize: 12,
-        fontWeight: 'normal'
+        fontWeight: 'bold'
       }
     },
     parallel: {
@@ -674,7 +674,7 @@ const TransferMonth = (props) => {
           {/* <IconFont type="icon-dati" /> */}
           <img src={Answer} alt="答题图标" style={{ width: 20, height: 20 }} />
         </div>
-        学生月答题数据视图
+        学生月答题数据统计图
       </div>
       <div className="content">
         <div className="leftview">

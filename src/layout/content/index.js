@@ -219,6 +219,7 @@ const Content = () => {
               highlightedXAxisName={highlightedXAxisName}
               handleHighLightedXaix={handleHighLightedXaix}
               handleClickTitleFlag={handleClickTitleFlag}
+              studentIDlist={studentIDlist}
             />
           </Card>
         </div>

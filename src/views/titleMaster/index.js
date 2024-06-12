@@ -46,7 +46,7 @@ const TitleMaster = (props) => {
         text: '题目掌握情况',
         textStyle: {
           fontSize: 12,
-          fontWeight: 'normal'
+          fontWeight: 'bold'
         },
         left: '1%'
       },
@@ -610,7 +610,7 @@ const TitleMaster = (props) => {
             left: 'center',
             textStyle: {
               fontSize: 10,
-              fontWeight: 'normal'
+              fontWeight: 'bold'
             }
           },
           tooltip: {
@@ -662,7 +662,7 @@ const TitleMaster = (props) => {
             left: 'center',
             textStyle: {
               fontSize: 10,
-              fontWeight: 'normal'
+              fontWeight: 'bold'
             }
           },
           tooltip: {
@@ -748,7 +748,7 @@ const TitleMaster = (props) => {
         <div className="title-icon">
           <IconFont type="icon-zhangwoshuai" />
         </div>
-        题目掌握程度
+        题目掌握程度折线图
       </div>
       <div className="Titleview">
         {clicktitleFlag == 0 && (
