@@ -530,7 +530,7 @@ const KnowledgeTree = (props) => {
       // .range(['#ffccd5', '#E0464E']) // 输出颜色范围
       // .range(['#dce6d8', '#8fcc7e', '#4c993f']) // 输出颜色范围
       // .range(['#b5d9a9', '#6abf57']) // 输出颜色范围
-      .range(['#dce6d8', '#6abf57']) // 输出颜色范围
+      .range(['#f5fff0', '#6abf57']) // 输出颜色范围
 
     const color1 = d3
       .scaleLinear()
