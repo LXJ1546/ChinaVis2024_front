@@ -526,16 +526,18 @@ const KnowledgeTree = (props) => {
 
     const color = d3
       .scaleLinear()
-      .domain([0, 0.52]) // 输入数据范围
+      .domain([0.25, 0.6]) // 输入数据范围
       // .range(['#ffccd5', '#E0464E']) // 输出颜色范围
       // .range(['#dce6d8', '#8fcc7e', '#4c993f']) // 输出颜色范围
-      .range(['#f1f5ef', '#8fcc7e', '#4c993f']) // 输出颜色范围
+      // .range(['#b5d9a9', '#6abf57']) // 输出颜色范围
+      .range(['#dce6d8', '#6abf57']) // 输出颜色范围
 
     const color1 = d3
       .scaleLinear()
       .domain([0, 0.81]) // 输入数据范围
       // .range(['#ffccd5', '#E0464E']) // 输出颜色范围
-      .range(['#f1f5ef', '#8fcc7e', '#4c993f']) // 输出颜色范围
+      // .range(['#f1f5ef', '#8fcc7e', '#4c993f']) // 输出颜色范围
+      .range(['#f1f5ef', '#4c993f']) // 输出颜色范围
 
     // 初始化计数器
     let count_deep3 = 0
