@@ -2410,7 +2410,7 @@ const Calendar = (props) => {
             <div id="answerDetailSession" className="answerDetailview"></div>
             <div id="orderSelect" className="orderSelectview">
               <Select
-                defaultValue="按照工作日/非工作日排序"
+                defaultValue="按照工作日/休息日排序"
                 style={{ width: 200, position: 'absolute' }}
                 onChange={handleOrder}
                 options={[
@@ -2419,7 +2419,7 @@ const Calendar = (props) => {
                     title: '选择排序方式',
                     options: [
                       {
-                        label: <span>按照工作日/非工作日排序</span>,
+                        label: <span>按照工作日/休息日排序</span>,
                         value: 'workOrder'
                       },
                       {
