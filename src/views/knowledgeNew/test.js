@@ -684,17 +684,15 @@ const KnowledgeTree = (props) => {
 
     //tooltip
     node.append('title').text((d) => {
-      let nodes = d.ancestors()
-      nodes.reverse().shift() //删除祖先点
+      // let nodes = d.ancestors()
+      // nodes.reverse().shift() //删除祖先点
       //   console.log('数据', nodes)
       if (d.depth == 3) {
-        return `${nodes
-          .map((d) => d.data.name)
-          .join('/')}\n正确率：${formatTip(d.data.score)}\n总分值：${d.value}`
+        return `题目：Q_${d.data.name.slice(9, 12)}\n正确率：${formatTip(d.data.score)}\n总分值：${d.value}`
+      } else if (d.depth == 2) {
+        return `子知识点：${d.data.name.slice(6)}\n掌握程度：${formatTip(d.data.score)}\n总分值：${d.value}`
       } else
-        return `${nodes
-          .map((d) => d.data.name)
-          .join('/')}\n掌握程度：${formatTip(d.data.score)}\n总分值：${d.value}`
+        return `主知识点：${d.data.name}\n掌握程度：${formatTip(d.data.score)}\n总分值：${d.value}`
     })
 
     const circles = node
