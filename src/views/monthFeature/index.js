@@ -488,6 +488,8 @@ const MonthFeature = (props) => {
               setCorrectRate(res[2])
               setIsIndividual(true)
             })
+            // 把tip消掉
+            tip.hide()
           })
           .append('circle')
           .attr('cx', 7) // 圆形的 x 坐标为 10

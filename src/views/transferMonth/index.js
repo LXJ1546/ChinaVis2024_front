@@ -516,6 +516,8 @@ const TransferMonth = (props) => {
             // 可以展示比较视图
             setIsIndividual(true)
           })
+          // 把tip消掉
+          tip.hide()
         })
         // 在每个g元素中添加圆，又两个圆
         d3.select(this)
