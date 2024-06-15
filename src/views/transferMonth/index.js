@@ -18,7 +18,8 @@ const TransferMonth = (props) => {
     transferSecondMonth,
     transferParallelList,
     handleClickRowKeys,
-    studentIDlist
+    studentIDlist,
+    selectedRowKeys
   } = props
   // 拿到svg的引用
   const svgRef = useRef(null)
@@ -526,9 +527,12 @@ const TransferMonth = (props) => {
           .attr('cy', 10) // 圆形的 y 坐标为矩形的高度的一半，使其垂直居中
           .attr('r', 5) // 圆形的半径为 5 像素
           .attr('fill', (data) => circleColorScale(data))
-          .style('stroke', 'yellow')
+          .style('stroke', '#FFA500')
           .style('stroke-width', function (data) {
-            if (studentIDlist.indexOf(d[0][0]) == -1) {
+            if (
+              studentIDlist.indexOf(d[0][0]) == -1 &&
+              selectedRowKeys.indexOf(d[0][0]) == -1
+            ) {
               return 0
             } else {
               return 2
@@ -553,7 +557,9 @@ const TransferMonth = (props) => {
             if (studentIDlist.indexOf(d[0][0]) == -1) {
               d3.select(this).style('stroke-width', 0)
             } else {
-              d3.select(this).style('stroke', 'yellow').style('stroke-width', 2)
+              d3.select(this)
+                .style('stroke', '#FFA500')
+                .style('stroke-width', 2)
             }
           })
         // 在每个 g 元素中根据数据添加矩形
@@ -675,7 +681,7 @@ const TransferMonth = (props) => {
       .text('多/高') // 添加文本内容
       .style('font-size', '11px') // 修改字体大小
       .style('opacity', 0.8)
-  }, [transferLinksData])
+  }, [transferLinksData, studentIDlist, selectedRowKeys])
   return (
     <TransferMonthWrapper>
       <div className="title">

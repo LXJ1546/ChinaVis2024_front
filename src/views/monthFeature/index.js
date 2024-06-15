@@ -11,8 +11,14 @@ import d3Tip from 'd3-tip'
 import Answer from '../../assets/images/answer.svg'
 
 const MonthFeature = (props) => {
-  const { brushData, month, parallelList, handleClickRowKeys, studentIDlist } =
-    props
+  const {
+    brushData,
+    month,
+    parallelList,
+    handleClickRowKeys,
+    studentIDlist,
+    selectedRowKeys
+  } = props
   // 拿到svg的引用
   const svgRef = useRef(null)
   // 拿到svg的引用
@@ -484,13 +490,17 @@ const MonthFeature = (props) => {
             })
           })
           .append('circle')
-          .attr('cx', 5) // 圆形的 x 坐标为 10
+          .attr('cx', 7) // 圆形的 x 坐标为 10
           .attr('cy', 10) // 圆形的 y 坐标为矩形的高度的一半，使其垂直居中
-          .attr('r', 5) // 圆形的半径为 5 像素
+          .attr('r', 6) // 圆形的半径为 5 像素
           .attr('fill', (d) => circleColorScale(d[1]))
-          .style('stroke', 'yellow')
+          .style('stroke', '#FFA500')
           .style('stroke-width', function (d) {
-            if (studentIDlist.indexOf(d[0]) == -1) {
+            // 掌握程度那边的高亮以及表格选择时的高亮
+            if (
+              studentIDlist.indexOf(d[0]) == -1 &&
+              selectedRowKeys.indexOf(d[0]) == -1
+            ) {
               return 0
             } else {
               return 2
@@ -515,7 +525,9 @@ const MonthFeature = (props) => {
             if (studentIDlist.indexOf(d[0]) == -1) {
               d3.select(this).style('stroke-width', 0)
             } else {
-              d3.select(this).style('stroke', 'yellow').style('stroke-width', 2)
+              d3.select(this)
+                .style('stroke', '#FFA500')
+                .style('stroke-width', 2)
             }
           })
 
@@ -624,7 +636,7 @@ const MonthFeature = (props) => {
       .text('多/高') // 添加文本内容
       .style('font-size', '11px') // 修改字体大小
       .style('opacity', 0.8)
-  }, [brushData])
+  }, [brushData, studentIDlist, selectedRowKeys])
   return (
     <MonthFeatureWrapper>
       <div className="title">
