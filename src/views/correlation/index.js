@@ -312,7 +312,7 @@ const Correlation = (props) => {
               rowSelection={rowSelection}
             >
               <Column
-                title="学生ID"
+                title="学习者ID"
                 dataIndex="key"
                 key="key"
                 width={160}

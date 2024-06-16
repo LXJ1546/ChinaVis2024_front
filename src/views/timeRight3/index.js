@@ -1009,7 +1009,7 @@ const TimeRight3 = (props) => {
           </div>
           <div className="active-bottom">
             <div className="active-btn">
-              <span className="topic" style={{ 'font-weight': 'bold' }}>
+              <span className="topic" style={{ fontWeight: 'bold' }}>
                 群体特征对比人物图
               </span>
 
