@@ -600,7 +600,11 @@ const Calendar = (props) => {
         // .attr('font-family', 'serif')
         .attr('font-family', 'Segoe UI')
         .text(
-          '学生ID: ' + studentName + '(' + rankMap[newList[2][studentNum]] + ')'
+          '学习者ID: ' +
+            studentName +
+            '(' +
+            rankMap[newList[2][studentNum]] +
+            ')'
         )
     }
     //对选中的每个学生都生成这个图
@@ -1155,7 +1159,7 @@ const Calendar = (props) => {
         .attr('font-size', '15px')
         // .attr('font-family', 'serif')
         .attr('font-family', 'Segoe UI')
-        .text('学生ID: ' + studentName + '(' + monthFlag + '月)')
+        .text('学习者ID: ' + studentName + '(' + monthFlag + '月)')
     }
 
     //对选中的每个学生都生成这个图

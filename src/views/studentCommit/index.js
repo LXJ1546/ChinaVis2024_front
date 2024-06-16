@@ -166,7 +166,7 @@ const StudentCommit = (props) => {
       title: {
         left: 'left',
         text:
-          '    学生: ' +
+          '    学习者: ' +
           studentIDfromCalendar +
           ' 在 ' +
           studentDatefromCalendar +
@@ -986,7 +986,7 @@ const StudentCommit = (props) => {
           <div className="title-icon">
             <IconFont type="icon-a-tijiaoshangchuantiqu" />
           </div>
-          学生提交事件书本图
+          学习者提交事件书本图
         </div>
       )}
       {amode == 1 && <div className="title">高峰分析矩阵图</div>}

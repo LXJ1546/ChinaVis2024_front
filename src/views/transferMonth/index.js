@@ -551,7 +551,7 @@ const TransferMonth = (props) => {
               pointer-events: none;
               font-family: Arial, sans-serif;
               font-size: 12px;
-              text-align: center;">学生ID: ${d[0][0]}</p><p>答题模式: ${data}</p><div>`)
+              text-align: center;">学习者ID: ${d[0][0]}</p><p>答题模式: ${data}</p><div>`)
             tip.show(d, this)
           })
           .on('mouseout', function (e, data) {
@@ -691,7 +691,7 @@ const TransferMonth = (props) => {
           {/* <IconFont type="icon-dati" /> */}
           <img src={Answer} alt="答题图标" style={{ width: 20, height: 20 }} />
         </div>
-        学生月答题数据统计图
+        学习者月答题数据统计图
       </div>
       <div className="content">
         <div className="leftview">

@@ -175,7 +175,7 @@ const Scatter = (props) => {
         var tooltipContent = params.seriesName
         // 不同的模式对应不同的tooltip
         if (amode == 0) {
-          tooltipContent += '<br>学生id：' + data.key
+          tooltipContent += '<br>学习者id：' + data.key
           if (data.rank == 'top') {
             tooltipContent += '<br>排名：前30%'
           } else if (data.rank == 'mid') {
@@ -420,7 +420,7 @@ const Scatter = (props) => {
   for (var studentId in highlightInfo) {
     // 每个学生对应一个eries
     formattedMasterData.push({
-      name: '学生' + studentId,
+      name: '学习者' + studentId,
       type: 'line',
       data: highlightInfo[studentId],
       smooth: true
@@ -428,7 +428,7 @@ const Scatter = (props) => {
   }
   const masterOption = {
     title: {
-      text: '高亮学生知识点掌握折线图',
+      text: '高亮学习者知识点掌握折线图',
       textStyle: {
         fontSize: 12,
         fontWeight: 'normal'
