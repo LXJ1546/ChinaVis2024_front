@@ -79,7 +79,11 @@ const Content = () => {
   }
   //定义新函数,用于在月答题数据视图的点击事件时更新表格的选中数据
   const handleClickRowKeys = (value) => {
-    setSelectedRowKeys((prevDataArray) => [...prevDataArray, value])
+    setSelectedRowKeys((prevDataArray) => {
+      // 使用 Set 去除重复元素
+      const uniqueKeys = new Set([...prevDataArray, value])
+      return Array.from(uniqueKeys) // 转换为数组形式并更新状态
+    })
   }
   //定义新函数,用于确认是否生成日历图
   const handleCalendarFlag = (value) => {
@@ -258,6 +262,7 @@ const Content = () => {
                 parallelList={parallelList}
                 handleClickRowKeys={handleClickRowKeys}
                 studentIDlist={studentIDlist}
+                selectedRowKeys={selectedRowKeys}
               />
             )}
             {amode === 1 && <Evolution />}
@@ -269,6 +274,7 @@ const Content = () => {
                 transferParallelList={transferParallelList}
                 handleClickRowKeys={handleClickRowKeys}
                 studentIDlist={studentIDlist}
+                selectedRowKeys={selectedRowKeys}
               />
             )}
           </Card>

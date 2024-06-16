@@ -548,7 +548,7 @@ const Picture = (props) => {
         pointer-events: none;
         font-family: Arial, sans-serif;
         font-size: 12px;
-        text-align: center;">学生ID: ${d[0]}  <p>专业:${d[1]}</p> <p>年龄:${d[2]}</p><p>性别:${d[3]}</p><p>掌握程度:${d[4]}</p><div>`)
+        text-align: center;">学习者ID: ${d[0]}  <p>专业:${d[1]}</p> <p>年龄:${d[2]}</p><p>性别:${d[3]}</p><p>掌握程度:${d[4]}</p><div>`)
         tip.show(d, this)
       })
       .on('mouseout', function () {

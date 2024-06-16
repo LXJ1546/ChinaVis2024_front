@@ -18,7 +18,8 @@ const TransferMonth = (props) => {
     transferSecondMonth,
     transferParallelList,
     handleClickRowKeys,
-    studentIDlist
+    studentIDlist,
+    selectedRowKeys
   } = props
   // 拿到svg的引用
   const svgRef = useRef(null)
@@ -82,6 +83,36 @@ const TransferMonth = (props) => {
     })
     combinedArray.push(tmp)
   })
+  // 平行坐标系
+  let pcolor1 = '#000000' // 默认颜色
+  if (
+    transferLinksData &&
+    transferLinksData.length > 0 &&
+    transferLinksData[0][0] &&
+    transferLinksData[0][0].label
+  ) {
+    pcolor1 =
+      transferLinksData[0][0].label === '针对型'
+        ? '#86C6F0'
+        : transferLinksData[0][0].label === '多样型'
+          ? '#EB8277'
+          : '#6ABF57'
+  }
+  // 平行坐标系
+  let pcolor2 = '#000000' // 默认颜色
+  if (
+    transferLinksData &&
+    transferLinksData.length > 0 &&
+    transferLinksData[1][0] &&
+    transferLinksData[1][0].label
+  ) {
+    pcolor2 =
+      transferLinksData[1][0].label === '针对型'
+        ? '#86C6F0'
+        : transferLinksData[1][0].label === '多样型'
+          ? '#EB8277'
+          : '#6ABF57'
+  }
   const option1 = {
     grid: { left: '0%', top: '5%', right: '0%', bottom: '0%' },
     xAxis: {
@@ -383,7 +414,8 @@ const TransferMonth = (props) => {
         name: transferFirstMonth,
         type: 'parallel',
         lineStyle: {
-          color: '#86C6F0',
+          // 根据标签使用不同的颜色
+          color: pcolor1,
           width: 1.4
         },
         smooth: true,
@@ -394,7 +426,7 @@ const TransferMonth = (props) => {
         type: 'parallel',
         lineStyle: {
           width: 1.4,
-          color: '#EB8277'
+          color: pcolor2
         },
         smooth: true,
         data: transferParallelList[1]
@@ -408,6 +440,7 @@ const TransferMonth = (props) => {
       return `Class ${d[0]},人数: <span >${d}</span>`
     })
   useEffect(() => {
+    // console.log('nihao', transferLinksData[0][1].label)
     if (transferLinksData[0].length != 0) {
       setIsParallel(true)
     }
@@ -515,6 +548,8 @@ const TransferMonth = (props) => {
             // 可以展示比较视图
             setIsIndividual(true)
           })
+          // 把tip消掉
+          tip.hide()
         })
         // 在每个g元素中添加圆，又两个圆
         d3.select(this)
@@ -526,9 +561,12 @@ const TransferMonth = (props) => {
           .attr('cy', 10) // 圆形的 y 坐标为矩形的高度的一半，使其垂直居中
           .attr('r', 5) // 圆形的半径为 5 像素
           .attr('fill', (data) => circleColorScale(data))
-          .style('stroke', 'yellow')
+          .style('stroke', '#FFA500')
           .style('stroke-width', function (data) {
-            if (studentIDlist.indexOf(d[0][0]) == -1) {
+            if (
+              studentIDlist.indexOf(d[0][0]) == -1 &&
+              selectedRowKeys.indexOf(d[0][0]) == -1
+            ) {
               return 0
             } else {
               return 2
@@ -545,7 +583,7 @@ const TransferMonth = (props) => {
               pointer-events: none;
               font-family: Arial, sans-serif;
               font-size: 12px;
-              text-align: center;">学生ID: ${d[0][0]}</p><p>答题模式: ${data}</p><div>`)
+              text-align: center;">学习者ID: ${d[0][0]}</p><p>答题模式: ${data}</p><div>`)
             tip.show(d, this)
           })
           .on('mouseout', function (e, data) {
@@ -553,7 +591,9 @@ const TransferMonth = (props) => {
             if (studentIDlist.indexOf(d[0][0]) == -1) {
               d3.select(this).style('stroke-width', 0)
             } else {
-              d3.select(this).style('stroke', 'yellow').style('stroke-width', 2)
+              d3.select(this)
+                .style('stroke', '#FFA500')
+                .style('stroke-width', 2)
             }
           })
         // 在每个 g 元素中根据数据添加矩形
@@ -675,7 +715,7 @@ const TransferMonth = (props) => {
       .text('多/高') // 添加文本内容
       .style('font-size', '11px') // 修改字体大小
       .style('opacity', 0.8)
-  }, [transferLinksData])
+  }, [transferLinksData, studentIDlist, selectedRowKeys])
   return (
     <TransferMonthWrapper>
       <div className="title">
@@ -683,7 +723,7 @@ const TransferMonth = (props) => {
           {/* <IconFont type="icon-dati" /> */}
           <img src={Answer} alt="答题图标" style={{ width: 20, height: 20 }} />
         </div>
-        学生月答题数据统计图
+        学习者月答题数据统计图
       </div>
       <div className="content">
         <div className="leftview">

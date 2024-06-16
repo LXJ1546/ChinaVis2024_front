@@ -121,7 +121,7 @@ const Cotroller = (props) => {
         {/*系统初始化按钮  */}
         <div className="initialize">
           <Select
-            defaultValue="所有学生"
+            defaultValue="所有学习者"
             style={{ width: 200 }}
             onChange={handleChange}
             value={classNum}
@@ -131,7 +131,7 @@ const Cotroller = (props) => {
                 title: '全部',
                 options: [
                   {
-                    label: <span>所有学生</span>,
+                    label: <span>所有学习者</span>,
                     value: 'all'
                   }
                 ]

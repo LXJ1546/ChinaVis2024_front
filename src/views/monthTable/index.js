@@ -26,7 +26,7 @@ const MonthTable = () => {
     },
     xAxis: {
       type: 'category',
-      data: ['提交次数', '活跃天数', '答题数'],
+      data: ['提交率', '活跃度', '答题多样性'],
       splitArea: {
         show: true
       },
