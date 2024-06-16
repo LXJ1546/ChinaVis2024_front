@@ -192,7 +192,7 @@ const KnowledgeTree = (props) => {
     const colorTriangle = d3
       .scaleLinear()
       .domain([0, 0.5]) // 输入数据范围
-      .range(['#F1C40F', '#D4AC0D']) // 输出颜色范围
+      .range(['#f6db6f', '#D4AC0D']) // 输出颜色范围
 
     // 初始化计数器
     let count_deep3 = 0
