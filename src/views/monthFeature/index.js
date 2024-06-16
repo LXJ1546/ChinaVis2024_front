@@ -555,7 +555,7 @@ const MonthFeature = (props) => {
                   pointer-events: none;
                   font-family: Arial, sans-serif;
                   font-size: 12px;
-                  text-align: center;"><p> ${d}</p><div>`)
+                  text-align: center;"><p> ${d.toFixed(2)}</p><div>`)
             tip.show(d, this)
           })
           .on('mouseout', function () {
