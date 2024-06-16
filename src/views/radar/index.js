@@ -51,7 +51,7 @@ const Radar = (props) => {
         left: '32%',
         textStyle: {
           fontSize: 13,
-          fontWeight: 'normal'
+          fontWeight: 'bold'
         }
       },
       legend: {

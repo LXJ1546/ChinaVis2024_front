@@ -431,7 +431,7 @@ const Scatter = (props) => {
       text: '高亮学习者知识点掌握折线图',
       textStyle: {
         fontSize: 12,
-        fontWeight: 'normal'
+        fontWeight: 'bold'
       }
     },
     color: [

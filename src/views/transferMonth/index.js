@@ -83,6 +83,36 @@ const TransferMonth = (props) => {
     })
     combinedArray.push(tmp)
   })
+  // 平行坐标系
+  let pcolor1 = '#000000' // 默认颜色
+  if (
+    transferLinksData &&
+    transferLinksData.length > 0 &&
+    transferLinksData[0][0] &&
+    transferLinksData[0][0].label
+  ) {
+    pcolor1 =
+      transferLinksData[0][0].label === '针对型'
+        ? '#86C6F0'
+        : transferLinksData[0][0].label === '多样型'
+          ? '#EB8277'
+          : '#6ABF57'
+  }
+  // 平行坐标系
+  let pcolor2 = '#000000' // 默认颜色
+  if (
+    transferLinksData &&
+    transferLinksData.length > 0 &&
+    transferLinksData[1][0] &&
+    transferLinksData[1][0].label
+  ) {
+    pcolor2 =
+      transferLinksData[1][0].label === '针对型'
+        ? '#86C6F0'
+        : transferLinksData[1][0].label === '多样型'
+          ? '#EB8277'
+          : '#6ABF57'
+  }
   const option1 = {
     grid: { left: '0%', top: '5%', right: '0%', bottom: '0%' },
     xAxis: {
@@ -384,7 +414,8 @@ const TransferMonth = (props) => {
         name: transferFirstMonth,
         type: 'parallel',
         lineStyle: {
-          color: '#86C6F0',
+          // 根据标签使用不同的颜色
+          color: pcolor1,
           width: 1.4
         },
         smooth: true,
@@ -395,7 +426,7 @@ const TransferMonth = (props) => {
         type: 'parallel',
         lineStyle: {
           width: 1.4,
-          color: '#EB8277'
+          color: pcolor2
         },
         smooth: true,
         data: transferParallelList[1]
@@ -409,6 +440,7 @@ const TransferMonth = (props) => {
       return `Class ${d[0]},人数: <span >${d}</span>`
     })
   useEffect(() => {
+    // console.log('nihao', transferLinksData[0][1].label)
     if (transferLinksData[0].length != 0) {
       setIsParallel(true)
     }

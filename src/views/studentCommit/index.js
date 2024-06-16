@@ -286,7 +286,7 @@ const StudentCommit = (props) => {
     //绘制上午下午晚上凌晨分割线
     commits.forEach((commititem) => {
       if (Q != commititem.question) {
-        console.log(Q, commititem.question)
+        // console.log(Q, commititem.question)
         timeFlag = 25
         Q = commititem.question
       }
