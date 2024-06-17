@@ -127,6 +127,8 @@ const TitleMaster = (props) => {
       },
       yAxis: {
         type: 'value',
+        min: 0,
+        max: 1,
         axisLabel: {
           fontSize: 10
         }
