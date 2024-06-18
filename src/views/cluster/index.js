@@ -521,6 +521,8 @@ const Scatter = (props) => {
   useEffect(() => {
     // 根据id列表高亮学生
     highlightPointById(studentIDlist)
+    // 更新等级人数
+    changeRankNumber()
   }, [studentIDlist, nowClusterData])
   // 组件初始化渲染的时候
   useEffect(() => {
@@ -612,11 +614,10 @@ const Scatter = (props) => {
       setNowClusterData(clusterData[0])
       setXmax(60)
       setYmax(40)
-      // setXmax(-40)
-      // setYmin(-60)
       // 更改父组件的月份状态
       changeMonth(9)
-      // 更改相关性数据的索引
+      // // 更新等级人数
+      // changeRankNumber()
     } else if (value == 10) {
       setNowClusterData(clusterData[1])
       setXmax(60)
@@ -644,8 +645,6 @@ const Scatter = (props) => {
       // setYmin(-30)
       changeMonth(1)
     }
-    // 更新等级人数
-    changeRankNumber()
   }
   // 处理第一个演变视图中选择器的变化
   const handleFirstMonthChange = (value) => {
