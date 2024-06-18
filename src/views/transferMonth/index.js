@@ -147,25 +147,15 @@ const TransferMonth = (props) => {
       {
         data: correct1,
         type: 'line',
-        color: '#EB8277',
-        // color:
-        //   transferLinksData[0][0].label == '针对型'
-        //     ? '#86C6F0'
-        //     : transferLinksData[0][0].label === '多样型'
-        //       ? '#EB8277'
-        //       : '#6ABF57',
+        // color: '#EB8277',
+        color: pcolor1,
         areaStyle: {}
       },
       {
         data: correct2,
         type: 'line',
-        color: '#86C6F0',
-        // color:
-        //   transferLinksData[1][0].label == '针对型'
-        //     ? '#86C6F0'
-        //     : transferLinksData[1][0].label === '多样型'
-        //       ? '#EB8277'
-        //       : '#6ABF57',
+        // color: '#86C6F0',
+        color: pcolor2,
         areaStyle: {}
       }
     ]
@@ -204,25 +194,15 @@ const TransferMonth = (props) => {
       {
         data: submit1,
         type: 'line',
-        color: '#EB8277',
-        // color:
-        //   transferLinksData[0][0].label == '针对型'
-        //     ? '#86C6F0'
-        //     : transferLinksData[0][0].label === '多样型'
-        //       ? '#EB8277'
-        //       : '#6ABF57',
+        // color: '#EB8277',
+        color: pcolor1,
         areaStyle: {}
       },
       {
         data: submit2,
         type: 'line',
-        color: '#86C6F0',
-        // color:
-        //   transferLinksData[1][0].label == '针对型'
-        //     ? '#86C6F0'
-        //     : transferLinksData[1][0].label === '多样型'
-        //       ? '#EB8277'
-        //       : '#6ABF57',
+        // color: '#86C6F0',
+        color: pcolor2,
         areaStyle: {}
       }
     ]
@@ -261,25 +241,15 @@ const TransferMonth = (props) => {
       {
         data: active1,
         type: 'line',
-        color: '#EB8277',
-        // color:
-        //   transferLinksData[0][0].label == '针对型'
-        //     ? '#86C6F0'
-        //     : transferLinksData[0][0].label === '多样型'
-        //       ? '#EB8277'
-        //       : '#6ABF57',
+        // color: '#EB8277',
+        color: pcolor1,
         areaStyle: {}
       },
       {
         data: active2,
         type: 'line',
-        color: '#86C6F0',
-        // color:
-        //   transferLinksData[1][0].label == '针对型'
-        //     ? '#86C6F0'
-        //     : transferLinksData[1][0].label === '多样型'
-        //       ? '#EB8277'
-        //       : '#6ABF57',
+        // color: '#86C6F0',
+        color: pcolor2,
         areaStyle: {}
       }
     ]
@@ -318,25 +288,15 @@ const TransferMonth = (props) => {
       {
         data: question1,
         type: 'line',
-        color: '#EB8277',
-        // color:
-        //   transferLinksData[0][0].label == '针对型'
-        //     ? '#86C6F0'
-        //     : transferLinksData[0][0].label === '多样型'
-        //       ? '#EB8277'
-        //       : '#6ABF57',
+        // color: '#EB8277',
+        color: pcolor1,
         areaStyle: {}
       },
       {
         data: question2,
         type: 'line',
-        color: '#86C6F0',
-        // color:
-        //   transferLinksData[1][0].label == '针对型'
-        //     ? '#86C6F0'
-        //     : transferLinksData[1][0].label === '多样型'
-        //       ? '#EB8277'
-        //       : '#6ABF57',
+        // color: '#86C6F0',
+        color: pcolor2,
         areaStyle: {}
       }
     ]
