@@ -15,7 +15,7 @@ import {
   getMonthStatisticInfo,
   getStudentMaster
 } from '../../api'
-import { Radio, Select, Switch, Slider } from 'antd'
+import { Radio, Select, Switch, Slider, List } from 'antd'
 import { createFromIconfontCN } from '@ant-design/icons'
 const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/c/font_4565164_juvpif6y83m.js'
@@ -48,6 +48,8 @@ const Scatter = (props) => {
   const [clusterName, setClusterName] = useState(['高峰型', '低峰型', '平均型'])
   // 当前使用的聚类数据
   const [nowClusterData, setNowClusterData] = useState([])
+  // 统计不同模式下不同水平的人数
+  const [rankNumber, setRankNumber] = useState([])
   // 设置坐标轴大小
   const [xmax, setXmax] = useState(-7)
   const [ymax, setYmax] = useState(-7)
@@ -114,6 +116,17 @@ const Scatter = (props) => {
     { value: 11, label: '2023-11' },
     { value: 12, label: '2023-12' },
     { value: 1, label: '2024-01' }
+  ]
+  const rankNumberTitle = [
+    {
+      title: '集中针对型'
+    },
+    {
+      title: '广泛多样型'
+    },
+    {
+      title: '探索尝试型'
+    }
   ]
   // // 定义一个对象，存储每个值对应的月份
   // const monthMap = {
@@ -631,6 +644,8 @@ const Scatter = (props) => {
       // setYmin(-30)
       changeMonth(1)
     }
+    // 更新等级人数
+    changeRankNumber()
   }
   // 处理第一个演变视图中选择器的变化
   const handleFirstMonthChange = (value) => {
@@ -717,9 +732,34 @@ const Scatter = (props) => {
     },
     [transferCircleData, transferLinksData, transferStudentData, clusterData]
   )
-  // 切换开关事件
+  // 统计不同模式下不同水平的人数
+  const changeRankNumber = () => {
+    let tmplist = [[], [], []]
+    nowClusterData.forEach((subArray, index) => {
+      // 分别对应三个等级
+      let count1 = 0
+      let count2 = 0
+      let count3 = 0
+      subArray.forEach((dict) => {
+        if (dict['rank'] == 'top') {
+          count1 += 1
+        } else if (dict['rank'] == 'mid') {
+          count2 += 1
+        } else {
+          count3 += 1
+        }
+      })
+      tmplist[index].push(count1)
+      tmplist[index].push(count2)
+      tmplist[index].push(count3)
+    })
+    // 更新统计值状态
+    setRankNumber(tmplist)
+  }
+  // 切换形状编码开关事件
   const onSwitchChange1 = (checked) => {
     setShowShape(checked)
+    changeRankNumber()
   }
   // 切换开关事件
   const onSwitchChange2 = (checked) => {
@@ -853,18 +893,34 @@ const Scatter = (props) => {
       <div className="content">
         <div className="left">
           {amode == 0 && !isTransfer && showShape && (
-            <div className="shapelegend">
-              <div className="legend-item">
-                <div className="diamond"></div>
-                A级
+            <div>
+              <div className="shapelegend">
+                <div className="legend-item">
+                  <div className="diamond"></div>
+                  A级
+                </div>
+                <div className="legend-item">
+                  <div className="circle"></div>
+                  B级
+                </div>
+                <div className="legend-item">
+                  <div className="triangle"></div>
+                  C级
+                </div>
               </div>
-              <div className="legend-item">
-                <div className="circle"></div>
-                B级
-              </div>
-              <div className="legend-item">
-                <div className="triangle"></div>
-                C级
+              <div className="rankNumber">
+                <List
+                  itemLayout="horizontal"
+                  dataSource={rankNumberTitle}
+                  renderItem={(item, index) => (
+                    <List.Item>
+                      <List.Item.Meta
+                        title={<div style={{ opacity: 0.8 }}>{item.title}</div>}
+                        description={`A: ${rankNumber[index][0]}  B: ${rankNumber[index][1]}  C: ${rankNumber[index][2]}`}
+                      />
+                    </List.Item>
+                  )}
+                />
               </div>
             </div>
           )}

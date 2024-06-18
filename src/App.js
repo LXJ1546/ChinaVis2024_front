@@ -21,6 +21,12 @@ const App = () => {
             dotSize: 6,
             trackBg: '#91caff',
             trackHoverBg: '#69b1ff'
+          },
+          List: {
+            contentWidth: 160,
+            descriptionFontSize: 15,
+            itemPadding: '3px 0',
+            titleMarginBottom: 0
           }
         }
       }}

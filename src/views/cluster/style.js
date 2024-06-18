@@ -75,6 +75,18 @@ export const ScatterWrapper = styled.div`
           }
         }
       }
+      .rankNumber {
+        width: 13%;
+        height: 20.5%;
+        position: absolute;
+        z-index: 10;
+        top: 16%;
+        left: 4%;
+        background-color: #fff;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+        border-radius: 4px;
+        padding-left: 7px;
+      }
       .highlight {
         width: 33%;
         height: 21%;

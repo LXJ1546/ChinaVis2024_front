@@ -328,7 +328,7 @@ const KnowledgeTree = (props) => {
       .data(temp)
       .join('g')
       .attr('class', (d) => {
-        console.log('ceui', d)
+        // console.log('ceui', d)
         if (d.depth == 1) return 'mainKNowledge'
         if (d.depth == 3) {
           // console.log(Object.prototype.hasOwnProperty.call(d.data, 'icon'))
