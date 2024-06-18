@@ -1318,7 +1318,7 @@ const Calendar = (props) => {
     const legendData = [
       { category: '集中针对型', value: '#86C6F0' },
       { category: '广泛多样型', value: '#EB8277' },
-      { category: '尝试探索型', value: '#6ABF57' }
+      { category: '探索尝试型', value: '#6ABF57' }
     ]
     const legend = svg.append('g').attr('class', 'legend')
     // 添加图例条目
@@ -1830,7 +1830,7 @@ const Calendar = (props) => {
             pointer-events: none;
             font-family: Arial, sans-serif;
             font-size: 12px;
-            text-align: center;">日期: ${d.name} <p> 针对型: ${d.point} 人</p><p> 多样型: ${d.various}人</p><p> 尝试型: ${d.trying}人</p><div>`)
+            text-align: center;">日期: ${d.name} <p> 集中针对型: ${d.point} 人</p><p> 广泛多样型: ${d.various}人</p><p> 探索尝试型: ${d.trying}人</p><div>`)
           tip.show(d, this)
         } else {
           tip.html(`<div style="line-height: 1;
@@ -2001,7 +2001,7 @@ const Calendar = (props) => {
             pointer-events: none;
             font-family: Arial, sans-serif;
             font-size: 12px;
-            text-align: center;">日期: ${d.name} <p> 针对型: ${d.point} 人</p><p> 多样型: ${d.various}人</p><p> 尝试型: ${d.trying}人</p><div>`)
+            text-align: center;">日期: ${d.name} <p> 集中针对型: ${d.point} 人</p><p> 广泛多样型: ${d.various}人</p><p> 探索尝试型: ${d.trying}人</p><div>`)
           tip.show(d, this)
         } else {
           tip.html(`<div style="line-height: 1;
@@ -2095,7 +2095,7 @@ const Calendar = (props) => {
             pointer-events: none;
             font-family: Arial, sans-serif;
             font-size: 12px;
-            text-align: center;">日期: ${d.name} <p> 针对型: ${d.point} 人</p><p> 多样型: ${d.various}人</p><p> 尝试型: ${d.trying}人</p><div>`)
+            text-align: center;">日期: ${d.name} <p> 集中针对型: ${d.point} 人</p><p> 广泛多样型: ${d.various}人</p><p> 探索尝试型: ${d.trying}人</p><div>`)
           tip.show(d, this)
         } else {
           tip.html(`<div style="line-height: 1;
@@ -2188,7 +2188,7 @@ const Calendar = (props) => {
             pointer-events: none;
             font-family: Arial, sans-serif;
             font-size: 12px;
-            text-align: center;">日期: ${d.name} <p> 针对型: ${d.point} 人</p><p> 多样型: ${d.various}人</p><p> 尝试型: ${d.trying}人</p><div>`)
+            text-align: center;">日期: ${d.name} <p> 集中针对型: ${d.point} 人</p><p> 广泛多样型: ${d.various}人</p><p> 探索尝试型: ${d.trying}人</p><div>`)
           tip.show(d, this)
         } else {
           tip.html(`<div style="line-height: 1;
