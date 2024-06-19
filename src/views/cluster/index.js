@@ -43,6 +43,7 @@ const Scatter = (props) => {
   const clusterRef = useRef(null)
   const [clusterData, setClusterData] = useState([])
   const colorAll = ['#86C6F0', '#EB8277', '#6ABF57']
+  const colorAll1 = ['#EB8277', '#6ABF57', '#86C6F0']
   // const colorAll = ['#86C6F0', '#EB8277', '#49c486']
   // 切换标签
   const [clusterName, setClusterName] = useState(['高峰型', '低峰型', '平均型'])
@@ -149,7 +150,7 @@ const Scatter = (props) => {
     name: clusterName[cluster],
     type: 'scatter',
     data: nowClusterData[cluster],
-    color: colorAll[cluster],
+    color: amode == 0 ? colorAll[cluster] : colorAll1[cluster],
     symbol: showShape
       ? function (value, params) {
           // 根据rank来选择不同形状来展示
