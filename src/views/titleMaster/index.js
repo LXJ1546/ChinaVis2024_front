@@ -386,7 +386,7 @@ const TitleMaster = (props) => {
               left: 'center',
               textStyle: {
                 fontSize: 10,
-                fontWeight: 'normal'
+                fontWeight: 'bold'
               }
             },
             tooltip: {
@@ -441,7 +441,7 @@ const TitleMaster = (props) => {
               left: 'center',
               textStyle: {
                 fontSize: 10,
-                fontWeight: 'normal'
+                fontWeight: 'bold'
               }
             },
             tooltip: {
@@ -692,7 +692,7 @@ const TitleMaster = (props) => {
               left: 'center',
               textStyle: {
                 fontSize: 10,
-                fontWeight: 'normal'
+                fontWeight: 'bold'
               }
             },
             tooltip: {
@@ -747,7 +747,7 @@ const TitleMaster = (props) => {
               left: 'center',
               textStyle: {
                 fontSize: 10,
-                fontWeight: 'normal'
+                fontWeight: 'bold'
               }
             },
             tooltip: {
