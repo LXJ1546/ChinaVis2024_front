@@ -30,6 +30,8 @@ export const CotrollerWrapper = styled.div`
     justify-content: center;
     padding-left: 8px;
     padding-right: 8px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
     background-color: rgb(245, 245, 245);
     .weight {
       width: 100%;
