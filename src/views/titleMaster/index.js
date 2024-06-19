@@ -191,8 +191,6 @@ const TitleMaster = (props) => {
         ).then((res) => {
           personalMemoryInfo = res.memory
           personalTimeInfo = res.time
-          // setPersonalMemoryInfo(res.memory)
-          // setPersonalTimeInfo(res.time)
         })
         // 第一个请求完成后再执行第二个请求
         Promise.all([firstRequest]).then(() => {
@@ -200,12 +198,6 @@ const TitleMaster = (props) => {
             memoryInfo = res.memory
             timeInfo = res.time
             // 检查是否已有图表实例存在，并销毁它
-            // const existingInstancesubKnowledge = echarts.getInstanceByDom(
-            //   subKnowledgeRef.current
-            // )
-            // if (existingInstancesubKnowledge) {
-            //   existingInstancesubKnowledge.dispose()
-            // }
             const existingInstancetime = echarts.getInstanceByDom(
               timeDistributionRef.current
             )
@@ -218,91 +210,6 @@ const TitleMaster = (props) => {
             if (existingInstancememory) {
               existingInstancememory.dispose()
             }
-
-            //题目对应从属知识点
-            // const subKnowledgeChart = echarts.init(subKnowledgeRef.current)
-            // subKnowledgeChart.clear() //清空实例重画
-            // //假数据
-            // var data1 = [
-            //   {
-            //     name: 'Q1',
-            //     children: [
-            //       {
-            //         name: 'R',
-            //         value: 15
-            //       },
-            //       {
-            //         name: 'B',
-            //         children: [
-            //           {
-            //             name: 'B_a',
-            //             value: 4
-            //           }
-            //         ]
-            //       },
-            //       {
-            //         name: 'D',
-            //         value: 10,
-            //         children: [
-            //           {
-            //             name: 'D_p',
-            //             value: 5,
-            //             itemStyle: {
-            //               color: 'red'
-            //             }
-            //           },
-            //           {
-            //             name: 'D_y',
-            //             value: 5
-            //           }
-            //         ]
-            //       }
-            //     ]
-            //   }
-            // ]
-            // const subOption = {
-            //   title: {
-            //     text: params.name + '对应知识点掌握情况',
-            //     left: 'center',
-            //     textStyle: {
-            //       fontSize: 10,
-            //       fontWeight: 'normal'
-            //     }
-            //   },
-            //   tooltip: {
-            //     trigger: 'item',
-            //     axisPointer: {
-            //       type: 'shadow'
-            //     }
-            //   },
-            //   visualMap: {
-            //     type: 'continuous',
-            //     min: 0,
-            //     max: 10,
-            //     inRange: {
-            //       color: ['#5EB8DF', '#5E98DF', '#5E84DF', '#4C7AE4']
-            //     },
-            //     show: false
-            //   },
-            //   grid: {
-            //     left: '30%', // 左边距
-            //     top: '0%', // 上边距
-            //     right: '5%',
-            //     bottom: '20%' // 下边距
-            //   },
-            //   series: {
-            //     type: 'sunburst',
-            //     data: data1,
-            //     radius: [0, '78%'],
-            //     label: {
-            //       rotate: 'radial'
-            //       // position: 'inside' // 将标签放置在圆弧内部
-            //     }
-            //   }
-            // }
-
-            // subKnowledgeChart.setOption(subOption)
-
             //题目对应用时分布
             const timeDistributionChart = echarts.init(
               timeDistributionRef.current
@@ -588,125 +495,422 @@ const TitleMaster = (props) => {
       //根据params的name对应该题目名称，提取该题目的数据
       let memoryInfo = {}
       let timeInfo = {}
-      getTitleMemoryInfo(classNum, highlightedXAxisName).then((res) => {
-        memoryInfo = res.memory
-        timeInfo = res.time
+      let personalMemoryInfo = 0
+      let personalTimeInfo = 0
+      // 拿到学生的个人用时和内存分布
+      if (clickStudentId != null) {
+        const firstRequest = getPersonalTitleTimeMemoryInfo(
+          clickStudentId,
+          highlightedXAxisName
+        ).then((res) => {
+          personalMemoryInfo = res.memory
+          personalTimeInfo = res.time
+        })
+        // 第一个请求完成后再执行第二个请求
+        Promise.all([firstRequest]).then(() => {
+          getTitleMemoryInfo(classNum, highlightedXAxisName).then((res) => {
+            memoryInfo = res.memory
+            timeInfo = res.time
+            // 检查是否已有图表实例存在，并销毁它
+            const existingInstancetime = echarts.getInstanceByDom(
+              timeDistributionRef.current
+            )
+            if (existingInstancetime) {
+              existingInstancetime.dispose()
+            }
+            const existingInstancememory = echarts.getInstanceByDom(
+              memoryDistributionRef.current
+            )
+            if (existingInstancememory) {
+              existingInstancememory.dispose()
+            }
+            //题目对应用时分布
+            const timeDistributionChart = echarts.init(
+              timeDistributionRef.current
+            )
+            timeDistributionChart.clear() //清空实例重画
+            let timeIndex = -1
+            if (personalMemoryInfo != 0 && personalTimeInfo != 0) {
+              // 根据值匹配对应的标签
+              if (Object.keys(timeInfo).length != 0) {
+                timeIndex = timeInfo.keys
+                  .map(parseFloat)
+                  .indexOf(personalTimeInfo)
+              }
+            }
+            const timeOption = {
+              title: {
+                text: highlightedXAxisName + '用时分布',
+                left: 'center',
+                textStyle: {
+                  fontSize: 10,
+                  fontWeight: 'bold'
+                }
+              },
+              tooltip: {
+                trigger: 'item',
+                axisPointer: {
+                  type: 'shadow'
+                }
+              },
+              grid: {
+                left: '15%', // 左边距
+                top: '20%', // 上边距
+                right: '10%',
+                bottom: '20%' // 下边距
+              },
+              xAxis: {
+                type: 'category',
+                data: timeInfo.keys
+              },
+              yAxis: {
+                type: 'value'
+              },
+              // color: ['#86C6F0'],
+              series: [
+                {
+                  data: timeInfo.value,
+                  type: 'bar',
+                  itemStyle: {
+                    color: (params) => {
+                      // 使用箭头函数确保在函数内部可以正确地访问到最新的 timeIndex 值
+                      return params.dataIndex === timeIndex
+                        ? '#EB8277'
+                        : '#86C6F0'
+                    }
+                  }
+                }
+              ],
+              dataZoom: [
+                {
+                  id: 'dataZoomX',
+                  type: 'inside',
+                  zooLock: true,
+                  xAxisIndex: [0],
+                  filterMode: 'filter'
+                }
+              ]
+            }
+            timeDistributionChart.setOption(timeOption)
 
-        const existingInstancetime = echarts.getInstanceByDom(
-          timeDistributionRef.current
-        )
-        if (existingInstancetime) {
-          existingInstancetime.dispose()
-        }
-        const existingInstancememory = echarts.getInstanceByDom(
-          memoryDistributionRef.current
-        )
-        if (existingInstancememory) {
-          existingInstancememory.dispose()
-        }
+            //题目对应内存分布
+            const memoryDistributionChart = echarts.init(
+              memoryDistributionRef.current
+            )
+            memoryDistributionChart.clear() //清空实例重画
+            // 根据值匹配对应的标签
+            let memoryIndex = -1
+            if (personalMemoryInfo != 0 && personalTimeInfo != 0) {
+              // 根据值匹配对应的标签
+              if (Object.keys(memoryInfo).length != 0) {
+                memoryIndex = memoryInfo.keys
+                  .map(parseFloat)
+                  .indexOf(personalMemoryInfo)
+              }
+            }
+            const memoryOption = {
+              title: {
+                text: highlightedXAxisName + '内存分布',
+                left: 'center',
+                textStyle: {
+                  fontSize: 10,
+                  fontWeight: 'bold'
+                }
+              },
+              tooltip: {
+                trigger: 'item',
+                axisPointer: {
+                  type: 'shadow'
+                }
+              },
+              grid: {
+                left: '15%', // 左边距
+                top: '20%', // 上边距
+                right: '5%',
+                bottom: '20%' // 下边距
+              },
+              xAxis: {
+                type: 'category',
+                data: memoryInfo.keys
+              },
+              yAxis: {
+                type: 'value'
+              },
+              // color: ['#86C6F0'],
+              series: [
+                {
+                  data: memoryInfo.value,
+                  type: 'bar',
+                  itemStyle: {
+                    color: function (params) {
+                      return params.dataIndex === memoryIndex &&
+                        memoryIndex != -1
+                        ? '#EB8277'
+                        : '#86C6F0'
+                    }
+                  }
+                }
+              ],
+              dataZoom: [
+                {
+                  id: 'dataZoomX',
+                  type: 'inside',
+                  zooLock: true,
+                  xAxisIndex: [0],
+                  filterMode: 'filter'
+                }
+              ]
+            }
+            memoryDistributionChart.setOption(memoryOption)
+          })
+        })
+      } else {
+        getTitleMemoryInfo(classNum, highlightedXAxisName).then((res) => {
+          memoryInfo = res.memory
+          timeInfo = res.time
+          // 检查是否已有图表实例存在，并销毁它
+          const existingInstancetime = echarts.getInstanceByDom(
+            timeDistributionRef.current
+          )
+          if (existingInstancetime) {
+            existingInstancetime.dispose()
+          }
+          const existingInstancememory = echarts.getInstanceByDom(
+            memoryDistributionRef.current
+          )
+          if (existingInstancememory) {
+            existingInstancememory.dispose()
+          }
+          //题目对应用时分布
+          const timeDistributionChart = echarts.init(
+            timeDistributionRef.current
+          )
+          timeDistributionChart.clear() //清空实例重画
+          const timeOption = {
+            title: {
+              text: highlightedXAxisName + '用时分布',
+              left: 'center',
+              textStyle: {
+                fontSize: 10,
+                fontWeight: 'normal'
+              }
+            },
+            tooltip: {
+              trigger: 'item',
+              axisPointer: {
+                type: 'shadow'
+              }
+            },
+            grid: {
+              left: '15%', // 左边距
+              top: '20%', // 上边距
+              right: '10%',
+              bottom: '20%' // 下边距
+            },
+            xAxis: {
+              type: 'category',
+              data: timeInfo.keys
+            },
+            yAxis: {
+              type: 'value'
+            },
+            // color: ['#86C6F0'],
+            series: [
+              {
+                data: timeInfo.value,
+                type: 'bar',
+                itemStyle: {
+                  color: '#86C6F0'
+                }
+              }
+            ],
+            dataZoom: [
+              {
+                id: 'dataZoomX',
+                type: 'inside',
+                zooLock: true,
+                xAxisIndex: [0],
+                filterMode: 'filter'
+              }
+            ]
+          }
+          timeDistributionChart.setOption(timeOption)
 
-        //题目对应用时分布
-        const timeDistributionChart = echarts.init(timeDistributionRef.current)
-        timeDistributionChart.clear() //清空实例重画
-        const timeOption = {
-          title: {
-            text: highlightedXAxisName + '用时分布',
-            left: 'center',
-            textStyle: {
-              fontSize: 10,
-              fontWeight: 'bold'
-            }
-          },
-          tooltip: {
-            trigger: 'item',
-            axisPointer: {
-              type: 'shadow'
-            }
-          },
-          grid: {
-            left: '13%', // 左边距
-            top: '20%', // 上边距
-            right: '10%',
-            bottom: '20%' // 下边距
-          },
-          xAxis: {
-            type: 'category',
-            data: timeInfo.keys
-          },
-          yAxis: {
-            type: 'value'
-          },
-          color: ['#86C6F0'],
-          series: [
-            {
-              data: timeInfo.value,
-              type: 'bar'
-            }
-          ],
-          dataZoom: [
-            {
-              id: 'dataZoomX',
-              type: 'inside',
-              zooLock: true,
-              xAxisIndex: [0],
-              filterMode: 'filter'
-            }
-          ]
-        }
-        timeDistributionChart.setOption(timeOption)
+          //题目对应内存分布
+          const memoryDistributionChart = echarts.init(
+            memoryDistributionRef.current
+          )
+          memoryDistributionChart.clear() //清空实例重画
+          const memoryOption = {
+            title: {
+              text: highlightedXAxisName + '内存分布',
+              left: 'center',
+              textStyle: {
+                fontSize: 10,
+                fontWeight: 'normal'
+              }
+            },
+            tooltip: {
+              trigger: 'item',
+              axisPointer: {
+                type: 'shadow'
+              }
+            },
+            grid: {
+              left: '15%', // 左边距
+              top: '20%', // 上边距
+              right: '5%',
+              bottom: '20%' // 下边距
+            },
+            xAxis: {
+              type: 'category',
+              data: memoryInfo.keys
+            },
+            yAxis: {
+              type: 'value'
+            },
+            // color: ['#86C6F0'],
+            series: [
+              {
+                data: memoryInfo.value,
+                type: 'bar',
+                itemStyle: {
+                  color: '#86C6F0'
+                }
+              }
+            ],
+            dataZoom: [
+              {
+                id: 'dataZoomX',
+                type: 'inside',
+                zooLock: true,
+                xAxisIndex: [0],
+                filterMode: 'filter'
+              }
+            ]
+          }
+          memoryDistributionChart.setOption(memoryOption)
+        })
+      }
+      // getTitleMemoryInfo(classNum, highlightedXAxisName).then((res) => {
+      //   memoryInfo = res.memory
+      //   timeInfo = res.time
 
-        //题目对应内存分布
-        const memoryDistributionChart = echarts.init(
-          memoryDistributionRef.current
-        )
-        memoryDistributionChart.clear() //清空实例重画
-        const memoryOption = {
-          title: {
-            text: highlightedXAxisName + '内存分布',
-            left: 'center',
-            textStyle: {
-              fontSize: 10,
-              fontWeight: 'bold'
-            }
-          },
-          tooltip: {
-            trigger: 'item',
-            axisPointer: {
-              type: 'shadow'
-            }
-          },
-          grid: {
-            left: '15%', // 左边距
-            top: '20%', // 上边距
-            right: '4%',
-            bottom: '20%' // 下边距
-          },
-          xAxis: {
-            type: 'category',
-            data: memoryInfo.keys
-          },
-          yAxis: {
-            type: 'value'
-          },
-          color: ['#86C6F0'],
-          series: [
-            {
-              data: memoryInfo.value,
-              type: 'bar'
-            }
-          ],
-          dataZoom: [
-            {
-              id: 'dataZoomX',
-              type: 'inside',
-              zooLock: true,
-              xAxisIndex: [0],
-              filterMode: 'filter'
-            }
-          ]
-        }
-        memoryDistributionChart.setOption(memoryOption)
-      })
+      //   const existingInstancetime = echarts.getInstanceByDom(
+      //     timeDistributionRef.current
+      //   )
+      //   if (existingInstancetime) {
+      //     existingInstancetime.dispose()
+      //   }
+      //   const existingInstancememory = echarts.getInstanceByDom(
+      //     memoryDistributionRef.current
+      //   )
+      //   if (existingInstancememory) {
+      //     existingInstancememory.dispose()
+      //   }
+
+      //   //题目对应用时分布
+      //   const timeDistributionChart = echarts.init(timeDistributionRef.current)
+      //   timeDistributionChart.clear() //清空实例重画
+      //   const timeOption = {
+      //     title: {
+      //       text: highlightedXAxisName + '用时分布',
+      //       left: 'center',
+      //       textStyle: {
+      //         fontSize: 10,
+      //         fontWeight: 'bold'
+      //       }
+      //     },
+      //     tooltip: {
+      //       trigger: 'item',
+      //       axisPointer: {
+      //         type: 'shadow'
+      //       }
+      //     },
+      //     grid: {
+      //       left: '13%', // 左边距
+      //       top: '20%', // 上边距
+      //       right: '10%',
+      //       bottom: '20%' // 下边距
+      //     },
+      //     xAxis: {
+      //       type: 'category',
+      //       data: timeInfo.keys
+      //     },
+      //     yAxis: {
+      //       type: 'value'
+      //     },
+      //     color: ['#86C6F0'],
+      //     series: [
+      //       {
+      //         data: timeInfo.value,
+      //         type: 'bar'
+      //       }
+      //     ],
+      //     dataZoom: [
+      //       {
+      //         id: 'dataZoomX',
+      //         type: 'inside',
+      //         zooLock: true,
+      //         xAxisIndex: [0],
+      //         filterMode: 'filter'
+      //       }
+      //     ]
+      //   }
+      //   timeDistributionChart.setOption(timeOption)
+
+      //   //题目对应内存分布
+      //   const memoryDistributionChart = echarts.init(
+      //     memoryDistributionRef.current
+      //   )
+      //   memoryDistributionChart.clear() //清空实例重画
+      //   const memoryOption = {
+      //     title: {
+      //       text: highlightedXAxisName + '内存分布',
+      //       left: 'center',
+      //       textStyle: {
+      //         fontSize: 10,
+      //         fontWeight: 'bold'
+      //       }
+      //     },
+      //     tooltip: {
+      //       trigger: 'item',
+      //       axisPointer: {
+      //         type: 'shadow'
+      //       }
+      //     },
+      //     grid: {
+      //       left: '15%', // 左边距
+      //       top: '20%', // 上边距
+      //       right: '4%',
+      //       bottom: '20%' // 下边距
+      //     },
+      //     xAxis: {
+      //       type: 'category',
+      //       data: memoryInfo.keys
+      //     },
+      //     yAxis: {
+      //       type: 'value'
+      //     },
+      //     color: ['#86C6F0'],
+      //     series: [
+      //       {
+      //         data: memoryInfo.value,
+      //         type: 'bar'
+      //       }
+      //     ],
+      //     dataZoom: [
+      //       {
+      //         id: 'dataZoomX',
+      //         type: 'inside',
+      //         zooLock: true,
+      //         xAxisIndex: [0],
+      //         filterMode: 'filter'
+      //       }
+      //     ]
+      //   }
+      //   memoryDistributionChart.setOption(memoryOption)
+      // })
     }
   }
 
@@ -730,22 +934,6 @@ const TitleMaster = (props) => {
     highlightedXAxisName,
     clickStudentId
   ])
-  // useEffect(() => {
-  //   if (clickedParamsName) {
-  //     handleHighLightedXaix(clickedParamsName)
-  //   }
-  // }, [clickedParamsName])
-  // // 测试一下
-  // useEffect(() => {
-  //   if (clickStudentId != null) {
-  //     getPersonalTitleMasterInfo(clickStudentId).then((res) => {
-  //       console.log('让我看看', res)
-  //     })
-  //     getPersonalTitleTimeMemoryInfo(clickStudentId, 'Q_bum').then((res) => {
-  //       console.log('让我看看你', res)
-  //     })
-  //   }
-  // }, [clickStudentId])
   return (
     <TitleMasterWrapper>
       <div className="title">
